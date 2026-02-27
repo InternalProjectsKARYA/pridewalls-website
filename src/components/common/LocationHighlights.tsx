@@ -45,6 +45,10 @@ export default function LocationHighlights({ highlights }: LocationHighlightsPro
             {group.time}
           </h4>
 
+          <h4 className="text-lg font-semibold text-[#c42630] mb-4">
+            {group.category}
+          </h4>
+
           {/* Items */}
           <ul className="space-y-3">
             {group.items.map((item, idx) => (

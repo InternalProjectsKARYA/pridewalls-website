@@ -18,11 +18,11 @@ export interface Project {
   logo?: string;
   
   // Details
-  amenities: Amenity[];
-  facilities: Facility[];
+  amenities?: Amenity[];
+  facilities?: Facility[];
   highlights: Highlight[];
   specifications: Specification[];
-  floorPlans: FloorPlan[];
+  floorPlans?: FloorPlan[];
   siteLayout: SiteLayout;
   locationHighlights: LocationHighlight[];
   
@@ -33,7 +33,7 @@ export interface Project {
   projectSize: string;
   
   // Approvals
-  reraApproved: boolean;
+  reraApproved?: boolean;
   hmdaApproved?: boolean;
   reraNumber?: string;
   approvals: string[];

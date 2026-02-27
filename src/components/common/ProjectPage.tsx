@@ -133,7 +133,7 @@ export default function ProjectPage({ project }: ProjectPageProps) {
       </section>
 
       {/* Quick Stats Bar */}
-      <section className="relative sticky top-0 z-40 overflow-hidden bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 shadow-xl">
+      <section className="relative overflow-hidden bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 shadow-xl">
 
         {/* ===== Brand glow background ===== */}
         <div className="pointer-events-none absolute inset-0">
@@ -142,10 +142,10 @@ export default function ProjectPage({ project }: ProjectPageProps) {
         </div>
 
         <div className="relative container mx-auto px-4 py-5">
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-4 md:gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
 
             {/* Price */}
-            <div className="flex items-center gap-3 justify-center md:justify-start">
+            {/* <div className="flex items-center gap-3 justify-center md:justify-start">
               <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#c42630] to-[#a61f28] flex items-center justify-center shadow-lg shadow-[#c42630]/30">
                 <IndianRupee className="w-5 h-5 text-white" />
               </div>
@@ -157,7 +157,7 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                   {project.priceRange.currency}
                 </div>
               </div>
-            </div>
+            </div> */}
 
             {/* Units */}
             <div className="flex items-center gap-3 justify-center md:justify-start">
@@ -280,7 +280,7 @@ export default function ProjectPage({ project }: ProjectPageProps) {
               </motion.div>
 
               {/* Master Plan / Site Layout */}
-              {project.siteLayout && (
+              {/* {project.siteLayout && (
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -304,7 +304,7 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                       {project.siteLayout.description}
                     </p>
 
-                    {/* Zone Legend */}
+                  
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                       {project.siteLayout.zones.map((zone) => (
                         <div
@@ -324,7 +324,7 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                     </div>
                   </div>
                 </motion.div>
-              )}
+              )} */}
 
               {/* Location Highlights */}
               {project.locationHighlights && project.locationHighlights.length > 0 && (
@@ -398,6 +398,114 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                 </motion.div>
               )}
 
+              {/* Specifications */}
+              {/* {project.specifications && project.specifications.length > 0 && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.7 }}
+                  className="bg-card rounded-2xl overflow-hidden border border-border"
+                >
+                  <div className="p-6 border-b border-border bg-muted/30">
+                    <h2 className="text-2xl font-semibold">Specifications</h2>
+                  </div>
+                  <div className="p-6 space-y-4">
+                    {project.specifications.map((spec) => (
+                      <div key={spec.id} className="bg-muted/30 rounded-xl p-5">
+                        <h4 className="font-semibold text-foreground mb-4 flex items-center gap-2">
+                          <Check className="h-4 w-4 text-primary" />
+                          {spec.category}
+                        </h4>
+                        <ul className="space-y-2">
+                          {spec.items.map((item, index) => (
+                            <li key={index} className="flex items-start gap-3 text-muted-foreground">
+                              <div className="w-1.5 h-1.5 rounded-full bg-primary shrink-0 mt-2" />
+                              <span>{item}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
+                  </div>
+                </motion.div>
+              )} */}
+
+              {/* Project Gallery */}
+              {/* {project.gallery && project.gallery.length > 0 && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.8 }}
+                  className="bg-card rounded-2xl overflow-hidden border border-border"
+                >
+                  <div className="p-6 border-b border-border bg-muted/30">
+                    <h2 className="text-2xl font-semibold">Project Gallery</h2>
+                  </div>
+                  <div className="p-6">
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                      {project.gallery.map((image, index) => (
+                        <div key={index} className="relative aspect-video rounded-xl overflow-hidden group">
+                          <Image
+                            src={image}
+                            alt={`${project.name} ${index + 1}`}
+                            fill
+                            className="object-cover transition-transform group-hover:scale-110"
+                          />
+                          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors" />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </motion.div>
+              )} */}
+
+              {/* Master Plan / Site Layout */}
+              {project.siteLayout && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2 }}
+                  className="bg-card rounded-2xl overflow-hidden border border-border"
+                >
+                  <div className="p-6 border-b border-border bg-muted/30">
+                    <h2 className="text-2xl font-semibold">Master Plan / Site Layout</h2>
+                  </div>
+                  <div className="p-6">
+                    <div className="relative aspect-[16/10] rounded-xl overflow-hidden mb-6 group">
+                      <Image
+                        src={project.siteLayout.image}
+                        alt={`${project.name} Site Layout`}
+                        fill
+                        className="object-cover transition-transform group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors" />
+                    </div>
+                    {/* <p className="text-muted-foreground mb-6 text-lg">
+                      {project.siteLayout.description}
+                    </p> */}
+
+                    {/* Zone Legend */}
+                    {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      {project.siteLayout.zones.map((zone) => (
+                        <div
+                          key={zone.name}
+                          className="flex items-start gap-4 p-4 rounded-xl border border-border hover:border-primary/30 transition-colors"
+                        >
+                          <div
+                            className="w-5 h-5 rounded-full shrink-0 mt-0.5"
+                            style={{ backgroundColor: zone.color }}
+                          />
+                          <div>
+                            <div className="font-medium text-foreground">{zone.name}</div>
+                            <div className="text-sm text-muted-foreground">{zone.description}</div>
+                          </div>
+                        </div>
+                      ))}
+                    </div> */}
+                  </div>
+                </motion.div>
+              )}
+
               {/* Floor Plans */}
               {project.floorPlans && project.floorPlans.length > 0 && (
                 <motion.div
@@ -438,67 +546,7 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                 </motion.div>
               )}
 
-              {/* Specifications */}
-              {project.specifications && project.specifications.length > 0 && (
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.7 }}
-                  className="bg-card rounded-2xl overflow-hidden border border-border"
-                >
-                  <div className="p-6 border-b border-border bg-muted/30">
-                    <h2 className="text-2xl font-semibold">Specifications</h2>
-                  </div>
-                  <div className="p-6 space-y-4">
-                    {project.specifications.map((spec) => (
-                      <div key={spec.id} className="bg-muted/30 rounded-xl p-5">
-                        <h4 className="font-semibold text-foreground mb-4 flex items-center gap-2">
-                          <Check className="h-4 w-4 text-primary" />
-                          {spec.category}
-                        </h4>
-                        <ul className="space-y-2">
-                          {spec.items.map((item, index) => (
-                            <li key={index} className="flex items-start gap-3 text-muted-foreground">
-                              <div className="w-1.5 h-1.5 rounded-full bg-primary shrink-0 mt-2" />
-                              <span>{item}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    ))}
-                  </div>
-                </motion.div>
-              )}
-
-              {/* Project Gallery */}
-              {project.gallery && project.gallery.length > 0 && (
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.8 }}
-                  className="bg-card rounded-2xl overflow-hidden border border-border"
-                >
-                  <div className="p-6 border-b border-border bg-muted/30">
-                    <h2 className="text-2xl font-semibold">Project Gallery</h2>
-                  </div>
-                  <div className="p-6">
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                      {project.gallery.map((image, index) => (
-                        <div key={index} className="relative aspect-video rounded-xl overflow-hidden group">
-                          <Image
-                            src={image}
-                            alt={`${project.name} ${index + 1}`}
-                            fill
-                            className="object-cover transition-transform group-hover:scale-110"
-                          />
-                          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors" />
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </motion.div>
-              )}
-
+              
               {/* Location Map */}
               {project.mapEmbedUrl && (
                 <motion.div
@@ -527,8 +575,10 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                 </motion.div>
               )}
 
+              
+
               {/* Approvals */}
-              {project.approvals && project.approvals.length > 0 && (
+              {/* {project.approvals && project.approvals.length > 0 && (
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -549,7 +599,7 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                     </div>
                   </div>
                 </motion.div>
-              )}
+              )} */}
             </div>
 
             {/* Right Column - Contact Form */}

@@ -11,7 +11,7 @@ const heroSlides = [
   {
     title: "Own Your Future, One Plot at a Time",
     subtitle: "Premium open plots in prime locations — invest with confidence",
-    image: "/hero1.jpg",
+    image: "/hero-section.png",
   },
   {
     title: "Land That Grows In Value",

@@ -6,9 +6,9 @@ import { Calendar, Building, Users, Ruler } from 'lucide-react';
 
 const stats = [
   { icon: Calendar, value: '8', suffix: '+', label: 'Years of Excellence', description: 'Delivering quality since 2004' },
-  { icon: Building, value: '40', suffix: '+', label: 'Projects Delivered', description: 'Across India & beyond' },
-  { icon: Users, value: '2500', suffix: '+', label: 'Happy Customers', description: 'Families living their dreams' },
-  { icon: Ruler, value: '10', suffix: 'M+', label: 'Sq.ft Developed', description: 'Premium construction area' },
+  // { icon: Building, value: '40', suffix: '+', label: 'Projects Delivered', description: 'Across India & beyond' },
+  { icon: Users, value: '1000', suffix: '+', label: 'Happy Customers', description: 'Families living their dreams' },
+  { icon: Ruler, value: '1', suffix: 'M+', label: 'Sq.ft Developed', description: 'Premium construction area' },
 ];
 
 function AnimatedCounter({ value, suffix = '' }: { value: string; suffix?: string }) {
@@ -107,7 +107,7 @@ export default function StatsSection() {
         </motion.div>
 
         {/* ⭐ Stats grid */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           {stats.map((stat, index) => (
             <motion.div
               key={stat.label}

@@ -15,7 +15,6 @@ import Footer from '@/components/landingpage/Footer'
 const page = () => {
   return (
     <>
-      <Navbar />
       <HeroSection />
       <TrustStrip />
       <WhyInvestSection />
@@ -26,7 +25,6 @@ const page = () => {
       <AboutSection/>
       <CTASection />
       <GetInTouch/>
-      <Footer/>
     </>
   )
 }
