@@ -7,8 +7,8 @@ const trustItems = [
   { icon: Award, value: '8+', label: 'Years of Excellence' },
   { icon: Shield, value: 'RERA', label: 'Registered' },
   { icon: CheckCircle, value: '100%', label: 'Clear Titles' },
-  { icon: Building2, value: '40+', label: 'Residential Projects' },
-  { icon: Building , value: '5', label: 'Commercial Projects' },
+  // { icon: Building2, value: '2+', label: 'Residential Projects' },
+  // { icon: Building , value: '5', label: 'Commercial Projects' },
   { icon: FileCheck, value: 'HMDA', label: 'Approved' },
 ];
 
@@ -32,7 +32,7 @@ export default function TrustStrip() {
       {/* ===== Content ===== */}
       <div className="relative container mx-auto px-4 py-6">
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-y-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-y-4">
 
           {trustItems.map((item, index) => (
             <motion.div

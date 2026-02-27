@@ -25,12 +25,104 @@ Developed by Pride Walls, Espino comprises six residential blocks (A to F) with 
       'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200&h=800&fit=crop',
     ],
     amenities: [
-      { id: '1', name: 'Rooftop Pool', icon: 'waves', description: 'Infinity pool with city skyline views', image: 'https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?w=800&h=600&fit=crop' },
-      { id: '2', name: 'Co-working Space', icon: 'briefcase', description: 'Productive work-from-home environment', image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&h=600&fit=crop' },
-      { id: '3', name: 'Fitness Center', icon: 'dumbbell', description: 'State-of-the-art gym and yoga studio', image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&h=600&fit=crop' },
-      { id: '4', name: 'Podium Garden', icon: 'flower2', description: 'Landscaped gardens on podium level', image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&h=600&fit=crop' },
-      { id: '5', name: 'EV Parking', icon: 'car', description: 'Dedicated EV charging parking spots', image: 'https://images.unsplash.com/photo-1593941707882-a5bba14938c7?w=800&h=600&fit=crop' },
-      { id: '6', name: 'Concierge', icon: 'user', description: '24/7 concierge and help desk', image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&h=600&fit=crop' },
+      {
+        id: '1',
+        name: 'Library',
+        icon: 'book',
+        description: 'Quiet and well-equipped reading and study space',
+        image: 'https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=800&h=600&fit=crop'
+      },
+      {
+        id: '2',
+        name: 'Temple',
+        icon: 'sparkles',
+        description: 'Peaceful place for daily prayers and meditation',
+        image: 'https://images.unsplash.com/photo-1548013146-72479768bada?w=800&h=600&fit=crop'
+      },
+      {
+        id: '3',
+        name: 'Cricket Pitch',
+        icon: 'activity',
+        description: 'Dedicated cricket practice and play area',
+        image: 'https://images.unsplash.com/photo-1593766788306-28561086694e?w=800&h=600&fit=crop'
+      },
+      {
+        id: '4',
+        name: 'Creche',
+        icon: 'baby',
+        description: 'Safe and nurturing daycare facility for children',
+        image: 'https://images.unsplash.com/photo-1588072432836-e10032774350?w=800&h=600&fit=crop'
+      },
+      {
+        id: '5',
+        name: 'Amphitheatre',
+        icon: 'mic',
+        description: 'Open-air amphitheatre for events and performances',
+        image: 'https://images.unsplash.com/photo-1504805572947-34fad45aed93?w=800&h=600&fit=crop'
+      },
+      {
+        id: '6',
+        name: 'Banquet Hall',
+        icon: 'users',
+        description: 'Spacious banquet halls for celebrations and gatherings',
+        image: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=800&h=600&fit=crop'
+      },
+      {
+        id: '7',
+        name: 'Private Rooms',
+        icon: 'door-open',
+        description: 'Private rooms for meetings and small events',
+        image: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&h=600&fit=crop'
+      },
+      {
+        id: '8',
+        name: 'Gym',
+        icon: 'dumbbell',
+        description: 'Fully equipped fitness and workout center',
+        image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&h=600&fit=crop'
+      },
+      {
+        id: '9',
+        name: 'Children Play Area',
+        icon: 'smile',
+        description: 'Fun and safe play zone for kids',
+        image: 'https://images.unsplash.com/photo-1596464716127-f2a82984de30?w=800&h=600&fit=crop'
+      },
+      {
+        id: '10',
+        name: 'Laundry',
+        icon: 'shirt',
+        description: 'Common laundry and washing facilities',
+        image: 'https://images.unsplash.com/photo-1582735689369-4fe89db7114c?w=800&h=600&fit=crop'
+      },
+      {
+        id: '11',
+        name: 'Swimming Pool',
+        icon: 'waves',
+        description: 'Well-maintained swimming pool for all age groups',
+        image: 'https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?w=800&h=600&fit=crop'
+      },
+      {
+        id: '12',
+        name: 'Games Zone',
+        icon: 'gamepad-2',
+        description: 'Indoor games and recreational activities area',
+        image: 'https://images.unsplash.com/photo-1611996575749-79a3a250f948?w=800&h=600&fit=crop'
+      },
+      {
+        id: '13',
+        name: 'Food Court',
+        icon: 'utensils',
+        description: 'Multiple food options and casual dining space',
+        image: 'https://images.unsplash.com/photo-1559339352-11d035aa65de?w=800&h=600&fit=crop'
+      },
+      {
+        id: '14',
+        name: 'Shuttle Court',
+        icon: 'activity',
+        description: 'Dedicated badminton and shuttle play court',
+        image: 'https://images.unsplash.com/photo-1599058918144-1ffabb6ab9a0?w=800&h=600&fit=crop'
+      }
     ],
     facilities: [
       { id: '1', name: 'Security & Infrastructure', icon: 'shield', description: '24/7 security with CCTV surveillance' },
