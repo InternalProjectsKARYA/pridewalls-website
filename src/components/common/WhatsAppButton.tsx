@@ -15,7 +15,7 @@ export default function WhatsAppButton() {
   return (
     <>
       {/* Floating Action Button - Right Side */}
-      <div className="fixed bottom-6 right-6 z-50 flex flex-col items-center gap-3">
+      <div className="fixed bottom-5 right-6 z-50 flex flex-col items-center gap-3">
         <AnimatePresence>
           {isOpen && (
             <>
@@ -109,7 +109,7 @@ export default function WhatsAppButton() {
       </div>
 
       {/* Direct WhatsApp Link Button */}
-      <a
+      {/* <a
         href={whatsappUrl}
         target="_blank"
         rel="noopener noreferrer"
@@ -117,7 +117,7 @@ export default function WhatsAppButton() {
       >
         <MessageCircle className="h-4 w-4" />
         <span className="hidden sm:inline">Chat Now</span>
-      </a>
+      </a> */}
     </>
   );
 }

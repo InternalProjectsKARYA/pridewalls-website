@@ -10,6 +10,7 @@ import AmenitiesPreviewSection from '@/components/landingpage/AmenitiesPreviewSe
 import AboutSection from '@/components/landingpage/AboutSection'
 import CTASection from '@/components/landingpage/CTASection'
 import GetInTouch from '@/components/landingpage/GetInTouch'
+import WhatsAppButton from "@/components/common/WhatsAppButton";
 import Footer from '@/components/landingpage/Footer'
 
 const page = () => {
@@ -25,6 +26,7 @@ const page = () => {
       <AboutSection/>
       <CTASection />
       <GetInTouch/>
+      
     </>
   )
 }
