@@ -14,9 +14,9 @@ const navigation = [
     name: 'Projects',
     href: '/#projects',
     children: [
-      { name: 'Ongoing Projects', href: '/#projects' },
-      { name: 'Upcoming Projects', href: '/#projects' },
-      { name: 'Completed Projects', href: '/#projects' },
+      { name: 'Ongoing Projects', href: '/?status=ongoing#projects' },
+      { name: 'Upcoming Projects', href: '/?status=upcoming#projects' },
+      { name: 'Completed Projects', href: '/?status=completed#projects' },
     ],
   },
   { name: 'About', href: '/#about' },
@@ -77,13 +77,13 @@ export default function Navbar() {
                     <ChevronDown size={14} />
                   </Link>
 
-                  <div className="absolute left-0 top-full opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition">
-                    <div className="bg-white shadow-xl border min-w-[180px]">
+                  <div className="absolute left-0 top-full pt-3 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition">
+                    <div className="min-w-[220px] overflow-hidden rounded-xl border bg-white shadow-xl">
                       {item.children.map((child) => (
                         <Link
                           key={child.name}
                           href={child.href}
-                          className="block px-4 py-3 text-sm hover:bg-[#c42630]/10 hover:text-[#c42630]"
+                          className="block px-4 py-3 text-sm transition-colors hover:bg-[#c42630]/10 hover:text-[#c42630]"
                         >
                           {child.name}
                         </Link>
@@ -118,9 +118,26 @@ export default function Navbar() {
               <ul className="space-y-4">
                 {navigation.map((item) => (
                   <li key={item.name}>
-                    <Link href={item.href} onClick={() => setIsMobileMenuOpen(false)}>
-                      {item.name}
-                    </Link>
+                    <div className="space-y-3">
+                      <Link href={item.href} onClick={() => setIsMobileMenuOpen(false)} className="font-medium">
+                        {item.name}
+                      </Link>
+
+                      {item.children && (
+                        <div className="space-y-2 border-l border-border pl-4">
+                          {item.children.map((child) => (
+                            <Link
+                              key={child.name}
+                              href={child.href}
+                              onClick={() => setIsMobileMenuOpen(false)}
+                              className="block text-sm text-muted-foreground transition-colors hover:text-[#c42630]"
+                            >
+                              {child.name}
+                            </Link>
+                          ))}
+                        </div>
+                      )}
+                    </div>
                   </li>
                 ))}
               </ul>

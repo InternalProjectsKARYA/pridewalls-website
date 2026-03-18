@@ -1,8 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useSearchParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 import {
   ArrowRight,
@@ -11,7 +12,6 @@ import {
   Home,
   LandPlot,
   Store,
-  Filter,
   Award,
   ShieldCheck,
 } from 'lucide-react';
@@ -163,8 +163,16 @@ const Chip = ({ icon, label }: any) => (
 /* ================= MAIN ================= */
 
 export default function FeaturedProjects() {
+  const searchParams = useSearchParams();
   const [activeType, setActiveType] = useState('all');
   const [activeStatus, setActiveStatus] = useState('all');
+
+  useEffect(() => {
+    const status = searchParams.get('status');
+    const isValidStatus = statusFilters.some((filter) => filter.value === status);
+
+    setActiveStatus(isValidStatus && status ? status : 'all');
+  }, [searchParams]);
 
   const filteredProjects = projects.filter(
     (p) => (activeType === 'all' || p.type === activeType) && (activeStatus === 'all' || p.status === activeStatus)
@@ -214,30 +222,43 @@ export default function FeaturedProjects() {
           </div>
         </div>
 
-        {/* Status Filter */}
-        {/* <div className="flex justify-end mb-10">
-          <div className="flex items-center gap-2">
-            <Filter size={16} />
-            <select
-              value={activeStatus}
-              onChange={(e) => setActiveStatus(e.target.value)}
-              className="px-4 py-2 rounded-lg border text-sm focus:outline-none focus:ring-2 focus:ring-[#c42630]"
-            >
-              {statusFilters.map((filter) => (
-                <option key={filter.value} value={filter.value}>
+        {/* <div className="flex justify-start mb-10">
+          <div className="flex flex-wrap gap-2">
+            {statusFilters.map((filter) => {
+              const active = activeStatus === filter.value;
+
+              return (
+                <button
+                  key={filter.value}
+                  onClick={() => setActiveStatus(filter.value)}
+                  className={`rounded-full border px-4 py-2 text-sm font-medium transition-colors ${
+                    active
+                      ? 'border-[#c42630] bg-[#c42630] text-white'
+                      : 'border-border bg-background text-muted-foreground hover:border-[#c42630]/30 hover:text-[#c42630]'
+                  }`}
+                >
                   {filter.label}
-                </option>
-              ))}
-            </select>
+                </button>
+              );
+            })}
           </div>
         </div> */}
 
         {/* Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-          {filteredProjects.map((project, index) => (
-            <ProjectCard key={project.id} project={project} index={index} />
-          ))}
-        </div>
+        {filteredProjects.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+            {filteredProjects.map((project, index) => (
+              <ProjectCard key={project.id} project={project} index={index} />
+            ))}
+          </div>
+        ) : (
+          <div className="rounded-2xl border border-dashed border-border bg-background px-6 py-14 text-center">
+            <h3 className="text-xl font-semibold text-foreground">No projects found</h3>
+            <p className="mt-2 text-muted-foreground">
+              Try changing the project type or status filter to see more properties.
+            </p>
+          </div>
+        )}
       </div>
     </section>
   );
