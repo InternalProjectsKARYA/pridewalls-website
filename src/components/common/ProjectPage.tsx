@@ -678,7 +678,7 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                       className="flex items-center gap-3 text-gray-600 hover:text-[#c42630] transition"
                     >
                       <Phone className="h-5 w-5" />
-                      <span>+91 91771 80333</span>
+                      <span>+91 70364 45500</span>
                     </a>
 
                     <a

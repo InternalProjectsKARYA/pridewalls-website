@@ -12,6 +12,7 @@ Lightbulb,
 Heart,
 } from 'lucide-react';
 import { investmentHighlights } from '@/lib/project-data';
+import { JSX } from 'react';
 
 const iconMap: Record<string, JSX.Element> = {
 'map-pin': <MapPin className="h-6 w-6" />,

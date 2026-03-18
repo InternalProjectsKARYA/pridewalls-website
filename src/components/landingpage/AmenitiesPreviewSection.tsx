@@ -2,7 +2,19 @@
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { Dumbbell, Waves, TreePine, Car, Shield, Flower2 } from 'lucide-react';
+import {
+  Building2,
+  Car,
+  Dumbbell,
+  Flower2,
+  Footprints,
+  Gamepad2,
+  Mic2,
+  Shield,
+  TreePine,
+  Users,
+  Waves,
+} from 'lucide-react';
 
 const amenities = [
   {
@@ -41,6 +53,15 @@ const amenities = [
     description: 'Dedicated spaces for children',
     image: 'https://images.unsplash.com/photo-1544776193-352d25ca82cd?w=400&h=300&fit=crop',
   },
+];
+
+const amenityFeatures = [
+  { icon: Building2, title: 'Clubhouse' },
+  { icon: Footprints, title: 'Jogging Track' },
+  { icon: Gamepad2, title: 'Indoor Games' },
+  { icon: Flower2, title: 'Yoga Deck' },
+  { icon: Mic2, title: 'Amphitheater' },
+  { icon: Users, title: 'Senior Citizen Area' },
 ];
 
 export default function AmenitiesPreviewSection() {
@@ -117,16 +138,40 @@ export default function AmenitiesPreviewSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.3 }}
-          className="mt-12 flex flex-wrap justify-center gap-4"
+          className="mt-12"
         >
-          {['Clubhouse', 'Jogging Track', 'Indoor Games', 'Yoga Deck', 'Amphitheater', 'Senior Citizen Area'].map((feature) => (
-            <div
-              key={feature}
-              className="px-4 py-2 bg-white rounded-full border border-slate-200 text-slate-700 text-sm font-medium hover:border-[#c42630] hover:text-[#c42630] transition cursor-default"
-            >
-              {feature}
+          <div className="mx-auto max-w-5xl rounded-3xl border border-slate-200 bg-white/70 backdrop-blur p-6 shadow-sm">
+            <h3 className="text-lg font-bold text-slate-900 mb-4 text-center">
+              More Lifestyle Amenities
+            </h3>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {amenityFeatures.map((feature, index) => (
+                <motion.div
+                  key={feature.title}
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: index * 0.05 }}
+                  whileHover={{ y: -3 }}
+                  className="group flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm hover:shadow-md transition"
+                >
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#c42630]/10 text-[#c42630]">
+                    <feature.icon className="h-5 w-5" />
+                  </div>
+
+                  <div className="flex-1">
+                    <p className="text-sm font-semibold text-slate-800 group-hover:text-[#c42630] transition-colors">
+                      {feature.title}
+                    </p>
+                    <p className="text-xs text-slate-500">
+                      Included in select projects
+                    </p>
+                  </div>
+                </motion.div>
+              ))}
             </div>
-          ))}
+          </div>
         </motion.div>
 
       </div>

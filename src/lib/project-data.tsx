@@ -376,10 +376,10 @@ export const companyInfo: CompanyInfo = {
   ],
   contact: {
     address: 'Plot No: 19/B, 4th Floor, Progressive Towers, Jaihind Enclave, 100 Feet Road, Ayyappa Society, Madhapur, Hyderabad- 500081. ',
-    phone: ['+91 91771 80333'],
+    phone: ['+91 70364 45500'],
     email: ['info@pridewalls.com', 'sales@pridewalls.com'],
     officeHours: 'Monday - Saturday: 9:00 AM - 7:00 PM',
-    whatsapp: '+91 91771 80333',
+    whatsapp: '+91 70364 45500',
   },
   socialLinks: [
     { platform: 'Facebook', url: 'https://facebook.com/pridewalls', icon: 'facebook' },
