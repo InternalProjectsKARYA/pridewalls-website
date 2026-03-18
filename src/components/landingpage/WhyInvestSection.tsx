@@ -29,10 +29,10 @@ return ( <section className="relative py-16 lg:py-24 overflow-hidden bg-gradient
 
 ```
   {/* Brand glow */}
-  <div className="pointer-events-none absolute inset-0">
+  {/* <div className="pointer-events-none absolute inset-0">
     <div className="absolute top-20 left-1/4 w-72 h-72 bg-[#c42532]/10 blur-[120px]" />
     <div className="absolute bottom-10 right-1/4 w-72 h-72 bg-[#c42532]/10 blur-[120px]" />
-  </div>
+  </div> */}
 
   <div className="relative container mx-auto px-4">
 

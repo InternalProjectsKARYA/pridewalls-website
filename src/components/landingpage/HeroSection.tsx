@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ArrowRight, ChevronDown } from 'lucide-react';
+import { ArrowRight, ChevronDown, Subtitles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const heroSlides = [
@@ -23,6 +23,11 @@ const heroSlides = [
     subtitle: "Approved land plots with modern infrastructure & amenities",
     image: "/hero.png",
   },
+  {
+    title: "Design Your Dream Home, Your Way",
+    subtitle: "Spacious apartments crafted for comfort, style, and future value",
+    image: "/pride-walls-appartments.jpg",
+  }
 ];
 
 export default function HeroSection() {
@@ -62,10 +67,10 @@ export default function HeroSection() {
       ))}
 
       {/* Decorative Elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {/* <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-20 right-20 w-64 h-64 bg-primary/10 rounded-full blur-3xl" />
         <div className="absolute bottom-20 left-20 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
-      </div>
+      </div> */}
 
       {/* Content */}
       <div className="relative h-full container mx-auto px-4 flex items-center">

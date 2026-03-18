@@ -35,10 +35,10 @@ export default function Footer() {
 
       {/* ⭐ Background */}
       <div className="absolute inset-0 bg-gradient-to-b from-[#140708] to-[#0d0405]" />
-      <div className="absolute inset-0 pointer-events-none">
+      {/* <div className="absolute inset-0 pointer-events-none">
         <div className="absolute left-1/4 top-0 w-[420px] h-[420px] bg-[#c42630]/20 blur-[140px]" />
         <div className="absolute right-1/4 bottom-0 w-[420px] h-[420px] bg-[#c42630]/15 blur-[140px]" />
-      </div>
+      </div> */}
 
       {/* ⭐ MAIN */}
       <div className="relative container mx-auto px-4 py-14 lg:py-20">

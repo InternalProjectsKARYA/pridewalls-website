@@ -18,8 +18,8 @@ export default function TrustStrip() {
 
       {/* ===== Brand red glow background ===== */}
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute -top-20 left-1/3 w-72 h-72 bg-[#c42630]/20 blur-[120px]" />
-        <div className="absolute -bottom-20 right-1/3 w-72 h-72 bg-[#c42630]/20 blur-[120px]" />
+        {/* <div className="absolute -top-20 left-1/3 w-72 h-72 bg-[#c42630]/20 blur-[120px]" />
+        <div className="absolute -bottom-20 right-1/3 w-72 h-72 bg-[#c42630]/20 blur-[120px]" /> */}
 
         {/* Moving sheen */}
         <motion.div

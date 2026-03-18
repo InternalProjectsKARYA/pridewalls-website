@@ -139,10 +139,10 @@ export default function ProjectPage({ project }: ProjectPageProps) {
       <section className="relative overflow-hidden bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 shadow-xl">
 
         {/* ===== Brand glow background ===== */}
-        <div className="pointer-events-none absolute inset-0">
+        {/* <div className="pointer-events-none absolute inset-0">
           <div className="absolute -top-10 left-1/3 w-60 h-60 bg-[#c42630]/20 blur-[110px]" />
           <div className="absolute -bottom-10 right-1/3 w-60 h-60 bg-[#c42630]/20 blur-[110px]" />
-        </div>
+        </div> */}
 
         <div className="relative container mx-auto px-4 py-5">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">

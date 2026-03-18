@@ -76,10 +76,10 @@ export default function StatsSection() {
       </div>
 
       {/* ⭐ Glow lights */}
-      <div className="absolute inset-0 pointer-events-none">
+      {/* <div className="absolute inset-0 pointer-events-none">
         <div className="absolute -top-24 -right-24 w-96 h-96 bg-[#c42630]/30 blur-[140px]" />
         <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-[#c42630]/20 blur-[140px]" />
-      </div>
+      </div> */}
 
       <div className="container mx-auto px-4 relative">
 

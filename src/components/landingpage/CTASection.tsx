@@ -24,10 +24,10 @@ export default function CTASection() {
       
 
       {/* ⭐ Light sources */}
-      <div className="absolute inset-0 pointer-events-none">
+      {/* <div className="absolute inset-0 pointer-events-none">
         <div className="absolute -left-20 top-0 w-[420px] h-[420px] bg-[#c42630]/30 blur-[140px]" />
         <div className="absolute -right-20 bottom-0 w-[420px] h-[420px] bg-[#c42630]/25 blur-[140px]" />
-      </div>
+      </div> */}
 
 
       <div className="relative container mx-auto px-4">
@@ -79,7 +79,7 @@ export default function CTASection() {
             className="relative"
           >
             {/* glow */}
-            <div className="absolute inset-0 bg-[#c42630]/20 blur-[120px] rounded-3xl" />
+            {/* <div className="absolute inset-0 bg-[#c42630]/20 blur-[120px] rounded-3xl" /> */}
 
             {/* card */}
             <div className="relative p-8 rounded-3xl bg-white/10 backdrop-blur-xl border border-white/20 shadow-[0_30px_80px_rgba(0,0,0,0.4)]">
