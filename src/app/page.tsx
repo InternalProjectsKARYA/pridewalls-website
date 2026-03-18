@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import Navbar from '../components/landingpage/navbar'
 import HeroSection from '@/components/landingpage/HeroSection'
 import TrustStrip from '@/components/landingpage/TrustStrip'
@@ -19,7 +19,9 @@ const page = () => {
       <HeroSection />
       <TrustStrip />
       <WhyInvestSection />
-      <FeaturedProjects />
+      <Suspense fallback={null}>
+        <FeaturedProjects />
+      </Suspense>
       <PropertyTypesSection/>
       <StatsSection/>
       <AmenitiesPreviewSection/>
