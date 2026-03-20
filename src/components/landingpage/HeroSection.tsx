@@ -4,8 +4,10 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ArrowRight, ChevronDown, Subtitles } from 'lucide-react';
+import { ArrowRight, Calendar, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import SiteVisitDialog from '@/components/landingpage/SiteVisitDialog';
+import { companyInfo } from '@/lib/project-data';
 
 const heroSlides = [
   {
@@ -32,6 +34,12 @@ const heroSlides = [
 
 export default function HeroSection() {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [isSiteVisitOpen, setIsSiteVisitOpen] = useState(false);
+  const primaryPhone = companyInfo.contact.phone[0];
+  const phoneHref = `tel:${primaryPhone.replace(/\s+/g, '')}`;
+  const whatsappHref = `https://wa.me/${(
+    companyInfo.contact.whatsapp || primaryPhone
+  ).replace(/\D/g, '')}`;
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -93,21 +101,35 @@ export default function HeroSection() {
 
             {/* CTA Buttons */}
             <div className="flex flex-wrap gap-4">
-              <Button asChild size="lg" className="text-lg px-8 py-6 bg-primary hover:bg-primary/90 text-primary-foreground shadow-xl shadow-primary/25">
+              <Button asChild size="lg" className="bg-brand-primary hover:bg-brand-primary/90 px-8 py-6 text-lg text-white shadow-xl shadow-[#c42630]/25">
                 <Link href="/#projects">
                   Explore Projects
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </Button>
-              <Button asChild size="lg" variant="outline" className="text-lg px-8 py-6 bg-white/10 border-white/30 text-white hover:bg-white/20 backdrop-blur-sm">
-                <Link href="/#contact">
+              <Button
+                type="button"
+                size="lg"
+                variant="outline"
+                onClick={() => setIsSiteVisitOpen(true)}
+                className="text-lg px-8 py-6 bg-white/10 border-white/30 text-white hover:bg-white/20 backdrop-blur-sm"
+              >
+                <Calendar className="h-5 w-5" />
+                <span>
                   Book Site Visit
-                </Link>
+                </span>
               </Button>
             </div>
           </motion.div>
         </div>
       </div>
+
+      <SiteVisitDialog
+        open={isSiteVisitOpen}
+        onOpenChange={setIsSiteVisitOpen}
+        phoneHref={phoneHref}
+        whatsappHref={whatsappHref}
+      />
 
       {/* Slide Indicators */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-3">

@@ -1,12 +1,21 @@
 'use client';
 
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { ArrowRight, Phone, Calendar, MessageCircle } from 'lucide-react';
+import SiteVisitDialog from '@/components/landingpage/SiteVisitDialog';
+import { companyInfo } from '@/lib/project-data';
 
 export default function CTASection() {
+  const [isSiteVisitOpen, setIsSiteVisitOpen] = useState(false);
   const scrollToContact = () =>
     document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+  const primaryPhone = companyInfo.contact.phone[0];
+  const phoneHref = `tel:${primaryPhone.replace(/\s+/g, '')}`;
+  const whatsappHref = `https://wa.me/${(
+    companyInfo.contact.whatsapp || primaryPhone
+  ).replace(/\D/g, '')}`;
 
   return (
     <section className="relative py-32 overflow-hidden">
@@ -100,21 +109,27 @@ export default function CTASection() {
               <div className="grid grid-cols-2 gap-4 mb-4">
 
                 <a
-                  href="tel:+919876543210"
+                  href={phoneHref}
                   className="py-3 rounded-xl bg-white/20 text-white flex items-center justify-center gap-2 hover:bg-white/30 transition"
                 >
                   <Phone size={18} /> Call
                 </a>
 
                 <a
-                  href="https://wa.me/919876543210"
+                  href={whatsappHref}
+                  target="_blank"
+                  rel="noreferrer"
                   className="py-3 rounded-xl bg-[#25D366]/30 text-white flex items-center justify-center gap-2 hover:bg-[#25D366]/40 transition"
                 >
                   <MessageCircle size={18} /> WhatsApp
                 </a>
               </div>
 
-              <button className="w-full py-3 rounded-xl border border-white/20 text-white flex items-center justify-center gap-2 hover:bg-white/10 transition">
+              <button
+                type="button"
+                onClick={() => setIsSiteVisitOpen(true)}
+                className="w-full py-3 rounded-xl border border-white/20 text-white flex items-center justify-center gap-2 hover:bg-white/10 transition"
+              >
                 <Calendar size={18} /> Book Site Visit
               </button>
 
@@ -127,6 +142,13 @@ export default function CTASection() {
 
         </div>
       </div>
+
+      <SiteVisitDialog
+        open={isSiteVisitOpen}
+        onOpenChange={setIsSiteVisitOpen}
+        phoneHref={phoneHref}
+        whatsappHref={whatsappHref}
+      />
     </section>
   );
 }

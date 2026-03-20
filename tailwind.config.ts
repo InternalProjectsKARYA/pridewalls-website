@@ -54,6 +54,17 @@ const config: Config = {
           "4": "var(--chart-4)",
           "5": "var(--chart-5)",
         },
+        brand: {
+          primary: {
+            DEFAULT: "var(--brand-primary)",
+            foreground: "var(--brand-primary-foreground)",
+          },
+          silver: {
+            DEFAULT: "var(--brand-silver)",
+            muted: "var(--brand-silver-muted)",
+            strong: "var(--brand-silver-strong)",
+          },
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -64,4 +75,5 @@ const config: Config = {
   },
   plugins: [tailwindcssAnimate],
 };
+
 export default config;

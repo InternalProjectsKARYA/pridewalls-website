@@ -7,6 +7,7 @@ import { useSearchParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 import {
   ArrowRight,
+  SlidersHorizontal,
   MapPin,
   Building,
   Home,
@@ -17,6 +18,13 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { projects } from '@/lib/project-data';
 import { Project } from '@/lib/project-interface';
 
@@ -27,7 +35,6 @@ const typeFilters = [
   { value: 'plots', label: 'Plots', icon: LandPlot },
   { value: 'villas', label: 'Villas', icon: Home },
   { value: 'apartments', label: 'Apartments', icon: Building },
-  { value: 'open plots', label: 'Open Plots', icon: Store },
 ];
 
 const statusFilters = [
@@ -198,51 +205,47 @@ export default function FeaturedProjects() {
         </div>
 
         {/* ⭐ Type Tabs */}
-        <div className="flex justify-start mb-8">
-          <div className="flex flex-wrap gap-2 bg-muted p-2 rounded-xl shadow-sm">
-            {typeFilters.map((filter) => {
-              const active = activeType === filter.value;
+        <div className="mb-8 flex justify-start">
+          <div className="w-full rounded-xl bg-muted p-2 shadow-sm sm:w-auto">
+            <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
+              {typeFilters.map((filter) => {
+                const active = activeType === filter.value;
 
-              return (
-                <button
-                  key={filter.value}
-                  onClick={() => setActiveType(filter.value)}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200
+                return (
+                  <button
+                    key={filter.value}
+                    onClick={() => setActiveType(filter.value)}
+                    className={`flex min-w-0 items-center justify-center gap-2 rounded-lg px-3 py-2.5 text-[13px] font-medium transition-all duration-200 sm:justify-start sm:px-4 sm:py-2 sm:text-sm
             ${active
-                      ? 'bg-[#c42630] text-white shadow'
-                      : 'text-muted-foreground hover:bg-[#c42630]/10 hover:text-[#c42630]'
-                    }
+                        ? 'bg-[#c42630] text-white shadow'
+                        : 'text-muted-foreground hover:bg-[#c42630]/10 hover:text-[#c42630]'
+                      }
           `}
-                >
-                  <filter.icon size={16} />
-                  {filter.label}
-                </button>
-              );
-            })}
+                  >
+                    <filter.icon className="h-4 w-4 shrink-0" />
+                    <span className="truncate">{filter.label}</span>
+                  </button>
+                );
+              })}
+            </div>
           </div>
         </div>
 
-        {/* <div className="flex justify-start mb-10">
-          <div className="flex flex-wrap gap-2">
-            {statusFilters.map((filter) => {
-              const active = activeStatus === filter.value;
-
-              return (
-                <button
-                  key={filter.value}
-                  onClick={() => setActiveStatus(filter.value)}
-                  className={`rounded-full border px-4 py-2 text-sm font-medium transition-colors ${
-                    active
-                      ? 'border-[#c42630] bg-[#c42630] text-white'
-                      : 'border-border bg-background text-muted-foreground hover:border-[#c42630]/30 hover:text-[#c42630]'
-                  }`}
-                >
+        <div className="mb-10 flex justify-end">
+          <Select value={activeStatus} onValueChange={setActiveStatus}>
+            <SelectTrigger className="h-11 w-full gap-2 rounded-xl border-border bg-background px-4 text-sm font-medium sm:w-[220px]">
+              <SlidersHorizontal className="h-4 w-4 text-[#c42630]" />
+              <SelectValue placeholder="Filter by status" />
+            </SelectTrigger>
+            <SelectContent>
+              {statusFilters.map((filter) => (
+                <SelectItem key={filter.value} value={filter.value}>
                   {filter.label}
-                </button>
-              );
-            })}
-          </div>
-        </div> */}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
 
         {/* Grid */}
         {filteredProjects.length > 0 ? (

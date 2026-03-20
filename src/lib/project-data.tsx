@@ -16,7 +16,7 @@ Developed by Pride Walls, Espino comprises six residential blocks (A to F) with 
     location: 'Ameenpur, Hyderabad',
     mapEmbedUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3888.123456789!2d77.7!3d12.95!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTLCsDU3JzAwLjAiTiA3N8KwNDInMDAuMCJF!5e0!3m2!1sen!2sin!4v1234567890',
     type: 'apartments',
-    status: 'completed',
+    status: 'ongoing',
     featured: false,
     coverImage: '/pride-walls-appartments.jpg',
     gallery: [
@@ -143,7 +143,7 @@ The building features high-speed elevators, ample parking, 100% power backup, an
     location: 'Rudraram, Hyderabad',
     mapEmbedUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3888.123456789!2d77.68!3d12.84!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTLCsDUwJzI0LjAiTiA3N8KwNDAnNDguMCJF!5e0!3m2!1sen!2sin!4v1234567890',
     type: 'plots',
-    status: 'ongoing',
+    status: 'upcoming',
     featured: false,
     coverImage: '/plots.jpg',
     gallery: [

@@ -8,14 +8,16 @@ import {
   ArrowLeft, MapPin, Building, Home, LandPlot, Store, 
   Check, Share2, Heart, Ruler, Phone, Mail, Calendar,
   Award, FileCheck, TrendingUp, Compass,  Train, Plane, Gem, Leaf, Users, Layout,
-  IndianRupee, Building2, Maximize,  
+  Building2, Maximize,  
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import ContactForm from './ContactForm';
 import LocationHighlights from './LocationHighlights';
 import FacilitiesGrid from './FacilitiesGrid';
+import SiteVisitDialog from '@/components/landingpage/SiteVisitDialog';
 import { Project, Facility } from '@/lib/project-interface';
+import { companyInfo } from '@/lib/project-data';
 
 const typeIcons: Record<string, React.ReactNode> = {
   plots: <LandPlot className="h-5 w-5" />,
@@ -51,7 +53,10 @@ interface ProjectPageProps {
   project: Project;
 }
 
+const getZoneKey = (zone: Project['siteLayout']['zones'][number]) => zone.id ?? zone.name;
+
 export default function ProjectPage({ project }: ProjectPageProps) {
+  const [isSiteVisitOpen, setIsSiteVisitOpen] = useState(false);
   const handleShare = useCallback(async () => {
     if (navigator.share) {
       try {
@@ -65,15 +70,23 @@ export default function ProjectPage({ project }: ProjectPageProps) {
       }
     }
   }, [project]);
-  const [activeBlock, setActiveBlock] = useState(
-  project.siteLayout?.zones?.[0]?.id || null
-)
+  const [activeBlock, setActiveBlock] = useState<string | null>(
+    project.siteLayout?.zones?.[0] ? getZoneKey(project.siteLayout.zones[0]) : null
+  );
   const router = useRouter();
+  const primaryPhone = companyInfo.contact.phone[0];
+  const phoneHref = `tel:${primaryPhone.replace(/\s+/g, '')}`;
+  const whatsappHref = `https://wa.me/${(
+    companyInfo.contact.whatsapp || primaryPhone
+  ).replace(/\D/g, '')}`;
+  const activeZone = activeBlock
+    ? project.siteLayout?.zones.find((zone) => getZoneKey(zone) === activeBlock) ?? null
+    : null;
 
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
-      <section className="relative h-[60vh] min-h-[500px] max-h-[700px]">
+      <section className="relative h-[70svh] min-h-[520px] max-h-[700px] sm:h-[60vh] sm:min-h-[500px]">
         <Image
           src={project.coverImage}
           alt={project.name}
@@ -84,21 +97,22 @@ export default function ProjectPage({ project }: ProjectPageProps) {
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20" />
         
         {/* Navigation Bar */}
-        <div className="absolute top-0 left-0 right-0 z-10 p-4">
-          <div className="container mx-auto flex items-center justify-between">
+        <div className="absolute top-0 left-0 right-0 z-10 p-3 sm:p-4">
+          <div className="container mx-auto flex items-start justify-between gap-3 sm:items-center">
             <Button 
               variant="secondary" 
              onClick={() => router.back()}
-              className="bg-white/90 hover:bg-white text-foreground"
+              className="h-10 shrink-0 bg-white/90 px-3 text-foreground hover:bg-white sm:h-auto sm:px-4"
             >
               <ArrowLeft className="h-4 w-4 mr-2" />
-              Back to Projects
+              <span className="sm:hidden">Back</span>
+              <span className="hidden sm:inline">Back to Projects</span>
             </Button>
-            <div className="flex items-center gap-2">
-              <Button variant="secondary" size="icon" className="bg-white/90 hover:bg-white" onClick={handleShare}>
+            <div className="flex items-center gap-2 self-end sm:self-auto">
+              <Button variant="secondary" size="icon" className="h-10 w-10 bg-white/90 hover:bg-white" onClick={handleShare}>
                 <Share2 className="h-4 w-4" />
               </Button>
-              <Button variant="secondary" size="icon" className="bg-white/90 hover:bg-white">
+              <Button variant="secondary" size="icon" className="h-10 w-10 bg-white/90 hover:bg-white">
                 <Heart className="h-4 w-4" />
               </Button>
             </div>
@@ -106,9 +120,9 @@ export default function ProjectPage({ project }: ProjectPageProps) {
         </div>
 
         {/* Hero Content */}
-        <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10">
+        <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 md:p-10">
           <div className="container mx-auto">
-            <div className="flex flex-wrap items-center gap-3 mb-4">
+            <div className="mb-4 flex flex-wrap items-center gap-2 sm:gap-3">
               <div className="flex items-center gap-2 text-white/80">
                 {typeIcons[project.type]}
                 <span className="text-sm font-medium capitalize">{project.type}</span>
@@ -123,13 +137,13 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                 </Badge>
               )}
             </div>
-            <h1 className="text-4xl md:text-6xl font-bold text-white mb-3">
+            <h1 className="mb-3 text-3xl font-bold text-white sm:text-4xl md:text-6xl">
               {project.name}
             </h1>
-            <p className="text-xl md:text-2xl text-white/80 mb-4">{project.tagline}</p>
-            <div className="flex items-center gap-2 text-white/70">
-              <MapPin className="h-5 w-5" />
-              <span className="text-lg">{project.location}</span>
+            <p className="mb-4 max-w-3xl text-base text-white/80 sm:text-xl md:text-2xl">{project.tagline}</p>
+            <div className="flex items-start gap-2 text-white/70 sm:items-center">
+              <MapPin className="mt-0.5 h-5 w-5 shrink-0 sm:mt-0" />
+              <span className="text-base sm:text-lg">{project.location}</span>
             </div>
           </div>
         </div>
@@ -144,8 +158,8 @@ export default function ProjectPage({ project }: ProjectPageProps) {
           <div className="absolute -bottom-10 right-1/3 w-60 h-60 bg-[#c42630]/20 blur-[110px]" />
         </div> */}
 
-        <div className="relative container mx-auto px-4 py-5">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+        <div className="relative container mx-auto px-4 py-4 sm:px-6 sm:py-5">
+          <div className="grid grid-cols-1 gap-3 min-[480px]:grid-cols-2 sm:gap-4 xl:grid-cols-4">
 
             {/* Price */}
             {/* <div className="flex items-center gap-3 justify-center md:justify-start">
@@ -163,52 +177,52 @@ export default function ProjectPage({ project }: ProjectPageProps) {
             </div> */}
 
             {/* Units */}
-            <div className="flex items-center gap-3 justify-center md:justify-start">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#c42630] to-[#a61f28] flex items-center justify-center shadow-lg shadow-[#c42630]/30">
+            <div className="flex min-w-0 items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.03] p-4 shadow-lg shadow-black/10 backdrop-blur-sm sm:p-5">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#c42630] to-[#a61f28] shadow-lg shadow-[#c42630]/30">
                 <Building2 className="w-5 h-5 text-white" />
               </div>
-              <div>
-                <div className="text-xl md:text-2xl font-bold text-white">
+              <div className="min-w-0">
+                <div className="text-xl font-bold text-white sm:text-2xl">
                   {project.totalUnits}
                 </div>
-                <div className="text-xs md:text-sm text-slate-400">Total Units</div>
+                <div className="text-xs text-slate-400 sm:text-sm">Total Units</div>
               </div>
             </div>
 
             {/* Project size */}
-            <div className="flex items-center gap-3 justify-center md:justify-start">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#c42630] to-[#a61f28] flex items-center justify-center shadow-lg shadow-[#c42630]/30">
+            <div className="flex min-w-0 items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.03] p-4 shadow-lg shadow-black/10 backdrop-blur-sm sm:p-5">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#c42630] to-[#a61f28] shadow-lg shadow-[#c42630]/30">
                 <Maximize className="w-5 h-5 text-white" />
               </div>
-              <div>
-                <div className="text-xl md:text-2xl font-bold text-white">
+              <div className="min-w-0">
+                <div className="text-xl font-bold text-white sm:text-2xl">
                   {project.projectSize}
                 </div>
-                <div className="text-xs md:text-sm text-slate-400">Project Area</div>
+                <div className="text-xs text-slate-400 sm:text-sm">Project Area</div>
               </div>
             </div>
 
             {/* Plot area */}
-            <div className="flex items-center gap-3 justify-center md:justify-start">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#c42630] to-[#a61f28] flex items-center justify-center shadow-lg shadow-[#c42630]/30">
+            <div className="flex min-w-0 items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.03] p-4 shadow-lg shadow-black/10 backdrop-blur-sm sm:p-5">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#c42630] to-[#a61f28] shadow-lg shadow-[#c42630]/30">
                 <Ruler className="w-5 h-5 text-white" />
               </div>
-              <div>
-                <div className="text-xl md:text-2xl font-bold text-white">
+              <div className="min-w-0">
+                <div className="text-xl font-bold text-white sm:text-2xl">
                   {project.area.min} - {project.area.max}
                 </div>
-                <div className="text-xs md:text-sm text-slate-400">{project.area.unit}</div>
+                <div className="text-xs text-slate-400 sm:text-sm">{project.area.unit}</div>
               </div>
             </div>
 
             {/* RERA */}
             {project.reraNumber && (
-              <div className="flex items-center gap-3 justify-center md:justify-start col-span-2 md:col-span-1">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#c42630] to-[#a61f28] flex items-center justify-center shadow-lg shadow-[#c42630]/30">
+              <div className="flex min-w-0 items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.03] p-4 shadow-lg shadow-black/10 backdrop-blur-sm min-[480px]:col-span-2 sm:p-5 xl:col-span-1">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#c42630] to-[#a61f28] shadow-lg shadow-[#c42630]/30">
                   <FileCheck className="w-5 h-5 text-white" />
                 </div>
-                <div>
-                  <div className="text-sm md:text-base font-bold text-white">
+                <div className="min-w-0">
+                  <div className="break-words text-sm font-bold text-white sm:text-base">
                     {project.reraNumber}
                   </div>
                   <div className="text-xs text-slate-400">Approved</div>
@@ -224,8 +238,8 @@ export default function ProjectPage({ project }: ProjectPageProps) {
       </section>
 
       {/* Main Content */}
-      <section className="py-12">
-        <div className="container mx-auto px-4">
+      <section className="py-8 sm:py-12">
+        <div className="container mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Left Column - Details */}
             <div className="lg:col-span-2 space-y-10">
@@ -234,14 +248,14 @@ export default function ProjectPage({ project }: ProjectPageProps) {
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="bg-white rounded-2xl overflow-hidden border border-gray-200 shadow-sm"
-              >
-                <div className="p-6 border-b border-gray-200 bg-gradient-to-r from-[#c42630]/10 to-[#c42630]/5">
-                  <h2 className="text-2xl font-semibold text-gray-900">Project Overview</h2>
+                  className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm"
+                >
+                <div className="border-b border-gray-200 bg-gradient-to-r from-[#c42630]/10 to-[#c42630]/5 p-4 sm:p-6">
+                  <h2 className="text-xl font-semibold text-gray-900 sm:text-2xl">Project Overview</h2>
                 </div>
 
-                <div className="p-6">
-                  <p className="text-gray-600 whitespace-pre-line leading-relaxed text-lg">
+                <div className="p-4 sm:p-6">
+                  <p className="text-base leading-relaxed text-gray-600 whitespace-pre-line sm:text-lg">
                     {project.description}
                   </p>
                 </div>
@@ -253,15 +267,15 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
-                className="bg-white rounded-2xl overflow-hidden border border-gray-200 shadow-sm"
+                className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm"
               >
-                <div className="p-6 border-b border-gray-200 bg-gradient-to-r from-[#c42630]/10 to-[#c42630]/5">
-                  <h2 className="text-2xl font-semibold text-gray-900">
+                <div className="border-b border-gray-200 bg-gradient-to-r from-[#c42630]/10 to-[#c42630]/5 p-4 sm:p-6">
+                  <h2 className="text-xl font-semibold text-gray-900 sm:text-2xl">
                     Why Choose {project.name}?
                   </h2>
                 </div>
 
-                <div className="p-6">
+                <div className="p-4 sm:p-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {project.highlights.map((highlight) => (
                       <div
@@ -335,12 +349,12 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 }}
-                  className="bg-card rounded-2xl overflow-hidden border border-border"
-                >
-                  <div className="p-6 border-b border-border bg-muted/30">
-                    <h2 className="text-2xl font-semibold">Location Highlights</h2>
+                    className="overflow-hidden rounded-2xl border border-border bg-card"
+                  >
+                  <div className="border-b border-border bg-muted/30 p-4 sm:p-6">
+                    <h2 className="text-xl font-semibold sm:text-2xl">Location Highlights</h2>
                   </div>
-                  <div className="p-6">
+                  <div className="p-4 sm:p-6">
                     <LocationHighlights highlights={project.locationHighlights} />
                   </div>
                 </motion.div>
@@ -352,12 +366,12 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4 }}
-                  className="bg-card rounded-2xl overflow-hidden border border-border"
-                >
-                  <div className="p-6 border-b border-border bg-muted/30">
-                    <h2 className="text-2xl font-semibold">Facilities & Infrastructure</h2>
+                    className="overflow-hidden rounded-2xl border border-border bg-card"
+                  >
+                  <div className="border-b border-border bg-muted/30 p-4 sm:p-6">
+                    <h2 className="text-xl font-semibold sm:text-2xl">Facilities & Infrastructure</h2>
                   </div>
-                  <div className="p-6">
+                  <div className="p-4 sm:p-6">
                     <FacilitiesGrid facilities={project.facilities as Facility[]} />
                   </div>
                 </motion.div>
@@ -369,13 +383,13 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.5 }}
-                  className="bg-card rounded-2xl overflow-hidden border border-border"
-                >
-                  <div className="p-6 border-b border-border bg-muted/30">
-                    <h2 className="text-2xl font-semibold">Amenities</h2>
-                  </div>
-                  <div className="p-6">
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                   className="overflow-hidden rounded-2xl border border-border bg-card"
+                 >
+                   <div className="border-b border-border bg-muted/30 p-4 sm:p-6">
+                     <h2 className="text-xl font-semibold sm:text-2xl">Amenities</h2>
+                   </div>
+                   <div className="p-4 sm:p-6">
+                     <div className="grid grid-cols-1 gap-4 min-[480px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                       {project.amenities.map((amenity) => (
                         <div key={amenity.id} className="group relative aspect-square rounded-xl overflow-hidden">
                           {amenity.image ? (
@@ -468,19 +482,19 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2 }}
-                  className="bg-card rounded-2xl overflow-hidden border border-border"
-                >
-                  <div className="p-6 border-b border-border bg-muted/30">
-                    <h2 className="text-2xl font-semibold">
-                      Master Plan / Site Layout
-                    </h2>
-                  </div>
+                   className="overflow-hidden rounded-2xl border border-border bg-card"
+                 >
+                   <div className="border-b border-border bg-muted/30 p-4 sm:p-6">
+                     <h2 className="text-xl font-semibold sm:text-2xl">
+                       Master Plan / Site Layout
+                     </h2>
+                   </div>
 
-                  <div className="p-6">
+                   <div className="p-4 sm:p-6">
 
-                    {/* ===== Master Plan Image ===== */}
-                    <div className="relative aspect-[16/10] rounded-xl overflow-hidden mb-8 group">
-                      <Image
+                     {/* ===== Master Plan Image ===== */}
+                     <div className="group relative mb-6 aspect-[4/3] overflow-hidden rounded-xl sm:mb-8 sm:aspect-[16/10]">
+                       <Image
                         src={project.siteLayout.image}
                         alt={`${project.name} Site Layout`}
                         fill
@@ -498,11 +512,11 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.6 }}
-                  className="bg-card rounded-2xl overflow-hidden border border-border"
-                >
-                  <div className="p-6 border-b border-border bg-muted/30">
-                    <h2 className="text-2xl font-semibold">Floor Plans & Plot Layouts</h2>
-                  </div>
+                   className="overflow-hidden rounded-2xl border border-border bg-card"
+                 >
+                   <div className="border-b border-border bg-muted/30 p-4 sm:p-6">
+                     <h2 className="text-xl font-semibold sm:text-2xl">Floor Plans & Plot Layouts</h2>
+                   </div>
                   {/* <div className="p-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                       {project.floorPlans.map((plan) => (
@@ -531,15 +545,16 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                   </div> */}
 
                   {/* ===== TAB BAR ===== */}
-                  <div className="w-full mb-6">
-                      <div className="flex w-full flex-wrap gap-2 bg-muted p-2 rounded-xl shadow-sm">
+                  <div className="mb-6 w-full p-4 sm:p-6">
+                      <div className="grid w-full grid-cols-1 gap-2 rounded-xl bg-muted p-2 shadow-sm sm:grid-cols-2 xl:grid-cols-3">
                         {project.siteLayout.zones.map((zone) => {
-                          const active = activeBlock === zone.id
+                          const zoneKey = getZoneKey(zone);
+                          const active = activeBlock === zoneKey;
                           return (
                             <button
-                              key={zone.id}
-                              onClick={() => setActiveBlock(zone.id)}
-                              className={`flex-1 min-w-[120px] px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 text-center
+                              key={zoneKey}
+                              onClick={() => setActiveBlock(zoneKey)}
+                              className={`w-full rounded-lg px-4 py-2.5 text-center text-sm font-medium transition-all duration-200
                                 ${active ? 'bg-[#c42630] text-white shadow': 'text-muted-foreground hover:bg-[#c42630]/10 hover:text-[#c42630]'}`}
                             >
                               {zone.name}
@@ -551,29 +566,21 @@ export default function ProjectPage({ project }: ProjectPageProps) {
 
                     {/* ===== ACTIVE BLOCK IMAGE ===== */}
                     {activeBlock && (
-                      <div className="mb-4 text-md text-center">
-                        <h3 className="font-semibold text-foreground text-2xl mb-2">
-                          {project.siteLayout.zones.find((z) => z.id === activeBlock)?.blockname}
+                      <div className="mb-4 px-4 text-center text-sm sm:px-6 sm:text-base">
+                        <h3 className="mb-2 text-xl font-semibold text-foreground sm:text-2xl">
+                          {activeZone?.blockname}
                         </h3>
-                        {project.siteLayout.zones.find((z) => z.id === activeBlock)?.description}
+                        {activeZone?.description}
                       </div>
                     )}
 
-                    {activeBlock && (
-                      <div className="relative aspect-[16/10] rounded-xl overflow-hidden border border-border">
+                    {activeZone?.image && (
+                      <div className="relative mx-4 mb-4 aspect-[4/3] overflow-hidden rounded-xl border border-border sm:mx-6 sm:mb-6 sm:aspect-[16/10]">
                         
                         <img
                           key={activeBlock}
-                          src={
-                            project.siteLayout.zones.find(
-                              (z) => z.id === activeBlock
-                            )?.image
-                          }
-                          alt={
-                            project.siteLayout.zones.find(
-                              (z) => z.id === activeBlock
-                            )?.name
-                          }
+                          src={activeZone.image}
+                          alt={activeZone.name}
                           className="w-full h-full object-contain transition-opacity duration-300"
                         />
                       </div>
@@ -588,13 +595,13 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.9 }}
-                  className="bg-card rounded-2xl overflow-hidden border border-border"
+                  className="overflow-hidden rounded-2xl border border-border bg-card"
                 >
-                  <div className="p-6 border-b border-border bg-muted/30">
-                    <h2 className="text-2xl font-semibold">Location Map</h2>
+                  <div className="border-b border-border bg-muted/30 p-4 sm:p-6">
+                    <h2 className="text-xl font-semibold sm:text-2xl">Location Map</h2>
                   </div>
-                  <div className="p-6">
-                    <div className="rounded-xl overflow-hidden h-[400px]">
+                  <div className="p-4 sm:p-6">
+                    <div className="h-[320px] overflow-hidden rounded-xl sm:h-[400px]">
                       <iframe
                         src={project.mapEmbedUrl}
                         width="100%"
@@ -639,17 +646,17 @@ export default function ProjectPage({ project }: ProjectPageProps) {
 
             {/* Right Column - Contact Form */}
             <div className="lg:col-span-1">
-              <div className="sticky top-36 space-y-6">
+              <div className="space-y-6 lg:sticky lg:top-36">
 
                 {/* ================= CONTACT FORM CARD ================= */}
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="rounded-2xl overflow-hidden border border-gray-200 bg-white shadow-lg"
+                  className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-lg"
                 >
                   {/* Header */}
-                  <div className="p-6 bg-gradient-to-r from-[#c42630] to-[#a61f28] text-white">
-                    <h3 className="text-xl font-semibold mb-2">
+                  <div className="bg-gradient-to-r from-[#c42630] to-[#a61f28] p-4 text-white sm:p-6">
+                    <h3 className="mb-2 text-xl font-semibold">
                       Interested in this project?
                     </h3>
                     <p className="text-sm text-white/90">
@@ -658,7 +665,7 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                   </div>
 
                   {/* Form */}
-                  <div className="p-6">
+                  <div className="p-4 sm:p-6">
                     <ContactForm projectName={project.name} showProjectSelect={false} />
                   </div>
                 </motion.div>
@@ -668,14 +675,14 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.15 }}
-                  className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm"
+                  className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm sm:p-6"
                 >
                   <h4 className="font-semibold text-gray-900 mb-4">Quick Contact</h4>
 
                   <div className="space-y-3">
                     <a
                       href="tel:+919876543210"
-                      className="flex items-center gap-3 text-gray-600 hover:text-[#c42630] transition"
+                      className="flex items-center gap-3 break-all text-gray-600 transition hover:text-[#c42630] sm:break-normal"
                     >
                       <Phone className="h-5 w-5" />
                       <span>+91 70364 45500</span>
@@ -683,7 +690,7 @@ export default function ProjectPage({ project }: ProjectPageProps) {
 
                     <a
                       href="mailto:sales@pridewalls.com"
-                      className="flex items-center gap-3 text-gray-600 hover:text-[#c42630] transition"
+                      className="flex items-center gap-3 break-all text-gray-600 transition hover:text-[#c42630] sm:break-normal"
                     >
                       <Mail className="h-5 w-5" />
                       <span>sales@pridewalls.com</span>
@@ -703,7 +710,7 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.25 }}
-                  className="rounded-2xl border border-[#c42630]/20 bg-[#c42630]/5 p-6 text-center"
+                  className="rounded-2xl border border-[#c42630]/20 bg-[#c42630]/5 p-4 text-center sm:p-6"
                 >
                   <h4 className="font-semibold text-gray-900 mb-2">
                     Schedule a Site Visit
@@ -713,7 +720,11 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                     Experience the project firsthand with our guided site visits.
                   </p>
 
-                  <Button className="w-full bg-gradient-to-r from-[#c42630] to-[#a61f28] hover:from-[#d12c37] hover:to-[#b6232d] text-white">
+                  <Button
+                    type="button"
+                    onClick={() => setIsSiteVisitOpen(true)}
+                    className="w-full bg-gradient-to-r from-[#c42630] to-[#a61f28] hover:from-[#d12c37] hover:to-[#b6232d] text-white"
+                  >
                     Book Site Visit
                   </Button>
                 </motion.div>
@@ -722,6 +733,14 @@ export default function ProjectPage({ project }: ProjectPageProps) {
             </div>
           </div>
         </div>
+        <SiteVisitDialog
+          open={isSiteVisitOpen}
+          onOpenChange={setIsSiteVisitOpen}
+          phoneHref={phoneHref}
+          whatsappHref={whatsappHref}
+          sourceLabel="Project page site visit request."
+          projectName={project.name}
+        />
       </section>
     </div>
   );

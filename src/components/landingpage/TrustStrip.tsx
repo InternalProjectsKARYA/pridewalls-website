@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Award, Shield, CheckCircle, Building2, FileCheck, Building } from 'lucide-react';
+import { Award, Shield, CheckCircle, FileCheck } from 'lucide-react';
 
 const trustItems = [
   { icon: Award, value: '8+', label: 'Years of Excellence' },
@@ -30,9 +30,8 @@ export default function TrustStrip() {
       </div>
 
       {/* ===== Content ===== */}
-      <div className="relative container mx-auto px-4 py-6">
-
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-y-4">
+      <div className="relative container mx-auto px-4 py-4 sm:px-6 sm:py-6">
+        <div className="grid grid-cols-1 gap-3 min-[480px]:grid-cols-2 sm:gap-4 xl:grid-cols-4 xl:gap-0">
 
           {trustItems.map((item, index) => (
             <motion.div
@@ -42,28 +41,28 @@ export default function TrustStrip() {
               whileHover={{ y: -2 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.08 }}
-              className="group relative flex items-center justify-center md:justify-start gap-3 px-3 md:px-6"
+              className="group relative flex h-full min-w-0 items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-4 text-center shadow-lg shadow-black/10 backdrop-blur-sm min-[480px]:text-left sm:px-5 xl:justify-start xl:rounded-none xl:border-0 xl:bg-transparent xl:px-6 xl:py-2 xl:shadow-none xl:backdrop-blur-0"
             >
               {/* Divider */}
               {index !== trustItems.length - 1 && (
-                <div className="hidden md:block absolute right-0 top-1/2 -translate-y-1/2 h-10 w-px bg-gradient-to-b from-transparent via-[#c42630]/40 to-transparent" />
+                <div className="hidden xl:block absolute right-0 top-1/2 -translate-y-1/2 h-10 w-px bg-gradient-to-b from-transparent via-[#c42630]/40 to-transparent" />
               )}
 
               {/* Icon with glow */}
-              <div className="relative flex-shrink-0">
+              <div className="relative flex-shrink-0 mx-auto min-[480px]:mx-0">
                 <div className="absolute inset-0 rounded-xl bg-[#c42630]/30 blur-md opacity-0 group-hover:opacity-100 transition" />
 
-                <div className="relative w-11 h-11 rounded-xl bg-gradient-to-br from-[#c42630] to-[#a61f28] flex items-center justify-center shadow-lg shadow-[#c42630]/30">
-                  <item.icon className="h-5 w-5 text-white" />
+                <div className="relative flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-[#c42630] to-[#a61f28] shadow-lg shadow-[#c42630]/30 sm:h-12 sm:w-12">
+                  <item.icon className="h-5 w-5 text-white sm:h-[22px] sm:w-[22px]" />
                 </div>
               </div>
 
               {/* Text */}
-              <div className="flex flex-col">
-                <span className="text-white font-bold text-lg leading-none tracking-tight">
+              <div className="flex min-w-0 flex-1 flex-col items-center min-[480px]:items-start">
+                <span className="text-lg font-bold leading-none tracking-tight text-white sm:text-xl">
                   {item.value}
                 </span>
-                <span className="text-slate-400 text-xs mt-0.5 whitespace-nowrap">
+                <span className="mt-1 text-xs text-slate-400 sm:text-sm whitespace-normal break-words">
                   {item.label}
                 </span>
               </div>
