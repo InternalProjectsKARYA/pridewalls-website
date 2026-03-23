@@ -2,11 +2,16 @@ import { NextResponse } from "next/server";
 import {
   type LeadPayload,
   type StoredLead,
-  findDuplicateLead,
   isValidEmail,
   isValidMobileNumber,
   saveLeadToSupabase,
 } from "@/lib/plot-leads";
+
+// Extend LeadPayload to accept optional preferredContact and projectInterest fields
+type LeadsAPIPayload = LeadPayload & {
+  preferredContact?: string;
+  projectInterest?: string;
+};
 
 function toTitleCase(value: string) {
   return value
@@ -20,21 +25,23 @@ function toTitleCase(value: string) {
 
 export async function POST(request: Request) {
   try {
-    const payload = (await request.json()) as LeadPayload;
+    const payload = (await request.json()) as LeadsAPIPayload;
 
     const name = payload.name ? toTitleCase(payload.name) : "";
     const email = payload.email?.trim().toLowerCase() ?? "";
     const mobile = payload.mobile?.trim() ?? "";
-    const interestedIn = payload.interestedIn ? toTitleCase(payload.interestedIn) : "";
     const message = payload.message?.trim() ?? "";
     const consent = payload.consent === true;
+    const preferredContact = payload.preferredContact?.trim() ?? "";
 
-    if (!name || !email || !mobile || !interestedIn) {
+    // interestedIn is optional — fall back to projectInterest, then a generic label
+    const rawInterest =
+      payload.interestedIn?.trim() || payload.projectInterest?.trim() || "";
+    const interestedIn = rawInterest ? toTitleCase(rawInterest) : "General Enquiry";
+
+    if (!name || !email || !mobile) {
       return NextResponse.json(
-        {
-          message:
-            "Name, email, mobile number, and property interest are required.",
-        },
+        { message: "Name, email, and mobile number are required." },
         { status: 400 }
       );
     }
@@ -55,9 +62,7 @@ export async function POST(request: Request) {
 
     if (!isValidMobileNumber(mobile)) {
       return NextResponse.json(
-        {
-          message: "Please enter a valid mobile number.",
-        },
+        { message: "Please enter a valid mobile number." },
         { status: 400 }
       );
     }
@@ -69,28 +74,6 @@ export async function POST(request: Request) {
       );
     }
 
-    const duplicateLeadField = await findDuplicateLead(email, mobile);
-
-    if (duplicateLeadField === "email") {
-      return NextResponse.json(
-        {
-          message:
-            "A user already exists with this email. Please sign up with another email.",
-        },
-        { status: 409 }
-      );
-    }
-
-    if (duplicateLeadField === "mobile") {
-      return NextResponse.json(
-        {
-          message:
-            "A user already exists with this mobile number. Please sign up with another mobile number.",
-        },
-        { status: 409 }
-      );
-    }
-
     const nextLead: StoredLead = {
       name,
       email,
@@ -98,6 +81,7 @@ export async function POST(request: Request) {
       interestedIn,
       message,
       consent,
+      ...(preferredContact ? { preferredContact } : {}),
       submittedAt: new Date().toISOString(),
     };
 

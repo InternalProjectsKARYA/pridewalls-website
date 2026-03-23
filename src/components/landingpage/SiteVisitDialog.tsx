@@ -168,20 +168,10 @@ export default function SiteVisitDialog({
       return;
     }
 
-    const message = [
-      sourceLabel,
-      projectName ? `Project: ${projectName}` : '',
-      `Preferred date: ${siteVisitForm.preferredDate}`,
-      `Preferred slot: ${siteVisitForm.preferredSlot}`,
-      notes ? `Notes: ${notes}` : '',
-    ]
-      .filter(Boolean)
-      .join('\n');
-
     setIsSubmitting(true);
 
     try {
-      const response = await fetch('/api/leads', {
+      const response = await fetch('/api/site-visits', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -190,8 +180,12 @@ export default function SiteVisitDialog({
           name,
           email,
           mobile,
-          interestedIn: `${selectedInterest} Site Visit`,
-          message,
+          interestedIn: selectedInterest,
+          projectName: projectName ?? '',
+          preferredDate: siteVisitForm.preferredDate,
+          preferredSlot: siteVisitForm.preferredSlot,
+          notes,
+          sourceLabel,
           consent: true,
         }),
       });

@@ -20,6 +20,7 @@ export type StoredLead = {
   interestedIn: string;
   message?: string;
   consent: boolean;
+  preferredContact?: string;
   submittedAt: string;
 };
 

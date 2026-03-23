@@ -27,6 +27,7 @@ interface ContactFormProps {
 export default function ContactForm({ projectName, showProjectSelect = true }: ContactFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [selectedInterest, setSelectedInterest] = useState('');
   const { toast } = useToast();
 
   const {
@@ -41,6 +42,7 @@ export default function ContactForm({ projectName, showProjectSelect = true }: C
       email: '',
       phone: '',
       projectInterest: projectName || '',
+      interestedIn: '',
       message: '',
       preferredContact: 'phone',
     },
@@ -50,12 +52,16 @@ export default function ContactForm({ projectName, showProjectSelect = true }: C
     setIsSubmitting(true);
     
     try {
-      const response = await fetch('/api/enquiry', {
+      const response = await fetch('/api/leads', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+          ...data,
+          mobile: data.phone,
+          consent: true,
+        }),
       });
 
       if (response.ok) {
@@ -64,6 +70,7 @@ export default function ContactForm({ projectName, showProjectSelect = true }: C
           title: 'Success!',
           description: 'Your enquiry has been submitted. We will contact you soon.',
         });
+        setSelectedInterest('');
         reset();
       } else {
         throw new Error('Failed to submit enquiry');
@@ -180,6 +187,41 @@ export default function ContactForm({ projectName, showProjectSelect = true }: C
         </div>
       )}
 
+      {/* Interested In */}
+      <div className="space-y-2">
+        <Label htmlFor="interestedIn">Interested In</Label>
+        <Select
+          onValueChange={(value) => {
+            setSelectedInterest(value);
+            if (value !== 'Other') {
+              setValue('interestedIn', value);
+            } else {
+              setValue('interestedIn', '');
+            }
+          }}
+          value={selectedInterest}
+        >
+          <SelectTrigger>
+            <SelectValue placeholder="Select property type (optional)" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="Villas">Villas</SelectItem>
+            <SelectItem value="Open Plots">Open Plots</SelectItem>
+            <SelectItem value="Apartments">Apartments</SelectItem>
+            <SelectItem value="Commercial">Commercial</SelectItem>
+            <SelectItem value="Other">Other</SelectItem>
+          </SelectContent>
+        </Select>
+        {selectedInterest === 'Other' && (
+          <input
+            type="text"
+            placeholder="Tell us what you're interested in"
+            onChange={(e) => setValue('interestedIn', e.target.value)}
+            className="mt-2 h-10 w-full rounded-md border px-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#c42630]/40"
+          />
+        )}
+      </div>
+
       {/* Preferred Contact Method */}
       <div className="space-y-2">
         <Label>Preferred Contact Method</Label>
@@ -210,12 +252,12 @@ export default function ContactForm({ projectName, showProjectSelect = true }: C
 
       {/* Message */}
       <div className="space-y-2">
-        <Label htmlFor="message">Your Message *</Label>
+        <Label htmlFor="message">Your Message</Label>
         <Textarea
           id="message"
           placeholder="Tell us about your requirements..."
           rows={4}
-          {...register('message', { required: 'Message is required' })}
+          {...register('message')}
           className={errors.message ? 'border-destructive' : ''}
         />
         {errors.message && (

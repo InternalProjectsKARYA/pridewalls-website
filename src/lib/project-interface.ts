@@ -142,6 +142,7 @@ export interface EnquiryFormData {
   email: string;
   phone: string;
   projectInterest?: string;
+  interestedIn?: string;
   message: string;
   preferredContact: 'phone' | 'email' | 'whatsapp';
 }

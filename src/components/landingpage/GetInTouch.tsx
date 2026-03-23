@@ -1,6 +1,6 @@
 "use client";
 
-import { Send } from "lucide-react";
+import { Send, Phone, Mail, MessageSquare } from "lucide-react";
 import { useState, type ComponentPropsWithoutRef, type FormEvent } from "react";
 
 type InterestType =
@@ -11,12 +11,15 @@ type InterestType =
   | "Commercial"
   | "Other";
 
+type PreferredContact = "phone" | "email" | "whatsapp";
+
 export default function ContactSection() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [mobile, setMobile] = useState("");
   const [interestType, setInterestType] = useState<InterestType>("");
   const [otherInterest, setOtherInterest] = useState("");
+  const [preferredContact, setPreferredContact] = useState<PreferredContact>("phone");
   const [message, setMessage] = useState("");
   const [consent, setConsent] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -64,6 +67,7 @@ export default function ContactSection() {
           email: safeEmail,
           mobile: safeMobile,
           interestedIn,
+          preferredContact,
           message: safeMessage,
           consent: true,
         }),
@@ -81,6 +85,7 @@ export default function ContactSection() {
       setMobile("");
       setInterestType("");
       setOtherInterest("");
+      setPreferredContact("phone");
       setMessage("");
       setConsent(false);
     } catch (error) {
@@ -215,6 +220,40 @@ export default function ContactSection() {
                   />
                 </label>
               ) : null}
+
+              <div className="space-y-1">
+                <span className="text-sm font-medium text-gray-700">
+                  Preferred Contact Method
+                </span>
+                <div className="flex flex-wrap gap-3 pt-1">
+                  {([
+                    { value: "phone" as const, icon: Phone, label: "Phone Call" },
+                    { value: "email" as const, icon: Mail, label: "Email" },
+                    { value: "whatsapp" as const, icon: MessageSquare, label: "WhatsApp" },
+                  ] as const).map((method) => (
+                    <label
+                      key={method.value}
+                      className={`flex items-center gap-2 px-4 py-2 rounded-lg border cursor-pointer transition-all ${
+                        preferredContact === method.value
+                          ? "border-[#c42630] bg-[#c42630]/5"
+                          : "border-gray-200 hover:border-[#c42630]/50"
+                      }`}
+                    >
+                      <input
+                        type="radio"
+                        name="preferredContact"
+                        value={method.value}
+                        checked={preferredContact === method.value}
+                        onChange={() => setPreferredContact(method.value)}
+                        disabled={isSubmitting}
+                        className="sr-only"
+                      />
+                      <method.icon className="h-4 w-4" />
+                      <span className="text-sm">{method.label}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
 
               <label className="space-y-1">
                 <span className="text-sm font-medium text-gray-700">
