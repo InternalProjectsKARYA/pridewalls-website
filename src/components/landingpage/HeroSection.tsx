@@ -90,18 +90,18 @@ export default function HeroSection() {
             transition={{ duration: 0.8, delay: 0.2 }}
           >
             {/* Title */}
-            <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-6 leading-tight">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-extrabold leading-tight tracking-tight text-transparent bg-gradient-to-r from-rose-200 via-white to-slate-200 bg-clip-text drop-shadow-[0_20px_30px_rgba(0,0,0,0.65)] mb-6">
               {heroSlides[currentSlide].title}
             </h1>
             
             {/* Subtitle */}
-            <p className="text-lg md:text-xl lg:text-2xl text-white/80 mb-8 max-w-xl leading-relaxed">
+            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-slate-100/90 mb-8 max-w-xl leading-relaxed tracking-wide">
               {heroSlides[currentSlide].subtitle}
             </p>
 
             {/* CTA Buttons */}
             <div className="flex flex-wrap gap-4">
-              <Button asChild size="lg" className="bg-brand-primary hover:bg-brand-primary/90 px-8 py-6 text-lg text-white shadow-xl shadow-[#c42630]/25">
+              <Button asChild size="lg" className="bg-linear-to-r from-[#c42630] to-[#a61f28] px-8 py-6 text-lg text-white shadow-xl shadow-[#c42630]/25">
                 <Link href="/#projects">
                   Explore Projects
                   <ArrowRight className="ml-2 h-5 w-5" />
@@ -112,7 +112,7 @@ export default function HeroSection() {
                 size="lg"
                 variant="outline"
                 onClick={() => setIsSiteVisitOpen(true)}
-                className="text-lg px-8 py-6 bg-white/10 border-white/30 text-white hover:bg-white/20 backdrop-blur-sm"
+                className="text-lg px-8 py-6 bg-white/10 border-white/30 text-white hover:bg-white/20"
               >
                 <Calendar className="h-5 w-5" />
                 <span>
