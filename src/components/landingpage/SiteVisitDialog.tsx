@@ -65,10 +65,10 @@ const initialSiteVisitForm: SiteVisitForm = {
 };
 
 const fieldClassName =
-  'h-12 rounded-xl border border-[#eadfdd] bg-white text-[#2d1f1f] shadow-none placeholder:text-[#8d7b79] focus-visible:border-[#c42630] focus-visible:ring-[#c42630]/15';
+  'h-12 rounded-xl border border-[#d9cdc0] bg-white text-[#2d1f1f] shadow-none placeholder:text-[#8d7b79] focus-visible:border-[#b9985a] focus-visible:ring-[#b9985a]/20';
 
 const sectionClassName =
-  'rounded-2xl border border-[#eadfdd] bg-white p-4 shadow-[0_10px_30px_rgba(58,30,30,0.04)] sm:p-5';
+  'rounded-2xl border border-[#d9cdc0] bg-white p-4 shadow-[0_10px_30px_rgba(58,30,30,0.04)] sm:p-5';
 
 function isValidEmail(email: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -214,11 +214,11 @@ export default function SiteVisitDialog({
 
   return (
     <Dialog open={open} onOpenChange={handleDialogChange}>
-      <DialogContent className="max-h-[92vh] overflow-hidden rounded-3xl border border-[#eadfdd] bg-[linear-gradient(180deg,#fffdfc_0%,#f9f2f0_100%)] p-0 text-[#2d1f1f] shadow-[0_24px_80px_rgba(30,16,16,0.18)] sm:max-w-2xl [&>[data-slot=dialog-close]]:right-4 [&>[data-slot=dialog-close]]:top-4 [&>[data-slot=dialog-close]]:rounded-full [&>[data-slot=dialog-close]]:border [&>[data-slot=dialog-close]]:border-[#eadfdd] [&>[data-slot=dialog-close]]:bg-white [&>[data-slot=dialog-close]]:p-2 [&>[data-slot=dialog-close]]:text-[#6c5756] [&>[data-slot=dialog-close]]:opacity-100 [&>[data-slot=dialog-close]]:shadow-sm [&>[data-slot=dialog-close]]:hover:bg-[#f6efee] [&>[data-slot=dialog-close]]:hover:text-[#2d1f1f]">
+      <DialogContent className="max-h-[92vh] overflow-hidden rounded-3xl border border-[#d9cdc0] bg-[linear-gradient(180deg,#fffdfc_0%,#f6efe6_100%)] p-0 text-[#2d1f1f] shadow-[0_24px_80px_rgba(30,16,16,0.18)] sm:max-w-2xl [&>[data-slot=dialog-close]]:right-4 [&>[data-slot=dialog-close]]:top-4 [&>[data-slot=dialog-close]]:rounded-full [&>[data-slot=dialog-close]]:border [&>[data-slot=dialog-close]]:border-[#d9cdc0] [&>[data-slot=dialog-close]]:bg-white [&>[data-slot=dialog-close]]:p-2 [&>[data-slot=dialog-close]]:text-[#6c5756] [&>[data-slot=dialog-close]]:opacity-100 [&>[data-slot=dialog-close]]:shadow-sm [&>[data-slot=dialog-close]]:hover:bg-[#f6efee] [&>[data-slot=dialog-close]]:hover:text-[#2d1f1f]">
         <div className="max-h-[92vh] overflow-y-auto">
-          <div className="border-b border-[#eadfdd] bg-[linear-gradient(180deg,#f8efed_0%,#f6efee_100%)] px-5 py-5 sm:px-6">
+          <div className="border-b border-[#d9cdc0] bg-[linear-gradient(180deg,#f6efe6_0%,#f3eadf_100%)] px-5 py-5 sm:px-6">
             <DialogHeader className="text-left">
-              <div className="mb-2 inline-flex w-fit rounded-full bg-[#c42630]/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#b1222b]">
+              <div className="mb-2 inline-flex w-fit rounded-full bg-[#7a2430]/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#7a2430]">
                 Book a Visit
               </div>
               <DialogTitle className="text-2xl font-semibold text-[#2d1f1f] sm:text-[28px]">
@@ -262,7 +262,7 @@ export default function SiteVisitDialog({
 
                   <a
                     href={phoneHref}
-                    className="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-linear-to-r from-[#c42630] to-[#a61f28] px-4 font-semibold text-white transition hover:brightness-105"
+                    className="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-[#7a2430] px-4 font-semibold text-white transition hover:bg-[#69202a]"
                   >
                     <PhoneCall className="h-4 w-4" />
                     Call to Confirm
@@ -471,8 +471,8 @@ export default function SiteVisitDialog({
                               disabled={isSubmitting}
                               className={`inline-flex min-h-12 items-center justify-center rounded-xl border px-3 py-2 text-sm font-medium transition ${
                                 isActive
-                                  ? 'border-[#c42630] bg-[#fbe9ea] text-[#9f1d26]'
-                                  : 'border-[#eadfdd] bg-white text-[#6c5756] hover:bg-[#f6efee]'
+                                  ? 'border-[#7a2430] bg-[#f3e5e7] text-[#7a2430]'
+                                  : 'border-[#d9cdc0] bg-white text-[#6c5756] hover:bg-[#f6efee]'
                               }`}
                             >
                               {slot}
@@ -495,7 +495,7 @@ export default function SiteVisitDialog({
                         onChange={(event) => updateField('notes', event.target.value)}
                         placeholder="Share pickup needs, project preference, or any questions for the sales team."
                         disabled={isSubmitting}
-                        className="min-h-32 rounded-2xl border border-[#eadfdd] bg-white text-[#2d1f1f] shadow-none placeholder:text-[#8d7b79] focus-visible:border-[#c42630] focus-visible:ring-[#c42630]/15"
+                        className="min-h-32 rounded-2xl border border-[#d9cdc0] bg-white text-[#2d1f1f] shadow-none placeholder:text-[#8d7b79] focus-visible:border-[#b9985a] focus-visible:ring-[#b9985a]/20"
                       />
                     </div>
                   </div>
@@ -508,7 +508,7 @@ export default function SiteVisitDialog({
                         updateField('consent', event.target.checked)
                       }
                       disabled={isSubmitting}
-                      className="mt-1 h-4 w-4 shrink-0 accent-[#c42630]"
+                      className="mt-1 h-4 w-4 shrink-0 accent-[#7a2430]"
                     />
                     <span>
                       I agree to be contacted by Pridewalls to confirm and
@@ -529,7 +529,7 @@ export default function SiteVisitDialog({
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-linear-to-r from-[#c42630] to-[#a61f28] px-5 font-semibold text-white transition hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-70"
+                      className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#7a2430] px-5 font-semibold text-white transition hover:bg-[#69202a] disabled:cursor-not-allowed disabled:opacity-70"
                     >
                       {isSubmitting ? (
                         <>

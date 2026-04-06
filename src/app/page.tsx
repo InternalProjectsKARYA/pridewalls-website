@@ -1,5 +1,4 @@
 import React, { Suspense } from 'react'
-import Navbar from '../components/landingpage/navbar'
 import HeroSection from '@/components/landingpage/HeroSection'
 import TrustStrip from '@/components/landingpage/TrustStrip'
 import WhyInvestSection from '@/components/landingpage/WhyInvestSection'
@@ -10,8 +9,6 @@ import AmenitiesPreviewSection from '@/components/landingpage/AmenitiesPreviewSe
 import AboutSection from '@/components/landingpage/AboutSection'
 import CTASection from '@/components/landingpage/CTASection'
 import GetInTouch from '@/components/landingpage/GetInTouch'
-import WhatsAppButton from "@/components/common/WhatsAppButton";
-import Footer from '@/components/landingpage/Footer'
 
 const page = () => {
   return (

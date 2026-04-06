@@ -3,7 +3,14 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { motion } from 'framer-motion';
-import { Send, Loader2, CheckCircle2, Phone, Mail, MessageSquare } from 'lucide-react';
+import {
+  CheckCircle2,
+  Loader2,
+  Mail,
+  MessageSquare,
+  Phone,
+  Send,
+} from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -24,7 +31,13 @@ interface ContactFormProps {
   showProjectSelect?: boolean;
 }
 
-export default function ContactForm({ projectName, showProjectSelect = true }: ContactFormProps) {
+const inputClassName =
+  'h-12 rounded-2xl border border-[#d9cdc0] bg-white text-sm text-foreground shadow-none placeholder:text-[#8b7a70] focus-visible:border-[#b9985a] focus-visible:ring-[#b9985a]/20';
+
+export default function ContactForm({
+  projectName,
+  showProjectSelect = true,
+}: ContactFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [selectedInterest, setSelectedInterest] = useState('');
@@ -50,7 +63,7 @@ export default function ContactForm({ projectName, showProjectSelect = true }: C
 
   const onSubmit = async (data: EnquiryFormData) => {
     setIsSubmitting(true);
-    
+
     try {
       const response = await fetch('/api/leads', {
         method: 'POST',
@@ -64,18 +77,18 @@ export default function ContactForm({ projectName, showProjectSelect = true }: C
         }),
       });
 
-      if (response.ok) {
-        setIsSuccess(true);
-        toast({
-          title: 'Success!',
-          description: 'Your enquiry has been submitted. We will contact you soon.',
-        });
-        setSelectedInterest('');
-        reset();
-      } else {
+      if (!response.ok) {
         throw new Error('Failed to submit enquiry');
       }
-    } catch (error) {
+
+      setIsSuccess(true);
+      toast({
+        title: 'Success!',
+        description: 'Your enquiry has been submitted. We will contact you soon.',
+      });
+      setSelectedInterest('');
+      reset();
+    } catch {
       toast({
         variant: 'destructive',
         title: 'Error',
@@ -89,18 +102,23 @@ export default function ContactForm({ projectName, showProjectSelect = true }: C
   if (isSuccess) {
     return (
       <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
+        initial={{ opacity: 0, scale: 0.96 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="text-center py-12 "
+        className="py-10 text-center"
       >
-        <div className="w-16 h-16 mx-auto mb-6 bg-green-100 rounded-full flex items-center justify-center">
-          <CheckCircle2 className="h-8 w-8 text-green-600" />
+        <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-emerald-100 text-emerald-600">
+          <CheckCircle2 className="h-8 w-8" />
         </div>
-        <h3 className="text-2xl font-bold text-foreground mb-2">Thank You!</h3>
-        <p className="text-muted-foreground mb-6">
-          Your enquiry has been submitted successfully. Our team will contact you shortly.
+        <h3 className="text-3xl text-foreground">Thank you</h3>
+        <p className="mt-3 text-sm leading-7 text-muted-foreground">
+          Your enquiry has been shared with the team. We will get in touch
+          shortly with the next steps.
         </p>
-        <Button onClick={() => setIsSuccess(false)} variant="outline">
+        <Button
+          onClick={() => setIsSuccess(false)}
+          variant="outline"
+          className="mt-6 rounded-full border-[#d9cdc0] bg-white hover:bg-[#f5eee5]"
+        >
           Submit Another Enquiry
         </Button>
       </motion.div>
@@ -109,24 +127,26 @@ export default function ContactForm({ projectName, showProjectSelect = true }: C
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-      {/* Name */}
       <div className="space-y-2">
-        <Label htmlFor="name">Full Name *</Label>
+        <Label htmlFor="name" className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#7a2430]">
+          Full Name *
+        </Label>
         <Input
           id="name"
           placeholder="Enter your full name"
           {...register('name', { required: 'Name is required' })}
-          className={errors.name ? 'border-destructive' : ''}
+          className={`${inputClassName} ${errors.name ? 'border-destructive' : ''}`}
         />
-        {errors.name && (
+        {errors.name ? (
           <p className="text-sm text-destructive">{errors.name.message}</p>
-        )}
+        ) : null}
       </div>
 
-      {/* Email & Phone Row */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <div className="space-y-2">
-          <Label htmlFor="email">Email Address *</Label>
+          <Label htmlFor="email" className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#7a2430]">
+            Email Address *
+          </Label>
           <Input
             id="email"
             type="email"
@@ -138,14 +158,17 @@ export default function ContactForm({ projectName, showProjectSelect = true }: C
                 message: 'Invalid email address',
               },
             })}
-            className={errors.email ? 'border-destructive' : ''}
+            className={`${inputClassName} ${errors.email ? 'border-destructive' : ''}`}
           />
-          {errors.email && (
+          {errors.email ? (
             <p className="text-sm text-destructive">{errors.email.message}</p>
-          )}
+          ) : null}
         </div>
+
         <div className="space-y-2">
-          <Label htmlFor="phone">Phone Number *</Label>
+          <Label htmlFor="phone" className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#7a2430]">
+            Phone Number *
+          </Label>
           <Input
             id="phone"
             type="tel"
@@ -157,23 +180,24 @@ export default function ContactForm({ projectName, showProjectSelect = true }: C
                 message: 'Please enter a valid 10-digit phone number',
               },
             })}
-            className={errors.phone ? 'border-destructive' : ''}
+            className={`${inputClassName} ${errors.phone ? 'border-destructive' : ''}`}
           />
-          {errors.phone && (
+          {errors.phone ? (
             <p className="text-sm text-destructive">{errors.phone.message}</p>
-          )}
+          ) : null}
         </div>
       </div>
 
-      {/* Project Interest */}
-      {showProjectSelect && (
+      {showProjectSelect ? (
         <div className="space-y-2">
-          <Label htmlFor="project">Project Interest</Label>
+          <Label className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#7a2430]">
+            Project Interest
+          </Label>
           <Select
             onValueChange={(value) => setValue('projectInterest', value)}
             defaultValue={projectName || ''}
           >
-            <SelectTrigger>
+            <SelectTrigger className="h-12 rounded-2xl border-[#d9cdc0] bg-white text-sm">
               <SelectValue placeholder="Select a project (optional)" />
             </SelectTrigger>
             <SelectContent>
@@ -185,23 +209,20 @@ export default function ContactForm({ projectName, showProjectSelect = true }: C
             </SelectContent>
           </Select>
         </div>
-      )}
+      ) : null}
 
-      {/* Interested In */}
       <div className="space-y-2">
-        <Label htmlFor="interestedIn">Interested In</Label>
+        <Label className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#7a2430]">
+          Interested In
+        </Label>
         <Select
           onValueChange={(value) => {
             setSelectedInterest(value);
-            if (value !== 'Other') {
-              setValue('interestedIn', value);
-            } else {
-              setValue('interestedIn', '');
-            }
+            setValue('interestedIn', value === 'Other' ? '' : value);
           }}
           value={selectedInterest}
         >
-          <SelectTrigger>
+          <SelectTrigger className="h-12 rounded-2xl border-[#d9cdc0] bg-white text-sm">
             <SelectValue placeholder="Select property type (optional)" />
           </SelectTrigger>
           <SelectContent>
@@ -212,19 +233,21 @@ export default function ContactForm({ projectName, showProjectSelect = true }: C
             <SelectItem value="Other">Other</SelectItem>
           </SelectContent>
         </Select>
-        {selectedInterest === 'Other' && (
-          <input
+
+        {selectedInterest === 'Other' ? (
+          <Input
             type="text"
             placeholder="Tell us what you're interested in"
-            onChange={(e) => setValue('interestedIn', e.target.value)}
-            className="mt-2 h-10 w-full rounded-md border px-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#c42630]/40"
+            onChange={(event) => setValue('interestedIn', event.target.value)}
+            className={inputClassName}
           />
-        )}
+        ) : null}
       </div>
 
-      {/* Preferred Contact Method */}
       <div className="space-y-2">
-        <Label>Preferred Contact Method</Label>
+        <Label className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#7a2430]">
+          Preferred Contact Method
+        </Label>
         <div className="flex flex-wrap gap-3">
           {[
             { value: 'phone', icon: Phone, label: 'Phone Call' },
@@ -233,9 +256,7 @@ export default function ContactForm({ projectName, showProjectSelect = true }: C
           ].map((method) => (
             <label
               key={method.value}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg border cursor-pointer transition-all ${
-                errors.preferredContact ? 'border-destructive' : 'border-border'
-              } hover:border-primary/50 has-[:checked]:border-primary has-[:checked]:bg-primary/5`}
+              className="flex cursor-pointer items-center gap-2 rounded-full border border-[#d9cdc0] bg-white px-4 py-3 text-sm font-medium text-[#4e4037] transition hover:border-[#b9985a] has-[:checked]:border-[#7a2430] has-[:checked]:bg-[#7a2430] has-[:checked]:text-white"
             >
               <input
                 type="radio"
@@ -244,32 +265,29 @@ export default function ContactForm({ projectName, showProjectSelect = true }: C
                 className="sr-only"
               />
               <method.icon className="h-4 w-4" />
-              <span className="text-sm">{method.label}</span>
+              <span>{method.label}</span>
             </label>
           ))}
         </div>
       </div>
 
-      {/* Message */}
       <div className="space-y-2">
-        <Label htmlFor="message">Your Message</Label>
+        <Label htmlFor="message" className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#7a2430]">
+          Your Message
+        </Label>
         <Textarea
           id="message"
-          placeholder="Tell us about your requirements..."
+          placeholder="Tell us about your location preference, budget, or timeline..."
           rows={4}
           {...register('message')}
-          className={errors.message ? 'border-destructive' : ''}
+          className={`rounded-[1.5rem] border-[#d9cdc0] bg-white text-sm focus-visible:border-[#b9985a] focus-visible:ring-[#b9985a]/20 ${errors.message ? 'border-destructive' : ''}`}
         />
-        {errors.message && (
-          <p className="text-sm text-destructive">{errors.message.message}</p>
-        )}
       </div>
 
-      {/* Submit Button */}
       <Button
         type="submit"
         size="lg"
-        className="w-full bg-gradient-to-r from-[#c42630] to-[#a61f28] text-white font-semibold hover:scale-[1.02] transition shadow-[0_10px_25px_rgba(196,38,48,0.35)]"
+        className="h-12 w-full rounded-full bg-[#7a2430] text-white hover:bg-[#69202a]"
         disabled={isSubmitting}
       >
         {isSubmitting ? (
@@ -285,8 +303,9 @@ export default function ContactForm({ projectName, showProjectSelect = true }: C
         )}
       </Button>
 
-      <p className="text-xs text-center text-muted-foreground">
-        By submitting this form, you agree to our privacy policy and terms of service.
+      <p className="text-center text-xs leading-6 text-muted-foreground">
+        By submitting this form, you agree to be contacted by Pridewalls about
+        your property enquiry.
       </p>
     </form>
   );

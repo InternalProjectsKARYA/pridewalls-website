@@ -1,70 +1,79 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { 
-  Navigation, Train, Building, GraduationCap, HeartPulse, 
-  ShoppingBag, Plane, Car, Bus, Coffee, Utensils, Landmark,
-  CheckCircle2
+import {
+  Building,
+  CheckCircle2,
+  Coffee,
+  GraduationCap,
+  HeartPulse,
+  Landmark,
+  Navigation,
+  Plane,
+  ShoppingBag,
+  Train,
 } from 'lucide-react';
 import { LocationHighlight } from '@/lib/project-interface';
 
 const iconMap: Record<string, React.ReactNode> = {
-  navigation: <Navigation className="h-6 w-6" />,
-  train: <Train className="h-6 w-6" />,
-  building: <Building className="h-6 w-6" />,
-  'graduation-cap': <GraduationCap className="h-6 w-6" />,
-  'heart-pulse': <HeartPulse className="h-6 w-6" />,
-  'shopping-bag': <ShoppingBag className="h-6 w-6" />,
-  plane: <Plane className="h-6 w-6" />,
-  car: <Car className="h-6 w-6" />,
-  bus: <Bus className="h-6 w-6" />,
-  coffee: <Coffee className="h-6 w-6" />,
-  utensils: <Utensils className="h-6 w-6" />,
-  landmark: <Landmark className="h-6 w-6" />,
+  navigation: <Navigation className="h-5 w-5" />,
+  train: <Train className="h-5 w-5" />,
+  building: <Building className="h-5 w-5" />,
+  'graduation-cap': <GraduationCap className="h-5 w-5" />,
+  'heart-pulse': <HeartPulse className="h-5 w-5" />,
+  'shopping-bag': <ShoppingBag className="h-5 w-5" />,
+  plane: <Plane className="h-5 w-5" />,
+  coffee: <Coffee className="h-5 w-5" />,
+  landmark: <Landmark className="h-5 w-5" />,
 };
 
 interface LocationHighlightsProps {
   highlights: LocationHighlight[];
 }
 
-export default function LocationHighlights({ highlights }: LocationHighlightsProps) {
+export default function LocationHighlights({
+  highlights,
+}: LocationHighlightsProps) {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-
+    <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
       {highlights.map((group, index) => (
         <motion.div
           key={group.id}
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 18 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ delay: index * 0.1 }}
+          transition={{ delay: index * 0.08 }}
+          className="rounded-[1.5rem] border border-[#d9cdc0] bg-white/78 p-5"
         >
-          
-          {/* Header */}
-          <h4 className="text-lg font-semibold text-[#c42630] mb-4">
-            {group.time}
-          </h4>
+          <div className="flex items-center gap-3">
+            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#7a2430]/10 text-[#7a2430]">
+              {group.icon ? iconMap[group.icon] ?? <Navigation className="h-5 w-5" /> : <Navigation className="h-5 w-5" />}
+            </div>
+            <div>
+              {group.time ? (
+                <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#8b6c45]">
+                  {group.time}
+                </p>
+              ) : null}
+              <h4 className="text-xl text-foreground">
+                {group.category || 'Nearby Highlights'}
+              </h4>
+            </div>
+          </div>
 
-          <h4 className="text-lg font-semibold text-[#c42630] mb-4">
-            {group.category}
-          </h4>
-
-          {/* Items */}
-          <ul className="space-y-3">
+          <ul className="mt-5 space-y-3">
             {group.items.map((item, idx) => (
               <li
                 key={idx}
-                className="flex items-start gap-2 text-sm text-gray-600"
+                className="flex items-start gap-3 text-sm leading-7 text-muted-foreground"
               >
-                <CheckCircle2 className="h-4 w-4 text-[#c42630] mt-0.5 shrink-0" />
-                <span className="leading-relaxed">{item}</span>
+                <CheckCircle2 className="mt-1 h-4 w-4 shrink-0 text-[#7a2430]" />
+                <span>{item}</span>
               </li>
             ))}
           </ul>
-
         </motion.div>
       ))}
-
     </div>
   );
 }

@@ -2,79 +2,80 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { MapPin, Phone, Mail, Clock, Facebook, Instagram, Linkedin, Youtube, ArrowUp } from 'lucide-react';
+import {
+  ArrowUp,
+  Clock,
+  Facebook,
+  Instagram,
+  Linkedin,
+  Mail,
+  MapPin,
+  Phone,
+  Youtube,
+} from 'lucide-react';
 import { companyInfo } from '@/lib/project-data';
 import { Button } from '@/components/ui/button';
 
 const quickLinks = [
   { name: 'Home', href: '/' },
   { name: 'Projects', href: '/#projects' },
-  { name: 'About Us', href: '/#about' },
+  { name: 'About', href: '/#about' },
   { name: 'Contact', href: '/#contact' },
 ];
 
 const projectTypes = [
-  { name: 'Plots', href: '/#projects?type=plots' },
-  { name: 'Villas', href: '/#projects?type=villas' },
-  { name: 'Apartments', href: '/#projects?type=apartments' },
-  { name: 'Commercial', href: '/#projects?type=commercial' },
+  { name: 'Plots', href: '/?type=plots#projects' },
+  { name: 'Apartments', href: '/?type=apartments#projects' },
+  { name: 'Villas', href: '/?type=villas#projects' },
 ];
 
 const socialIcons: Record<string, React.ReactNode> = {
-  facebook: <Facebook className="h-5 w-5" />,
-  instagram: <Instagram className="h-5 w-5" />,
-  linkedin: <Linkedin className="h-5 w-5" />,
-  youtube: <Youtube className="h-5 w-5" />,
+  facebook: <Facebook className="h-4 w-4" />,
+  instagram: <Instagram className="h-4 w-4" />,
+  linkedin: <Linkedin className="h-4 w-4" />,
+  youtube: <Youtube className="h-4 w-4" />,
 };
 
 export default function Footer() {
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
   return (
-    <footer className="relative text-white overflow-hidden">
+    <footer className="relative overflow-hidden bg-[#17100f] text-white">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(185,152,90,0.12),transparent_22rem)]" />
 
-      {/* ⭐ Background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#140708] to-[#0d0405]" />
-      {/* <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute left-1/4 top-0 w-[420px] h-[420px] bg-[#c42630]/20 blur-[140px]" />
-        <div className="absolute right-1/4 bottom-0 w-[420px] h-[420px] bg-[#c42630]/15 blur-[140px]" />
-      </div> */}
-
-      {/* ⭐ MAIN */}
-      <div className="relative container mx-auto px-4 py-14 lg:py-20">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
-
-          {/* ⭐ COMPANY */}
-          <div className="space-y-6">
+      <div className="relative container mx-auto px-4 py-14 sm:px-6 lg:py-[4.5rem]">
+        <div className="grid gap-10 lg:grid-cols-[1.1fr_0.8fr_0.8fr_1fr]">
+          <div>
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#c42630] to-[#a61f28] flex items-center justify-center shadow-[0_10px_25px_rgba(196,38,48,0.5)]">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/6">
                 <Image
                   src="/pridewalls-logo.png"
-                  alt="Pridewalls Logo"
-                  width={48}
-                  height={48}
-                  priority
+                  alt="Pridewalls"
+                  width={44}
+                  height={44}
                 />
               </div>
               <div>
-                <h3 className="font-bold text-xl">{companyInfo.name}</h3>
-                <p className="text-white/50 text-sm">{companyInfo.tagline}</p>
+                <h3 className="font-display text-3xl text-white">Pridewalls</h3>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#d8b37a]">
+                  Premium Hyderabad Real Estate
+                </p>
               </div>
             </div>
 
-            <p className="text-white/60 text-sm leading-relaxed">
-              {companyInfo.description}
+            <p className="mt-6 max-w-sm text-sm leading-7 text-white/62">
+              Thoughtfully presented plots, apartments, and villa opportunities
+              for buyers who care about clarity, location, and long-term value.
             </p>
 
-            {/* ⭐ Social */}
-            <div className="flex gap-3">
+            <div className="mt-6 flex gap-3">
               {companyInfo.socialLinks.map((social) => (
                 <a
                   key={social.platform}
                   href={social.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-full bg-white/10 backdrop-blur flex items-center justify-center hover:bg-[#c42630] hover:scale-105 transition"
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/6 text-white/80 transition hover:border-[#d8b37a]/30 hover:bg-[#7a2430] hover:text-white"
                 >
                   {socialIcons[social.icon]}
                 </a>
@@ -82,82 +83,68 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* ⭐ LINKS */}
           <FooterList title="Quick Links" items={quickLinks} />
           <FooterList title="Property Types" items={projectTypes} />
 
-          {/* ⭐ CONTACT */}
           <div>
-            <h4 className="font-semibold text-lg mb-6">Contact Us</h4>
-
-            <ul className="space-y-4 text-white/60 text-sm">
-
-              <li className="flex gap-3">
-                <MapPin className="text-[#c42630]" size={52} />
-                {companyInfo.contact.address}
+            <h4 className="text-xl text-white">Contact</h4>
+            <ul className="mt-5 space-y-4 text-sm leading-7 text-white/62">
+              <li className="flex items-start gap-3">
+                <MapPin className="mt-1 h-5 w-5 shrink-0 text-[#d8b37a]" />
+                <span>{companyInfo.contact.address}</span>
               </li>
-
-              {companyInfo.contact.phone.map((p, i) => (
-                <li key={i} className="flex gap-3">
-                  <Phone className="text-[#c42630]" size={18} />
-                  <a href={`tel:${p}`} className="hover:text-white transition">{p}</a>
-                </li>
-              ))}
-
-              {companyInfo.contact.email.map((e, i) => (
-                <li key={i} className="flex gap-3">
-                  <Mail className="text-[#c42630]" size={18} />
-                  <a href={`mailto:${e}`} className="hover:text-white transition">{e}</a>
-                </li>
-              ))}
-
-              <li className="flex gap-3">
-                <Clock className="text-[#c42630]" size={18} />
-                {companyInfo.contact.officeHours}
+              <li className="flex items-start gap-3">
+                <Phone className="mt-1 h-5 w-5 shrink-0 text-[#d8b37a]" />
+                <a href={`tel:${companyInfo.contact.phone[0]}`} className="hover:text-white">
+                  {companyInfo.contact.phone[0]}
+                </a>
               </li>
-
+              <li className="flex items-start gap-3">
+                <Mail className="mt-1 h-5 w-5 shrink-0 text-[#d8b37a]" />
+                <a href={`mailto:${companyInfo.contact.email[0]}`} className="hover:text-white">
+                  {companyInfo.contact.email[0]}
+                </a>
+              </li>
+              <li className="flex items-start gap-3">
+                <Clock className="mt-1 h-5 w-5 shrink-0 text-[#d8b37a]" />
+                <span>{companyInfo.contact.officeHours}</span>
+              </li>
             </ul>
           </div>
+        </div>
 
+        <div className="mt-12 flex flex-col gap-4 border-t border-white/10 pt-6 text-sm text-white/42 md:flex-row md:items-center md:justify-between">
+          <p>© {new Date().getFullYear()} Pridewalls. All rights reserved.</p>
+          <p>Premium real estate experiences for modern Hyderabad buyers.</p>
         </div>
       </div>
 
-      {/* ⭐ Bottom */}
-      <div className="relative border-t border-white/10">
-        <div className="container mx-auto px-4 py-6 flex flex-col md:flex-row justify-between gap-4 text-white/40 text-sm">
-          <p>© {new Date().getFullYear()} {companyInfo.name}. All rights reserved.</p>
-
-          <div className="flex gap-6">
-            <Link href="#" className="hover:text-white">Privacy Policy</Link>
-            <Link href="#" className="hover:text-white">Terms of Service</Link>
-          </div>
-        </div>
-      </div>
-
-      {/* ⭐ Scroll button */}
       <Button
         onClick={scrollToTop}
         size="icon"
-        className="fixed bottom-6 right-6 w-12 h-12 rounded-full bg-gradient-to-br from-[#c42630] to-[#a61f28] shadow-[0_10px_25px_rgba(196,38,48,0.6)] hover:scale-110 transition"
+        className="fixed bottom-6 right-6 h-12 w-12 rounded-full bg-[#7a2430] text-white shadow-[0_20px_30px_rgba(122,36,48,0.35)] hover:bg-[#69202a]"
       >
         <ArrowUp size={18} />
       </Button>
-
     </footer>
   );
 }
 
-/* ⭐ reusable list */
-function FooterList({ title, items }: any) {
+function FooterList({
+  title,
+  items,
+}: {
+  title: string;
+  items: Array<{ name: string; href: string }>;
+}) {
   return (
     <div>
-      <h4 className="font-semibold text-lg mb-6">{title}</h4>
-      <ul className="space-y-3 text-white/60">
-        {items.map((i: any) => (
-          <li key={i.name}>
-            <Link href={i.href} className="hover:text-white transition relative group">
-              {i.name}
-              <span className="absolute left-0 -bottom-1 h-[1px] w-0 bg-[#c42630] group-hover:w-full transition" />
+      <h4 className="text-xl text-white">{title}</h4>
+      <ul className="mt-5 space-y-3 text-sm text-white/62">
+        {items.map((item) => (
+          <li key={item.name}>
+            <Link href={item.href} className="transition hover:text-white">
+              {item.name}
             </Link>
           </li>
         ))}

@@ -1,23 +1,59 @@
-// src/app/projects/[slug]/page.tsx
+import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
+import ProjectPage from '@/components/common/ProjectPage';
+import { projects } from '@/lib/project-data';
 
-import { projects } from "@/lib/project-data";
-import ProjectPage from "@/components/common/ProjectPage";
-import { notFound } from "next/navigation";
-
-export default async function Page({
-  params,
-}: {
+interface ProjectRouteProps {
   params: Promise<{ slug: string }>;
-}) {
-  const { slug } = await params;   // ⭐ THIS IS THE FIX
+}
 
-  console.log("slug:", slug);
+function getProjectBySlug(slug: string) {
+  return projects.find((project) => project.slug === slug);
+}
 
-  const project = projects.find((p) => p.slug === slug);
+export function generateStaticParams() {
+  return projects.map((project) => ({ slug: project.slug }));
+}
 
-  console.log("project found:", !!project);
+export async function generateMetadata({
+  params,
+}: ProjectRouteProps): Promise<Metadata> {
+  const { slug } = await params;
+  const project = getProjectBySlug(slug);
 
-  if (!project) return notFound();
+  if (!project) {
+    return {
+      title: 'Project Not Found | Pride Walls',
+      description: 'The requested project page could not be found.',
+    };
+  }
 
-  return <ProjectPage project={project}  />;
+  return {
+    title: `${project.name} | Pride Walls`,
+    description: project.tagline,
+    alternates: {
+      canonical: `/projects/${project.slug}`,
+    },
+    openGraph: {
+      title: `${project.name} | Pride Walls`,
+      description: project.tagline,
+      images: [
+        {
+          url: project.coverImage,
+          alt: project.name,
+        },
+      ],
+    },
+  };
+}
+
+export default async function Page({ params }: ProjectRouteProps) {
+  const { slug } = await params;
+  const project = getProjectBySlug(slug);
+
+  if (!project) {
+    notFound();
+  }
+
+  return <ProjectPage project={project} />;
 }

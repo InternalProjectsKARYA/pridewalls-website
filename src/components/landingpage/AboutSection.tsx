@@ -1,151 +1,160 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { ArrowRight, ShieldCheck, Award, Lightbulb, Heart } from 'lucide-react';
+import { ArrowRight, Award, Heart, Lightbulb, ShieldCheck } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { companyInfo } from '@/lib/project-data';
 
 const valueIcons: Record<string, React.ReactNode> = {
-  'shield-check': <ShieldCheck className="h-6 w-6" />,
-  award: <Award className="h-6 w-6" />,
-  lightbulb: <Lightbulb className="h-6 w-6" />,
-  heart: <Heart className="h-6 w-6" />,
+  'shield-check': <ShieldCheck className="h-5 w-5" />,
+  award: <Award className="h-5 w-5" />,
+  lightbulb: <Lightbulb className="h-5 w-5" />,
+  heart: <Heart className="h-5 w-5" />,
 };
+
+const brandNarrative = [
+  {
+    title: 'Local market understanding',
+    text: 'We focus on Hyderabad growth corridors, buyer behaviour, and planning choices that support both lifestyle and long-term value.',
+  },
+  {
+    title: 'Spaces that feel considered',
+    text: 'From plotted layouts to family apartments and villa communities, every development starts with comfort, circulation, and clarity.',
+  },
+  {
+    title: 'Trust built in the process',
+    text: 'We believe presentation, approvals guidance, and customer communication matter as much as the product itself.',
+  },
+];
+
+const brandIntro =
+  'Pridewalls is positioned as a Hyderabad-focused real-estate brand that presents plotted communities, apartment living, and villa opportunities with more clarity, stronger visual hierarchy, and a premium tone that serious buyers expect.';
 
 export default function AboutSection() {
   return (
-    <section id="about" className="py-16 lg:py-24 bg-background">
-      <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-
-          {/* ⭐ Image Grid */}
+    <section id="about" className="py-[4.5rem] lg:py-24">
+      <div className="container mx-auto px-4 sm:px-6">
+        <div className="grid items-center gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:gap-16">
           <motion.div
-            initial={{ opacity: 0, x: -20 }}
+            initial={{ opacity: 0, x: -24 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             className="relative"
           >
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-[1fr_0.82fr] gap-4">
               <div className="space-y-4">
-                <div className="relative h-48 rounded-2xl overflow-hidden">
-                  <img
-                    src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&h=400&fit=crop"
-                    alt="Modern architecture"
-                    className="w-full h-full object-cover"
+                <div className="relative h-72 overflow-hidden rounded-[2rem]">
+                  <Image
+                    src="/pride-walls-appartments.jpg"
+                    alt="Pridewalls apartment community"
+                    fill
+                    className="object-cover"
                   />
                 </div>
-                <div className="relative h-64 rounded-2xl overflow-hidden">
-                  <img
-                    src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=500&fit=crop"
-                    alt="Luxury villa"
-                    className="w-full h-full object-cover"
+                <div className="relative h-48 overflow-hidden rounded-[2rem]">
+                  <Image
+                    src="/plots.jpg"
+                    alt="Pridewalls plotted development"
+                    fill
+                    className="object-cover"
                   />
                 </div>
               </div>
-              <div className="space-y-4 pt-8">
-                <div className="relative h-64 rounded-2xl overflow-hidden">
-                  <img
-                    src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=600&h=500&fit=crop"
-                    alt="Interior design"
-                    className="w-full h-full object-cover"
+              <div className="space-y-4 pt-10">
+                <div className="relative h-48 overflow-hidden rounded-[2rem]">
+                  <Image
+                    src="/villas.jpg"
+                    alt="Pridewalls villa living"
+                    fill
+                    className="object-cover"
                   />
                 </div>
-                <div className="relative h-48 rounded-2xl overflow-hidden">
-                  <img
-                    src="https://images.unsplash.com/photo-1600573472550-8090b5e0745e?w=600&h=400&fit=crop"
-                    alt="Amenities"
-                    className="w-full h-full object-cover"
-                  />
+                <div className="estate-panel rounded-[2rem] p-5">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#7a2430]">
+                    Pridewalls Promise
+                  </p>
+                  <h3 className="mt-3 text-2xl text-foreground">
+                    Real estate that feels premium before you even move in
+                  </h3>
+                  <p className="mt-3 text-sm leading-7 text-muted-foreground">
+                    Better planning, stronger presentation, and buyer-first
+                    guidance across plots, apartments, and villa living.
+                  </p>
                 </div>
               </div>
             </div>
 
-            {/* Floating Stats Card */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.3 }}
-              className="absolute -bottom-6 -right-6 lg:right-8 bg-[#c42630] text-primary-foreground p-6 rounded-2xl shadow-xl"
-            >
-              <div className="text-4xl font-bold">8+</div>
-              <div className="text-sm opacity-80">Years of Excellence</div>
-            </motion.div>
+            <div className="estate-panel absolute -bottom-6 left-6 rounded-[1.5rem] px-5 py-4 sm:left-10">
+              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#7a2430]">
+                Brand Focus
+              </div>
+              <div className="mt-2 text-3xl text-foreground">Hyderabad</div>
+              <div className="mt-1 text-sm text-muted-foreground">
+                Lifestyle-led residential opportunities
+              </div>
+            </div>
           </motion.div>
 
-          {/* ⭐ Content */}
           <motion.div
-            initial={{ opacity: 0, x: 20 }}
+            initial={{ opacity: 0, x: 24 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
           >
-            {/* Badge */}
-            <span className="inline-block px-4 py-1 bg-[#c42630]/10 text-[#c42630] rounded-full text-sm font-medium mb-4">
-              About Us
-            </span>
-
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-              {companyInfo.name}
+            <span className="section-kicker">About Pridewalls</span>
+            <h2 className="mt-5 text-4xl text-foreground sm:text-5xl">
+              A brand built around refined communities and clearer decisions
             </h2>
 
-            <p className="text-muted-foreground mb-6 whitespace-pre-line">
-              {companyInfo.description}
+            <p className="mt-5 text-base leading-8 text-muted-foreground">
+              {brandIntro}
             </p>
 
-            {/* ⭐ Mission / Vision */}
-            <div className="space-y-4 mb-8">
-              <InfoCard title="Who We Are" text={companyInfo.weare} />
-              <InfoCard title="Our Design Philosophy" text={companyInfo.design} />
-              <InfoCard title="Community Living" text={companyInfo.community} />
-            </div>
-
-            {/* ⭐ Values */}
-            <div className="grid grid-cols-2 gap-4 mb-8">
-              {companyInfo.values.map((value) => (
-                <div key={value.title} className="group flex items-start gap-3">
-                  <div className="shrink-0 w-10 h-10 rounded-lg bg-[#c42630]/10 flex items-center justify-center text-[#c42630] group-hover:bg-[#c42630] group-hover:text-white transition">
-                    {valueIcons[value.icon] || <Award className="h-5 w-5" />}
-                  </div>
-
-                  <div>
-                    <div className="font-semibold text-foreground text-sm">{value.title}</div>
-                    <div className="text-xs text-muted-foreground">{value.description}</div>
-                  </div>
+            <div className="mt-8 space-y-4">
+              {brandNarrative.map((item) => (
+                <div
+                  key={item.title}
+                  className="estate-panel rounded-[1.5rem] px-5 py-5"
+                >
+                  <h3 className="text-xl text-foreground">{item.title}</h3>
+                  <p className="mt-2 text-sm leading-7 text-muted-foreground">
+                    {item.text}
+                  </p>
                 </div>
               ))}
             </div>
 
-            {/* ⭐ CTA */}
-            <Button asChild className="bg-[#c42630] hover:bg-[#a61f28] text-white">
+            <div className="mt-8 grid gap-4 sm:grid-cols-2">
+              {companyInfo.values.map((value) => (
+                <div
+                  key={value.title}
+                  className="rounded-[1.5rem] border border-[#d9cdc0] bg-white/70 p-4"
+                >
+                  <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#7a2430]/10 text-[#7a2430]">
+                    {valueIcons[value.icon] ?? <Award className="h-5 w-5" />}
+                  </div>
+                  <h4 className="mt-4 text-xl text-foreground">{value.title}</h4>
+                  <p className="mt-2 text-sm leading-7 text-muted-foreground">
+                    {value.description}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            <Button
+              asChild
+              size="lg"
+              className="mt-8 h-12 rounded-full bg-[#7a2430] px-7 text-white hover:bg-[#69202a]"
+            >
               <Link href="/#contact">
-                Get in Touch
-                <ArrowRight className="ml-2 h-4 w-4" />
+                Speak With Our Team
+                <ArrowRight className="h-4 w-4" />
               </Link>
             </Button>
-
           </motion.div>
         </div>
       </div>
     </section>
-  );
-}
-
-/* ⭐ helpers */
-
-function ImageBlock({ src, h }: { src: string; h: string }) {
-  return (
-    <div className={`relative ${h} rounded-2xl overflow-hidden`}>
-      <img src={src} className="w-full h-full object-cover" />
-    </div>
-  );
-}
-
-function InfoCard({ title, text }: { title: string; text: string }) {
-  return (
-    <div className="p-4 bg-muted/50 rounded-xl hover:bg-[#c42630]/5 transition">
-      <h4 className="font-semibold text-foreground mb-1">{title}</h4>
-      <p className="text-sm text-muted-foreground">{text}</p>
-    </div>
   );
 }

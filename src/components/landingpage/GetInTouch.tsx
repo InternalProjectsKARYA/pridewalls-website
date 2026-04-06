@@ -1,14 +1,14 @@
 "use client";
 
-import { Send, Phone, Mail, MessageSquare } from "lucide-react";
-import { useState, type ComponentPropsWithoutRef, type FormEvent } from "react";
+import { Send, Phone, Mail, MessageSquare, MapPin, Clock } from "lucide-react";
+import { useMemo, useState, type ComponentPropsWithoutRef, type FormEvent } from "react";
+import { companyInfo } from "@/lib/project-data";
 
 type InterestType =
   | ""
   | "Villas"
   | "Open Plots"
   | "Apartments"
-  | "Commercial"
   | "Other";
 
 type PreferredContact = "phone" | "email" | "whatsapp";
@@ -32,6 +32,11 @@ export default function ContactSection() {
     return otherInterest.trim();
   })();
 
+  const mapEmbedUrl = useMemo(() => {
+    const encoded = encodeURIComponent(companyInfo.contact.address.trim());
+    return `https://www.google.com/maps?q=${encoded}&output=embed`;
+  }, []);
+
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setErrorMessage("");
@@ -42,7 +47,7 @@ export default function ContactSection() {
     const safeMobile = mobile.trim();
     const safeMessage = message.trim();
 
-    if (!safeName || !safeEmail || !safeMobile || !interestedIn ) {
+    if (!safeName || !safeEmail || !safeMobile || !interestedIn) {
       setErrorMessage(
         "Please enter your name, email, mobile number, and what you're interested in."
       );
@@ -102,76 +107,124 @@ export default function ContactSection() {
   return (
     <section
       id="contact"
-      className="w-full py-20 bg-gradient-to-b from-[#fff5f6] to-white"
+      className="bg-[linear-gradient(180deg,rgba(244,238,229,0.88),rgba(246,241,234,0.4)_48%,rgba(246,241,234,0.92))] py-[4.5rem] lg:py-24"
     >
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="mb-12">
-          <h2 className="text-4xl font-bold mb-2">
-            Get In Touch With <span className="text-[#c42630]">Us</span>
+      <div className="container mx-auto px-4 sm:px-6">
+        <div className="mx-auto max-w-3xl text-center">
+          <span className="section-kicker">Get In Touch</span>
+          <h2 className="mt-5 text-4xl text-foreground sm:text-5xl">
+            Let’s talk about the property journey you are planning next
           </h2>
-          <div className="h-[2px] w-24 bg-gradient-to-r from-[#c42630] to-transparent" />
+          <p className="mt-5 text-base leading-8 text-muted-foreground">
+            Reach out for project comparisons, site-visit coordination, pricing
+            guidance, or a conversation about which Pridewalls property type
+            fits your goals best.
+          </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-12 items-start">
-          <div className="space-y-8">
-            <div className="p-6 rounded-2xl bg-white/80 backdrop-blur border shadow-sm">
-              <h3 className="font-semibold text-lg mb-3 text-[#c42630]">
-                HYDERABAD OFFICE
-              </h3>
-
-              <p className="text-sm text-gray-600 leading-relaxed">
-                Plot No: 19/B, 4th Floor, Progressive Towers,
-                <br />
-                Jaihind Enclave, 100 Feet Road, Ayyappa Society, ,
-                <br />
-                Madhapur, Hyderabad- 500081.
-              </p>
-
-              <div className="mt-4 space-y-1 text-sm text-gray-600">
-                <p>Phone: +91 70364 45500</p>
-                <p className="pt-1">info@pridewalls.com</p>
+        <div className="mt-12 grid items-start gap-8 lg:grid-cols-[0.88fr_1.12fr]">
+          <div className="space-y-5">
+            <div className="estate-panel rounded-[2rem] p-6">
+              <div className="flex items-start gap-4">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#7a2430]/10 text-[#7a2430]">
+                  <MapPin className="h-5 w-5" />
+                </div>
+                <div>
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#7a2430]">
+                    Office Address
+                  </p>
+                  <p className="mt-3 text-sm leading-7 text-muted-foreground">
+                    {companyInfo.contact.address}
+                  </p>
+                </div>
               </div>
             </div>
 
-            <form
-              onSubmit={handleSubmit}
-              className="p-6 rounded-2xl bg-white border shadow-lg space-y-4"
-            >
-              <div className="grid md:grid-cols-2 gap-4">
-                <label className="space-y-1">
-                  <span className="text-sm font-medium text-gray-700">
-                    Name <span className="text-red-600">*</span>
-                  </span>
-                  <Input
-                    id="lead-name"
-                    placeholder="Enter your name"
-                    value={name}
-                    onChange={(event) => setName(event.target.value)}
-                    autoComplete="name"
-                    disabled={isSubmitting}
-                  />
-                </label>
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
+              <InfoCard
+                icon={<Phone className="h-5 w-5" />}
+                label="Call us"
+                value={companyInfo.contact.phone[0]}
+                href={`tel:${companyInfo.contact.phone[0]}`}
+              />
+              <InfoCard
+                icon={<Mail className="h-5 w-5" />}
+                label="Email"
+                value={companyInfo.contact.email[0]}
+                href={`mailto:${companyInfo.contact.email[0]}`}
+              />
+            </div>
 
-                <label className="space-y-1">
-                  <span className="text-sm font-medium text-gray-700">
-                    Email <span className="text-red-600">*</span>
-                  </span>
-                  <Input
-                    id="lead-email"
-                    placeholder="Enter email address"
-                    type="email"
-                    value={email}
-                    onChange={(event) => setEmail(event.target.value)}
-                    autoComplete="email"
-                    disabled={isSubmitting}
-                  />
-                </label>
+            <div className="estate-panel rounded-[2rem] p-6">
+              <div className="flex items-start gap-4">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#d8b37a]/18 text-[#8b6c45]">
+                  <Clock className="h-5 w-5" />
+                </div>
+                <div>
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#8b6c45]">
+                    Office Hours
+                  </p>
+                  <p className="mt-3 text-sm leading-7 text-muted-foreground">
+                    {companyInfo.contact.officeHours}
+                  </p>
+                </div>
               </div>
+            </div>
 
-              <label className="space-y-1">
-                <span className="text-sm font-medium text-gray-700">
-                  Mobile Number <span className="text-red-600">*</span>
-                </span>
+            <div className="overflow-hidden rounded-[2rem] border border-[#d9cdc0] bg-white shadow-[0_26px_50px_rgba(59,37,28,0.08)]">
+              <iframe
+                src={mapEmbedUrl}
+                title="Pridewalls office location"
+                className="h-[320px] w-full border-0"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+            </div>
+          </div>
+
+          <form
+            onSubmit={handleSubmit}
+            className="estate-panel rounded-[2rem] p-6 shadow-[0_32px_60px_rgba(59,37,28,0.08)] sm:p-8"
+          >
+            <div className="rounded-[1.5rem] border border-[#dfd1c3] bg-white/70 p-5">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#7a2430]">
+                Buyer Enquiry
+              </p>
+              <h3 className="mt-3 text-3xl text-foreground">
+                Share a few details and we will guide you from there
+              </h3>
+            </div>
+
+            <div className="mt-6 grid gap-4 md:grid-cols-2">
+              <label className="space-y-2">
+                <FieldLabel>Name *</FieldLabel>
+                <Input
+                  id="lead-name"
+                  placeholder="Enter your name"
+                  value={name}
+                  onChange={(event) => setName(event.target.value)}
+                  autoComplete="name"
+                  disabled={isSubmitting}
+                />
+              </label>
+
+              <label className="space-y-2">
+                <FieldLabel>Email *</FieldLabel>
+                <Input
+                  id="lead-email"
+                  placeholder="Enter email address"
+                  type="email"
+                  value={email}
+                  onChange={(event) => setEmail(event.target.value)}
+                  autoComplete="email"
+                  disabled={isSubmitting}
+                />
+              </label>
+            </div>
+
+            <div className="mt-4 grid gap-4 md:grid-cols-2">
+              <label className="space-y-2">
+                <FieldLabel>Mobile Number *</FieldLabel>
                 <Input
                   id="lead-mobile"
                   placeholder="Enter mobile number"
@@ -183,10 +236,8 @@ export default function ContactSection() {
                 />
               </label>
 
-              <label className="space-y-1">
-                <span className="text-sm font-medium text-gray-700">
-                  Interested In <span className="text-red-600">*</span>
-                </span>
+              <label className="space-y-2">
+                <FieldLabel>Interested In *</FieldLabel>
                 <select
                   id="lead-interest"
                   value={interestType}
@@ -195,123 +246,149 @@ export default function ContactSection() {
                     setOtherInterest("");
                   }}
                   disabled={isSubmitting}
-                  className="h-12 w-full px-4 rounded-xl border bg-white focus:outline-none focus:ring-2 focus:ring-[#c42630]/40"
+                  className="h-12 w-full rounded-2xl border border-[#d9cdc0] bg-white px-4 text-sm text-foreground outline-none transition focus:border-[#b9985a] focus:ring-2 focus:ring-[#b9985a]/20"
                 >
                   <option value="">Select</option>
                   <option value="Villas">Villas</option>
                   <option value="Open Plots">Open Plots</option>
                   <option value="Apartments">Apartments</option>
-                  <option value="Commercial">Commercial</option>
                   <option value="Other">Other</option>
                 </select>
               </label>
+            </div>
 
-              {interestType === "Other" ? (
-                <label className="space-y-1">
-                  <span className="text-sm font-medium text-gray-700">
-                    Other Interest <span className="text-red-600">*</span>
-                  </span>
-                  <Input
-                    id="lead-other-interest"
-                    placeholder="Tell us what you're interested in"
-                    value={otherInterest}
-                    onChange={(event) => setOtherInterest(event.target.value)}
-                    disabled={isSubmitting}
-                  />
-                </label>
-              ) : null}
+            {interestType === "Other" ? (
+              <label className="mt-4 block space-y-2">
+                <FieldLabel>Other Interest *</FieldLabel>
+                <Input
+                  id="lead-other-interest"
+                  placeholder="Tell us what you're interested in"
+                  value={otherInterest}
+                  onChange={(event) => setOtherInterest(event.target.value)}
+                  disabled={isSubmitting}
+                />
+              </label>
+            ) : null}
 
-              <div className="space-y-1">
-                <span className="text-sm font-medium text-gray-700">
-                  Preferred Contact Method
-                </span>
-                <div className="flex flex-wrap gap-3 pt-1">
-                  {([
-                    { value: "phone" as const, icon: Phone, label: "Phone Call" },
-                    { value: "email" as const, icon: Mail, label: "Email" },
-                    { value: "whatsapp" as const, icon: MessageSquare, label: "WhatsApp" },
-                  ] as const).map((method) => (
-                    <label
-                      key={method.value}
-                      className={`flex items-center gap-2 px-4 py-2 rounded-lg border cursor-pointer transition-all ${
-                        preferredContact === method.value
-                          ? "border-[#c42630] bg-[#c42630]/5"
-                          : "border-gray-200 hover:border-[#c42630]/50"
-                      }`}
-                    >
-                      <input
-                        type="radio"
-                        name="preferredContact"
-                        value={method.value}
-                        checked={preferredContact === method.value}
-                        onChange={() => setPreferredContact(method.value)}
-                        disabled={isSubmitting}
-                        className="sr-only"
-                      />
-                      <method.icon className="h-4 w-4" />
-                      <span className="text-sm">{method.label}</span>
-                    </label>
-                  ))}
-                </div>
+            <div className="mt-4">
+              <FieldLabel>Preferred Contact Method</FieldLabel>
+              <div className="mt-3 flex flex-wrap gap-3">
+                {([
+                  { value: "phone" as const, icon: Phone, label: "Phone" },
+                  { value: "email" as const, icon: Mail, label: "Email" },
+                  { value: "whatsapp" as const, icon: MessageSquare, label: "WhatsApp" },
+                ] as const).map((method) => (
+                  <label
+                    key={method.value}
+                    className={`inline-flex items-center gap-2 rounded-full border px-4 py-3 text-sm font-medium transition ${
+                      preferredContact === method.value
+                        ? "border-[#7a2430] bg-[#7a2430] text-white"
+                        : "border-[#d9cdc0] bg-white text-[#4e4037] hover:border-[#b9985a] hover:text-[#7a2430]"
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      name="preferredContact"
+                      value={method.value}
+                      checked={preferredContact === method.value}
+                      onChange={() => setPreferredContact(method.value)}
+                      disabled={isSubmitting}
+                      className="sr-only"
+                    />
+                    <method.icon className="h-4 w-4" />
+                    {method.label}
+                  </label>
+                ))}
               </div>
+            </div>
 
-              <label className="space-y-1">
-                <span className="text-sm font-medium text-gray-700">
-                  Message
-                </span>
-                <Textarea
-                  id="lead-message"
-                  placeholder="Tell us about your requirements..."
-                  value={message}
-                  onChange={(event) => setMessage(event.target.value)}
-                  disabled={isSubmitting}
-                />
-              </label>
-
-              <label className="flex items-start gap-3 rounded-xl border border-gray-200 bg-gray-50/50 px-4 py-3 text-sm text-gray-700">
-                <input
-                  type="checkbox"
-                  checked={consent}
-                  onChange={(event) => setConsent(event.target.checked)}
-                  disabled={isSubmitting}
-                  className="mt-1 h-4 w-4 accent-[#c42630]"
-                />
-                <span>I agree to be contacted by Pridewalls about this enquiry.</span>
-              </label>
-
-              {errorMessage ? (
-                <p className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
-                  {errorMessage}
-                </p>
-              ) : null}
-
-              {successMessage ? (
-                <p className="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
-                  {successMessage}
-                </p>
-              ) : null}
-
-              <button
-                type="submit"
+            <label className="mt-4 block space-y-2">
+              <FieldLabel>Message</FieldLabel>
+              <Textarea
+                id="lead-message"
+                placeholder="Tell us about your location preference, budget, or preferred property type..."
+                value={message}
+                onChange={(event) => setMessage(event.target.value)}
                 disabled={isSubmitting}
-                className="w-full h-12 flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#c42630] to-[#a61f28] text-white font-semibold hover:scale-[1.02] transition shadow-[0_10px_25px_rgba(196,38,48,0.35)] disabled:opacity-70 disabled:hover:scale-100"
-              >
-                <Send size={18} />
-                {isSubmitting ? "SUBMITTING..." : "GET IN TOUCH"}
-              </button>
-            </form>
-          </div>
+              />
+            </label>
 
-          <div className="relative h-200 rounded-2xl overflow-hidden shadow-xl border">
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2193.1565800134977!2d78.38806349526911!3d17.45274661195516!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcb91005f5ce709%3A0xc1f2e0646b78f7ed!2sKaryahub%20Solutions!5e1!3m2!1sen!2sin!4v1772012440540!5m2!1sen!2sin%22"
-              className="w-full h-full border-0"
-              loading="lazy"
-            />
-          </div>
+            <label className="mt-5 flex items-start gap-3 rounded-[1.5rem] border border-[#d9cdc0] bg-white/70 px-4 py-4 text-sm leading-7 text-[#5b4b42]">
+              <input
+                type="checkbox"
+                checked={consent}
+                onChange={(event) => setConsent(event.target.checked)}
+                disabled={isSubmitting}
+                className="mt-1 h-4 w-4 accent-[#7a2430]"
+              />
+              <span>
+                I agree to be contacted by Pridewalls regarding this enquiry and
+                understand that the team may suggest suitable projects based on
+                the information shared.
+              </span>
+            </label>
+
+            {errorMessage ? (
+              <p className="mt-4 rounded-[1.5rem] border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                {errorMessage}
+              </p>
+            ) : null}
+
+            {successMessage ? (
+              <p className="mt-4 rounded-[1.5rem] border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
+                {successMessage}
+              </p>
+            ) : null}
+
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="mt-5 inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-[#7a2430] px-5 text-sm font-semibold text-white transition hover:bg-[#69202a] disabled:cursor-not-allowed disabled:opacity-70"
+            >
+              <Send size={18} />
+              {isSubmitting ? "Submitting..." : "Send Enquiry"}
+            </button>
+          </form>
         </div>
       </div>
     </section>
+  );
+}
+
+function FieldLabel({ children }: { children: React.ReactNode }) {
+  return (
+    <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#7a2430]">
+      {children}
+    </span>
+  );
+}
+
+function InfoCard({
+  icon,
+  label,
+  value,
+  href,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  value: string;
+  href: string;
+}) {
+  return (
+    <a
+      href={href}
+      className="estate-panel flex items-start gap-4 rounded-[2rem] p-5 transition hover:-translate-y-0.5"
+    >
+      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#7a2430]/10 text-[#7a2430]">
+        {icon}
+      </div>
+      <div>
+        <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#7a2430]">
+          {label}
+        </p>
+        <p className="mt-3 text-sm leading-7 text-muted-foreground">{value}</p>
+      </div>
+    </a>
   );
 }
 
@@ -327,7 +404,7 @@ function Input({
     <input
       type={type}
       placeholder={placeholder}
-      className="h-12 w-full px-4 rounded-xl border bg-white focus:outline-none focus:ring-2 focus:ring-[#c42630]/40"
+      className="h-12 w-full rounded-2xl border border-[#d9cdc0] bg-white px-4 text-sm text-foreground outline-none transition focus:border-[#b9985a] focus:ring-2 focus:ring-[#b9985a]/20"
       {...props}
     />
   );
@@ -341,9 +418,9 @@ function Textarea({
 } & Omit<ComponentPropsWithoutRef<"textarea">, "placeholder">) {
   return (
     <textarea
-      rows={4}
+      rows={5}
       placeholder={placeholder}
-      className="w-full px-4 py-3 rounded-xl border bg-white focus:outline-none focus:ring-2 focus:ring-[#c42630]/40"
+      className="w-full rounded-[1.5rem] border border-[#d9cdc0] bg-white px-4 py-3 text-sm text-foreground outline-none transition focus:border-[#b9985a] focus:ring-2 focus:ring-[#b9985a]/20"
       {...props}
     />
   );

@@ -1,35 +1,58 @@
 'use client';
 
-import { useCallback, useState } from 'react';
-import { useRouter } from "next/navigation";
+import { useCallback, useMemo, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { 
-  ArrowLeft, MapPin, Building, Home, LandPlot, Store, 
-  Check, Share2, Heart, Ruler, Phone, Mail, Calendar,
-  Award, FileCheck, TrendingUp, Compass,  Train, Plane, Gem, Leaf, Users, Layout,
-  Building2, Maximize,  
+import {
+  ArrowLeft,
+  ArrowRight,
+  Award,
+  Building,
+  Building2,
+  Calendar,
+  Check,
+  CheckCircle2,
+  Compass,
+  FileCheck,
+  Gem,
+  Home,
+  LandPlot,
+  Layout,
+  Leaf,
+  Mail,
+  MapPin,
+  Maximize,
+  Phone,
+  Plane,
+  Ruler,
+  Share2,
+  Store,
+  Train,
+  TrendingUp,
+  Users,
 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import ContactForm from './ContactForm';
-import LocationHighlights from './LocationHighlights';
 import FacilitiesGrid from './FacilitiesGrid';
+import ImageCarousel from './ImageCarousel';
+import LocationHighlights from './LocationHighlights';
 import SiteVisitDialog from '@/components/landingpage/SiteVisitDialog';
-import { Project, Facility } from '@/lib/project-interface';
 import { companyInfo } from '@/lib/project-data';
+import { Project } from '@/lib/project-interface';
 
-const typeIcons: Record<string, React.ReactNode> = {
+const typeIcons: Record<Project['type'], React.ReactNode> = {
   plots: <LandPlot className="h-5 w-5" />,
   villas: <Home className="h-5 w-5" />,
   apartments: <Building className="h-5 w-5" />,
   commercial: <Store className="h-5 w-5" />,
 };
 
-const statusColors: Record<string, string> = {
-  ongoing: 'bg-green-500/10 text-green-600 border-green-200',
-  upcoming: 'bg-amber-500/10 text-amber-600 border-amber-200',
-  completed: 'bg-blue-500/10 text-blue-600 border-blue-200',
+const statusBadgeStyles: Record<Project['status'], string> = {
+  ongoing: 'bg-[#7a2430] text-white border-transparent',
+  upcoming: 'bg-[#d8b37a] text-[#2f1f16] border-transparent',
+  completed: 'bg-[#31424f] text-white border-transparent',
 };
 
 const highlightIconMap: Record<string, React.ReactNode> = {
@@ -53,695 +76,684 @@ interface ProjectPageProps {
   project: Project;
 }
 
-const getZoneKey = (zone: Project['siteLayout']['zones'][number]) => zone.id ?? zone.name;
+function formatPriceRange(project: Project) {
+  return `${project.priceRange.min} - ${project.priceRange.max} ${project.priceRange.currency}`;
+}
+
+function scrollToSection(sectionId: string) {
+  document.getElementById(sectionId)?.scrollIntoView({
+    behavior: 'smooth',
+    block: 'start',
+  });
+}
+
+function SectionCard({
+  id,
+  title,
+  children,
+  eyebrow,
+}: {
+  id: string;
+  title: string;
+  children: React.ReactNode;
+  eyebrow?: string;
+}) {
+  return (
+    <section id={id} className="estate-panel scroll-mt-30 overflow-hidden rounded-[2rem]">
+      <div className="border-b border-[#ded1c4] bg-[linear-gradient(90deg,rgba(122,36,48,0.08),rgba(185,152,90,0.06))] px-5 py-5 sm:px-6">
+        {eyebrow ? (
+          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#7a2430]">
+            {eyebrow}
+          </p>
+        ) : null}
+        <h2 className="mt-2 text-3xl text-foreground">{title}</h2>
+      </div>
+      <div className="p-5 sm:p-6">{children}</div>
+    </section>
+  );
+}
 
 export default function ProjectPage({ project }: ProjectPageProps) {
   const [isSiteVisitOpen, setIsSiteVisitOpen] = useState(false);
+  const [activeZoneKey, setActiveZoneKey] = useState<string | null>(
+    project.siteLayout.zones[0]?.id ?? project.siteLayout.zones[0]?.name ?? null
+  );
+  const router = useRouter();
+
+  const primaryPhone = companyInfo.contact.phone[0];
+  const primaryEmail = companyInfo.contact.email[0];
+  const phoneHref = `tel:${primaryPhone.replace(/\s+/g, '')}`;
+  const whatsappHref = `https://wa.me/${(
+    companyInfo.contact.whatsapp || primaryPhone
+  ).replace(/\D/g, '')}`;
+
   const handleShare = useCallback(async () => {
+    const currentUrl = window.location.href;
+
     if (navigator.share) {
       try {
         await navigator.share({
           title: project.name,
           text: project.tagline,
-          url: window.location.href,
+          url: currentUrl,
         });
+        return;
       } catch {
-        // User cancelled share
+        // user cancelled
       }
     }
-  }, [project]);
-  const [activeBlock, setActiveBlock] = useState<string | null>(
-    project.siteLayout?.zones?.[0] ? getZoneKey(project.siteLayout.zones[0]) : null
+
+    if (navigator.clipboard?.writeText) {
+      try {
+        await navigator.clipboard.writeText(currentUrl);
+      } catch {
+        // ignore clipboard fallback failures
+      }
+    }
+  }, [project.name, project.tagline]);
+
+  const approvals = useMemo(
+    () => project.approvals.filter((approval) => approval.trim().length > 0),
+    [project.approvals]
   );
-  const router = useRouter();
-  const primaryPhone = companyInfo.contact.phone[0];
-  const phoneHref = `tel:${primaryPhone.replace(/\s+/g, '')}`;
-  const whatsappHref = `https://wa.me/${(
-    companyInfo.contact.whatsapp || primaryPhone
-  ).replace(/\D/g, '')}`;
-  const activeZone = activeBlock
-    ? project.siteLayout?.zones.find((zone) => getZoneKey(zone) === activeBlock) ?? null
-    : null;
+
+  const sizeRangeLabel =
+    project.type === 'plots'
+      ? 'Plot Size Range'
+      : project.type === 'villas'
+      ? 'Villa Size Range'
+      : project.type === 'apartments'
+      ? 'Apartment Range'
+      : 'Space Range';
+
+  const inventoryLabel =
+    project.type === 'plots'
+      ? 'Plots'
+      : project.type === 'villas'
+      ? 'Villas'
+      : project.type === 'apartments'
+      ? 'Homes'
+      : 'Units';
+
+  const activeZone =
+    project.siteLayout.zones.find(
+      (zone) => (zone.id ?? zone.name) === activeZoneKey
+    ) ?? null;
+
+  const sectionLinks = [
+    { id: 'project-overview', label: 'Overview', enabled: true },
+    { id: 'project-gallery', label: 'Gallery', enabled: project.gallery.length > 0 },
+    { id: 'project-location', label: 'Location', enabled: project.locationHighlights.length > 0 },
+    { id: 'project-facilities', label: 'Facilities', enabled: !!project.facilities?.length },
+    { id: 'project-specifications', label: 'Specifications', enabled: project.specifications.length > 0 },
+    { id: 'project-amenities', label: 'Amenities', enabled: !!project.amenities?.length },
+    { id: 'project-layout', label: 'Layout', enabled: !!project.siteLayout },
+    { id: 'project-plans', label: 'Plans', enabled: !!project.floorPlans?.length },
+    { id: 'project-map', label: 'Map', enabled: !!project.mapEmbedUrl },
+  ].filter((item) => item.enabled);
+
+  const projectSnapshot = [
+    { label: 'Starting Range', value: formatPriceRange(project), icon: <Gem className="h-5 w-5" /> },
+    { label: 'Project Size', value: project.projectSize, icon: <Maximize className="h-5 w-5" /> },
+    { label: sizeRangeLabel, value: `${project.area.min} - ${project.area.max} ${project.area.unit}`, icon: <Ruler className="h-5 w-5" /> },
+    { label: inventoryLabel, value: `${project.totalUnits} ${inventoryLabel.toLowerCase()}`, icon: <Building2 className="h-5 w-5" /> },
+  ];
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Hero Section */}
-      <section className="relative h-[70svh] min-h-[520px] max-h-[700px] sm:h-[60vh] sm:min-h-[500px]">
+      <section className="relative min-h-[38rem] overflow-hidden">
         <Image
           src={project.coverImage}
           alt={project.name}
           fill
-          className="object-cover"
           priority
+          className="object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20" />
-        
-        {/* Navigation Bar */}
-        <div className="absolute top-0 left-0 right-0 z-10 p-3 sm:p-4">
-          <div className="container mx-auto flex items-start justify-between gap-3 sm:items-center">
-            <Button 
-              variant="secondary" 
-             onClick={() => router.back()}
-              className="h-10 shrink-0 bg-white/90 px-3 text-foreground hover:bg-white sm:h-auto sm:px-4"
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(17,12,11,0.22)_0%,rgba(17,12,11,0.52)_38%,rgba(17,12,11,0.92)_100%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(185,152,90,0.14),transparent_22rem)]" />
+
+        <div className="relative container mx-auto px-4 pb-12 pt-5 sm:px-6 sm:pb-14 sm:pt-6">
+          <div className="flex items-start justify-between gap-3">
+            <Button
+              variant="secondary"
+              onClick={() => router.back()}
+              className="rounded-full bg-white/90 px-4 text-foreground hover:bg-white"
             >
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              <span className="sm:hidden">Back</span>
-              <span className="hidden sm:inline">Back to Projects</span>
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              Back
             </Button>
-            <div className="flex items-center gap-2 self-end sm:self-auto">
-              <Button variant="secondary" size="icon" className="h-10 w-10 bg-white/90 hover:bg-white" onClick={handleShare}>
+
+            <div className="flex flex-wrap items-center gap-2">
+              <Button
+                variant="secondary"
+                size="icon"
+                className="h-10 w-10 rounded-full bg-white/90 hover:bg-white"
+                onClick={handleShare}
+              >
                 <Share2 className="h-4 w-4" />
               </Button>
-              <Button variant="secondary" size="icon" className="h-10 w-10 bg-white/90 hover:bg-white">
-                <Heart className="h-4 w-4" />
+              <Button
+                asChild
+                variant="secondary"
+                className="rounded-full bg-white/90 px-4 text-foreground hover:bg-white"
+              >
+                <a href={phoneHref}>
+                  <Phone className="mr-2 h-4 w-4" />
+                  Call
+                </a>
+              </Button>
+            </div>
+          </div>
+
+          <div className="mt-18 max-w-4xl sm:mt-24 lg:mt-28">
+            <div className="flex flex-wrap items-center gap-2">
+              <Badge className={`${statusBadgeStyles[project.status]} px-3 py-1.5`}>
+                {project.status === 'ongoing'
+                  ? 'Now Selling'
+                  : project.status === 'upcoming'
+                  ? 'Upcoming'
+                  : 'Completed'}
+              </Badge>
+              <Badge className="border border-white/16 bg-white/10 px-3 py-1.5 text-white backdrop-blur">
+                {typeIcons[project.type]}
+                <span className="ml-2 capitalize">{project.type}</span>
+              </Badge>
+              {project.reraApproved ? (
+                <Badge className="border border-white/16 bg-white/10 px-3 py-1.5 text-white backdrop-blur">
+                  <Award className="mr-1.5 h-3.5 w-3.5" />
+                  RERA aligned
+                </Badge>
+              ) : null}
+              {project.hmdaApproved ? (
+                <Badge className="border border-white/16 bg-white/10 px-3 py-1.5 text-white backdrop-blur">
+                  <CheckCircle2 className="mr-1.5 h-3.5 w-3.5" />
+                  HMDA aware
+                </Badge>
+              ) : null}
+            </div>
+
+            <h1 className="mt-6 text-5xl text-white sm:text-6xl">
+              {project.name}
+            </h1>
+            <p className="mt-5 max-w-3xl text-lg leading-8 text-white/74 sm:text-xl">
+              {project.tagline}
+            </p>
+
+            <div className="mt-6 flex items-start gap-3 text-white/74">
+              <MapPin className="mt-1 h-5 w-5 shrink-0" />
+              <span className="text-base sm:text-lg">{project.location}</span>
+            </div>
+
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Button
+                type="button"
+                size="lg"
+                onClick={() => setIsSiteVisitOpen(true)}
+                className="h-12 rounded-full bg-[#7a2430] px-7 text-white hover:bg-[#69202a]"
+              >
+                <Calendar className="h-4 w-4" />
+                Book Site Visit
+              </Button>
+              <Button
+                type="button"
+                size="lg"
+                variant="outline"
+                onClick={() => scrollToSection('project-overview')}
+                className="h-12 rounded-full border-white/18 bg-white/10 px-7 text-white hover:bg-white/16"
+              >
+                Explore Details
+                <ArrowRight className="h-4 w-4" />
               </Button>
             </div>
           </div>
         </div>
+      </section>
 
-        {/* Hero Content */}
-        <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 md:p-10">
-          <div className="container mx-auto">
-            <div className="mb-4 flex flex-wrap items-center gap-2 sm:gap-3">
-              <div className="flex items-center gap-2 text-white/80">
-                {typeIcons[project.type]}
-                <span className="text-sm font-medium capitalize">{project.type}</span>
+      <section className="relative border-y border-[#2b1c18] bg-[linear-gradient(90deg,#17100f_0%,#211714_50%,#17100f_100%)]">
+        <div className="container mx-auto px-4 py-5 sm:px-6">
+          <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+            {projectSnapshot.map((item) => (
+              <div
+                key={item.label}
+                className="flex items-center gap-4 rounded-[1.5rem] border border-white/10 bg-white/[0.04] px-4 py-4"
+              >
+                <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#7a2430] text-white shadow-[0_14px_24px_rgba(122,36,48,0.26)]">
+                  {item.icon}
+                </div>
+                <div>
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#d8b37a]">
+                    {item.label}
+                  </p>
+                  <p className="mt-1 text-sm font-semibold text-white sm:text-base">
+                    {item.value}
+                  </p>
+                </div>
               </div>
-              <Badge className={statusColors[project.status]}>
-                {project.status.charAt(0).toUpperCase() + project.status.slice(1)}
-              </Badge>
-              {project.reraApproved && (
-                <Badge variant="outline" className="text-white border-white/50">
-                  <Award className="h-3 w-3 mr-1" />
-                  RERA Approved
-                </Badge>
-              )}
-            </div>
-            <h1 className="mb-3 text-3xl font-bold text-white sm:text-4xl md:text-6xl">
-              {project.name}
-            </h1>
-            <p className="mb-4 max-w-3xl text-base text-white/80 sm:text-xl md:text-2xl">{project.tagline}</p>
-            <div className="flex items-start gap-2 text-white/70 sm:items-center">
-              <MapPin className="mt-0.5 h-5 w-5 shrink-0 sm:mt-0" />
-              <span className="text-base sm:text-lg">{project.location}</span>
-            </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Quick Stats Bar */}
-      <section className="relative overflow-hidden bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 shadow-xl">
-
-        {/* ===== Brand glow background ===== */}
-        {/* <div className="pointer-events-none absolute inset-0">
-          <div className="absolute -top-10 left-1/3 w-60 h-60 bg-[#c42630]/20 blur-[110px]" />
-          <div className="absolute -bottom-10 right-1/3 w-60 h-60 bg-[#c42630]/20 blur-[110px]" />
-        </div> */}
-
-        <div className="relative container mx-auto px-4 py-4 sm:px-6 sm:py-5">
-          <div className="grid grid-cols-1 gap-3 min-[480px]:grid-cols-2 sm:gap-4 xl:grid-cols-4">
-
-            {/* Price */}
-            {/* <div className="flex items-center gap-3 justify-center md:justify-start">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#c42630] to-[#a61f28] flex items-center justify-center shadow-lg shadow-[#c42630]/30">
-                <IndianRupee className="w-5 h-5 text-white" />
-              </div>
-              <div>
-                <div className="text-xl md:text-2xl font-bold text-white tracking-tight">
-                  {project.priceRange.min} - {project.priceRange.max}
-                </div>
-                <div className="text-xs md:text-sm text-slate-400">
-                  {project.priceRange.currency}
-                </div>
-              </div>
-            </div> */}
-
-            {/* Units */}
-            <div className="flex min-w-0 items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.03] p-4 shadow-lg shadow-black/10 backdrop-blur-sm sm:p-5">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#c42630] to-[#a61f28] shadow-lg shadow-[#c42630]/30">
-                <Building2 className="w-5 h-5 text-white" />
-              </div>
-              <div className="min-w-0">
-                <div className="text-xl font-bold text-white sm:text-2xl">
-                  {project.totalUnits}
-                </div>
-                <div className="text-xs text-slate-400 sm:text-sm">Total Units</div>
-              </div>
-            </div>
-
-            {/* Project size */}
-            <div className="flex min-w-0 items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.03] p-4 shadow-lg shadow-black/10 backdrop-blur-sm sm:p-5">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#c42630] to-[#a61f28] shadow-lg shadow-[#c42630]/30">
-                <Maximize className="w-5 h-5 text-white" />
-              </div>
-              <div className="min-w-0">
-                <div className="text-xl font-bold text-white sm:text-2xl">
-                  {project.projectSize}
-                </div>
-                <div className="text-xs text-slate-400 sm:text-sm">Project Area</div>
-              </div>
-            </div>
-
-            {/* Plot area */}
-            <div className="flex min-w-0 items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.03] p-4 shadow-lg shadow-black/10 backdrop-blur-sm sm:p-5">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#c42630] to-[#a61f28] shadow-lg shadow-[#c42630]/30">
-                <Ruler className="w-5 h-5 text-white" />
-              </div>
-              <div className="min-w-0">
-                <div className="text-xl font-bold text-white sm:text-2xl">
-                  {project.area.min} - {project.area.max}
-                </div>
-                <div className="text-xs text-slate-400 sm:text-sm">{project.area.unit}</div>
-              </div>
-            </div>
-
-            {/* RERA */}
-            {project.reraNumber && (
-              <div className="flex min-w-0 items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.03] p-4 shadow-lg shadow-black/10 backdrop-blur-sm min-[480px]:col-span-2 sm:p-5 xl:col-span-1">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#c42630] to-[#a61f28] shadow-lg shadow-[#c42630]/30">
-                  <FileCheck className="w-5 h-5 text-white" />
-                </div>
-                <div className="min-w-0">
-                  <div className="break-words text-sm font-bold text-white sm:text-base">
-                    {project.reraNumber}
-                  </div>
-                  <div className="text-xs text-slate-400">Approved</div>
-                </div>
-              </div>
-            )}
-
-          </div>
+      <section className="sticky top-[4.5rem] z-30 border-b border-[#ded1c4] bg-[#fbf7f1]/90 backdrop-blur-xl">
+        <div className="container mx-auto flex gap-3 overflow-x-auto px-4 py-3 sm:px-6">
+          {sectionLinks.map((section) => (
+            <button
+              key={section.id}
+              onClick={() => scrollToSection(section.id)}
+              className="whitespace-nowrap rounded-full border border-[#d9cdc0] bg-white px-4 py-2 text-sm font-semibold text-[#4e4037] transition hover:border-[#b9985a] hover:text-[#7a2430]"
+            >
+              {section.label}
+            </button>
+          ))}
         </div>
-
-        {/* ===== Bottom accent line ===== */}
-        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#c42630]/60 to-transparent" />
       </section>
 
-      {/* Main Content */}
-      <section className="py-8 sm:py-12">
-        <div className="container mx-auto px-4 sm:px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Left Column - Details */}
-            <div className="lg:col-span-2 space-y-10">
-
-              {/* Project Overview */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                  className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm"
-                >
-                <div className="border-b border-gray-200 bg-gradient-to-r from-[#c42630]/10 to-[#c42630]/5 p-4 sm:p-6">
-                  <h2 className="text-xl font-semibold text-gray-900 sm:text-2xl">Project Overview</h2>
-                </div>
-
-                <div className="p-4 sm:p-6">
-                  <p className="text-base leading-relaxed text-gray-600 whitespace-pre-line sm:text-lg">
+      <section className="py-10 sm:py-12">
+        <div className="container mx-auto grid grid-cols-1 gap-8 px-4 sm:px-6 lg:grid-cols-3">
+          <div className="space-y-8 lg:col-span-2">
+            <SectionCard id="project-overview" title="Project Overview" eyebrow="Snapshot">
+              <div className="grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
+                <div>
+                  <p className="whitespace-pre-line text-base leading-8 text-muted-foreground">
                     {project.description}
                   </p>
                 </div>
-              </motion.div>
 
+                <div className="rounded-[1.5rem] border border-[#d9cdc0] bg-white/76 p-5">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#7a2430]">
+                    Project Essentials
+                  </p>
+                  <div className="mt-5 grid gap-3">
+                     <FactRow label="Location" value={project.location} />
+                     <FactRow label="Starting Range" value={formatPriceRange(project)} />
+                     <FactRow label="Project Size" value={project.projectSize} />
+                     <FactRow
+                       label={sizeRangeLabel}
+                       value={`${project.area.min} - ${project.area.max} ${project.area.unit}`}
+                     />
+                    {project.reraNumber ? (
+                      <FactRow label="RERA Number" value={project.reraNumber} />
+                    ) : null}
+                  </div>
+                </div>
+              </div>
 
-              {/* ================= Highlights ================= */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1 }}
-                className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm"
+              <div className="mt-6 grid gap-4 md:grid-cols-2">
+                {project.highlights.map((highlight) => (
+                  <div
+                    key={highlight.id}
+                    className="rounded-[1.5rem] border border-[#d9cdc0] bg-[#fbf4ec] p-5"
+                  >
+                    <div className="flex items-start gap-4">
+                      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#7a2430]/10 text-[#7a2430]">
+                        {highlightIconMap[highlight.icon] ?? <Check className="h-5 w-5" />}
+                      </div>
+                      <div>
+                        <h3 className="text-2xl text-foreground">{highlight.title}</h3>
+                        <p className="mt-2 text-sm leading-7 text-muted-foreground">
+                          {highlight.description}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </SectionCard>
+
+            {project.gallery.length ? (
+              <SectionCard id="project-gallery" title="Project Gallery" eyebrow="Visual Tour">
+                <div className="rounded-[1.5rem] border border-[#d9cdc0] bg-white/76 p-3 sm:p-4">
+                  <ImageCarousel images={project.gallery} alt={project.name} />
+                </div>
+              </SectionCard>
+            ) : null}
+
+            {project.locationHighlights.length > 0 ? (
+              <SectionCard id="project-location" title="Location Highlights" eyebrow="Connectivity">
+                <LocationHighlights highlights={project.locationHighlights} />
+              </SectionCard>
+            ) : null}
+
+            {project.facilities?.length ? (
+              <SectionCard id="project-facilities" title="Facilities & Infrastructure" eyebrow="Project Backbone">
+                <FacilitiesGrid facilities={project.facilities} />
+              </SectionCard>
+            ) : null}
+
+            {project.specifications.length ? (
+              <SectionCard
+                id="project-specifications"
+                title="Specifications & Planning Notes"
+                eyebrow="Technical Snapshot"
               >
-                <div className="border-b border-gray-200 bg-gradient-to-r from-[#c42630]/10 to-[#c42630]/5 p-4 sm:p-6">
-                  <h2 className="text-xl font-semibold text-gray-900 sm:text-2xl">
-                    Why Choose {project.name}?
-                  </h2>
+                <div className="grid gap-4 md:grid-cols-2">
+                  {project.specifications.map((specification) => (
+                    <article
+                      key={specification.id}
+                      className="rounded-[1.5rem] border border-[#d9cdc0] bg-white/78 p-5"
+                    >
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#7a2430]">
+                        {specification.category}
+                      </p>
+                      <ul className="mt-4 space-y-3">
+                        {specification.items.map((item) => (
+                          <li
+                            key={item}
+                            className="flex items-start gap-3 text-sm leading-7 text-muted-foreground"
+                          >
+                            <CheckCircle2 className="mt-1 h-4 w-4 shrink-0 text-[#7a2430]" />
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </article>
+                  ))}
                 </div>
+              </SectionCard>
+            ) : null}
 
-                <div className="p-4 sm:p-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {project.highlights.map((highlight) => (
-                      <div
-                        key={highlight.id}
-                        className="flex items-start gap-4 p-4 bg-[#c42630]/5 rounded-xl hover:bg-[#c42630]/10 transition"
-                      >
-                        <div className="w-12 h-12 rounded-xl bg-[#c42630]/10 flex items-center justify-center shrink-0 text-[#c42630]">
-                          {highlightIconMap[highlight.icon] || <Check className="h-5 w-5" />}
-                        </div>
-
-                        <div>
-                          <div className="font-semibold text-gray-900">{highlight.title}</div>
-                          <div className="text-sm text-gray-600">{highlight.description}</div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </motion.div>
-
-              {/* Master Plan / Site Layout */}
-              {/* {project.siteLayout && (
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2 }}
-                  className="bg-card rounded-2xl overflow-hidden border border-border"
-                >
-                  <div className="p-6 border-b border-border bg-muted/30">
-                    <h2 className="text-2xl font-semibold">Master Plan / Site Layout</h2>
-                  </div>
-                  <div className="p-6">
-                    <div className="relative aspect-[16/10] rounded-xl overflow-hidden mb-6 group">
-                      <Image
-                        src={project.siteLayout.image}
-                        alt={`${project.name} Site Layout`}
-                        fill
-                        className="object-cover transition-transform group-hover:scale-105"
-                      />
-                      <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors" />
-                    </div>
-                    <p className="text-muted-foreground mb-6 text-lg">
-                      {project.siteLayout.description}
-                    </p>
-
-                  
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                      {project.siteLayout.zones.map((zone) => (
-                        <div
-                          key={zone.name}
-                          className="flex items-start gap-4 p-4 rounded-xl border border-border hover:border-primary/30 transition-colors"
-                        >
-                          <div
-                            className="w-5 h-5 rounded-full shrink-0 mt-0.5"
-                            style={{ backgroundColor: zone.color }}
-                          />
-                          <div>
-                            <div className="font-medium text-foreground">{zone.name}</div>
-                            <div className="text-sm text-muted-foreground">{zone.description}</div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </motion.div>
-              )} */}
-
-              {/* Location Highlights */}
-              {project.locationHighlights && project.locationHighlights.length > 0 && (
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3 }}
-                    className="overflow-hidden rounded-2xl border border-border bg-card"
-                  >
-                  <div className="border-b border-border bg-muted/30 p-4 sm:p-6">
-                    <h2 className="text-xl font-semibold sm:text-2xl">Location Highlights</h2>
-                  </div>
-                  <div className="p-4 sm:p-6">
-                    <LocationHighlights highlights={project.locationHighlights} />
-                  </div>
-                </motion.div>
-              )}
-
-              {/* Facilities */}
-              {project.facilities && project.facilities.length > 0 && (
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.4 }}
-                    className="overflow-hidden rounded-2xl border border-border bg-card"
-                  >
-                  <div className="border-b border-border bg-muted/30 p-4 sm:p-6">
-                    <h2 className="text-xl font-semibold sm:text-2xl">Facilities & Infrastructure</h2>
-                  </div>
-                  <div className="p-4 sm:p-6">
-                    <FacilitiesGrid facilities={project.facilities as Facility[]} />
-                  </div>
-                </motion.div>
-              )}
-
-              {/* Amenities Gallery */}
-              {project.amenities && project.amenities.length > 0 && (
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.5 }}
-                   className="overflow-hidden rounded-2xl border border-border bg-card"
-                 >
-                   <div className="border-b border-border bg-muted/30 p-4 sm:p-6">
-                     <h2 className="text-xl font-semibold sm:text-2xl">Amenities</h2>
-                   </div>
-                   <div className="p-4 sm:p-6">
-                     <div className="grid grid-cols-1 gap-4 min-[480px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                      {project.amenities.map((amenity) => (
-                        <div key={amenity.id} className="group relative aspect-square rounded-xl overflow-hidden">
-                          {amenity.image ? (
-                            <Image
-                              src={amenity.image}
-                              alt={amenity.name}
-                              fill
-                              className="object-cover transition-transform group-hover:scale-110"
-                            />
-                          ) : (
-                            <div className="w-full h-full bg-muted flex items-center justify-center">
-                              <span className="text-4xl text-muted-foreground">📷</span>
-                            </div>
-                          )}
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                          <div className="absolute bottom-0 left-0 right-0 p-3">
-                            <div className="font-medium text-white text-sm">{amenity.name}</div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </motion.div>
-              )}
-
-              {/* Specifications */}
-              {/* {project.specifications && project.specifications.length > 0 && (
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.7 }}
-                  className="bg-card rounded-2xl overflow-hidden border border-border"
-                >
-                  <div className="p-6 border-b border-border bg-muted/30">
-                    <h2 className="text-2xl font-semibold">Specifications</h2>
-                  </div>
-                  <div className="p-6 space-y-4">
-                    {project.specifications.map((spec) => (
-                      <div key={spec.id} className="bg-muted/30 rounded-xl p-5">
-                        <h4 className="font-semibold text-foreground mb-4 flex items-center gap-2">
-                          <Check className="h-4 w-4 text-primary" />
-                          {spec.category}
-                        </h4>
-                        <ul className="space-y-2">
-                          {spec.items.map((item, index) => (
-                            <li key={index} className="flex items-start gap-3 text-muted-foreground">
-                              <div className="w-1.5 h-1.5 rounded-full bg-primary shrink-0 mt-2" />
-                              <span>{item}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    ))}
-                  </div>
-                </motion.div>
-              )} */}
-
-              {/* Project Gallery */}
-              {/* {project.gallery && project.gallery.length > 0 && (
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.8 }}
-                  className="bg-card rounded-2xl overflow-hidden border border-border"
-                >
-                  <div className="p-6 border-b border-border bg-muted/30">
-                    <h2 className="text-2xl font-semibold">Project Gallery</h2>
-                  </div>
-                  <div className="p-6">
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                      {project.gallery.map((image, index) => (
-                        <div key={index} className="relative aspect-video rounded-xl overflow-hidden group">
+            {project.amenities?.length ? (
+              <SectionCard id="project-amenities" title="Lifestyle Amenities" eyebrow="Family Living">
+                <div className="grid gap-4 min-[520px]:grid-cols-2 xl:grid-cols-4">
+                  {project.amenities.map((amenity) => (
+                    <article
+                      key={amenity.id}
+                      className="overflow-hidden rounded-[1.5rem] border border-[#d9cdc0] bg-white/76"
+                    >
+                      <div className="relative aspect-square overflow-hidden">
+                        {amenity.image ? (
                           <Image
-                            src={image}
-                            alt={`${project.name} ${index + 1}`}
+                            src={amenity.image}
+                            alt={amenity.name}
                             fill
-                            className="object-cover transition-transform group-hover:scale-110"
+                            className="object-cover"
                           />
-                          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors" />
+                        ) : (
+                          <div className="flex h-full items-center justify-center bg-[#f6efe6] text-[#8b6c45]">
+                            <Gem className="h-8 w-8" />
+                          </div>
+                        )}
+                        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(17,12,11,0.06)_0%,rgba(17,12,11,0.12)_34%,rgba(17,12,11,0.86)_100%)]" />
+                        <div className="absolute inset-x-0 bottom-0 p-4">
+                          <h3 className="text-xl text-white">{amenity.name}</h3>
                         </div>
-                      ))}
-                    </div>
+                      </div>
+                      <div className="p-4">
+                        <p className="text-sm leading-7 text-muted-foreground">
+                          {amenity.description}
+                        </p>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              </SectionCard>
+            ) : null}
+
+            <SectionCard id="project-layout" title="Master Plan & Site Layout" eyebrow="Layout Understanding">
+              <div className="relative overflow-hidden rounded-[1.5rem] border border-[#d9cdc0] bg-white/76">
+                <div className="relative aspect-[16/10]">
+                  <Image
+                    src={project.siteLayout.image}
+                    alt={`${project.name} site layout`}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+              </div>
+
+              <p className="mt-5 text-sm leading-7 text-muted-foreground sm:text-base">
+                {project.siteLayout.description}
+              </p>
+
+              {project.siteLayout.zones.length ? (
+                <div className="mt-6">
+                  <div className="grid gap-2 sm:grid-cols-2 xl:grid-cols-3">
+                    {project.siteLayout.zones.map((zone) => {
+                      const zoneKey = zone.id ?? zone.name;
+                      const active = activeZoneKey === zoneKey;
+
+                      return (
+                        <button
+                          key={zoneKey}
+                          onClick={() => setActiveZoneKey(zoneKey)}
+                          className={`rounded-[1.25rem] border px-4 py-3 text-left text-sm font-semibold transition ${
+                            active
+                              ? 'border-[#7a2430] bg-[#7a2430] text-white'
+                              : 'border-[#d9cdc0] bg-white text-[#4e4037] hover:border-[#b9985a] hover:text-[#7a2430]'
+                          }`}
+                        >
+                          {zone.name}
+                        </button>
+                      );
+                    })}
                   </div>
-                </motion.div>
-              )} */}
 
-              {/* Master Plan / Site Layout */}
-              {project.siteLayout && (
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2 }}
-                   className="overflow-hidden rounded-2xl border border-border bg-card"
-                 >
-                   <div className="border-b border-border bg-muted/30 p-4 sm:p-6">
-                     <h2 className="text-xl font-semibold sm:text-2xl">
-                       Master Plan / Site Layout
-                     </h2>
-                   </div>
+                  {activeZone ? (
+                    <div className="mt-5 grid gap-5 lg:grid-cols-[1.05fr_0.95fr]">
+                      <div className="rounded-[1.5rem] border border-[#d9cdc0] bg-white/76 p-5">
+                        <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#7a2430]">
+                          Active Block
+                        </p>
+                        <h3 className="mt-3 text-3xl text-foreground">
+                          {activeZone.blockname || activeZone.name}
+                        </h3>
+                        <p className="mt-3 text-sm leading-7 text-muted-foreground">
+                          {activeZone.description}
+                        </p>
+                      </div>
 
-                   <div className="p-4 sm:p-6">
-
-                     {/* ===== Master Plan Image ===== */}
-                     <div className="group relative mb-6 aspect-[4/3] overflow-hidden rounded-xl sm:mb-8 sm:aspect-[16/10]">
-                       <Image
-                        src={project.siteLayout.image}
-                        alt={`${project.name} Site Layout`}
-                        fill
-                        className="object-cover transition-transform group-hover:scale-105"
-                      />
-                      <div className="absolute inset-0 bg-black/20" />
-                    </div>
-                  </div>
-                </motion.div>
-              )}
-
-              {/* Floor Plans */}
-              {project.floorPlans && project.floorPlans.length > 0 && (
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.6 }}
-                   className="overflow-hidden rounded-2xl border border-border bg-card"
-                 >
-                   <div className="border-b border-border bg-muted/30 p-4 sm:p-6">
-                     <h2 className="text-xl font-semibold sm:text-2xl">Floor Plans & Plot Layouts</h2>
-                   </div>
-                  {/* <div className="p-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                      {project.floorPlans.map((plan) => (
-                        <div key={plan.id} className="bg-muted/30 rounded-xl overflow-hidden group">
-                          <div className="relative h-48">
-                            <Image
-                              src={plan.image}
-                              alt={plan.name}
-                              fill
-                              className="object-cover transition-transform group-hover:scale-105"
+                      {activeZone.image ? (
+                        <div className="overflow-hidden rounded-[1.5rem] border border-[#d9cdc0] bg-white/76">
+                          <div className="relative aspect-[16/10]">
+                            <img
+                              src={activeZone.image}
+                              alt={activeZone.name}
+                              className="h-full w-full object-contain"
                             />
                           </div>
-                          <div className="p-4">
-                            <div className="font-semibold text-foreground">{plan.name}</div>
-                            <div className="flex items-center justify-between mt-2 text-sm text-muted-foreground">
-                              <span className="flex items-center gap-1">
-                                <Ruler className="h-4 w-4" />
-                                {plan.type}
-                              </span>
-                              <span>{plan.area}</span>
-                            </div>
-                          </div>
                         </div>
-                      ))}
+                      ) : (
+                        <div className="rounded-[1.5rem] border border-[#d9cdc0] bg-white/76 p-5">
+                          <p className="text-sm leading-7 text-muted-foreground">
+                            This zone is currently described through planning notes
+                            rather than a dedicated layout image. The section still
+                            helps buyers understand how the site is organised.
+                          </p>
+                        </div>
+                      )}
                     </div>
-                  </div> */}
+                  ) : null}
+                </div>
+              ) : null}
+            </SectionCard>
 
-                  {/* ===== TAB BAR ===== */}
-                  <div className="mb-6 w-full p-4 sm:p-6">
-                      <div className="grid w-full grid-cols-1 gap-2 rounded-xl bg-muted p-2 shadow-sm sm:grid-cols-2 xl:grid-cols-3">
-                        {project.siteLayout.zones.map((zone) => {
-                          const zoneKey = getZoneKey(zone);
-                          const active = activeBlock === zoneKey;
-                          return (
-                            <button
-                              key={zoneKey}
-                              onClick={() => setActiveBlock(zoneKey)}
-                              className={`w-full rounded-lg px-4 py-2.5 text-center text-sm font-medium transition-all duration-200
-                                ${active ? 'bg-[#c42630] text-white shadow': 'text-muted-foreground hover:bg-[#c42630]/10 hover:text-[#c42630]'}`}
-                            >
-                              {zone.name}
-                            </button>
-                          )
-                        })}
-                      </div>
-                    </div>
-
-                    {/* ===== ACTIVE BLOCK IMAGE ===== */}
-                    {activeBlock && (
-                      <div className="mb-4 px-4 text-center text-sm sm:px-6 sm:text-base">
-                        <h3 className="mb-2 text-xl font-semibold text-foreground sm:text-2xl">
-                          {activeZone?.blockname}
-                        </h3>
-                        {activeZone?.description}
-                      </div>
-                    )}
-
-                    {activeZone?.image && (
-                      <div className="relative mx-4 mb-4 aspect-[4/3] overflow-hidden rounded-xl border border-border sm:mx-6 sm:mb-6 sm:aspect-[16/10]">
-                        
-                        <img
-                          key={activeBlock}
-                          src={activeZone.image}
-                          alt={activeZone.name}
-                          className="w-full h-full object-contain transition-opacity duration-300"
+            {project.floorPlans?.length ? (
+              <SectionCard id="project-plans" title="Floor Plans & Layouts" eyebrow="Plan View">
+                <div className="grid gap-4 md:grid-cols-2">
+                  {project.floorPlans.map((plan) => (
+                    <article
+                      key={plan.id}
+                      className="overflow-hidden rounded-[1.5rem] border border-[#d9cdc0] bg-white/76"
+                    >
+                      <div className="relative h-64">
+                        <Image
+                          src={plan.image}
+                          alt={plan.name}
+                          fill
+                          className="object-cover"
                         />
                       </div>
-                    )}
-                </motion.div>
-              )}
+                      <div className="p-5">
+                        <h3 className="text-2xl text-foreground">{plan.name}</h3>
+                        <div className="mt-3 flex flex-wrap gap-2">
+                          <span className="rounded-full border border-[#d9cdc0] bg-[#f6efe6] px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-[#6f5f55]">
+                            {plan.type}
+                          </span>
+                          <span className="rounded-full border border-[#d9cdc0] bg-[#f6efe6] px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-[#6f5f55]">
+                            {plan.area}
+                          </span>
+                        </div>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              </SectionCard>
+            ) : null}
 
-              
-              {/* Location Map */}
-              {project.mapEmbedUrl && (
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.9 }}
-                  className="overflow-hidden rounded-2xl border border-border bg-card"
+            {project.mapEmbedUrl ? (
+              <SectionCard id="project-map" title="Location Map" eyebrow="Site Positioning">
+                <div className="overflow-hidden rounded-[1.5rem] border border-[#d9cdc0] bg-white/76">
+                  <div className="h-[340px] sm:h-[420px]">
+                    <iframe
+                      src={project.mapEmbedUrl}
+                      width="100%"
+                      height="100%"
+                      style={{ border: 0 }}
+                      allowFullScreen
+                      loading="lazy"
+                      referrerPolicy="no-referrer-when-downgrade"
+                      title={`${project.name} location`}
+                    />
+                  </div>
+                </div>
+              </SectionCard>
+            ) : null}
+          </div>
+
+          <aside className="lg:col-span-1">
+            <div className="space-y-6 lg:sticky lg:top-32">
+              <motion.div
+                initial={{ opacity: 0, y: 18 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="estate-panel overflow-hidden rounded-[2rem]"
+              >
+                <div className="bg-[linear-gradient(90deg,#7a2430,#8f3742)] px-5 py-6 text-white">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/74">
+                    Project Enquiry
+                  </p>
+                  <h3 className="mt-3 text-3xl text-white">Interested in this project?</h3>
+                  <p className="mt-3 text-sm leading-7 text-white/74">
+                    Share your details and the team will guide you through pricing,
+                    availability, and the next best step.
+                  </p>
+                </div>
+                <div className="p-5 sm:p-6">
+                  <ContactForm projectName={project.name} showProjectSelect={false} />
+                </div>
+              </motion.div>
+
+              <div className="estate-panel rounded-[2rem] p-5 sm:p-6">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#7a2430]">
+                  Quick Connect
+                </p>
+                <div className="mt-5 space-y-4">
+                  <a
+                    href={phoneHref}
+                    className="flex items-center gap-3 rounded-[1.25rem] border border-[#d9cdc0] bg-white/78 px-4 py-4 text-sm font-semibold text-[#4e4037] transition hover:border-[#b9985a] hover:text-[#7a2430]"
+                  >
+                    <Phone className="h-5 w-5" />
+                    {primaryPhone}
+                  </a>
+                  <a
+                    href={`mailto:${primaryEmail}`}
+                    className="flex items-center gap-3 rounded-[1.25rem] border border-[#d9cdc0] bg-white/78 px-4 py-4 text-sm font-semibold text-[#4e4037] transition hover:border-[#b9985a] hover:text-[#7a2430]"
+                  >
+                    <Mail className="h-5 w-5" />
+                    {primaryEmail}
+                  </a>
+                </div>
+
+                <div className="mt-5 border-t border-[#ded1c4] pt-5">
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <Calendar className="h-4 w-4" />
+                    {companyInfo.contact.officeHours}
+                  </div>
+                </div>
+              </div>
+
+              <div className="rounded-[2rem] border border-[#d6bf9e] bg-[linear-gradient(180deg,rgba(216,179,122,0.16),rgba(122,36,48,0.06))] p-5 sm:p-6">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#7a2430]">
+                  Shortlist Faster
+                </p>
+                <h3 className="mt-3 text-3xl text-foreground">
+                  Schedule a guided site visit
+                </h3>
+                <p className="mt-3 text-sm leading-7 text-muted-foreground">
+                  The quickest way to understand scale, planning, and access is
+                  to see the project in person with the team.
+                </p>
+
+                <Button
+                  type="button"
+                  onClick={() => setIsSiteVisitOpen(true)}
+                  className="mt-5 h-12 w-full rounded-full bg-[#7a2430] text-white hover:bg-[#69202a]"
                 >
-                  <div className="border-b border-border bg-muted/30 p-4 sm:p-6">
-                    <h2 className="text-xl font-semibold sm:text-2xl">Location Map</h2>
-                  </div>
-                  <div className="p-4 sm:p-6">
-                    <div className="h-[320px] overflow-hidden rounded-xl sm:h-[400px]">
-                      <iframe
-                        src={project.mapEmbedUrl}
-                        width="100%"
-                        height="100%"
-                        style={{ border: 0 }}
-                        allowFullScreen
-                        loading="lazy"
-                        referrerPolicy="no-referrer-when-downgrade"
-                        title={`${project.name} Location`}
-                      />
-                    </div>
-                  </div>
-                </motion.div>
-              )}
+                  Book Site Visit
+                </Button>
+              </div>
 
-              
+              <div className="estate-panel rounded-[2rem] p-5 sm:p-6">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#7a2430]">
+                  Approvals & Trust
+                </p>
+                <div className="mt-5 flex flex-wrap gap-2">
+                  {project.reraApproved ? (
+                    <Badge className="rounded-full border border-[#d9cdc0] bg-[#f6efe6] px-3 py-1.5 text-[#4e4037]">
+                      RERA aligned
+                    </Badge>
+                  ) : null}
+                  {project.hmdaApproved ? (
+                    <Badge className="rounded-full border border-[#d9cdc0] bg-[#f6efe6] px-3 py-1.5 text-[#4e4037]">
+                      HMDA aware
+                    </Badge>
+                  ) : null}
+                  {approvals.map((approval) => (
+                    <Badge
+                      key={approval}
+                      className="rounded-full border border-[#d9cdc0] bg-[#f6efe6] px-3 py-1.5 text-[#4e4037]"
+                    >
+                      {approval}
+                    </Badge>
+                  ))}
+                </div>
 
-              {/* Approvals */}
-              {/* {project.approvals && project.approvals.length > 0 && (
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 1.0 }}
-                  className="bg-card rounded-2xl overflow-hidden border border-border"
-                >
-                  <div className="p-6 border-b border-border bg-muted/30">
-                    <h2 className="text-2xl font-semibold">Approvals & Certifications</h2>
-                  </div>
-                  <div className="p-6">
-                    <div className="flex flex-wrap gap-3">
-                      {project.approvals.map((approval, index) => (
-                        <Badge key={index} variant="outline" className="px-4 py-2 text-sm">
-                          <FileCheck className="h-4 w-4 mr-2" />
-                          {approval}
-                        </Badge>
-                      ))}
-                    </div>
-                  </div>
-                </motion.div>
-              )} */}
-            </div>
-
-            {/* Right Column - Contact Form */}
-            <div className="lg:col-span-1">
-              <div className="space-y-6 lg:sticky lg:top-36">
-
-                {/* ================= CONTACT FORM CARD ================= */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-lg"
-                >
-                  {/* Header */}
-                  <div className="bg-gradient-to-r from-[#c42630] to-[#a61f28] p-4 text-white sm:p-6">
-                    <h3 className="mb-2 text-xl font-semibold">
-                      Interested in this project?
-                    </h3>
-                    <p className="text-sm text-white/90">
-                      Fill out the form and our team will contact you shortly.
+                {project.reraNumber ? (
+                  <div className="mt-5 rounded-[1.25rem] border border-[#d9cdc0] bg-white/78 px-4 py-4">
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#7a2430]">
+                      Registered Number
+                    </p>
+                    <p className="mt-2 text-sm font-semibold text-foreground">
+                      {project.reraNumber}
                     </p>
                   </div>
-
-                  {/* Form */}
-                  <div className="p-4 sm:p-6">
-                    <ContactForm projectName={project.name} showProjectSelect={false} />
-                  </div>
-                </motion.div>
-
-                {/* ================= QUICK CONTACT ================= */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.15 }}
-                  className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm sm:p-6"
-                >
-                  <h4 className="font-semibold text-gray-900 mb-4">Quick Contact</h4>
-
-                  <div className="space-y-3">
-                    <a
-                      href="tel:+919876543210"
-                      className="flex items-center gap-3 break-all text-gray-600 transition hover:text-[#c42630] sm:break-normal"
-                    >
-                      <Phone className="h-5 w-5" />
-                      <span>+91 70364 45500</span>
-                    </a>
-
-                    <a
-                      href="mailto:sales@pridewalls.com"
-                      className="flex items-center gap-3 break-all text-gray-600 transition hover:text-[#c42630] sm:break-normal"
-                    >
-                      <Mail className="h-5 w-5" />
-                      <span>sales@pridewalls.com</span>
-                    </a>
-                  </div>
-
-                  <div className="mt-4 pt-4 border-t border-gray-200">
-                    <div className="flex items-center gap-2 text-sm text-gray-500">
-                      <Calendar className="h-4 w-4" />
-                      <span>Mon - Sat: 9:00 AM - 7:00 PM</span>
-                    </div>
-                  </div>
-                </motion.div>
-
-                {/* ================= SITE VISIT ================= */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.25 }}
-                  className="rounded-2xl border border-[#c42630]/20 bg-[#c42630]/5 p-4 text-center sm:p-6"
-                >
-                  <h4 className="font-semibold text-gray-900 mb-2">
-                    Schedule a Site Visit
-                  </h4>
-
-                  <p className="text-sm text-gray-600 mb-4">
-                    Experience the project firsthand with our guided site visits.
-                  </p>
-
-                  <Button
-                    type="button"
-                    onClick={() => setIsSiteVisitOpen(true)}
-                    className="w-full bg-gradient-to-r from-[#c42630] to-[#a61f28] hover:from-[#d12c37] hover:to-[#b6232d] text-white"
-                  >
-                    Book Site Visit
-                  </Button>
-                </motion.div>
-
+                ) : null}
               </div>
             </div>
-          </div>
+          </aside>
         </div>
-        <SiteVisitDialog
-          open={isSiteVisitOpen}
-          onOpenChange={setIsSiteVisitOpen}
-          phoneHref={phoneHref}
-          whatsappHref={whatsappHref}
-          sourceLabel="Project page site visit request."
-          projectName={project.name}
-        />
       </section>
+
+      <SiteVisitDialog
+        open={isSiteVisitOpen}
+        onOpenChange={setIsSiteVisitOpen}
+        phoneHref={phoneHref}
+        whatsappHref={whatsappHref}
+        sourceLabel="Project page site visit request."
+        projectName={project.name}
+      />
+    </div>
+  );
+}
+
+function FactRow({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="flex items-start justify-between gap-4 border-b border-[#efe5d8] pb-3 last:border-b-0 last:pb-0">
+      <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#8b6c45]">
+        {label}
+      </span>
+      <span className="max-w-[14rem] text-right text-sm font-medium text-foreground">
+        {value}
+      </span>
     </div>
   );
 }

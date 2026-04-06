@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { ArrowRight, Phone, Calendar, MessageCircle } from 'lucide-react';
+import { ArrowRight, Calendar, MessageCircle, Phone } from 'lucide-react';
 import SiteVisitDialog from '@/components/landingpage/SiteVisitDialog';
 import { companyInfo } from '@/lib/project-data';
 
@@ -18,128 +18,108 @@ export default function CTASection() {
   ).replace(/\D/g, '')}`;
 
   return (
-    <section className="relative py-32 overflow-hidden">
-
-      {/* ⭐ Background */}
+    <section className="relative overflow-hidden py-[5.5rem]">
       <div className="absolute inset-0">
         <Image
-          src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1920"
-          alt=""
+          src="/hero-section.jpg"
+          alt="Premium Pridewalls real estate"
           fill
           className="object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#140708] via-[#1a0a0c]/95 to-[#140708]" />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(20,13,12,0.94)_0%,rgba(20,13,12,0.82)_44%,rgba(20,13,12,0.72)_100%)]" />
       </div>
-      
 
-      {/* ⭐ Light sources */}
-      {/* <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute -left-20 top-0 w-[420px] h-[420px] bg-[#c42630]/30 blur-[140px]" />
-        <div className="absolute -right-20 bottom-0 w-[420px] h-[420px] bg-[#c42630]/25 blur-[140px]" />
-      </div> */}
-
-
-      <div className="relative container mx-auto px-4">
-        {/* ⭐ Section Badge */}
-        <div className="text-center mb-16">
-          <span className="inline-block px-4 py-1 bg-[#c42630]/10 text-[#ff9aa0] rounded-full text-sm font-medium">
-            Let's Connect
-          </span>
-        </div>
-    
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
-
-          {/* ================= LEFT SIDE ================= */}
+      <div className="relative container mx-auto px-4 sm:px-6">
+        <div className="grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
           <motion.div
-            initial={{ opacity: 0, x: -40 }}
+            initial={{ opacity: 0, x: -24 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
           >
-            <span className="inline-block px-4 py-1 rounded-full bg-[#c42630]/20 text-[#ff9aa0] mb-6">
-              Start Your Journey
+            <span className="inline-flex rounded-full border border-white/14 bg-white/8 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#d8b37a]">
+              Start The Conversation
             </span>
-
-            <h2 className="text-4xl md:text-5xl font-bold text-white leading-tight mb-6">
-              Your Dream Home
-              <br />
-              <span className="bg-gradient-to-r from-[#c42630] to-[#ff7a81] bg-clip-text text-transparent">
-                Awaits You
-              </span>
+            <h2 className="mt-5 max-w-3xl text-4xl text-white sm:text-5xl">
+              Ready to shortlist the right property with more confidence?
             </h2>
-
-            <p className="text-white/70 max-w-lg text-lg mb-8">
-              Discover thoughtfully crafted spaces designed for comfort,
-              investment growth, and a lifestyle your family deserves.
+            <p className="mt-5 max-w-2xl text-base leading-8 text-white/70">
+              Let’s talk through your preferred location, budget range, and
+              property type so we can guide you toward the Pridewalls
+              opportunity that fits best.
             </p>
 
-            {/* ⭐ trust */}
-            <div className="flex gap-6 text-white/60 text-sm">
-              <span>✔ 8+ Years Experience</span>
-              <span>✔ 2500+ Families</span>
-              <span>✔ Clear Titles</span>
+            <div className="mt-8 flex flex-wrap gap-3 text-sm text-white/76">
+              <span className="rounded-full border border-white/12 bg-white/8 px-4 py-2">
+                Sales assistance
+              </span>
+              <span className="rounded-full border border-white/12 bg-white/8 px-4 py-2">
+                Site visit support
+              </span>
+              <span className="rounded-full border border-white/12 bg-white/8 px-4 py-2">
+                Project comparison help
+              </span>
             </div>
           </motion.div>
 
-          {/* ================= RIGHT SIDE ================= */}
           <motion.div
-            initial={{ opacity: 0, x: 40 }}
+            initial={{ opacity: 0, x: 24 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="relative"
+            className="estate-dark-panel rounded-[2rem] p-6 sm:p-7"
           >
-            {/* glow */}
-            {/* <div className="absolute inset-0 bg-[#c42630]/20 blur-[120px] rounded-3xl" /> */}
+            <div className="rounded-[1.5rem] border border-white/10 bg-white/[0.04] p-6">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#d8b37a]">
+                Connect with the team
+              </p>
+              <h3 className="mt-3 text-3xl text-white">Choose the next step that feels right</h3>
+              <p className="mt-3 text-sm leading-7 text-white/68">
+                Call, WhatsApp, or request a guided site visit. The layout is
+                intentionally simple so serious buyers can act quickly.
+              </p>
+            </div>
 
-            {/* card */}
-            <div className="relative p-8 rounded-3xl bg-white/10 backdrop-blur-xl border border-white/20 shadow-[0_30px_80px_rgba(0,0,0,0.4)]">
-
-              <h3 className="text-2xl font-bold text-white mb-6">
-                Speak With Our Experts
-              </h3>
-
-              {/* primary */}
+            <div className="mt-5 grid gap-3">
               <button
                 onClick={scrollToContact}
-                className="w-full py-4 rounded-xl bg-gradient-to-r from-[#c4263198] to-[#a61f28cf] text-white font-semibold flex items-center justify-center gap-2 mb-4 hover:scale-[1.02] transition"
+                className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-[#7a2430] px-5 text-sm font-semibold text-white transition hover:bg-[#69202a]"
               >
-                Enquire Now <ArrowRight size={18} />
+                Enquire Now
+                <ArrowRight className="h-4 w-4" />
               </button>
 
-              {/* secondary */}
-              <div className="grid grid-cols-2 gap-4 mb-4">
-
+              <div className="grid gap-3 sm:grid-cols-2">
                 <a
                   href={phoneHref}
-                  className="py-3 rounded-xl bg-white/20 text-white flex items-center justify-center gap-2 hover:bg-white/30 transition"
+                  className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-white/14 bg-white/[0.06] px-5 text-sm font-semibold text-white transition hover:bg-white/[0.1]"
                 >
-                  <Phone size={18} /> Call
+                  <Phone className="h-4 w-4" />
+                  Call Us
                 </a>
-
                 <a
                   href={whatsappHref}
                   target="_blank"
                   rel="noreferrer"
-                  className="py-3 rounded-xl bg-[#25D366]/30 text-white flex items-center justify-center gap-2 hover:bg-[#25D366]/40 transition"
+                  className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-[#3fd07d]/25 bg-[#2ca65f]/16 px-5 text-sm font-semibold text-white transition hover:bg-[#2ca65f]/24"
                 >
-                  <MessageCircle size={18} /> WhatsApp
+                  <MessageCircle className="h-4 w-4" />
+                  WhatsApp
                 </a>
               </div>
 
               <button
                 type="button"
                 onClick={() => setIsSiteVisitOpen(true)}
-                className="w-full py-3 rounded-xl border border-white/20 text-white flex items-center justify-center gap-2 hover:bg-white/10 transition"
+                className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-[#d8b37a]/24 bg-[#d8b37a]/10 px-5 text-sm font-semibold text-[#f6ebdb] transition hover:bg-[#d8b37a]/16"
               >
-                <Calendar size={18} /> Book Site Visit
+                <Calendar className="h-4 w-4" />
+                Schedule Site Visit
               </button>
-
-              {/* micro copy */}
-              <p className="text-white/50 text-xs mt-4 text-center">
-                Our team typically responds within 10 minutes
-              </p>
             </div>
-          </motion.div>
 
+            <p className="mt-5 text-center text-xs uppercase tracking-[0.16em] text-white/42">
+              Monday to Saturday • 9 AM to 7 PM
+            </p>
+          </motion.div>
         </div>
       </div>
 

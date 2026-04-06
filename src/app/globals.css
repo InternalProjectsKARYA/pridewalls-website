@@ -49,48 +49,51 @@
 :root {
   color-scheme: light;
   --radius: 0.625rem;
+  --font-body: "Aptos", "Segoe UI", "Trebuchet MS", "Helvetica Neue", sans-serif;
+  --font-display: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+  --font-script: "Great Vibes", cursive;
 
-  --background:             #ffffff;
-  --background:             color(display-p3 1 1 1);
+  --background:             #f6f1ea;
+  --background:             color(display-p3 0.964 0.945 0.918);
 
-  --foreground:             #1a1a1a;
-  --foreground:             color(display-p3 0.102 0.102 0.102);
+  --foreground:             #221b18;
+  --foreground:             color(display-p3 0.133 0.106 0.094);
 
-  --card:                   #ffffff;
-  --card:                   color(display-p3 1 1 1);
+  --card:                   #fffdf8;
+  --card:                   color(display-p3 0.997 0.991 0.973);
 
-  --card-foreground:        #1a1a1a;
-  --card-foreground:        color(display-p3 0.102 0.102 0.102);
+  --card-foreground:        #221b18;
+  --card-foreground:        color(display-p3 0.133 0.106 0.094);
 
-  --popover:                #ffffff;
-  --popover:                color(display-p3 1 1 1);
+  --popover:                #fffdf8;
+  --popover:                color(display-p3 0.997 0.991 0.973);
 
-  --popover-foreground:     #1a1a1a;
-  --popover-foreground:     color(display-p3 0.102 0.102 0.102);
+  --popover-foreground:     #221b18;
+  --popover-foreground:     color(display-p3 0.133 0.106 0.094);
 
-  --primary:                #222222;
-  --primary:                color(display-p3 0.133 0.133 0.133);
+  --primary:                #7a2430;
+  --primary:                color(display-p3 0.478 0.141 0.188);
 
-  --primary-foreground:     #fafafa;
-  --primary-foreground:     color(display-p3 0.980 0.980 0.980);
+  --primary-foreground:     #fff8f3;
+  --primary-foreground:     color(display-p3 0.995 0.973 0.953);
 
-  --secondary:              #f7f7f7;
-  --secondary:              color(display-p3 0.969 0.969 0.969);
+  --secondary:              #ede4d8;
+  --secondary:              color(display-p3 0.928 0.893 0.848);
 
-  --secondary-foreground:   #222222;
-  --secondary-foreground:   color(display-p3 0.133 0.133 0.133);
+  --secondary-foreground:   #34261e;
+  --secondary-foreground:   color(display-p3 0.204 0.149 0.118);
 
-  --muted:                  #f7f7f7;
-  --muted:                  color(display-p3 0.969 0.969 0.969);
+  --muted:                  #f0e8dd;
+  --muted:                  color(display-p3 0.941 0.911 0.869);
 
-  --muted-foreground:       #737373;
-  --muted-foreground:       color(display-p3 0.451 0.451 0.451);
+  --muted-foreground:       #6f5f55;
+  --muted-foreground:       color(display-p3 0.435 0.373 0.333);
 
-  --accent:                 #f7f7f7;
-  --accent:                 color(display-p3 0.969 0.969 0.969);
+  --accent:                 #e4d4bf;
+  --accent:                 color(display-p3 0.894 0.832 0.748);
 
-  --accent-foreground:      #222222;
-  --accent-foreground:      color(display-p3 0.133 0.133 0.133);
+  --accent-foreground:      #34261e;
+  --accent-foreground:      color(display-p3 0.204 0.149 0.118);
 
   --destructive:            #e5341a;
   --destructive:            color(display-p3 0.898 0.204 0.102);
@@ -98,46 +101,46 @@
   --destructive-foreground: #fafafa;
   --destructive-foreground: color(display-p3 0.980 0.980 0.980);
 
-  --border:                 #e8e8e8;
-  --border:                 color(display-p3 0.910 0.910 0.910);
+  --border:                 #d9cdc0;
+  --border:                 color(display-p3 0.851 0.804 0.753);
 
-  --input:                  #e8e8e8;
-  --input:                  color(display-p3 0.910 0.910 0.910);
+  --input:                  #d9cdc0;
+  --input:                  color(display-p3 0.851 0.804 0.753);
 
-  --ring:                   #b3b3b3;
-  --ring:                   color(display-p3 0.702 0.702 0.702);
+  --ring:                   #b28a54;
+  --ring:                   color(display-p3 0.698 0.541 0.329);
 
   /* Chart variables */
-  --chart-1:                #e8611a;
-  --chart-1:                color(display-p3 0.910 0.380 0.102);
+  --chart-1:                #8b2e39;
+  --chart-1:                color(display-p3 0.545 0.18 0.224);
 
-  --chart-2:                #3d9e8c;
-  --chart-2:                color(display-p3 0.239 0.620 0.549);
+  --chart-2:                #8c6f47;
+  --chart-2:                color(display-p3 0.549 0.435 0.278);
 
-  --chart-3:                #2a4a6b;
-  --chart-3:                color(display-p3 0.165 0.290 0.420);
+  --chart-3:                #31424f;
+  --chart-3:                color(display-p3 0.192 0.259 0.31);
 
-  --chart-4:                #d4c84a;
-  --chart-4:                color(display-p3 0.831 0.784 0.290);
+  --chart-4:                #c4a46d;
+  --chart-4:                color(display-p3 0.769 0.643 0.427);
 
-  --chart-5:                #c9a832;
-  --chart-5:                color(display-p3 0.788 0.659 0.196);
+  --chart-5:                #5c6b57;
+  --chart-5:                color(display-p3 0.361 0.42 0.341);
 
   /* Brand */
-  --brand-primary:          #c0392b;
-  --brand-primary:          color(display-p3 0.753 0.224 0.169);
+  --brand-primary:          #7a2430;
+  --brand-primary:          color(display-p3 0.478 0.141 0.188);
 
-  --brand-primary-foreground: #fafafa;
-  --brand-primary-foreground: color(display-p3 0.980 0.980 0.980);
+  --brand-primary-foreground: #fff8f3;
+  --brand-primary-foreground: color(display-p3 0.995 0.973 0.953);
 
-  --brand-silver:           #d4d4d4;
-  --brand-silver:           color(display-p3 0.831 0.831 0.831);
+  --brand-silver:           #c7b49a;
+  --brand-silver:           color(display-p3 0.78 0.706 0.604);
 
-  --brand-silver-muted:     #bfbfbf;
-  --brand-silver-muted:     color(display-p3 0.749 0.749 0.749);
+  --brand-silver-muted:     #aa9378;
+  --brand-silver-muted:     color(display-p3 0.667 0.576 0.471);
 
-  --brand-silver-strong:    #a3a3a3;
-  --brand-silver-strong:    color(display-p3 0.639 0.639 0.639);
+  --brand-silver-strong:    #8a725b;
+  --brand-silver-strong:    color(display-p3 0.541 0.447 0.357);
 }
 
 /* =====================================================
@@ -246,8 +249,63 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: Arial, Helvetica, sans-serif;
-    -webkit-font-smoothing: auto;
-    -moz-osx-font-smoothing: auto;
+    font-family: var(--font-body);
+    background-image:
+      radial-gradient(circle at top left, rgba(200, 171, 128, 0.14), transparent 22rem),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0));
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+  }
+}
+
+::selection {
+  background: rgba(122, 36, 48, 0.18);
+  color: var(--foreground);
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-script {
+  font-family: var(--font-script);
+}
+
+.section-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(122, 36, 48, 0.14);
+  background: rgba(122, 36, 48, 0.07);
+  padding: 0.4rem 0.9rem;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #7a2430;
+}
+
+.estate-panel {
+  border: 1px solid rgba(138, 114, 91, 0.18);
+  background:
+    linear-gradient(180deg, rgba(255, 253, 248, 0.96), rgba(246, 241, 234, 0.94));
+  box-shadow: 0 28px 60px rgba(62, 41, 28, 0.08);
+}
+
+.estate-dark-panel {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background:
+    linear-gradient(180deg, rgba(27, 20, 19, 0.96), rgba(17, 13, 12, 0.98));
+  box-shadow: 0 32px 70px rgba(0, 0, 0, 0.3);
 }

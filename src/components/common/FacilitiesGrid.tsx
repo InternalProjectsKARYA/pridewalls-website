@@ -2,33 +2,48 @@
 
 import { motion } from 'framer-motion';
 import {
-  Shield, DoorOpen, Fence, Droplets, Video, ArrowDown,
-  Droplet, Database, CloudRain, Route, Lightbulb, Zap,
-  Flame, Phone, Car, Snowflake, ArrowUpDown, TreePine,
-  Landmark, 
+  ArrowDown,
+  ArrowUpDown,
+  Car,
+  CloudRain,
+  Database,
+  DoorOpen,
+  Droplet,
+  Droplets,
+  Fence,
+  Flame,
+  Landmark,
+  Lightbulb,
+  Phone,
+  Route,
+  Shield,
+  Snowflake,
+  TreePine,
+  Video,
+  Zap,
 } from 'lucide-react';
 import { Facility } from '@/lib/project-interface';
 
 const iconMap: Record<string, React.ReactNode> = {
-  shield: <Shield className="h-6 w-6" />,
-  'door-open': <DoorOpen className="h-6 w-6" />,
-  fence: <Fence className="h-6 w-6" />,
-  droplets: <Droplets className="h-6 w-6" />,
-  video: <Video className="h-6 w-6" />,
-  'arrow-down': <ArrowDown className="h-6 w-6" />,
-  droplet: <Droplet className="h-6 w-6" />,
-  database: <Database className="h-6 w-6" />,
-  'cloud-rain': <CloudRain className="h-6 w-6" />,
-  route: <Route className="h-6 w-6" />,
-  lightbulb: <Lightbulb className="h-6 w-6" />,
-  zap: <Zap className="h-6 w-6" />,
-  flame: <Flame className="h-6 w-6" />,
-  phone: <Phone className="h-6 w-6" />,
-  car: <Car className="h-6 w-6" />,
-  snowflake: <Snowflake className="h-6 w-6" />,
-  'arrow-up-down': <ArrowUpDown className="h-6 w-6" />,
-  'tree-pine': <TreePine className="h-6 w-6" />,
-  landmark: <Landmark className="h-6 w-6" />,
+  shield: <Shield className="h-5 w-5" />,
+  'door-open': <DoorOpen className="h-5 w-5" />,
+  fence: <Fence className="h-5 w-5" />,
+  droplets: <Droplets className="h-5 w-5" />,
+  video: <Video className="h-5 w-5" />,
+  'arrow-down': <ArrowDown className="h-5 w-5" />,
+  droplet: <Droplet className="h-5 w-5" />,
+  database: <Database className="h-5 w-5" />,
+  'cloud-rain': <CloudRain className="h-5 w-5" />,
+  route: <Route className="h-5 w-5" />,
+  lightbulb: <Lightbulb className="h-5 w-5" />,
+  zap: <Zap className="h-5 w-5" />,
+  flame: <Flame className="h-5 w-5" />,
+  phone: <Phone className="h-5 w-5" />,
+  car: <Car className="h-5 w-5" />,
+  snowflake: <Snowflake className="h-5 w-5" />,
+  'arrow-up-down': <ArrowUpDown className="h-5 w-5" />,
+  'tree-pine': <TreePine className="h-5 w-5" />,
+  landmark: <Landmark className="h-5 w-5" />,
 };
 
 interface FacilitiesGridProps {
@@ -37,25 +52,22 @@ interface FacilitiesGridProps {
 
 export default function FacilitiesGrid({ facilities }: FacilitiesGridProps) {
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+    <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
       {facilities.map((facility, index) => (
         <motion.div
           key={facility.id}
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
+          initial={{ opacity: 0, y: 18 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: index * 0.05 }}
-          className="group relative bg-card rounded-xl p-4 border border-border hover:border-[#c12730]/30 hover:shadow-md transition-all duration-300 text-center"
+          className="rounded-[1.5rem] border border-[#d9cdc0] bg-white/78 p-5 transition hover:-translate-y-0.5 hover:shadow-[0_18px_30px_rgba(59,37,28,0.06)]"
         >
-          <div className="w-14 h-14 mx-auto rounded-xl bg-[#c12730]/10 flex items-center justify-center text-[#c12730] mb-3 group-hover:bg-[#c12730] group-hover:text-white transition-colors">
-            {iconMap[facility.icon] || <Shield className="h-6 w-6" />}
+          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#7a2430]/10 text-[#7a2430]">
+            {iconMap[facility.icon] || <Shield className="h-5 w-5" />}
           </div>
 
-          <h4 className="font-medium text-foreground text-sm leading-tight">
-            {facility.name}
-          </h4>
-
-          <p className="text-xs text-muted-foreground mt-1 leading-tight">
+          <h4 className="mt-5 text-2xl text-foreground">{facility.name}</h4>
+          <p className="mt-2 text-sm leading-7 text-muted-foreground">
             {facility.description}
           </p>
         </motion.div>
