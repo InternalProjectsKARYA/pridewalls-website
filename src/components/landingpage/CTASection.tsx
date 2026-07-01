@@ -102,7 +102,7 @@ export default function CTASection() {
                 onClick={scrollToContact}
                 className="mb-4 flex w-full items-center justify-center gap-2 rounded-md bg-brand-gold py-4 font-semibold text-white transition hover:bg-brand-gold-hover"
               >
-                Enquire Now <ArrowRight size={18} />
+                Get In Touch <ArrowRight size={18} />
               </button>
 
               {/* secondary */}

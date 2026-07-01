@@ -150,7 +150,7 @@ export default function ProjectPage({ project }: ProjectPageProps) {
       </section>
 
       {/* Quick Stats Bar */}
-      <section className="relative overflow-hidden bg-primary shadow-card">
+      <section className="relative overflow-hidden bg-white shadow-card">
 
         {/* ===== Brand glow background ===== */}
         {/* <div className="pointer-events-none absolute inset-0">
@@ -177,7 +177,7 @@ export default function ProjectPage({ project }: ProjectPageProps) {
             </div> */}
 
             {/* Units */}
-            <div className="flex min-w-0 items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.03] p-4 shadow-lg shadow-black/10 backdrop-blur-sm sm:p-5">
+            <div className="flex min-w-0 items-center gap-3 rounded-2xl border border-white/10 bg-primary p-4 shadow-lg shadow-black/10 backdrop-blur-sm sm:p-5">
               <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-gold text-white shadow-card">
                 <Building2 className="w-5 h-5 text-white" />
               </div>
@@ -190,7 +190,7 @@ export default function ProjectPage({ project }: ProjectPageProps) {
             </div>
 
             {/* Project size */}
-            <div className="flex min-w-0 items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.03] p-4 shadow-lg shadow-black/10 backdrop-blur-sm sm:p-5">
+            <div className="flex min-w-0 items-center gap-3 rounded-2xl border border-white/10 bg-primary p-4 shadow-lg shadow-black/10 backdrop-blur-sm sm:p-5">
               <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-gold text-white shadow-card">
                 <Maximize className="w-5 h-5 text-white" />
               </div>
@@ -203,7 +203,7 @@ export default function ProjectPage({ project }: ProjectPageProps) {
             </div>
 
             {/* Plot area */}
-            <div className="flex min-w-0 items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.03] p-4 shadow-lg shadow-black/10 backdrop-blur-sm sm:p-5">
+            <div className="flex min-w-0 items-center gap-3 rounded-2xl border border-white/10 bg-primary p-4 shadow-lg shadow-black/10 backdrop-blur-sm sm:p-5">
               <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-gold text-white shadow-card">
                 <Ruler className="w-5 h-5 text-white" />
               </div>
@@ -217,7 +217,7 @@ export default function ProjectPage({ project }: ProjectPageProps) {
 
             {/* RERA */}
             {project.reraNumber && (
-              <div className="flex min-w-0 items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.03] p-4 shadow-lg shadow-black/10 backdrop-blur-sm min-[480px]:col-span-2 sm:p-5 xl:col-span-1">
+              <div className="flex min-w-0 items-center gap-3 rounded-2xl border border-white/10 bg-primary p-4 shadow-lg shadow-black/10 backdrop-blur-sm min-[480px]:col-span-2 sm:p-5 xl:col-span-1">
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-gold text-white shadow-card">
                   <FileCheck className="w-5 h-5 text-white" />
                 </div>

@@ -113,7 +113,7 @@ export default function Navbar() {
           {/* CTA */}
           <div className="hidden lg:flex">
             <Button asChild>
-              <Link href="/#contact">Enquire Now</Link>
+              <Link href="/#contact">Get In Touch</Link>
             </Button>
           </div>
 
