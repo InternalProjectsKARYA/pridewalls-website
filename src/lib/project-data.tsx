@@ -4,17 +4,17 @@ export const projects: Project[] = [
   {
     id: '1',
     slug: 'Completed-Apartment',
-    name: 'Pride Walls',
-    tagline: 'Find Your Dream Home With Pridewalls',
-    description: `Pride Walls Espino is a premium gated residential community offering thoughtfully designed 2 & 3 BHK apartments in Ameenpur, Hyderabad. Planned in accordance with HMDA norms, the project emphasizes superior construction quality, smart layouts, and ample natural light and ventilation. With elegant architecture and expansive open spaces, Espino delivers a refined lifestyle that balances modern living with everyday comfort.
+    name: 'PRIDEWALLS ESPINO',
+    tagline: 'Find Your Dream Home With PRIDEWALLS',
+    description: `PRIDEWALLS Espino is a premium gated residential community offering thoughtfully designed 2 & 3 BHK apartments in Ameenpur, Hyderabad. Planned in accordance with HMDA norms, the project emphasizes superior construction quality, smart layouts, and ample natural light and ventilation. With elegant architecture and expansive open spaces, Espino delivers a refined lifestyle that balances modern living with everyday comfort.
 
 The project is enriched with a wide range of outdoor and lifestyle amenities, including beautifully landscaped gardens, walking and jogging tracks, children’s play areas, sports courts, an amphitheatre, and an in-campus temple. Safety and convenience are integral to the design, featuring 24-hour security, intercom facility, RFID access, visitor parking, and well-ventilated cellar parking, ensuring a secure and hassle-free living environment.
 
 A key attraction of the community is Club Vivian, a thoughtfully planned four-level clubhouse spanning approximately 39,000 sq. ft. It offers premium facilities such as a modern gym, indoor badminton court, yoga and meditation hall, terrace swimming pool, banquet and multipurpose halls, food court, guest rooms, knowledge centre, supermarket, creche, and a PHC with pharmacy—creating a complete lifestyle ecosystem within the community.
 
-Developed by Pride Walls, Espino comprises six residential blocks (A to F) with a balanced mix of 2BHK and 3BHK homes, efficient floor plans, and excellent connectivity to schools, IT hubs, healthcare facilities, shopping, and entertainment zones. Espino stands as an ideal choice for families seeking a modern, well-connected, and community-centric lifestyle in West Hyderabad.`,
+Developed by PRIDEWALLS, Espino comprises six residential blocks (A to F) with a balanced mix of 2BHK and 3BHK homes, efficient floor plans, and excellent connectivity to schools, IT hubs, healthcare facilities, shopping, and entertainment zones. Espino stands as an ideal choice for families seeking a modern, well-connected, and community-centric lifestyle in West Hyderabad.`,
     location: 'Ameenpur, Hyderabad',
-    mapEmbedUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3888.123456789!2d77.7!3d12.95!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTLCsDU3JzAwLjAiTiA3N8KwNDInMDAuMCJF!5e0!3m2!1sen!2sin!4v1234567890',
+    mapEmbedUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1206.8958158794214!2d78.31674295666015!3d17.51407797395735!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcb8d00024530ed%3A0x265564fe9ac9ae3d!2sThe%20Espino%20C%20Block!5e1!3m2!1sen!2sin!4v1782734446585!5m2!1sen!2sin',
     type: 'apartments',
     status: 'ongoing',
     featured: false,
@@ -135,7 +135,7 @@ Developed by Pride Walls, Espino comprises six residential blocks (A to F) with 
   {
     id: '2',
     slug: 'premimum-plots',
-    name: 'Pride Walls ',
+    name: 'PRIDEWALLS PLOTS',
     tagline: 'Premium Plots',
     description: `Business Hub is a state-of-the-art commercial development designed for modern enterprises. Located in the bustling Electronic City, this project offers ready-to-move office spaces, retail outlets, and co-working spaces with world-class infrastructure.
 
@@ -258,7 +258,7 @@ The building features high-speed elevators, ample parking, 100% power backup, an
   {
     id: '3',
     slug: 'premimum-villas',
-    name: 'Pride Walls ',
+    name: 'PRIDEWALLS VILLAS',
     tagline: 'Premium Villas',
     description: `Business Hub is a state-of-the-art commercial development designed for modern enterprises. Located in the bustling Electronic City, this project offers ready-to-move office spaces, retail outlets, and co-working spaces with world-class infrastructure.
 
@@ -355,7 +355,7 @@ The building features high-speed elevators, ample parking, 100% power backup, an
 ];
 
 export const companyInfo: CompanyInfo = {
-  name: 'Pridewalls',
+  name: 'PRIDEWALLS',
   tagline: 'Building Dreams, Creating Legacies',
   description: `We are committed to creating thoughtfully designed living spaces that blend quality construction, smart planning, and everyday comfort. Our focus is on delivering homes that offer long-term value, transparency, and peace of mind to every homeowner.
   With a strong emphasis on compliance, craftsmanship, and community living, we aim to build not just apartments—but places people are proud to call home.`,
@@ -394,7 +394,7 @@ export const testimonials: Testimonial[] = [
     id: '1',
     name: 'Rajesh Kumar',
     location: 'Hyderabad',
-    content: 'We purchased a plot in Heritage Greens and are extremely satisfied with the quality of development. The amenities are top-notch and the location is excellent. The Pridewalls team was very professional and helpful throughout the process.',
+    content: 'We purchased a plot in Heritage Greens and are extremely satisfied with the quality of development. The amenities are top-notch and the location is excellent. The PRIDEWALLS team was very professional and helpful throughout the process.',
     rating: 5,
     projectPurchased: 'Heritage Greens',
   },
@@ -402,7 +402,7 @@ export const testimonials: Testimonial[] = [
     id: '2',
     name: 'Priya Sharma',
     location: 'Whitefield',
-    content: 'Pridewalls exceeded our expectations. From site visits to documentation, everything was handled professionally. Our villa in Serene Heights is absolutely beautiful and worth every penny.',
+    content: 'PRIDEWALLS exceeded our expectations. From site visits to documentation, everything was handled professionally. Our villa in Serene Heights is absolutely beautiful and worth every penny.',
     rating: 5,
     projectPurchased: 'Serene Heights',
   },
@@ -410,7 +410,7 @@ export const testimonials: Testimonial[] = [
     id: '3',
     name: 'Arun Menon',
     location: 'Electronic City',
-    content: 'Invested in a commercial space at Business Hub. The ROI has been fantastic and the property management is excellent. Highly recommend Pridewalls for both residential and commercial investments.',
+    content: 'Invested in a commercial space at Business Hub. The ROI has been fantastic and the property management is excellent. Highly recommend PRIDEWALLS for both residential and commercial investments.',
     rating: 5,
     projectPurchased: 'Business Hub',
   },

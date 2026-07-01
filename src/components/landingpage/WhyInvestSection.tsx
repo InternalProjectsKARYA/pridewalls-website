@@ -37,8 +37,8 @@ export default function WhyInvestSection() {
     <section className="relative overflow-hidden bg-gradient-to-b from-background via-background to-muted/20 py-12 sm:py-16 lg:py-24">
       {/* Brand glow */}
       {/* <div className="pointer-events-none absolute inset-0">
-        <div className="absolute top-20 left-1/4 h-72 w-72 bg-[#c42532]/10 blur-[120px]" />
-        <div className="absolute right-1/4 bottom-10 h-72 w-72 bg-[#c42532]/10 blur-[120px]" />
+        <div className="absolute top-20 left-1/4 h-72 w-72 bg-brand-gold/10 blur-[120px]" />
+        <div className="absolute right-1/4 bottom-10 h-72 w-72 bg-brand-gold/10 blur-[120px]" />
       </div> */}
 
       <div className="relative container mx-auto px-4 sm:px-6">
@@ -48,7 +48,7 @@ export default function WhyInvestSection() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="mb-4 inline-flex rounded-full bg-[#c42532]/10 px-4 py-1.5 text-xs font-semibold tracking-[0.18em] text-[#c42532] uppercase backdrop-blur sm:px-5 sm:text-sm"
+            className="mb-4 inline-flex rounded-full bg-brand-gold/10 px-4 py-1.5 text-xs font-semibold tracking-[0.18em] text-brand-gold uppercase backdrop-blur sm:px-5 sm:text-sm"
           >
             Why Choose Us
           </motion.span>
@@ -84,18 +84,18 @@ export default function WhyInvestSection() {
               whileHover={{ y: -6 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.08 }}
-              className="group relative h-full rounded-2xl bg-gradient-to-b from-[#c42532]/30 to-transparent p-[1px]"
+              className="group relative h-full rounded-2xl bg-gradient-to-b from-brand-gold/30 to-transparent p-[1px]"
             >
-              <div className="relative flex h-full min-w-0 flex-col rounded-2xl border border-border/60 bg-card/80 p-5 backdrop-blur transition-all duration-300 group-hover:border-[#c42532]/40 group-hover:shadow-xl sm:p-6">
+              <div className="relative flex h-full min-w-0 flex-col rounded-2xl border border-border/60 bg-card/80 p-5 backdrop-blur transition-all duration-300 group-hover:border-brand-gold/40 group-hover:shadow-xl sm:p-6">
                 <div className="absolute inset-0 opacity-0 transition group-hover:opacity-100">
-                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#c42532]/5 via-transparent to-transparent" />
+                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-brand-gold/5 via-transparent to-transparent" />
                 </div>
 
-                <div className="relative mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-[#c42532]/10 text-[#c42532] transition group-hover:bg-[#c42532] group-hover:text-white sm:mb-5 sm:h-14 sm:w-14">
+                <div className="relative mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-brand-gold/10 text-brand-gold transition group-hover:bg-brand-gold group-hover:text-white sm:mb-5 sm:h-14 sm:w-14">
                   {iconMap[highlight.icon] ?? <Building2 className="h-6 w-6" />}
                 </div>
 
-                <h3 className="mb-2 text-base font-semibold text-foreground transition group-hover:text-[#c42532] sm:text-lg">
+                <h3 className="mb-2 text-base font-semibold text-foreground transition group-hover:text-brand-gold sm:text-lg">
                   {highlight.title}
                 </h3>
 
@@ -113,7 +113,7 @@ export default function WhyInvestSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.4 }}
-          className="mt-10 rounded-2xl bg-gradient-to-r from-[#c42532]/40 via-transparent to-[#c42532]/40 p-[1px] sm:mt-14 lg:mt-16"
+          className="mt-10 rounded-2xl bg-gradient-to-r from-brand-gold/40 via-transparent to-brand-gold/40 p-[1px] sm:mt-14 lg:mt-16"
         >
           <div className="rounded-2xl border border-border/50 bg-muted/50 p-4 backdrop-blur sm:p-6 lg:p-7">
             <div className="grid grid-cols-1 gap-3 min-[520px]:grid-cols-2 sm:gap-4 xl:grid-cols-4 xl:gap-0">
@@ -123,10 +123,10 @@ export default function WhyInvestSection() {
                   className="group relative flex min-w-0 items-center gap-4 rounded-xl border border-border/50 bg-background/70 p-4 text-left sm:p-5 xl:rounded-none xl:border-0 xl:bg-transparent xl:px-6 xl:py-3"
                 >
                   {index !== trustItems.length - 1 && (
-                    <div className="absolute top-1/2 right-0 hidden h-10 w-px -translate-y-1/2 bg-gradient-to-b from-transparent via-[#c42532]/40 to-transparent xl:block" />
+                    <div className="absolute top-1/2 right-0 hidden h-10 w-px -translate-y-1/2 bg-gradient-to-b from-transparent via-brand-gold/40 to-transparent xl:block" />
                   )}
 
-                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#c42532]/10 text-[#c42532] transition group-hover:bg-[#c42532] group-hover:text-white">
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-gold/10 text-brand-gold transition group-hover:bg-brand-gold group-hover:text-white">
                     <item.icon className="h-5 w-5 sm:h-6 sm:w-6" />
                   </div>
 

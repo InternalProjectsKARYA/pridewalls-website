@@ -93,8 +93,8 @@ export default function ContactForm({ projectName, showProjectSelect = true }: C
         animate={{ opacity: 1, scale: 1 }}
         className="text-center py-12 "
       >
-        <div className="w-16 h-16 mx-auto mb-6 bg-green-100 rounded-full flex items-center justify-center">
-          <CheckCircle2 className="h-8 w-8 text-green-600" />
+        <div className="w-16 h-16 mx-auto mb-6 bg-success/10 rounded-full flex items-center justify-center">
+          <CheckCircle2 className="h-8 w-8 text-success" />
         </div>
         <h3 className="text-2xl font-bold text-foreground mb-2">Thank You!</h3>
         <p className="text-muted-foreground mb-6">
@@ -217,7 +217,7 @@ export default function ContactForm({ projectName, showProjectSelect = true }: C
             type="text"
             placeholder="Tell us what you're interested in"
             onChange={(e) => setValue('interestedIn', e.target.value)}
-            className="mt-2 h-10 w-full rounded-md border px-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#c42630]/40"
+            className="mt-2 h-10 w-full rounded-md border px-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-gold/40"
           />
         )}
       </div>
@@ -269,7 +269,7 @@ export default function ContactForm({ projectName, showProjectSelect = true }: C
       <Button
         type="submit"
         size="lg"
-        className="w-full bg-gradient-to-r from-[#c42630] to-[#a61f28] text-white font-semibold hover:scale-[1.02] transition shadow-[0_10px_25px_rgba(196,38,48,0.35)]"
+        className="w-full bg-gradient-to-r from-brand-gold to-brand-gold-hover text-white font-semibold hover:scale-[1.02] transition shadow-[0_10px_25px_rgba(13,38,89,0.12)]"
         disabled={isSubmitting}
       >
         {isSubmitting ? (

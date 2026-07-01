@@ -45,9 +45,9 @@ const statusFilters = [
 ];
 
 const statusColors: Record<string, string> = {
-  ongoing: 'bg-gray-900 text-white',
-  upcoming: 'bg-gray-900 text-white',
-  completed: 'bg-gray-900 text-white',
+  ongoing: 'bg-info/10 text-info border-info/20',
+  upcoming: 'bg-warning/10 text-warning border-warning/20',
+  completed: 'bg-success/10 text-success border-success/20',
 };
 
 const typeIcons: Record<string, React.ReactNode> = {
@@ -71,7 +71,7 @@ function ProjectCard({ project, index }: ProjectCardProps) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="group relative bg-card rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 border border-border"
+      className="premium-card group relative overflow-hidden"
     >
       {/* Image */}
       <div className="relative h-64 overflow-hidden">
@@ -94,13 +94,13 @@ function ProjectCard({ project, index }: ProjectCardProps) {
         {/* Featured */}
         {project.featured && (
           <div className="absolute top-4 right-4">
-            <Badge className="bg-yellow-500 text-white font-semibold">Featured</Badge>
+            <Badge className="bg-brand-gold text-white font-semibold">Featured</Badge>
           </div>
         )}
 
         {/* Price */}
         {/* <div className="absolute bottom-4 right-4 bg-white/95 backdrop-blur-sm px-4 py-2 rounded-lg shadow-lg">
-          <div className="text-sm font-bold text-[#c42630]">
+          <div className="text-sm font-bold text-brand-gold">
             ₹ {project.priceRange.min} {project.priceRange.currency} - {project.priceRange.max}{' '}
             {project.priceRange.currency}
           </div>
@@ -140,7 +140,7 @@ function ProjectCard({ project, index }: ProjectCardProps) {
         </div>
 
         {/* CTA */}
-        <Button asChild className="w-full bg-[#c42630] hover:bg-[#a61f28] text-white">
+        <Button asChild className="w-full">
           <Link href={`/projects/${project.slug}`}>
             View Details
             <ArrowRight className="ml-2 h-4 w-4" />
@@ -161,7 +161,7 @@ const Stat = ({ value, label }: any) => (
 );
 
 const Chip = ({ icon, label }: any) => (
-  <span className="flex items-center gap-1 text-xs px-2 py-1 bg-[#c42630]/10 text-[#c42630] rounded-full">
+  <span className="flex items-center gap-1 rounded-full bg-brand-gold/10 px-2 py-1 text-xs font-medium text-brand-gold">
     {icon}
     {label}
   </span>
@@ -186,16 +186,16 @@ export default function FeaturedProjects() {
   );
 
   return (
-    <section id="projects" className="py-16 lg:py-24 bg-muted/30">
-      <div className="container mx-auto px-4">
+    <section id="projects" className="bg-muted/30 py-16 lg:py-24">
+      <div className="section-shell">
 
         {/* Header */}
         <div className="text-center mb-12">
-          <span className="inline-block px-4 py-1 bg-[#c42630]/10 text-[#c42630] rounded-full text-sm font-medium mb-4">
+          <span className="eyebrow mb-4">
             Our Projects
           </span>
 
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+          <h2 className="mb-4 text-3xl font-bold text-primary md:text-4xl lg:text-5xl">
             Discover Your Dream Property
           </h2>
 
@@ -217,8 +217,8 @@ export default function FeaturedProjects() {
                     onClick={() => setActiveType(filter.value)}
                     className={`flex min-w-0 items-center justify-center gap-2 rounded-lg px-3 py-2.5 text-[13px] font-medium transition-all duration-200 sm:justify-start sm:px-4 sm:py-2 sm:text-sm
             ${active
-                        ? 'bg-[#c42630] text-white shadow'
-                        : 'text-muted-foreground hover:bg-[#c42630]/10 hover:text-[#c42630]'
+                      ? 'bg-primary text-white shadow-card'
+                        : 'text-muted-foreground hover:bg-accent hover:text-primary'
                       }
           `}
                   >
@@ -234,7 +234,7 @@ export default function FeaturedProjects() {
         <div className="mb-10 flex justify-end">
           <Select value={activeStatus} onValueChange={setActiveStatus}>
             <SelectTrigger className="h-11 w-full gap-2 rounded-xl border-border bg-background px-4 text-sm font-medium sm:w-[220px]">
-              <SlidersHorizontal className="h-4 w-4 text-[#c42630]" />
+              <SlidersHorizontal className="h-4 w-4 text-primary" />
               <SelectValue placeholder="Filter by status" />
             </SelectTrigger>
             <SelectContent>

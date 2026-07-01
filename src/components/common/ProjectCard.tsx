@@ -21,9 +21,9 @@ const typeIcons: Record<string, React.ReactNode> = {
 };
 
 const statusColors: Record<string, string> = {
-  ongoing: 'bg-green-500/10 text-green-600 border-green-200',
-  upcoming: 'bg-amber-500/10 text-amber-600 border-amber-200',
-  completed: 'bg-blue-500/10 text-blue-600 border-blue-200',
+  ongoing: 'bg-info/10 text-info border-info/20',
+  upcoming: 'bg-warning/10 text-warning border-warning/20',
+  completed: 'bg-success/10 text-success border-success/20',
 };
 
 export default function ProjectCard({ project, featured = false }: ProjectCardProps) {
@@ -116,7 +116,7 @@ export default function ProjectCard({ project, featured = false }: ProjectCardPr
           {project.reraApproved && (
             <>
               <span>•</span>
-              <span className="text-green-600 font-medium">RERA Approved</span>
+              <span className="text-success font-medium">RERA Approved</span>
             </>
           )}
         </div>

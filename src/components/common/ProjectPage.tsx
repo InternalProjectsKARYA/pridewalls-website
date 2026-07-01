@@ -27,9 +27,9 @@ const typeIcons: Record<string, React.ReactNode> = {
 };
 
 const statusColors: Record<string, string> = {
-  ongoing: 'bg-green-500/10 text-green-600 border-green-200',
-  upcoming: 'bg-amber-500/10 text-amber-600 border-amber-200',
-  completed: 'bg-blue-500/10 text-blue-600 border-blue-200',
+  ongoing: 'bg-info/10 text-info border-info/20',
+  upcoming: 'bg-warning/10 text-warning border-warning/20',
+  completed: 'bg-success/10 text-success border-success/20',
 };
 
 const highlightIconMap: Record<string, React.ReactNode> = {
@@ -98,7 +98,7 @@ export default function ProjectPage({ project }: ProjectPageProps) {
         
         {/* Navigation Bar */}
         <div className="absolute top-0 left-0 right-0 z-10 p-3 sm:p-4">
-          <div className="container mx-auto flex items-start justify-between gap-3 sm:items-center">
+          <div className="section-shell flex items-start justify-between gap-3 sm:items-center">
             <Button 
               variant="secondary" 
              onClick={() => router.back()}
@@ -121,7 +121,7 @@ export default function ProjectPage({ project }: ProjectPageProps) {
 
         {/* Hero Content */}
         <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 md:p-10">
-          <div className="container mx-auto">
+          <div className="section-shell">
             <div className="mb-4 flex flex-wrap items-center gap-2 sm:gap-3">
               <div className="flex items-center gap-2 text-white/80">
                 {typeIcons[project.type]}
@@ -150,27 +150,27 @@ export default function ProjectPage({ project }: ProjectPageProps) {
       </section>
 
       {/* Quick Stats Bar */}
-      <section className="relative overflow-hidden bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 shadow-xl">
+      <section className="relative overflow-hidden bg-primary shadow-card">
 
         {/* ===== Brand glow background ===== */}
         {/* <div className="pointer-events-none absolute inset-0">
-          <div className="absolute -top-10 left-1/3 w-60 h-60 bg-[#c42630]/20 blur-[110px]" />
-          <div className="absolute -bottom-10 right-1/3 w-60 h-60 bg-[#c42630]/20 blur-[110px]" />
+          <div className="absolute -top-10 left-1/3 w-60 h-60 bg-brand-gold/20 blur-[110px]" />
+          <div className="absolute -bottom-10 right-1/3 w-60 h-60 bg-brand-gold/20 blur-[110px]" />
         </div> */}
 
-        <div className="relative container mx-auto px-4 py-4 sm:px-6 sm:py-5">
+        <div className="section-shell relative py-4 sm:py-5">
           <div className="grid grid-cols-1 gap-3 min-[480px]:grid-cols-2 sm:gap-4 xl:grid-cols-4">
 
             {/* Price */}
             {/* <div className="flex items-center gap-3 justify-center md:justify-start">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#c42630] to-[#a61f28] flex items-center justify-center shadow-lg shadow-[#c42630]/30">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-gold text-white shadow-card">
                 <IndianRupee className="w-5 h-5 text-white" />
               </div>
               <div>
                 <div className="text-xl md:text-2xl font-bold text-white tracking-tight">
                   {project.priceRange.min} - {project.priceRange.max}
                 </div>
-                <div className="text-xs md:text-sm text-slate-400">
+                <div className="text-xs text-white/65 md:text-sm">
                   {project.priceRange.currency}
                 </div>
               </div>
@@ -178,54 +178,54 @@ export default function ProjectPage({ project }: ProjectPageProps) {
 
             {/* Units */}
             <div className="flex min-w-0 items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.03] p-4 shadow-lg shadow-black/10 backdrop-blur-sm sm:p-5">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#c42630] to-[#a61f28] shadow-lg shadow-[#c42630]/30">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-gold text-white shadow-card">
                 <Building2 className="w-5 h-5 text-white" />
               </div>
               <div className="min-w-0">
                 <div className="text-xl font-bold text-white sm:text-2xl">
                   {project.totalUnits}
                 </div>
-                <div className="text-xs text-slate-400 sm:text-sm">Total Units</div>
+                <div className="text-xs text-white/65 sm:text-sm">Total Units</div>
               </div>
             </div>
 
             {/* Project size */}
             <div className="flex min-w-0 items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.03] p-4 shadow-lg shadow-black/10 backdrop-blur-sm sm:p-5">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#c42630] to-[#a61f28] shadow-lg shadow-[#c42630]/30">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-gold text-white shadow-card">
                 <Maximize className="w-5 h-5 text-white" />
               </div>
               <div className="min-w-0">
                 <div className="text-xl font-bold text-white sm:text-2xl">
                   {project.projectSize}
                 </div>
-                <div className="text-xs text-slate-400 sm:text-sm">Project Area</div>
+                <div className="text-xs text-white/65 sm:text-sm">Project Area</div>
               </div>
             </div>
 
             {/* Plot area */}
             <div className="flex min-w-0 items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.03] p-4 shadow-lg shadow-black/10 backdrop-blur-sm sm:p-5">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#c42630] to-[#a61f28] shadow-lg shadow-[#c42630]/30">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-gold text-white shadow-card">
                 <Ruler className="w-5 h-5 text-white" />
               </div>
               <div className="min-w-0">
                 <div className="text-xl font-bold text-white sm:text-2xl">
                   {project.area.min} - {project.area.max}
                 </div>
-                <div className="text-xs text-slate-400 sm:text-sm">{project.area.unit}</div>
+                <div className="text-xs text-white/65 sm:text-sm">{project.area.unit}</div>
               </div>
             </div>
 
             {/* RERA */}
             {project.reraNumber && (
               <div className="flex min-w-0 items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.03] p-4 shadow-lg shadow-black/10 backdrop-blur-sm min-[480px]:col-span-2 sm:p-5 xl:col-span-1">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#c42630] to-[#a61f28] shadow-lg shadow-[#c42630]/30">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-gold text-white shadow-card">
                   <FileCheck className="w-5 h-5 text-white" />
                 </div>
                 <div className="min-w-0">
                   <div className="break-words text-sm font-bold text-white sm:text-base">
                     {project.reraNumber}
                   </div>
-                  <div className="text-xs text-slate-400">Approved</div>
+                  <div className="text-xs text-white/65">Approved</div>
                 </div>
               </div>
             )}
@@ -234,12 +234,12 @@ export default function ProjectPage({ project }: ProjectPageProps) {
         </div>
 
         {/* ===== Bottom accent line ===== */}
-        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#c42630]/60 to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-brand-gold/60 to-transparent" />
       </section>
 
       {/* Main Content */}
       <section className="py-8 sm:py-12">
-        <div className="container mx-auto px-4 sm:px-6">
+        <div className="section-shell">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Left Column - Details */}
             <div className="lg:col-span-2 space-y-10">
@@ -248,14 +248,14 @@ export default function ProjectPage({ project }: ProjectPageProps) {
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                  className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm"
+                  className="premium-card overflow-hidden"
                 >
-                <div className="border-b border-gray-200 bg-gradient-to-r from-[#c42630]/10 to-[#c42630]/5 p-4 sm:p-6">
-                  <h2 className="text-xl font-semibold text-gray-900 sm:text-2xl">Project Overview</h2>
+                <div className="border-b border-border bg-muted/40 p-4 sm:p-6">
+                  <h2 className="text-xl font-semibold text-primary sm:text-2xl">Project Overview</h2>
                 </div>
 
                 <div className="p-4 sm:p-6">
-                  <p className="text-base leading-relaxed text-gray-600 whitespace-pre-line sm:text-lg">
+                  <p className="text-base leading-relaxed text-muted-foreground whitespace-pre-line sm:text-lg">
                     {project.description}
                   </p>
                 </div>
@@ -267,10 +267,10 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
-                className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm"
+                className="premium-card overflow-hidden"
               >
-                <div className="border-b border-gray-200 bg-gradient-to-r from-[#c42630]/10 to-[#c42630]/5 p-4 sm:p-6">
-                  <h2 className="text-xl font-semibold text-gray-900 sm:text-2xl">
+                <div className="border-b border-border bg-muted/40 p-4 sm:p-6">
+                  <h2 className="text-xl font-semibold text-primary sm:text-2xl">
                     Why Choose {project.name}?
                   </h2>
                 </div>
@@ -280,15 +280,15 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                     {project.highlights.map((highlight) => (
                       <div
                         key={highlight.id}
-                        className="flex items-start gap-4 p-4 bg-[#c42630]/5 rounded-xl hover:bg-[#c42630]/10 transition"
+                        className="flex items-start gap-4 rounded-xl border border-border bg-muted/40 p-4 transition hover:border-primary/20 hover:bg-accent"
                       >
-                        <div className="w-12 h-12 rounded-xl bg-[#c42630]/10 flex items-center justify-center shrink-0 text-[#c42630]">
+                        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-accent text-primary">
                           {highlightIconMap[highlight.icon] || <Check className="h-5 w-5" />}
                         </div>
 
                         <div>
-                          <div className="font-semibold text-gray-900">{highlight.title}</div>
-                          <div className="text-sm text-gray-600">{highlight.description}</div>
+                          <div className="font-semibold text-foreground">{highlight.title}</div>
+                          <div className="text-sm text-muted-foreground">{highlight.description}</div>
                         </div>
                       </div>
                     ))}
@@ -546,7 +546,7 @@ export default function ProjectPage({ project }: ProjectPageProps) {
 
                   {/* ===== TAB BAR ===== */}
                   <div className="mb-6 w-full p-4 sm:p-6">
-                      <div className="grid w-full grid-cols-1 gap-2 rounded-xl bg-muted p-2 shadow-sm sm:grid-cols-2 xl:grid-cols-3">
+                      <div className="grid w-full grid-cols-1 gap-2 rounded-xl bg-muted p-2 shadow-card sm:grid-cols-2 xl:grid-cols-3">
                         {project.siteLayout.zones.map((zone) => {
                           const zoneKey = getZoneKey(zone);
                           const active = activeBlock === zoneKey;
@@ -555,7 +555,7 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                               key={zoneKey}
                               onClick={() => setActiveBlock(zoneKey)}
                               className={`w-full rounded-lg px-4 py-2.5 text-center text-sm font-medium transition-all duration-200
-                                ${active ? 'bg-[#c42630] text-white shadow': 'text-muted-foreground hover:bg-[#c42630]/10 hover:text-[#c42630]'}`}
+                                ${active ? 'bg-primary text-white shadow-card': 'text-muted-foreground hover:bg-accent hover:text-primary'}`}
                             >
                               {zone.name}
                             </button>
@@ -652,10 +652,10 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-lg"
+                  className="premium-card overflow-hidden"
                 >
                   {/* Header */}
-                  <div className="bg-gradient-to-r from-[#c42630] to-[#a61f28] p-4 text-white sm:p-6">
+                  <div className="bg-primary p-4 text-white sm:p-6">
                     <h3 className="mb-2 text-xl font-semibold">
                       Interested in this project?
                     </h3>
@@ -675,14 +675,14 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.15 }}
-                  className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm sm:p-6"
+                  className="premium-card p-4 sm:p-6"
                 >
-                  <h4 className="font-semibold text-gray-900 mb-4">Quick Contact</h4>
+                  <h4 className="font-semibold text-foreground mb-4">Quick Contact</h4>
 
                   <div className="space-y-3">
                     <a
                       href="tel:+919876543210"
-                      className="flex items-center gap-3 break-all text-gray-600 transition hover:text-[#c42630] sm:break-normal"
+                      className="flex items-center gap-3 break-all text-muted-foreground transition hover:text-primary sm:break-normal"
                     >
                       <Phone className="h-5 w-5" />
                       <span>+91 70364 45500</span>
@@ -690,15 +690,15 @@ export default function ProjectPage({ project }: ProjectPageProps) {
 
                     <a
                       href="mailto:sales@pridewalls.com"
-                      className="flex items-center gap-3 break-all text-gray-600 transition hover:text-[#c42630] sm:break-normal"
+                      className="flex items-center gap-3 break-all text-muted-foreground transition hover:text-primary sm:break-normal"
                     >
                       <Mail className="h-5 w-5" />
                       <span>sales@pridewalls.com</span>
                     </a>
                   </div>
 
-                  <div className="mt-4 pt-4 border-t border-gray-200">
-                    <div className="flex items-center gap-2 text-sm text-gray-500">
+                  <div className="mt-4 pt-4 border-t border-border">
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
                       <Calendar className="h-4 w-4" />
                       <span>Mon - Sat: 9:00 AM - 7:00 PM</span>
                     </div>
@@ -710,20 +710,21 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.25 }}
-                  className="rounded-2xl border border-[#c42630]/20 bg-[#c42630]/5 p-4 text-center sm:p-6"
+                  className="rounded-xl border border-brand-gold/30 bg-brand-gold/10 p-4 text-center sm:p-6"
                 >
-                  <h4 className="font-semibold text-gray-900 mb-2">
+                  <h4 className="font-semibold text-foreground mb-2">
                     Schedule a Site Visit
                   </h4>
 
-                  <p className="text-sm text-gray-600 mb-4">
+                  <p className="text-sm text-muted-foreground mb-4">
                     Experience the project firsthand with our guided site visits.
                   </p>
 
                   <Button
                     type="button"
                     onClick={() => setIsSiteVisitOpen(true)}
-                    className="w-full bg-gradient-to-r from-[#c42630] to-[#a61f28] hover:from-[#d12c37] hover:to-[#b6232d] text-white"
+                    variant="accent"
+                    className="w-full"
                   >
                     Book Site Visit
                   </Button>

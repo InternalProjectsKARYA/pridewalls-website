@@ -46,14 +46,14 @@ export default function CompletedProjectsPage() {
                   />
 
                   {/* STATUS BADGE */}
-                  <div className="absolute top-3 left-3 bg-green-600 text-white text-xs px-3 py-1 rounded-full">
+                  <div className="absolute top-3 left-3 bg-success text-white text-xs px-3 py-1 rounded-full">
                     Completed
                   </div>
                 </div>
 
                 {/* CONTENT */}
                 <div className="p-5">
-                  <h3 className="font-semibold text-lg mb-1 group-hover:text-[#c12730] transition">
+                  <h3 className="font-semibold text-lg mb-1 group-hover:text-brand-gold transition">
                     {project.name}
                   </h3>
 

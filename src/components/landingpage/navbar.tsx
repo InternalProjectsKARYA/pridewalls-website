@@ -36,7 +36,7 @@ export default function Navbar() {
   return (
     <>
       {/* TOP BAR */}
-      <div className="hidden lg:block bg-gradient-to-r from-[#c42630] to-[#a61f28] text-white">
+      <div className="hidden lg:block bg-primary text-white">
         <div className="container mx-auto px-4 flex justify-between py-2 text-sm">
           <div className="flex gap-6">
             <a href={`tel:${companyInfo.contact.phone[0]}`} className="flex gap-2 items-center">
@@ -53,17 +53,28 @@ export default function Navbar() {
       {/* MAIN NAV */}
       <header
         className={`sticky top-0 z-50 transition-all ${
-          isScrolled ? 'bg-white/80 backdrop-blur shadow-lg' : 'bg-white'
+          isScrolled ? 'border-b border-border bg-white/90 shadow-card backdrop-blur' : 'border-b border-border bg-white'
         }`}
       >
-        <nav className="container mx-auto px-4 flex justify-between items-center h-16 lg:h-20">
+        <nav className="section-shell flex h-20 items-center justify-between lg:h-24">
 
           {/* LOGO */}
-          <Link href="/" className="flex gap-3 items-center">
-            <Image src="/pridewalls-logo.png" alt="logo" width={44} height={44} priority />
-            <div>
-              <div className="font-bold">{companyInfo.name}</div>
-              <div className="text-xs text-muted-foreground hidden sm:block">{companyInfo.tagline}</div>
+          <Link href="/" className="flex items-center gap-3" aria-label="PRIDEWALLS home">
+            <span className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-border bg-white shadow-card lg:h-[72px] lg:w-[72px]">
+              <Image
+                src="/pridewalls-logo-mark.png"
+                alt="PRIDEWALLS logo"
+                width={64}
+                height={64}
+                priority
+                className="h-12 w-12 object-contain lg:h-14 lg:w-14"
+              />
+            </span>
+            <div className="min-w-0">
+              <div className="text-xl font-extrabold tracking-[0.14em] text-primary sm:text-2xl">
+                {companyInfo.name}
+              </div>
+              <div className="hidden text-xs font-medium text-muted-foreground sm:block">{companyInfo.tagline}</div>
             </div>
           </Link>
 
@@ -78,12 +89,12 @@ export default function Navbar() {
                   </Link>
 
                   <div className="absolute left-0 top-full pt-3 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition">
-                    <div className="min-w-[220px] overflow-hidden rounded-xl border bg-white shadow-xl">
+                    <div className="min-w-[220px] overflow-hidden rounded-xl border border-border bg-white shadow-card">
                       {item.children.map((child) => (
                         <Link
                           key={child.name}
                           href={child.href}
-                          className="block px-4 py-3 text-sm transition-colors hover:bg-[#c42630]/10 hover:text-[#c42630]"
+                          className="block px-4 py-3 text-sm transition-colors hover:bg-accent hover:text-primary"
                         >
                           {child.name}
                         </Link>
@@ -101,7 +112,7 @@ export default function Navbar() {
 
           {/* CTA */}
           <div className="hidden lg:flex">
-            <Button asChild className="bg-gradient-to-r from-[#c42630] to-[#a61f28] text-white">
+            <Button asChild>
               <Link href="/#contact">Enquire Now</Link>
             </Button>
           </div>
@@ -130,7 +141,7 @@ export default function Navbar() {
                               key={child.name}
                               href={child.href}
                               onClick={() => setIsMobileMenuOpen(false)}
-                              className="block text-sm text-muted-foreground transition-colors hover:text-[#c42630]"
+                              className="block text-sm text-muted-foreground transition-colors hover:text-primary"
                             >
                               {child.name}
                             </Link>

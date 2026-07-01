@@ -45,9 +45,9 @@ export default function FacilitiesGrid({ facilities }: FacilitiesGridProps) {
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           transition={{ delay: index * 0.05 }}
-          className="group relative bg-card rounded-xl p-4 border border-border hover:border-[#c12730]/30 hover:shadow-md transition-all duration-300 text-center"
+          className="group relative bg-card rounded-xl p-4 border border-border hover:border-brand-gold/30 hover:shadow-md transition-all duration-300 text-center"
         >
-          <div className="w-14 h-14 mx-auto rounded-xl bg-[#c12730]/10 flex items-center justify-center text-[#c12730] mb-3 group-hover:bg-[#c12730] group-hover:text-white transition-colors">
+          <div className="w-14 h-14 mx-auto rounded-xl bg-brand-gold/10 flex items-center justify-center text-brand-gold mb-3 group-hover:bg-brand-gold group-hover:text-white transition-colors">
             {iconMap[facility.icon] || <Shield className="h-6 w-6" />}
           </div>
 

@@ -10,13 +10,12 @@ function Input({ className, type, ...props }: React.ComponentProps<"input">) {
         `
         file:text-foreground placeholder:text-muted-foreground
         selection:bg-primary selection:text-primary-foreground
-        dark:bg-input/30
-        flex h-9 w-full min-w-0 rounded-md px-3 py-1 text-base md:text-sm
-        border  bg-transparent shadow-xs outline-none
+        flex h-11 w-full min-w-0 rounded-md px-3.5 py-2 text-base md:text-sm
+        border border-input bg-white shadow-xs outline-none
         transition-[color,box-shadow,border] duration-200
-        focus-visible:border-[#c32630]
+        focus-visible:border-primary
         focus-visible:ring-[3px]
-        focus-visible:ring-[#c32630]/25
+        focus-visible:ring-primary/20
         aria-invalid:ring-destructive/20
         dark:aria-invalid:ring-destructive/40
         aria-invalid:border-destructive

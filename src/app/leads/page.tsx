@@ -172,27 +172,27 @@ export default function LeadsPage() {
 
   return (
     <>
-      <header className="border-b border-white/10 bg-[#05070d] px-4 py-4 sm:px-6">
+      <header className="border-b border-white/10 bg-primary px-4 py-4 sm:px-6">
         <div className="mx-auto flex max-w-7xl flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-blue-200/80">Protected Page</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-brand-gold">Protected Page</p>
             <h1 className="mt-2 text-2xl font-bold text-white sm:text-3xl">Leads</h1>
           </div>
           {verifiedPassword && (
-            <a href="/site-visits" className="text-sm text-blue-300 hover:underline">
+            <a href="/site-visits" className="text-sm text-brand-gold hover:underline">
               → View Site Visits
             </a>
           )}
         </div>
       </header>
 
-      <main className="min-h-screen bg-[#05070d] px-4 py-10 sm:px-6">
+      <main className="min-h-screen bg-primary px-4 py-10 sm:px-6">
         <div className="mx-auto max-w-7xl">
           {!verifiedPassword ? (
             /* ── Login form ── */
             <section className="mx-auto max-w-xl rounded-3xl border border-white/10 bg-[linear-gradient(180deg,rgba(9,15,30,0.96),rgba(5,8,18,0.98))] p-6 shadow-[0_30px_80px_rgba(0,0,0,0.35)] sm:p-8">
               <div className="mb-8 text-center">
-                <p className="text-xs font-semibold uppercase tracking-[0.28em] text-blue-200/80">Protected Page</p>
+                <p className="text-xs font-semibold uppercase tracking-[0.28em] text-brand-gold">Protected Page</p>
                 <h2 className="mt-4 text-3xl font-bold text-white sm:text-4xl">View Leads</h2>
                 <p className="mt-3 text-sm leading-relaxed text-white/65">Enter the password to access the submitted lead data.</p>
               </div>
@@ -207,7 +207,7 @@ export default function LeadsPage() {
                         value={password}
                         onChange={(e) => { setErrorMessage(""); setPassword(e.target.value); }}
                         autoComplete="current-password"
-                        className="w-full rounded-2xl border border-white/12 bg-black/20 px-4 py-3 pr-12 text-white outline-none transition placeholder:text-white/30 focus:border-blue-300/40"
+                        className="w-full rounded-2xl border border-white/12 bg-black/20 px-4 py-3 pr-12 text-white outline-none transition placeholder:text-white/30 focus:border-brand-gold/60"
                         placeholder="Enter access password"
                       />
                       <button
@@ -230,10 +230,10 @@ export default function LeadsPage() {
                 </label>
 
                 {errorMessage && (
-                  <p className="rounded-2xl border border-red-400/20 bg-red-500/10 px-4 py-3 text-sm text-red-100">{errorMessage}</p>
+                  <p className="rounded-2xl border border-destructive/20 bg-destructive/10 px-4 py-3 text-sm text-white">{errorMessage}</p>
                 )}
                 {successMessage && (
-                  <p className="rounded-2xl border border-emerald-400/20 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-100">{successMessage}</p>
+                  <p className="rounded-2xl border border-success/20 bg-success/10 px-4 py-3 text-sm text-white">{successMessage}</p>
                 )}
               </form>
             </section>
@@ -243,7 +243,7 @@ export default function LeadsPage() {
               {/* Header row */}
               <div className="flex flex-col gap-4 border-b border-white/10 pb-5 sm:flex-row sm:items-end sm:justify-between">
                 <div>
-                  <p className="text-xs font-semibold uppercase tracking-[0.28em] text-blue-200/80">Protected Data</p>
+                  <p className="text-xs font-semibold uppercase tracking-[0.28em] text-brand-gold">Protected Data</p>
                   <h2 className="mt-2 text-2xl font-bold text-white sm:text-3xl">Leads</h2>
                   <p className="mt-2 text-sm text-white/60">
                     {totalCount} lead{totalCount === 1 ? "" : "s"} total
@@ -255,7 +255,7 @@ export default function LeadsPage() {
                     type="button"
                     onClick={() => downloadCsv(leads)}
                     disabled={leads.length === 0}
-                    className="inline-flex items-center gap-2 rounded-full border border-emerald-400/30 bg-emerald-500/10 px-4 py-2 text-sm font-semibold text-emerald-200 transition hover:bg-emerald-500/20 disabled:cursor-not-allowed disabled:opacity-50"
+                    className="inline-flex items-center gap-2 rounded-full border border-success/30 bg-success/10 px-4 py-2 text-sm font-semibold text-white transition hover:bg-success/20 disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     <Download className="h-4 w-4" /> Download CSV
                   </button>
@@ -263,7 +263,7 @@ export default function LeadsPage() {
                     type="button"
                     onClick={handleRefresh}
                     disabled={isLoading}
-                    className="inline-flex items-center gap-2 rounded-full border border-blue-300/30 bg-blue-500/10 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-500/20 disabled:opacity-70"
+                    className="inline-flex items-center gap-2 rounded-full border border-brand-gold/30 bg-brand-gold/10 px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-gold/20 disabled:opacity-70"
                   >
                     <RefreshCw className={`h-4 w-4 ${isLoading ? "animate-spin" : ""}`} />
                     {isLoading ? "Refreshing..." : "Refresh"}
@@ -279,10 +279,10 @@ export default function LeadsPage() {
               </div>
 
               {errorMessage && (
-                <p className="mt-5 rounded-2xl border border-red-400/20 bg-red-500/10 px-4 py-3 text-sm text-red-100">{errorMessage}</p>
+                <p className="mt-5 rounded-2xl border border-destructive/20 bg-destructive/10 px-4 py-3 text-sm text-white">{errorMessage}</p>
               )}
               {successMessage && (
-                <p className="mt-5 rounded-2xl border border-emerald-400/20 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-100">{successMessage}</p>
+                <p className="mt-5 rounded-2xl border border-success/20 bg-success/10 px-4 py-3 text-sm text-white">{successMessage}</p>
               )}
 
               {totalCount === 0 ? (
@@ -328,8 +328,8 @@ export default function LeadsPage() {
                             <td className="px-4 py-3">
                               <span className={`rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider ${
                                 lead.consent
-                                  ? "border border-emerald-300/20 bg-emerald-400/10 text-emerald-200"
-                                  : "border border-red-300/20 bg-red-400/10 text-red-200"
+                                  ? "border border-success/20 bg-success/10 text-white"
+                                  : "border border border-destructive/20 bg-destructive/10 text-white"
                               }`}>
                                 {lead.consent ? "Yes" : "No"}
                               </span>
@@ -366,7 +366,7 @@ export default function LeadsPage() {
                             disabled={isLoading}
                             className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
                               p === currentPage
-                                ? "bg-blue-500 text-white"
+                                ? "bg-brand-gold text-white"
                                 : "border border-white/12 bg-white/5 text-white hover:bg-white/10"
                             }`}
                           >

@@ -67,7 +67,7 @@ export default function AboutSection() {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ delay: 0.3 }}
-              className="absolute -bottom-6 -right-6 lg:right-8 bg-[#c42630] text-primary-foreground p-6 rounded-2xl shadow-xl"
+              className="absolute -bottom-6 -right-6 lg:right-8 bg-brand-gold text-primary-foreground p-6 rounded-2xl shadow-xl"
             >
               <div className="text-4xl font-bold">8+</div>
               <div className="text-sm opacity-80">Years of Excellence</div>
@@ -81,7 +81,7 @@ export default function AboutSection() {
             viewport={{ once: true }}
           >
             {/* Badge */}
-            <span className="inline-block px-4 py-1 bg-[#c42630]/10 text-[#c42630] rounded-full text-sm font-medium mb-4">
+            <span className="inline-block px-4 py-1 bg-brand-gold/10 text-brand-gold rounded-full text-sm font-medium mb-4">
               About Us
             </span>
 
@@ -104,7 +104,7 @@ export default function AboutSection() {
             <div className="grid grid-cols-2 gap-4 mb-8">
               {companyInfo.values.map((value) => (
                 <div key={value.title} className="group flex items-start gap-3">
-                  <div className="shrink-0 w-10 h-10 rounded-lg bg-[#c42630]/10 flex items-center justify-center text-[#c42630] group-hover:bg-[#c42630] group-hover:text-white transition">
+                  <div className="shrink-0 w-10 h-10 rounded-lg bg-brand-gold/10 flex items-center justify-center text-brand-gold group-hover:bg-brand-gold group-hover:text-white transition">
                     {valueIcons[value.icon] || <Award className="h-5 w-5" />}
                   </div>
 
@@ -117,7 +117,7 @@ export default function AboutSection() {
             </div>
 
             {/* ⭐ CTA */}
-            <Button asChild className="bg-[#c42630] hover:bg-[#a61f28] text-white">
+            <Button asChild className="bg-brand-gold hover:bg-brand-gold-hover text-white">
               <Link href="/#contact">
                 Get in Touch
                 <ArrowRight className="ml-2 h-4 w-4" />
@@ -143,7 +143,7 @@ function ImageBlock({ src, h }: { src: string; h: string }) {
 
 function InfoCard({ title, text }: { title: string; text: string }) {
   return (
-    <div className="p-4 bg-muted/50 rounded-xl hover:bg-[#c42630]/5 transition">
+    <div className="p-4 bg-muted/50 rounded-xl hover:bg-brand-gold/5 transition">
       <h4 className="font-semibold text-foreground mb-1">{title}</h4>
       <p className="text-sm text-muted-foreground">{text}</p>
     </div>
