@@ -32,6 +32,11 @@ const statusColors: Record<string, string> = {
   completed: 'bg-success/10 text-success border-success/20',
 };
 
+const formatAreaValue = (project: Project) =>
+  project.area.min === project.area.max
+    ? `${project.area.min}+`
+    : `${project.area.min} - ${project.area.max}`;
+
 const highlightIconMap: Record<string, React.ReactNode> = {
   'map-pin': <MapPin className="h-5 w-5" />,
   'trending-up': <TrendingUp className="h-5 w-5" />,
@@ -209,7 +214,7 @@ export default function ProjectPage({ project }: ProjectPageProps) {
               </div>
               <div className="min-w-0">
                 <div className="text-xl font-bold text-white sm:text-2xl">
-                  {project.area.min} - {project.area.max}
+                  {formatAreaValue(project)}
                 </div>
                 <div className="text-xs text-white/65 sm:text-sm">{project.area.unit}</div>
               </div>

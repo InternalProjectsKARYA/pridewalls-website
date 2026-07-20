@@ -28,6 +28,11 @@ import {
 import { projects } from '@/lib/project-data';
 import { Project } from '@/lib/project-interface';
 
+const formatAreaStat = (project: Project) =>
+  project.area.min === project.area.max
+    ? `${project.area.min}+`
+    : `${project.area.min} - ${project.area.max}`;
+
 /* ================= FILTER CONFIG ================= */
 
 const typeFilters = [
@@ -74,7 +79,11 @@ function ProjectCard({ project, index }: ProjectCardProps) {
       className="premium-card group relative overflow-hidden"
     >
       {/* Image */}
-      <div className="relative h-64 overflow-hidden">
+      <Link
+        href={`/projects/${project.slug}`}
+        aria-label={`View details for ${project.name}`}
+        className="relative block h-64 overflow-hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold focus-visible:ring-offset-2"
+      >
         <Image
           src={project.coverImage}
           alt={project.name}
@@ -120,7 +129,7 @@ function ProjectCard({ project, index }: ProjectCardProps) {
             <span>{project.location}</span>
           </div>
         </div>
-      </div>
+      </Link>
 
       {/* Content */}
       <div className="p-5">
@@ -130,7 +139,7 @@ function ProjectCard({ project, index }: ProjectCardProps) {
         <div className="grid grid-cols-3 gap-3 mb-4">
           <Stat value={project.totalUnits} label="Units" />
           <Stat value={project.projectSize} label="Area" />
-          <Stat value={`${project.area.min}+`} label="Sq.ft" />
+          <Stat value={formatAreaStat(project)} label={project.area.unit} />
         </div>
 
         {/* Approvals */}

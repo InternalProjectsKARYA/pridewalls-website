@@ -26,6 +26,11 @@ const statusColors: Record<string, string> = {
   completed: 'bg-success/10 text-success border-success/20',
 };
 
+const formatArea = (project: Project) =>
+  project.area.min === project.area.max
+    ? `${project.area.min}+ ${project.area.unit}`
+    : `${project.area.min} - ${project.area.max} ${project.area.unit}`;
+
 export default function ProjectCard({ project, featured = false }: ProjectCardProps) {
   return (
     <motion.div
@@ -112,7 +117,7 @@ export default function ProjectCard({ project, featured = false }: ProjectCardPr
         <div className="flex items-center gap-4 text-sm text-muted-foreground mb-4">
           <span>{project.totalUnits} Units</span>
           <span>•</span>
-          <span>{project.area.min} - {project.area.max} {project.area.unit}</span>
+          <span>{formatArea(project)}</span>
           {project.reraApproved && (
             <>
               <span>•</span>
