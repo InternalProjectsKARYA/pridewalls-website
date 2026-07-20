@@ -37,9 +37,9 @@ const formatAreaStat = (project: Project) =>
 
 const typeFilters = [
   { value: 'all', label: 'All', icon: Building },
-  { value: 'plots', label: 'Plots', icon: LandPlot },
-  { value: 'villas', label: 'Villas', icon: Home },
   { value: 'apartments', label: 'Apartments', icon: Building },
+  { value: 'villas', label: 'Villas', icon: Home },
+  { value: 'plots', label: 'Plots', icon: LandPlot },
 ];
 
 const statusFilters = [
@@ -50,9 +50,9 @@ const statusFilters = [
 ];
 
 const statusColors: Record<string, string> = {
-  ongoing: 'bg-info/10 text-info border-info/20',
-  upcoming: 'bg-warning/10 text-warning border-warning/20',
-  completed: 'bg-success/10 text-success border-success/20',
+  ongoing: 'border-info bg-info text-white shadow-md',
+  upcoming: 'border-warning bg-warning text-white shadow-md',
+  completed: 'border-success bg-success text-white shadow-md',
 };
 
 const typeIcons: Record<string, React.ReactNode> = {
@@ -95,7 +95,7 @@ function ProjectCard({ project, index }: ProjectCardProps) {
 
         {/* Status */}
         <div className="absolute top-4 left-4">
-          <Badge className={`${statusColors[project.status]} border font-semibold`}>
+          <Badge className={`${statusColors[project.status]} px-3 py-1 font-semibold`}>
             {project.status.charAt(0).toUpperCase() + project.status.slice(1)}
           </Badge>
         </div>

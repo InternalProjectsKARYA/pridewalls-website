@@ -11,25 +11,29 @@ import { companyInfo } from '@/lib/project-data';
 
 const heroSlides = [
   {
-    title: 'Premium Spaces For Confident Living',
+    title: 'Premium Spaces for',
+    accent: 'Confident Living',
     subtitle:
       "Residential communities, open plots, and villas planned for long-term value in Hyderabad's growth corridors.",
     image: '/hero-section.jpg',
   },
   {
-    title: 'Invest In Land With Clear Potential',
+    title: 'Invest In Land With',
+    accent: 'Clear Potential',
     subtitle:
       'Approved plots in well-connected locations with infrastructure, access, and future appreciation in focus.',
     image: '/hero2.jpg',
   },
   {
-    title: 'Build On Solid Ground',
+    title: 'Build On',
+    accent: 'Solid Ground',
     subtitle:
       'Thoughtfully planned developments with modern amenities, transparent documentation, and dependable guidance.',
     image: '/hero.png',
   },
   {
-    title: 'Homes Designed Around Everyday Comfort',
+    title: 'Homes Designed Around',
+    accent: 'Everyday Comfort',
     subtitle:
       'Spacious apartments and villas crafted for natural light, practical layouts, and a refined community lifestyle.',
     image: '/pride-walls-appartments.jpg',
@@ -75,8 +79,8 @@ export default function HeroSection() {
             className="object-cover"
             priority={index === 0}
           />
-          <div className="absolute inset-0 bg-primary/35" />
-          <div className="absolute inset-0 bg-black/30" />
+          <div className="absolute inset-0 bg-gradient-to-r from-primary/72 via-primary/32 to-primary/5" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/28 via-transparent to-black/10" />
         </motion.div>
       ))}
 
@@ -87,17 +91,20 @@ export default function HeroSection() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.15 }}
-            className="max-w-2xl border-l-4 border-brand-gold  px-5 py-6 shadow-card  sm:px-7 sm:py-8"
+            className="max-w-[780px] border-l-4 border-brand-gold px-5 py-6 sm:px-7 sm:py-8"
           >
-            <span className="mb-5 inline-flex rounded-full border border-white/25 bg-white/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-white">
+            <span className="mb-5 inline-flex rounded-full border border-white/25 bg-white/15 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.16em] text-white shadow-sm backdrop-blur-md">
               PRIDEWALLS Real Estate
             </span>
 
-            <h1 className="mb-5 text-4xl font-bold leading-[1.05] text-white text-balance sm:text-5xl md:text-6xl lg:text-7xl">
-              {heroSlides[currentSlide].title}
+            <h1 className="mb-5 max-w-[14ch] text-4xl font-extrabold leading-[1.02] text-white text-balance sm:text-5xl md:text-6xl lg:text-[4.4rem]">
+              {heroSlides[currentSlide].title}{' '}
+              <span className="block font-signature text-[1.08em] font-normal leading-[0.92] text-brand-gold">
+                {heroSlides[currentSlide].accent}
+              </span>
             </h1>
 
-            <p className="mb-7 max-w-xl text-base leading-8 text-white/86 sm:text-lg md:text-xl">
+            <p className="mb-7 max-w-2xl text-base font-medium leading-8 text-white/90 sm:text-lg md:text-xl">
               {heroSlides[currentSlide].subtitle}
             </p>
 
@@ -105,7 +112,7 @@ export default function HeroSection() {
               {trustItems.map((item) => (
                 <span
                   key={item}
-                  className="rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-medium text-white/85"
+                  className="rounded-full border border-white/25 bg-black/25 px-3 py-1.5 text-xs font-semibold text-white shadow-sm backdrop-blur-md"
                 >
                   {item}
                 </span>
@@ -113,7 +120,7 @@ export default function HeroSection() {
             </div>
 
             <div className="flex flex-wrap gap-4">
-              <Button asChild size="lg" className="px-7">
+              <Button asChild size="lg" className="bg-primary px-7 font-semibold shadow-lg shadow-primary/25 hover:bg-brand-primary-dark">
                 <Link href="/#projects">
                   Explore Projects
                   <ArrowRight className="ml-2 h-5 w-5" />
@@ -124,7 +131,7 @@ export default function HeroSection() {
                 size="lg"
                 variant="outline"
                 onClick={() => setIsSiteVisitOpen(true)}
-                className="border-white/45 bg-white/10 px-7 text-white hover:bg-white hover:text-primary"
+                className="border-white/50 bg-white/15 px-7 font-semibold text-white shadow-sm backdrop-blur-md hover:bg-white hover:text-primary"
               >
                 <Calendar className="h-5 w-5" />
                 <span>Book Site Visit</span>
@@ -158,10 +165,10 @@ export default function HeroSection() {
 
       <button
         onClick={scrollToProjects}
-        className="absolute bottom-24 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-white/80 transition-colors hover:text-white lg:flex"
+        className="absolute bottom-24 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-white/70 transition-colors hover:text-white lg:flex"
         aria-label="Scroll to projects"
       >
-        <span className="text-sm font-medium">Scroll to explore</span>
+        <span className="text-xs font-semibold uppercase tracking-[0.14em]">Scroll</span>
         <motion.div
           animate={{ y: [0, 8, 0] }}
           transition={{ duration: 1.5, repeat: Infinity }}

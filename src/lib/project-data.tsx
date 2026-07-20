@@ -16,7 +16,7 @@ Developed by PRIDEWALLS, Espino comprises six residential blocks (A to F) with a
     location: 'Ameenpur, Hyderabad',
     mapEmbedUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1206.8958158794214!2d78.31674295666015!3d17.51407797395735!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcb8d00024530ed%3A0x265564fe9ac9ae3d!2sThe%20Espino%20C%20Block!5e1!3m2!1sen!2sin!4v1782734446585!5m2!1sen!2sin',
     type: 'apartments',
-    status: 'ongoing',
+    status: 'completed',
     featured: false,
     coverImage: '/pride-walls-appartments.jpg',
     gallery: [
@@ -134,8 +134,8 @@ Developed by PRIDEWALLS, Espino comprises six residential blocks (A to F) with a
   },
   {
     id: '2',
-    slug: 'premimum-plots',
-    name: 'PRIDEWALLS PLOTS',
+    slug: 'siri-eco-space',
+    name: 'SIRI ECO SPACE',
     tagline: 'Premium Plots',
     description: `Business Hub is a state-of-the-art commercial development designed for modern enterprises. Located in the bustling Electronic City, this project offers ready-to-move office spaces, retail outlets, and co-working spaces with world-class infrastructure.
 

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Menu, Phone, Mail, ChevronDown } from 'lucide-react';
+import { Menu, Phone, Mail, ChevronDown, ArrowUpRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { companyInfo } from '@/lib/project-data';
@@ -52,49 +52,54 @@ export default function Navbar() {
 
       {/* MAIN NAV */}
       <header
-        className={`sticky top-0 z-50 transition-all ${
-          isScrolled ? 'border-b border-border bg-white/90 shadow-card backdrop-blur' : 'border-b border-border bg-white'
+        className={`sticky top-0 z-50 transition-all duration-300 ${
+          isScrolled
+            ? 'border-b border-border/80 bg-white/92 shadow-[0_10px_30px_rgba(13,38,89,0.08)] backdrop-blur-xl'
+            : 'border-b border-border/70 bg-white/95'
         }`}
       >
-        <nav className="section-shell flex h-20 items-center justify-between lg:h-24">
+        <nav className="section-shell flex h-18 items-center justify-between lg:h-20">
 
           {/* LOGO */}
-          <Link href="/" className="flex items-center gap-3" aria-label="PRIDEWALLS home">
-            <span className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-border bg-white shadow-card lg:h-[72px] lg:w-[72px]">
+          <Link href="/" className="group flex items-center gap-3" aria-label="PRIDEWALLS home">
+            <span className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-border/80 bg-white shadow-[0_8px_22px_rgba(13,38,89,0.10)] transition-transform duration-300 group-hover:-translate-y-0.5 lg:h-16 lg:w-16">
               <Image
                 src="/pridewalls-logo-mark.png"
                 alt="PRIDEWALLS logo"
                 width={64}
                 height={64}
                 priority
-                className="h-12 w-12 object-contain lg:h-14 lg:w-14"
+                className="h-11 w-11 object-contain lg:h-12 lg:w-12"
               />
             </span>
             <div className="min-w-0">
-              <div className="text-xl font-extrabold tracking-[0.14em] text-primary sm:text-2xl">
+              <div className="text-lg font-extrabold tracking-[0.18em] text-primary sm:text-xl">
                 {companyInfo.name}
               </div>
-              <div className="hidden text-xs font-medium text-muted-foreground sm:block">{companyInfo.tagline}</div>
+              <div className="hidden text-[11px] font-semibold text-muted-foreground sm:block">{companyInfo.tagline}</div>
             </div>
           </Link>
 
           {/* DESKTOP */}
-          <div className="hidden lg:flex gap-10">
+          <div className="hidden items-center rounded-full border border-border/80 bg-muted/45 p-1 shadow-inner lg:flex">
             {navigation.map((item) =>
               item.children ? (
                 <div key={item.name} className="relative group">
-                  <Link href={item.href} className="flex items-center gap-1 text-sm font-medium">
+                  <Link
+                    href={item.href}
+                    className="flex items-center gap-1 rounded-full px-4 py-2 text-sm font-semibold text-foreground transition-colors hover:bg-white hover:text-primary hover:shadow-sm"
+                  >
                     {item.name}
-                    <ChevronDown size={14} />
+                    <ChevronDown size={14} className="transition-transform duration-200 group-hover:rotate-180" />
                   </Link>
 
                   <div className="absolute left-0 top-full pt-3 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition">
-                    <div className="min-w-[220px] overflow-hidden rounded-xl border border-border bg-white shadow-card">
+                    <div className="min-w-[230px] overflow-hidden rounded-xl border border-border/80 bg-white p-1 shadow-[0_18px_45px_rgba(13,38,89,0.14)]">
                       {item.children.map((child) => (
                         <Link
                           key={child.name}
                           href={child.href}
-                          className="block px-4 py-3 text-sm transition-colors hover:bg-accent hover:text-primary"
+                          className="block rounded-lg px-4 py-3 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-primary"
                         >
                           {child.name}
                         </Link>
@@ -103,7 +108,11 @@ export default function Navbar() {
                   </div>
                 </div>
               ) : (
-                <Link key={item.name} href={item.href} className="text-sm font-medium">
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className="rounded-full px-4 py-2 text-sm font-semibold text-foreground transition-colors hover:bg-white hover:text-primary hover:shadow-sm"
+                >
                   {item.name}
                 </Link>
               )
@@ -112,15 +121,18 @@ export default function Navbar() {
 
           {/* CTA */}
           <div className="hidden lg:flex">
-            <Button asChild>
-              <Link href="/#contact">Get In Touch</Link>
+            <Button asChild className="h-11 rounded-xl px-5 font-semibold shadow-[0_10px_24px_rgba(13,38,89,0.18)]">
+              <Link href="/#contact">
+                Get In Touch
+                <ArrowUpRight className="ml-2 h-4 w-4" />
+              </Link>
             </Button>
           </div>
 
           {/* MOBILE */}
           <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
             <SheetTrigger asChild className="lg:hidden">
-              <Button variant="ghost" size="icon" aria-label="Open Menu">
+              <Button variant="outline" size="icon" aria-label="Open Menu" className="rounded-xl">
                 <Menu />
               </Button>
             </SheetTrigger>
