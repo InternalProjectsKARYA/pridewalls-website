@@ -16,8 +16,8 @@ const valueIcons: Record<string, React.ReactNode> = {
 
 export default function AboutSection() {
   return (
-    <section id="about" className="py-16 lg:py-24 bg-background">
-      <div className="container mx-auto px-4">
+    <section id="about" className="overflow-x-hidden bg-background py-16 lg:py-24">
+      <div className="container mx-auto overflow-hidden px-4">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 
           {/* ⭐ Image Grid */}
@@ -76,7 +76,7 @@ export default function AboutSection() {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ delay: 0.3 }}
-              className="absolute -bottom-6 -right-6 lg:right-8 bg-brand-gold text-primary-foreground p-6 rounded-2xl shadow-xl"
+              className="absolute bottom-4 right-4 rounded-2xl bg-brand-gold p-6 text-primary-foreground shadow-xl lg:bottom-8 lg:right-8"
             >
               <div className="text-4xl font-bold">8+</div>
               <div className="text-sm opacity-80">Years of Excellence</div>

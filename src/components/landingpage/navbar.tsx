@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { Menu, Phone, Mail, ChevronDown, ArrowUpRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
@@ -24,6 +25,7 @@ const navigation = [
 ];
 
 export default function Navbar() {
+  const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -33,30 +35,56 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const isTopImagePage = pathname === '/' || pathname.startsWith('/projects');
+  const showTopBar = isScrolled || !isTopImagePage;
+  const isOverlayHeader = isTopImagePage && !isScrolled;
+
+  const headerClassName = isScrolled
+    ? 'border-b border-border/80 bg-white/92 shadow-[0_10px_30px_rgba(13,38,89,0.08)] backdrop-blur-xl'
+    : 'border-b border-transparent bg-transparent shadow-none';
+
+  const topBarClassName = isScrolled
+    ? 'bg-primary text-white'
+    : 'bg-transparent text-white';
+
+  const linkTextClass = isScrolled
+    ? 'text-foreground hover:bg-white hover:text-primary'
+    : 'text-white hover:text-white/80';
+
+  const navContainerClass = isScrolled
+    ? 'hidden items-center rounded-full border border-border/80 bg-muted/45 p-1 shadow-inner lg:flex'
+    : 'hidden items-center gap-3 lg:flex';
+
+  const logoTextClass = isScrolled ? 'text-primary' : 'text-white';
+  const logoTaglineClass = isScrolled ? 'text-muted-foreground' : 'text-white/70';
+  const ctaButtonClass = isScrolled
+    ? 'h-11 rounded-xl px-5 font-semibold shadow-[0_10px_24px_rgba(13,38,89,0.18)]'
+    : 'h-11 rounded-xl px-5 font-semibold border border-white/40 bg-white/10 text-white shadow-none hover:bg-white/20';
+
   return (
     <>
       {/* TOP BAR */}
-      <div className="hidden lg:block bg-primary text-white">
-        <div className="container mx-auto px-4 flex justify-between py-2 text-sm">
-          <div className="flex gap-6">
-            <a href={`tel:${companyInfo.contact.phone[0]}`} className="flex gap-2 items-center">
-              <Phone size={14} /> {companyInfo.contact.phone[0]}
-            </a>
-            <a href={`mailto:${companyInfo.contact.email[0]}`} className="flex gap-2 items-center">
-              <Mail size={14} /> {companyInfo.contact.email[0]}
-            </a>
+      {showTopBar && (
+        <div className={`hidden lg:block ${topBarClassName}`}>
+          <div className="container mx-auto px-4 flex justify-between py-2 text-sm">
+            <div className="flex gap-6">
+              <a href={`tel:${companyInfo.contact.phone[0]}`} className="flex gap-2 items-center">
+                <Phone size={14} /> {companyInfo.contact.phone[0]}
+              </a>
+              <a href={`mailto:${companyInfo.contact.email[0]}`} className="flex gap-2 items-center">
+                <Mail size={14} /> {companyInfo.contact.email[0]}
+              </a>
+            </div>
+            <span>{companyInfo.contact.officeHours}</span>
           </div>
-          <span>{companyInfo.contact.officeHours}</span>
         </div>
-      </div>
+      )}
 
       {/* MAIN NAV */}
       <header
-        className={`sticky top-0 z-50 transition-all duration-300 ${
-          isScrolled
-            ? 'border-b border-border/80 bg-white/92 shadow-[0_10px_30px_rgba(13,38,89,0.08)] backdrop-blur-xl'
-            : 'border-b border-border/70 bg-white/95'
-        }`}
+        className={`z-50 transition-all duration-300 ${
+          isOverlayHeader ? 'absolute inset-x-0 top-0' : 'sticky top-0'
+        } ${headerClassName}`}
       >
         <nav className="section-shell flex h-18 items-center justify-between lg:h-20">
 
@@ -73,21 +101,21 @@ export default function Navbar() {
               />
             </span>
             <div className="min-w-0">
-              <div className="text-lg font-extrabold tracking-[0.18em] text-primary sm:text-xl">
+              <div className={`text-lg font-extrabold tracking-[0.18em] ${logoTextClass} sm:text-xl`}>
                 {companyInfo.name}
               </div>
-              <div className="hidden text-[11px] font-semibold text-muted-foreground sm:block">{companyInfo.tagline}</div>
+              <div className={`hidden text-[11px] font-semibold ${logoTaglineClass} sm:block`}>{companyInfo.tagline}</div>
             </div>
           </Link>
 
           {/* DESKTOP */}
-          <div className="hidden items-center rounded-full border border-border/80 bg-muted/45 p-1 shadow-inner lg:flex">
+          <div className={navContainerClass}>
             {navigation.map((item) =>
               item.children ? (
                 <div key={item.name} className="relative group">
                   <Link
                     href={item.href}
-                    className="flex items-center gap-1 rounded-full px-4 py-2 text-sm font-semibold text-foreground transition-colors hover:bg-white hover:text-primary hover:shadow-sm"
+                    className={`flex items-center gap-1 rounded-full px-4 py-2 text-sm font-semibold transition-colors hover:shadow-sm ${linkTextClass}`}
                     aria-haspopup="true"
                   >
                     {item.name}
@@ -112,7 +140,7 @@ export default function Navbar() {
                 <Link
                   key={item.name}
                   href={item.href}
-                  className="rounded-full px-4 py-2 text-sm font-semibold text-foreground transition-colors hover:bg-white hover:text-primary hover:shadow-sm"
+                  className={`rounded-full px-4 py-2 text-sm font-semibold transition-colors hover:shadow-sm ${linkTextClass}`}
                 >
                   {item.name}
                 </Link>
@@ -122,7 +150,7 @@ export default function Navbar() {
 
           {/* CTA */}
           <div className="hidden lg:flex">
-            <Button asChild className="h-11 rounded-xl px-5 font-semibold shadow-[0_10px_24px_rgba(13,38,89,0.18)]">
+            <Button asChild className={ctaButtonClass}>
               <Link href="/#contact">
                 Get In Touch
                 <ArrowUpRight className="ml-2 h-4 w-4" />

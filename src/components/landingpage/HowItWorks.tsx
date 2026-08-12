@@ -43,7 +43,7 @@ const steps = [
 
 export default function HowItWorks() {
   return (
-    <section className="py-16 lg:py-24 bg-background">
+    <section className="overflow-x-hidden bg-background py-16 lg:py-24">
       <div className="section-shell">
         {/* Header */}
         <motion.div
@@ -76,7 +76,7 @@ export default function HowItWorks() {
             >
               {/* Connector line (desktop) */}
               {index < steps.length - 1 && (
-                <div className="hidden md:block absolute top-8 left-[calc(50%+2.5rem)] right-[-2rem] h-px bg-gradient-to-r from-brand-gold/60 to-brand-gold/20" />
+                <div className="absolute top-8 left-[calc(50%+2.5rem)] hidden h-px right-0 bg-gradient-to-r from-brand-gold/60 to-brand-gold/20 md:block" />
               )}
 
               <div className="group flex h-full flex-col items-center text-center md:items-center">

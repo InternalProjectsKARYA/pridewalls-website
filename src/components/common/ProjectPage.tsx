@@ -91,7 +91,7 @@ export default function ProjectPage({ project }: ProjectPageProps) {
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
-      <section className="relative h-[70svh] min-h-[520px] max-h-[700px] sm:h-[60vh] sm:min-h-[500px]">
+      <section className="relative h-screen min-h-[100svh]">
         <Image
           src={project.coverImage}
           alt={`${project.name} – ${project.tagline} in ${project.location}`}
@@ -103,7 +103,7 @@ export default function ProjectPage({ project }: ProjectPageProps) {
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20" />
         
         {/* Navigation Bar */}
-        <div className="absolute top-0 left-0 right-0 z-10 p-3 sm:p-4">
+        {/* <div className="absolute top-0 left-0 right-0 z-10 p-3 sm:p-4">
           <div className="section-shell flex items-start justify-between gap-3 sm:items-center">
             <Button 
               variant="secondary" 
@@ -123,7 +123,7 @@ export default function ProjectPage({ project }: ProjectPageProps) {
               </Button>
             </div>
           </div>
-        </div>
+        </div> */}
 
         {/* Hero Content */}
         <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 md:p-10">

@@ -67,7 +67,7 @@ export default function HeroSection() {
   };
 
   return (
-    <section className="relative h-[86vh] min-h-[640px] max-h-[920px] overflow-hidden bg-primary">
+    <section className="relative h-screen min-h-[100svh] overflow-hidden bg-primary">
       {heroSlides.map((slide, index) => (
         <motion.div
           key={slide.title}
@@ -90,7 +90,7 @@ export default function HeroSection() {
         </motion.div>
       ))}
 
-      <div className="relative flex h-full items-center">
+      <div className="relative flex h-full items-center pt-16 sm:pt-20 lg:pt-24">
         <div className="section-shell">
           <motion.div
             key={currentSlide}
