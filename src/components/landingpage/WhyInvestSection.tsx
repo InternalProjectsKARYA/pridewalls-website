@@ -2,27 +2,20 @@
 
 import { motion } from 'framer-motion';
 import {
-MapPin,
-TrendingUp,
-Building2,
-FileCheck,
-ShieldCheck,
-Award,
-Lightbulb,
-Heart,
+  MapPin,
+  TrendingUp,
+  Building2,
+  FileCheck,
+  ShieldCheck,
+  Award,
 } from 'lucide-react';
 import { investmentHighlights } from '@/lib/project-data';
-import { JSX } from 'react';
 
-const iconMap: Record<string, JSX.Element> = {
-'map-pin': <MapPin className="h-6 w-6" />,
-'trending-up': <TrendingUp className="h-6 w-6" />,
-'building-2': <Building2 className="h-6 w-6" />,
-'file-check': <FileCheck className="h-6 w-6" />,
-'shield-check': <ShieldCheck className="h-6 w-6" />,
-award: <Award className="h-6 w-6" />,
-lightbulb: <Lightbulb className="h-6 w-6" />,
-heart: <Heart className="h-6 w-6" />,
+const iconMap = {
+  'map-pin': MapPin,
+  'trending-up': TrendingUp,
+  'building-2': Building2,
+  'file-check': FileCheck,
 };
 
 const trustItems = [
@@ -34,115 +27,136 @@ const trustItems = [
 
 export default function WhyInvestSection() {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-background via-background to-muted/20 py-12 sm:py-16 lg:py-24">
-      {/* Brand glow */}
-      {/* <div className="pointer-events-none absolute inset-0">
-        <div className="absolute top-20 left-1/4 h-72 w-72 bg-brand-gold/10 blur-[120px]" />
-        <div className="absolute right-1/4 bottom-10 h-72 w-72 bg-brand-gold/10 blur-[120px]" />
-      </div> */}
+    <section
+      className="relative overflow-hidden bg-[#FBFAF7] py-20 md:py-28"
+      aria-label="Why invest with us"
+    >
+      {/* Subtle decorative glow */}
+      <div className="pointer-events-none absolute -left-40 top-20 h-80 w-80 rounded-full bg-[#C89D1C]/5 blur-[120px]" />
+      <div className="pointer-events-none absolute -right-40 bottom-20 h-80 w-80 rounded-full bg-[#0D2558]/5 blur-[120px]" />
 
-      <div className="relative container mx-auto px-4 sm:px-6">
-        {/* Header */}
-        <div className="mx-auto mb-10 max-w-3xl text-center sm:mb-12 lg:mb-14">
-          <motion.span
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="mb-4 inline-flex rounded-full bg-brand-gold/10 px-4 py-1.5 text-xs font-semibold tracking-[0.18em] text-brand-gold uppercase backdrop-blur sm:px-5 sm:text-sm"
-          >
-            Why Choose Us
-          </motion.span>
+      <div className="relative mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
 
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="mb-4 text-3xl font-bold tracking-tight text-foreground text-balance sm:text-4xl lg:text-5xl"
-          >
-            Why Invest With Us?
-          </motion.h2>
-
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="mx-auto max-w-2xl text-sm leading-7 text-muted-foreground sm:text-base"
-          >
-            We are committed to delivering excellence in every project, ensuring your investment grows with time.
-          </motion.p>
-        </div>
-
-        {/* Cards */}
-        <div className="grid grid-cols-1 gap-4 min-[540px]:grid-cols-2 sm:gap-5 xl:grid-cols-4 xl:gap-6">
-          {investmentHighlights.map((highlight, index) => (
-            <motion.div
-              key={highlight.id}
-              initial={{ opacity: 0, y: 25 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              whileHover={{ y: -6 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.08 }}
-              className="group relative h-full rounded-2xl bg-gradient-to-b from-brand-gold/30 to-transparent p-[1px]"
-            >
-              <div className="relative flex h-full min-w-0 flex-col rounded-2xl border border-border/60 bg-card/80 p-5 backdrop-blur transition-all duration-300 group-hover:border-brand-gold/40 group-hover:shadow-xl sm:p-6">
-                <div className="absolute inset-0 opacity-0 transition group-hover:opacity-100">
-                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-brand-gold/5 via-transparent to-transparent" />
-                </div>
-
-                <div className="relative mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-brand-gold/10 text-brand-gold transition group-hover:bg-brand-gold group-hover:text-white sm:mb-5 sm:h-14 sm:w-14">
-                  {iconMap[highlight.icon] ?? <Building2 className="h-6 w-6" />}
-                </div>
-
-                <h3 className="mb-2 text-base font-semibold text-foreground transition group-hover:text-brand-gold sm:text-lg">
-                  {highlight.title}
-                </h3>
-
-                <p className="text-sm leading-6 text-muted-foreground sm:text-[15px]">
-                  {highlight.description}
-                </p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Trust Panel */}
+        {/* ================= HEADER ================= */}
         <motion.div
-          initial={{ opacity: 0, y: 25 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ delay: 0.4 }}
-          className="mt-10 rounded-2xl bg-gradient-to-r from-brand-gold/40 via-transparent to-brand-gold/40 p-[1px] sm:mt-14 lg:mt-16"
+          className="mx-auto mb-14 max-w-3xl text-center md:mb-16"
         >
-          <div className="rounded-2xl border border-border/50 bg-muted/50 p-4 backdrop-blur sm:p-6 lg:p-7">
-            <div className="grid grid-cols-1 gap-3 min-[520px]:grid-cols-2 sm:gap-4 xl:grid-cols-4 xl:gap-0">
-              {trustItems.map((item, index) => (
+          <div className="mb-5 flex items-center justify-center gap-3">
+            <span className="h-px w-8 bg-[#C89D1C]" />
+
+            <span className="rounded-full bg-[#C89D1C]/10 px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.25em] text-[#C89D1C]">
+              Why Choose Us
+            </span>
+
+            <span className="h-px w-8 bg-[#C89D1C]" />
+          </div>
+
+          <h2 className="text-3xl font-bold tracking-tight text-[#0D2558] sm:text-4xl md:text-5xl">
+            Why Invest With Us?
+          </h2>
+
+          <div className="mx-auto mt-4 h-0.75 w-14 bg-[#C89D1C]" />
+
+          <p className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-[#667085] sm:text-base">
+            We combine strategic locations, quality construction, transparent
+            processes, and long-term value to make every investment count.
+          </p>
+        </motion.div>
+
+        {/* ================= HIGHLIGHTS ================= */}
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+          {investmentHighlights.map((highlight, index) => {
+            const Icon =
+              iconMap[highlight.icon as keyof typeof iconMap] || Building2;
+
+            return (
+              <motion.div
+                key={highlight.id}
+                initial={{ opacity: 0, y: 25 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                whileHover={{ y: -6 }}
+                viewport={{ once: true }}
+                transition={{
+                  delay: index * 0.08,
+                  duration: 0.45,
+                }}
+                className="group relative"
+              >
+                <div className="relative h-full overflow-hidden rounded-2xl border border-[#0D2558]/10 bg-white p-6 shadow-[0_8px_30px_rgba(13,37,88,0.04)] transition-all duration-300 group-hover:border-[#C89D1C]/40 group-hover:shadow-[0_16px_40px_rgba(13,37,88,0.09)] sm:p-7">
+
+                  {/* Number */}
+                  <span className="absolute right-5 top-4 text-5xl font-extralight leading-none text-[#0D2558]/5">
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
+
+                  {/* Icon */}
+                  <div className="relative mb-7 flex h-14 w-14 items-center justify-center rounded-xl bg-[#C89D1C]/10 text-[#C89D1C] transition-all duration-300 group-hover:bg-[#0D2558] group-hover:text-[#C89D1C]">
+                    <Icon className="h-6 w-6" />
+                  </div>
+
+                  {/* Gold line */}
+                  <div className="mb-4 h-0.5 w-8 bg-[#C89D1C] transition-all duration-300 group-hover:w-12" />
+
+                  <h3 className="mb-3 text-lg font-bold tracking-tight text-[#0D2558]">
+                    {highlight.title}
+                  </h3>
+
+                  <p className="text-sm leading-6 text-[#667085]">
+                    {highlight.description}
+                  </p>
+
+                  {/* Bottom accent */}
+                  <div className="absolute bottom-0 left-0 h-0.75 w-0 bg-[#C89D1C] transition-all duration-500 group-hover:w-full" />
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
+
+        {/* ================= TRUST BAR ================= */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.35 }}
+          className="mt-10 overflow-hidden rounded-2xl bg-[#0D2558] shadow-[0_15px_40px_rgba(13,37,88,0.12)] md:mt-14"
+        >
+          <div className="grid md:grid-cols-2 xl:grid-cols-4">
+            {trustItems.map((item, index) => {
+              const Icon = item.icon;
+
+              return (
                 <div
                   key={item.title}
-                  className="group relative flex min-w-0 items-center gap-4 rounded-xl border border-border/50 bg-background/70 p-4 text-left sm:p-5 xl:rounded-none xl:border-0 xl:bg-transparent xl:px-6 xl:py-3"
+                  className="relative flex items-center gap-4 px-6 py-5 sm:px-7"
                 >
-                  {index !== trustItems.length - 1 && (
-                    <div className="absolute top-1/2 right-0 hidden h-10 w-px -translate-y-1/2 bg-gradient-to-b from-transparent via-brand-gold/40 to-transparent xl:block" />
+                  {/* Divider */}
+                  {index > 0 && (
+                    <span className="absolute left-0 top-1/2 hidden h-10 w-px -translate-y-1/2 bg-white/10 xl:block" />
                   )}
 
-                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-gold/10 text-brand-gold transition group-hover:bg-brand-gold group-hover:text-white">
-                    <item.icon className="h-5 w-5 sm:h-6 sm:w-6" />
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#C89D1C]/15 text-[#C89D1C]">
+                    <Icon className="h-5 w-5" />
                   </div>
 
-                  <div className="min-w-0">
-                    <div className="text-sm font-semibold text-foreground sm:text-base">
+                  <div>
+                    <p className="text-sm font-semibold text-white">
                       {item.title}
-                    </div>
-                    <div className="text-xs leading-5 text-muted-foreground sm:text-sm">
+                    </p>
+
+                    <p className="mt-0.5 text-xs text-white/50">
                       {item.sub}
-                    </div>
+                    </p>
                   </div>
                 </div>
-              ))}
-            </div>
+              );
+            })}
           </div>
         </motion.div>
+
       </div>
     </section>
   );

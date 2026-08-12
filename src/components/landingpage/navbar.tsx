@@ -31,21 +31,20 @@ export default function Navbar() {
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', handleScroll);
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const isTopImagePage = pathname === '/' || pathname.startsWith('/projects');
-  const showTopBar = isScrolled || !isTopImagePage;
+  const showTopBar = !isScrolled;
   const isOverlayHeader = isTopImagePage && !isScrolled;
 
   const headerClassName = isScrolled
     ? 'border-b border-border/80 bg-white/92 shadow-[0_10px_30px_rgba(13,38,89,0.08)] backdrop-blur-xl'
     : 'border-b border-transparent bg-transparent shadow-none';
 
-  const topBarClassName = isScrolled
-    ? 'bg-primary text-white'
-    : 'bg-transparent text-white';
+  const topBarClassName = 'bg-primary text-white';
 
   const linkTextClass = isScrolled
     ? 'text-foreground hover:bg-white hover:text-primary'
@@ -65,7 +64,7 @@ export default function Navbar() {
     <>
       {/* TOP BAR */}
       {showTopBar && (
-        <div className={`hidden lg:block ${topBarClassName}`}>
+        <div className={`fixed inset-x-0 top-0 z-50 hidden lg:block ${topBarClassName}`}>
           <div className="container mx-auto px-4 flex justify-between py-2 text-sm">
             <div className="flex gap-6">
               <a href={`tel:${companyInfo.contact.phone[0]}`} className="flex gap-2 items-center">
@@ -83,7 +82,7 @@ export default function Navbar() {
       {/* MAIN NAV */}
       <header
         className={`z-50 transition-all duration-300 ${
-          isOverlayHeader ? 'absolute inset-x-0 top-0' : 'sticky top-0'
+          isOverlayHeader ? 'fixed inset-x-0 top-0 lg:top-9' : 'fixed inset-x-0 top-0'
         } ${headerClassName}`}
       >
         <nav className="section-shell flex h-18 items-center justify-between lg:h-20">

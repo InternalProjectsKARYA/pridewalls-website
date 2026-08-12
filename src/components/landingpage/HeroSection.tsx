@@ -58,7 +58,7 @@ export default function HeroSection() {
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
-    }, 6000);
+    }, 5000);
     return () => clearInterval(timer);
   }, []);
 
@@ -67,13 +67,13 @@ export default function HeroSection() {
   };
 
   return (
-    <section className="relative h-screen min-h-[100svh] overflow-hidden bg-primary">
+    <section className="relative h-screen min-h-svh overflow-hidden bg-primary">
       {heroSlides.map((slide, index) => (
         <motion.div
           key={slide.title}
           initial={{ opacity: 0 }}
           animate={{ opacity: currentSlide === index ? 1 : 0 }}
-          transition={{ duration: 1.1 }}
+          transition={{ duration: 0.9 }}
           className="absolute inset-0"
         >
           <Image
@@ -85,8 +85,8 @@ export default function HeroSection() {
             loading="eager"
             priority={index === 0}
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-primary/72 via-primary/32 to-primary/5" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/28 via-transparent to-black/10" />
+          <div className="absolute inset-0 bg-linear-to-r from-primary/72 via-primary/32 to-primary/5" />
+          <div className="absolute inset-0 bg-linear-to-t from-black/28 via-transparent to-black/10" />
         </motion.div>
       ))}
 
@@ -97,7 +97,7 @@ export default function HeroSection() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.15 }}
-            className="max-w-[780px] border-l-4 border-brand-gold px-5 py-6 sm:px-7 sm:py-8"
+            className="max-w-195 border-l-4 border-brand-gold px-5 py-6 sm:px-7 sm:py-8"
           >
             <span className="mb-5 inline-flex rounded-full border border-white/25 bg-white/15 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.16em] text-white shadow-sm backdrop-blur-md">
               PRIDEWALLS Real Estate

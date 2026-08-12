@@ -72,14 +72,20 @@ export default function AboutSection() {
 
             {/* Floating Stats Card */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
+              initial={{ opacity: 0, y: 20, scale: 0.95 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
               viewport={{ once: true }}
-              transition={{ delay: 0.3 }}
-              className="absolute bottom-4 right-4 rounded-2xl bg-brand-gold p-6 text-primary-foreground shadow-xl lg:bottom-8 lg:right-8"
+              transition={{ delay: 0.3, duration: 0.5 }}
+              className="absolute bottom-0 right-4 z-20 translate-y-1/2 rounded-2xl bg-[#C89D1C] px-6
+                       py-4 text-centertext-white shadow-xl sm:right-6 sm:px-8 sm:py-5 lg:right-8"
             >
-              <div className="text-4xl font-bold">8+</div>
-              <div className="text-sm opacity-80">Years of Excellence</div>
+              <div className="text-3xl font-bold leading-none sm:text-4xl">
+                8+
+              </div>
+
+              <div className="mt-1 text-[11px] font-medium tracking-wide sm:text-xs">
+                Years of Excellence
+              </div>
             </motion.div>
           </motion.div>
 
