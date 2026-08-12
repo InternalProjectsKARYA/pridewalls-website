@@ -41,11 +41,11 @@ export default function LocationHighlights({ highlights }: LocationHighlightsPro
         >
           
           {/* Header */}
-          <h4 className="text-lg font-semibold text-[#c42630] mb-4">
+          <h4 className="text-lg font-semibold text-brand-gold mb-4">
             {group.time}
           </h4>
 
-          <h4 className="text-lg font-semibold text-[#c42630] mb-4">
+          <h4 className="text-lg font-semibold text-brand-gold mb-4">
             {group.category}
           </h4>
 
@@ -54,9 +54,9 @@ export default function LocationHighlights({ highlights }: LocationHighlightsPro
             {group.items.map((item, idx) => (
               <li
                 key={idx}
-                className="flex items-start gap-2 text-sm text-gray-600"
+                className="flex items-start gap-2 text-sm text-muted-foreground"
               >
-                <CheckCircle2 className="h-4 w-4 text-[#c42630] mt-0.5 shrink-0" />
+                <CheckCircle2 className="h-4 w-4 text-brand-gold mt-0.5 shrink-0" />
                 <span className="leading-relaxed">{item}</span>
               </li>
             ))}

@@ -93,8 +93,8 @@ export default function ContactForm({ projectName, showProjectSelect = true }: C
         animate={{ opacity: 1, scale: 1 }}
         className="text-center py-12 "
       >
-        <div className="w-16 h-16 mx-auto mb-6 bg-green-100 rounded-full flex items-center justify-center">
-          <CheckCircle2 className="h-8 w-8 text-green-600" />
+        <div className="w-16 h-16 mx-auto mb-6 bg-success/10 rounded-full flex items-center justify-center">
+          <CheckCircle2 className="h-8 w-8 text-success" />
         </div>
         <h3 className="text-2xl font-bold text-foreground mb-2">Thank You!</h3>
         <p className="text-muted-foreground mb-6">
@@ -115,11 +115,14 @@ export default function ContactForm({ projectName, showProjectSelect = true }: C
         <Input
           id="name"
           placeholder="Enter your full name"
+          aria-required="true"
+          aria-invalid={errors.name ? true : undefined}
+          aria-describedby={errors.name ? 'name-error' : undefined}
           {...register('name', { required: 'Name is required' })}
           className={errors.name ? 'border-destructive' : ''}
         />
         {errors.name && (
-          <p className="text-sm text-destructive">{errors.name.message}</p>
+          <p id="name-error" className="text-sm text-destructive">{errors.name.message}</p>
         )}
       </div>
 
@@ -131,6 +134,9 @@ export default function ContactForm({ projectName, showProjectSelect = true }: C
             id="email"
             type="email"
             placeholder="Enter your email"
+            aria-required="true"
+            aria-invalid={errors.email ? true : undefined}
+            aria-describedby={errors.email ? 'email-error' : undefined}
             {...register('email', {
               required: 'Email is required',
               pattern: {
@@ -141,7 +147,7 @@ export default function ContactForm({ projectName, showProjectSelect = true }: C
             className={errors.email ? 'border-destructive' : ''}
           />
           {errors.email && (
-            <p className="text-sm text-destructive">{errors.email.message}</p>
+            <p id="email-error" className="text-sm text-destructive">{errors.email.message}</p>
           )}
         </div>
         <div className="space-y-2">
@@ -150,6 +156,9 @@ export default function ContactForm({ projectName, showProjectSelect = true }: C
             id="phone"
             type="tel"
             placeholder="Enter your phone number"
+            aria-required="true"
+            aria-invalid={errors.phone ? true : undefined}
+            aria-describedby={errors.phone ? 'phone-error' : undefined}
             {...register('phone', {
               required: 'Phone number is required',
               pattern: {
@@ -160,7 +169,7 @@ export default function ContactForm({ projectName, showProjectSelect = true }: C
             className={errors.phone ? 'border-destructive' : ''}
           />
           {errors.phone && (
-            <p className="text-sm text-destructive">{errors.phone.message}</p>
+            <p id="phone-error" className="text-sm text-destructive">{errors.phone.message}</p>
           )}
         </div>
       </div>
@@ -215,9 +224,10 @@ export default function ContactForm({ projectName, showProjectSelect = true }: C
         {selectedInterest === 'Other' && (
           <input
             type="text"
+            aria-label="Tell us what you're interested in"
             placeholder="Tell us what you're interested in"
             onChange={(e) => setValue('interestedIn', e.target.value)}
-            className="mt-2 h-10 w-full rounded-md border px-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#c42630]/40"
+            className="mt-2 h-10 w-full rounded-md border px-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-gold/40"
           />
         )}
       </div>
@@ -269,7 +279,7 @@ export default function ContactForm({ projectName, showProjectSelect = true }: C
       <Button
         type="submit"
         size="lg"
-        className="w-full bg-gradient-to-r from-[#c42630] to-[#a61f28] text-white font-semibold hover:scale-[1.02] transition shadow-[0_10px_25px_rgba(196,38,48,0.35)]"
+        className="w-full bg-gradient-to-r from-brand-gold to-brand-gold-hover text-white font-semibold hover:scale-[1.02] transition shadow-[0_10px_25px_rgba(13,38,89,0.12)]"
         disabled={isSubmitting}
       >
         {isSubmitting ? (

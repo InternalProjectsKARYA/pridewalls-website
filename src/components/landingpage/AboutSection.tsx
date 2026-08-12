@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { ArrowRight, ShieldCheck, Award, Lightbulb, Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -29,33 +30,41 @@ export default function AboutSection() {
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-4">
                 <div className="relative h-48 rounded-2xl overflow-hidden">
-                  <img
-                    src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&h=400&fit=crop"
-                    alt="Modern architecture"
-                    className="w-full h-full object-cover"
+                  <Image
+                    src="/pride-walls-appartments.jpg"
+                    alt="PRIDEWALLS apartment community exterior"
+                    fill
+                    sizes="(min-width: 1024px) 25vw, 50vw"
+                    className="object-cover"
                   />
                 </div>
                 <div className="relative h-64 rounded-2xl overflow-hidden">
-                  <img
-                    src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=500&fit=crop"
-                    alt="Luxury villa"
-                    className="w-full h-full object-cover"
+                  <Image
+                    src="/villas.jpg"
+                    alt="PRIDEWALLS luxury villa homes"
+                    fill
+                    sizes="(min-width: 1024px) 25vw, 50vw"
+                    className="object-cover"
                   />
                 </div>
               </div>
               <div className="space-y-4 pt-8">
                 <div className="relative h-64 rounded-2xl overflow-hidden">
-                  <img
-                    src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=600&h=500&fit=crop"
-                    alt="Interior design"
-                    className="w-full h-full object-cover"
+                  <Image
+                    src="/clubhouse.png"
+                    alt="PRIDEWALLS community clubhouse"
+                    fill
+                    sizes="(min-width: 1024px) 25vw, 50vw"
+                    className="object-cover"
                   />
                 </div>
                 <div className="relative h-48 rounded-2xl overflow-hidden">
-                  <img
-                    src="https://images.unsplash.com/photo-1600573472550-8090b5e0745e?w=600&h=400&fit=crop"
-                    alt="Amenities"
-                    className="w-full h-full object-cover"
+                  <Image
+                    src="/Amenities/Swimming Pool.jpg"
+                    alt="Resident swimming pool at a PRIDEWALLS community"
+                    fill
+                    sizes="(min-width: 1024px) 25vw, 50vw"
+                    className="object-cover"
                   />
                 </div>
               </div>
@@ -67,7 +76,7 @@ export default function AboutSection() {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ delay: 0.3 }}
-              className="absolute -bottom-6 -right-6 lg:right-8 bg-[#c42630] text-primary-foreground p-6 rounded-2xl shadow-xl"
+              className="absolute -bottom-6 -right-6 lg:right-8 bg-brand-gold text-primary-foreground p-6 rounded-2xl shadow-xl"
             >
               <div className="text-4xl font-bold">8+</div>
               <div className="text-sm opacity-80">Years of Excellence</div>
@@ -81,7 +90,7 @@ export default function AboutSection() {
             viewport={{ once: true }}
           >
             {/* Badge */}
-            <span className="inline-block px-4 py-1 bg-[#c42630]/10 text-[#c42630] rounded-full text-sm font-medium mb-4">
+            <span className="inline-block px-4 py-1 bg-brand-gold/10 text-brand-gold rounded-full text-sm font-medium mb-4">
               About Us
             </span>
 
@@ -104,7 +113,7 @@ export default function AboutSection() {
             <div className="grid grid-cols-2 gap-4 mb-8">
               {companyInfo.values.map((value) => (
                 <div key={value.title} className="group flex items-start gap-3">
-                  <div className="shrink-0 w-10 h-10 rounded-lg bg-[#c42630]/10 flex items-center justify-center text-[#c42630] group-hover:bg-[#c42630] group-hover:text-white transition">
+                  <div className="shrink-0 w-10 h-10 rounded-lg bg-brand-gold/10 flex items-center justify-center text-brand-gold group-hover:bg-brand-gold group-hover:text-white transition">
                     {valueIcons[value.icon] || <Award className="h-5 w-5" />}
                   </div>
 
@@ -117,7 +126,7 @@ export default function AboutSection() {
             </div>
 
             {/* ⭐ CTA */}
-            <Button asChild className="bg-[#c42630] hover:bg-[#a61f28] text-white">
+            <Button asChild className="bg-brand-gold hover:bg-brand-gold-hover text-white">
               <Link href="/#contact">
                 Get in Touch
                 <ArrowRight className="ml-2 h-4 w-4" />
@@ -133,17 +142,9 @@ export default function AboutSection() {
 
 /* ⭐ helpers */
 
-function ImageBlock({ src, h }: { src: string; h: string }) {
-  return (
-    <div className={`relative ${h} rounded-2xl overflow-hidden`}>
-      <img src={src} className="w-full h-full object-cover" />
-    </div>
-  );
-}
-
 function InfoCard({ title, text }: { title: string; text: string }) {
   return (
-    <div className="p-4 bg-muted/50 rounded-xl hover:bg-[#c42630]/5 transition">
+    <div className="p-4 bg-muted/50 rounded-xl hover:bg-brand-gold/5 transition">
       <h4 className="font-semibold text-foreground mb-1">{title}</h4>
       <p className="text-sm text-muted-foreground">{text}</p>
     </div>

@@ -65,10 +65,10 @@ const initialSiteVisitForm: SiteVisitForm = {
 };
 
 const fieldClassName =
-  'h-12 rounded-xl border border-[#eadfdd] bg-white text-[#2d1f1f] shadow-none placeholder:text-[#8d7b79] focus-visible:border-[#c42630] focus-visible:ring-[#c42630]/15';
+  'h-12 rounded-xl border border-border bg-white text-foreground shadow-none placeholder:text-muted-foreground focus-visible:border-primary focus-visible:ring-primary/20';
 
 const sectionClassName =
-  'rounded-2xl border border-[#eadfdd] bg-white p-4 shadow-[0_10px_30px_rgba(58,30,30,0.04)] sm:p-5';
+  'rounded-2xl border border-border bg-white p-4 shadow-card sm:p-5';
 
 function isValidEmail(email: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -214,17 +214,17 @@ export default function SiteVisitDialog({
 
   return (
     <Dialog open={open} onOpenChange={handleDialogChange}>
-      <DialogContent className="max-h-[92vh] overflow-hidden rounded-3xl border border-[#eadfdd] bg-[linear-gradient(180deg,#fffdfc_0%,#f9f2f0_100%)] p-0 text-[#2d1f1f] shadow-[0_24px_80px_rgba(30,16,16,0.18)] sm:max-w-2xl [&>[data-slot=dialog-close]]:right-4 [&>[data-slot=dialog-close]]:top-4 [&>[data-slot=dialog-close]]:rounded-full [&>[data-slot=dialog-close]]:border [&>[data-slot=dialog-close]]:border-[#eadfdd] [&>[data-slot=dialog-close]]:bg-white [&>[data-slot=dialog-close]]:p-2 [&>[data-slot=dialog-close]]:text-[#6c5756] [&>[data-slot=dialog-close]]:opacity-100 [&>[data-slot=dialog-close]]:shadow-sm [&>[data-slot=dialog-close]]:hover:bg-[#f6efee] [&>[data-slot=dialog-close]]:hover:text-[#2d1f1f]">
+      <DialogContent className="max-h-[92vh] overflow-hidden rounded-3xl border border-border bg-white p-0 text-foreground shadow-card-hover sm:max-w-2xl [&>[data-slot=dialog-close]]:right-4 [&>[data-slot=dialog-close]]:top-4 [&>[data-slot=dialog-close]]:rounded-full [&>[data-slot=dialog-close]]:border [&>[data-slot=dialog-close]]:border-border [&>[data-slot=dialog-close]]:bg-white [&>[data-slot=dialog-close]]:p-2 [&>[data-slot=dialog-close]]:text-muted-foreground [&>[data-slot=dialog-close]]:opacity-100 [&>[data-slot=dialog-close]]:shadow-sm [&>[data-slot=dialog-close]]:hover:bg-accent [&>[data-slot=dialog-close]]:hover:text-foreground">
         <div className="max-h-[92vh] overflow-y-auto">
-          <div className="border-b border-[#eadfdd] bg-[linear-gradient(180deg,#f8efed_0%,#f6efee_100%)] px-5 py-5 sm:px-6">
+          <div className="border-b border-border bg-muted/40 px-5 py-5 sm:px-6">
             <DialogHeader className="text-left">
-              <div className="mb-2 inline-flex w-fit rounded-full bg-[#c42630]/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#b1222b]">
+              <div className="mb-2 inline-flex w-fit rounded-full bg-brand-gold/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-brand-gold">
                 Book a Visit
               </div>
-              <DialogTitle className="text-2xl font-semibold text-[#2d1f1f] sm:text-[28px]">
+              <DialogTitle className="text-2xl font-semibold text-foreground sm:text-[28px]">
                 Schedule Your Site Visit
               </DialogTitle>
-              <DialogDescription className="text-sm leading-6 text-[#6c5756]">
+              <DialogDescription className="text-sm leading-6 text-muted-foreground">
                 Fill in your details and preferred timing. Our team will contact
                 you to confirm the visit.
               </DialogDescription>
@@ -234,15 +234,15 @@ export default function SiteVisitDialog({
           <div className="px-5 py-5 sm:px-6 sm:py-6">
             {successMessage ? (
               <div className="space-y-5 text-center">
-                <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-emerald-100 text-emerald-600">
+                <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-success/10 text-success">
                   <CheckCircle2 className="h-8 w-8" />
                 </div>
 
                 <div className="space-y-2">
-                  <h4 className="text-2xl font-semibold text-[#2d1f1f]">
+                  <h4 className="text-2xl font-semibold text-foreground">
                     Visit Request Submitted
                   </h4>
-                  <p className="text-sm leading-6 text-[#6c5756]">
+                  <p className="text-sm leading-6 text-muted-foreground">
                     {successMessage}
                   </p>
                 </div>
@@ -255,14 +255,14 @@ export default function SiteVisitDialog({
                       setErrorMessage('');
                       setSiteVisitForm(initialSiteVisitForm);
                     }}
-                    className="inline-flex h-12 items-center justify-center rounded-xl border border-[#eadfdd] bg-white px-4 font-medium text-[#2d1f1f] transition hover:bg-[#f6efee]"
+                    className="inline-flex h-12 items-center justify-center rounded-xl border border-border bg-white px-4 font-medium text-foreground transition hover:bg-accent"
                   >
                     Book Another Visit
                   </button>
 
                   <a
                     href={phoneHref}
-                    className="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-linear-to-r from-[#c42630] to-[#a61f28] px-4 font-semibold text-white transition hover:brightness-105"
+                    className="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-brand-gold hover:bg-brand-gold-hover px-4 font-semibold text-white transition"
                   >
                     <PhoneCall className="h-4 w-4" />
                     Call to Confirm
@@ -271,7 +271,7 @@ export default function SiteVisitDialog({
               </div>
             ) : (
               <div className="space-y-5">
-                <div className="rounded-2xl border border-[#eadfdd] bg-white px-4 py-3 text-sm text-[#6c5756]">
+                <div className="rounded-2xl border border-border bg-white px-4 py-3 text-sm text-muted-foreground">
                   Choose your preferred property type, date, and time slot. We
                   will contact you to confirm the visit and answer any immediate
                   questions.
@@ -280,10 +280,10 @@ export default function SiteVisitDialog({
                 <form onSubmit={handleSubmit} className="space-y-5">
                   <div className={sectionClassName}>
                     <div className="mb-4">
-                      <h4 className="text-sm font-semibold text-[#2d1f1f]">
+                      <h4 className="text-sm font-semibold text-foreground">
                         Your Details
                       </h4>
-                      <p className="mt-1 text-xs leading-5 text-[#8d7b79]">
+                      <p className="mt-1 text-xs leading-5 text-muted-foreground">
                         We use these details to confirm your visit.
                       </p>
                     </div>
@@ -292,7 +292,7 @@ export default function SiteVisitDialog({
                       <div className="space-y-2">
                         <Label
                           htmlFor="site-visit-name"
-                          className="text-[13px] font-medium text-[#3f2d2d]"
+                          className="text-[13px] font-medium text-foreground"
                         >
                           Full Name *
                         </Label>
@@ -311,7 +311,7 @@ export default function SiteVisitDialog({
                       <div className="space-y-2">
                         <Label
                           htmlFor="site-visit-mobile"
-                          className="text-[13px] font-medium text-[#3f2d2d]"
+                          className="text-[13px] font-medium text-foreground"
                         >
                           Mobile Number *
                         </Label>
@@ -332,7 +332,7 @@ export default function SiteVisitDialog({
                     <div className="mt-4 space-y-2">
                       <Label
                         htmlFor="site-visit-email"
-                        className="text-[13px] font-medium text-[#3f2d2d]"
+                        className="text-[13px] font-medium text-foreground"
                       >
                         Email Address *
                       </Label>
@@ -352,10 +352,10 @@ export default function SiteVisitDialog({
 
                   <div className={sectionClassName}>
                     <div className="mb-4">
-                      <h4 className="text-sm font-semibold text-[#2d1f1f]">
+                      <h4 className="text-sm font-semibold text-foreground">
                         Visit Preferences
                       </h4>
-                      <p className="mt-1 text-xs leading-5 text-[#8d7b79]">
+                      <p className="mt-1 text-xs leading-5 text-muted-foreground">
                         Tell us what you want to see and when you are available.
                       </p>
                     </div>
@@ -364,7 +364,7 @@ export default function SiteVisitDialog({
                       <div className="space-y-2">
                         <Label
                           htmlFor="site-visit-interest"
-                          className="text-[13px] font-medium text-[#3f2d2d]"
+                          className="text-[13px] font-medium text-foreground"
                         >
                           Interested In *
                         </Label>
@@ -398,14 +398,14 @@ export default function SiteVisitDialog({
                               </option>
                             ))}
                           </select>
-                          <ChevronDown className="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[#8d7b79]" />
+                          <ChevronDown className="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                         </div>
                       </div>
 
                       <div className="space-y-2">
                         <Label
                           htmlFor="site-visit-date"
-                          className="text-[13px] font-medium text-[#3f2d2d]"
+                          className="text-[13px] font-medium text-foreground"
                         >
                           Preferred Date *
                         </Label>
@@ -426,10 +426,10 @@ export default function SiteVisitDialog({
 
                   <div className={sectionClassName}>
                     <div className="mb-4">
-                      <h4 className="text-sm font-semibold text-[#2d1f1f]">
+                      <h4 className="text-sm font-semibold text-foreground">
                         Timing and Notes
                       </h4>
-                      <p className="mt-1 text-xs leading-5 text-[#8d7b79]">
+                      <p className="mt-1 text-xs leading-5 text-muted-foreground">
                         Add any specific preferences before submitting.
                       </p>
                     </div>
@@ -438,7 +438,7 @@ export default function SiteVisitDialog({
                       <div className="space-y-2">
                         <Label
                           htmlFor="site-visit-other-interest"
-                          className="text-[13px] font-medium text-[#3f2d2d]"
+                          className="text-[13px] font-medium text-foreground"
                         >
                           Tell Us What You Want To Visit *
                         </Label>
@@ -456,7 +456,7 @@ export default function SiteVisitDialog({
                     ) : null}
 
                     <div className="mt-4 space-y-2">
-                      <Label className="text-[13px] font-medium text-[#3f2d2d]">
+                      <Label className="text-[13px] font-medium text-foreground">
                         Preferred Time Slot *
                       </Label>
                       <div className="grid grid-cols-2 gap-2">
@@ -471,8 +471,8 @@ export default function SiteVisitDialog({
                               disabled={isSubmitting}
                               className={`inline-flex min-h-12 items-center justify-center rounded-xl border px-3 py-2 text-sm font-medium transition ${
                                 isActive
-                                  ? 'border-[#c42630] bg-[#fbe9ea] text-[#9f1d26]'
-                                  : 'border-[#eadfdd] bg-white text-[#6c5756] hover:bg-[#f6efee]'
+                                  ? 'border-brand-gold bg-brand-gold/10 text-primary'
+                                  : 'border-border bg-white text-muted-foreground hover:bg-accent'
                               }`}
                             >
                               {slot}
@@ -485,7 +485,7 @@ export default function SiteVisitDialog({
                     <div className="mt-4 space-y-2">
                       <Label
                         htmlFor="site-visit-notes"
-                        className="text-[13px] font-medium text-[#3f2d2d]"
+                        className="text-[13px] font-medium text-foreground"
                       >
                         Additional Notes
                       </Label>
@@ -495,12 +495,12 @@ export default function SiteVisitDialog({
                         onChange={(event) => updateField('notes', event.target.value)}
                         placeholder="Share pickup needs, project preference, or any questions for the sales team."
                         disabled={isSubmitting}
-                        className="min-h-32 rounded-2xl border border-[#eadfdd] bg-white text-[#2d1f1f] shadow-none placeholder:text-[#8d7b79] focus-visible:border-[#c42630] focus-visible:ring-[#c42630]/15"
+                        className="min-h-32 rounded-2xl border border-border bg-white text-foreground shadow-none placeholder:text-muted-foreground focus-visible:border-primary focus-visible:ring-primary/20"
                       />
                     </div>
                   </div>
 
-                  <label className="flex items-start gap-3 rounded-2xl border border-[#eadfdd] bg-[#fffafa] px-4 py-4 text-sm leading-6 text-[#6c5756]">
+                  <label className="flex items-start gap-3 rounded-2xl border border-border bg-muted/40 px-4 py-4 text-sm leading-6 text-muted-foreground">
                     <input
                       type="checkbox"
                       checked={siteVisitForm.consent}
@@ -508,10 +508,10 @@ export default function SiteVisitDialog({
                         updateField('consent', event.target.checked)
                       }
                       disabled={isSubmitting}
-                      className="mt-1 h-4 w-4 shrink-0 accent-[#c42630]"
+                      className="mt-1 h-4 w-4 shrink-0 accent-brand-gold"
                     />
                     <span>
-                      I agree to be contacted by Pridewalls to confirm and
+                      I agree to be contacted by PRIDEWALLS to confirm and
                       coordinate this site visit request.
                     </span>
                   </label>
@@ -519,7 +519,7 @@ export default function SiteVisitDialog({
                   {errorMessage ? (
                     <p
                       aria-live="polite"
-                      className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
+                      className="rounded-2xl border border-destructive/20 bg-destructive/10 px-4 py-3 text-sm text-destructive"
                     >
                       {errorMessage}
                     </p>
@@ -529,7 +529,7 @@ export default function SiteVisitDialog({
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-linear-to-r from-[#c42630] to-[#a61f28] px-5 font-semibold text-white transition hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-70"
+                      className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-brand-gold hover:bg-brand-gold-hover px-5 font-semibold text-white transition disabled:cursor-not-allowed disabled:opacity-70"
                     >
                       {isSubmitting ? (
                         <>

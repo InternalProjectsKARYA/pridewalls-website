@@ -102,32 +102,32 @@ export default function ContactSection() {
   return (
     <section
       id="contact"
-      className="w-full py-20 bg-gradient-to-b from-[#fff5f6] to-white"
+      className="w-full py-20 bg-gradient-to-b from-muted/40 to-white"
     >
       <div className="max-w-7xl mx-auto px-6">
         <div className="mb-12">
           <h2 className="text-4xl font-bold mb-2">
-            Get In Touch With <span className="text-[#c42630]">Us</span>
+            Get In Touch With <span className="text-brand-gold">Us</span>
           </h2>
-          <div className="h-[2px] w-24 bg-gradient-to-r from-[#c42630] to-transparent" />
+          <div className="h-[2px] w-24 bg-gradient-to-r from-brand-gold to-transparent" />
         </div>
 
         <div className="grid lg:grid-cols-2 gap-12 items-start">
           <div className="space-y-8">
-            <div className="p-6 rounded-2xl bg-white/80 backdrop-blur border shadow-sm">
-              <h3 className="font-semibold text-lg mb-3 text-[#c42630]">
+            <div className="p-6 rounded-2xl bg-white/80 backdrop-blur border shadow-card">
+              <h3 className="font-semibold text-lg mb-3 text-brand-gold">
                 HYDERABAD OFFICE
               </h3>
 
-              <p className="text-sm text-gray-600 leading-relaxed">
+              <p className="text-sm text-muted-foreground leading-relaxed">
                 Plot No: 19/B, 4th Floor, Progressive Towers,
                 <br />
-                Jaihind Enclave, 100 Feet Road, Ayyappa Society, ,
+                Jaihind Enclave, 100 Feet Road, Ayyappa Society,
                 <br />
-                Madhapur, Hyderabad- 500081.
+                Madhapur, Hyderabad - 500081.
               </p>
 
-              <div className="mt-4 space-y-1 text-sm text-gray-600">
+              <div className="mt-4 space-y-1 text-sm text-muted-foreground">
                 <p>Phone: +91 70364 45500</p>
                 <p className="pt-1">info@pridewalls.com</p>
               </div>
@@ -139,8 +139,8 @@ export default function ContactSection() {
             >
               <div className="grid md:grid-cols-2 gap-4">
                 <label className="space-y-1">
-                  <span className="text-sm font-medium text-gray-700">
-                    Name <span className="text-red-600">*</span>
+                  <span className="text-sm font-medium text-foreground">
+                    Name <span className="text-destructive">*</span>
                   </span>
                   <Input
                     id="lead-name"
@@ -148,13 +148,14 @@ export default function ContactSection() {
                     value={name}
                     onChange={(event) => setName(event.target.value)}
                     autoComplete="name"
+                    aria-required="true"
                     disabled={isSubmitting}
                   />
                 </label>
 
                 <label className="space-y-1">
-                  <span className="text-sm font-medium text-gray-700">
-                    Email <span className="text-red-600">*</span>
+                  <span className="text-sm font-medium text-foreground">
+                    Email <span className="text-destructive">*</span>
                   </span>
                   <Input
                     id="lead-email"
@@ -163,14 +164,15 @@ export default function ContactSection() {
                     value={email}
                     onChange={(event) => setEmail(event.target.value)}
                     autoComplete="email"
+                    aria-required="true"
                     disabled={isSubmitting}
                   />
                 </label>
               </div>
 
               <label className="space-y-1">
-                <span className="text-sm font-medium text-gray-700">
-                  Mobile Number <span className="text-red-600">*</span>
+                <span className="text-sm font-medium text-foreground">
+                  Mobile Number <span className="text-destructive">*</span>
                 </span>
                 <Input
                   id="lead-mobile"
@@ -179,13 +181,14 @@ export default function ContactSection() {
                   value={mobile}
                   onChange={(event) => setMobile(event.target.value)}
                   autoComplete="tel"
+                  aria-required="true"
                   disabled={isSubmitting}
                 />
               </label>
 
               <label className="space-y-1">
-                <span className="text-sm font-medium text-gray-700">
-                  Interested In <span className="text-red-600">*</span>
+                <span className="text-sm font-medium text-foreground">
+                  Interested In <span className="text-destructive">*</span>
                 </span>
                 <select
                   id="lead-interest"
@@ -194,8 +197,9 @@ export default function ContactSection() {
                     setInterestType(event.target.value as InterestType);
                     setOtherInterest("");
                   }}
+                  aria-required="true"
                   disabled={isSubmitting}
-                  className="h-12 w-full px-4 rounded-xl border bg-white focus:outline-none focus:ring-2 focus:ring-[#c42630]/40"
+                  className="h-12 w-full px-4 rounded-xl border bg-white focus:outline-none focus:ring-2 focus:ring-brand-gold/40"
                 >
                   <option value="">Select</option>
                   <option value="Villas">Villas</option>
@@ -208,8 +212,8 @@ export default function ContactSection() {
 
               {interestType === "Other" ? (
                 <label className="space-y-1">
-                  <span className="text-sm font-medium text-gray-700">
-                    Other Interest <span className="text-red-600">*</span>
+                  <span className="text-sm font-medium text-foreground">
+                    Other Interest <span className="text-destructive">*</span>
                   </span>
                   <Input
                     id="lead-other-interest"
@@ -222,7 +226,7 @@ export default function ContactSection() {
               ) : null}
 
               <div className="space-y-1">
-                <span className="text-sm font-medium text-gray-700">
+                <span className="text-sm font-medium text-foreground">
                   Preferred Contact Method
                 </span>
                 <div className="flex flex-wrap gap-3 pt-1">
@@ -235,8 +239,8 @@ export default function ContactSection() {
                       key={method.value}
                       className={`flex items-center gap-2 px-4 py-2 rounded-lg border cursor-pointer transition-all ${
                         preferredContact === method.value
-                          ? "border-[#c42630] bg-[#c42630]/5"
-                          : "border-gray-200 hover:border-[#c42630]/50"
+                          ? "border-brand-gold bg-brand-gold/5"
+                          : "border-border hover:border-brand-gold/50"
                       }`}
                     >
                       <input
@@ -256,7 +260,7 @@ export default function ContactSection() {
               </div>
 
               <label className="space-y-1">
-                <span className="text-sm font-medium text-gray-700">
+                <span className="text-sm font-medium text-foreground">
                   Message
                 </span>
                 <Textarea
@@ -268,25 +272,25 @@ export default function ContactSection() {
                 />
               </label>
 
-              <label className="flex items-start gap-3 rounded-xl border border-gray-200 bg-gray-50/50 px-4 py-3 text-sm text-gray-700">
+              <label className="flex items-start gap-3 rounded-xl border border-border bg-muted/40 px-4 py-3 text-sm text-foreground">
                 <input
                   type="checkbox"
                   checked={consent}
                   onChange={(event) => setConsent(event.target.checked)}
                   disabled={isSubmitting}
-                  className="mt-1 h-4 w-4 accent-[#c42630]"
+                  className="mt-1 h-4 w-4 accent-brand-gold"
                 />
-                <span>I agree to be contacted by Pridewalls about this enquiry.</span>
+                <span>I agree to be contacted by PRIDEWALLS about this enquiry.</span>
               </label>
 
               {errorMessage ? (
-                <p className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                <p className="rounded-xl border border-destructive/20 bg-destructive/10 px-4 py-3 text-sm text-destructive">
                   {errorMessage}
                 </p>
               ) : null}
 
               {successMessage ? (
-                <p className="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
+                <p className="rounded-xl border border-success/20 bg-success/10 px-4 py-3 text-sm text-success">
                   {successMessage}
                 </p>
               ) : null}
@@ -294,20 +298,31 @@ export default function ContactSection() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full h-12 flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#c42630] to-[#a61f28] text-white font-semibold hover:scale-[1.02] transition shadow-[0_10px_25px_rgba(196,38,48,0.35)] disabled:opacity-70 disabled:hover:scale-100"
+                className="w-full h-12 flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-brand-gold to-brand-gold-hover text-white font-semibold hover:scale-[1.02] transition shadow-[0_10px_25px_rgba(13,38,89,0.12)] disabled:opacity-70 disabled:hover:scale-100"
               >
                 <Send size={18} />
-                {isSubmitting ? "SUBMITTING..." : "GET IN TOUCH"}
+                {isSubmitting ? "Submitting..." : "Get In Touch"}
               </button>
             </form>
           </div>
 
           <div className="relative h-200 rounded-2xl overflow-hidden shadow-xl border">
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2193.1565800134977!2d78.38806349526911!3d17.45274661195516!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcb91005f5ce709%3A0xc1f2e0646b78f7ed!2sKaryahub%20Solutions!5e1!3m2!1sen!2sin!4v1772012440540!5m2!1sen!2sin%22"
+              src="https://www.google.com/maps?q=Progressive+Towers,+100+Feet+Road,+Ayyappa+Society,+Madhapur,+Hyderabad+500081&z=16&output=embed&hl=en"
               className="w-full h-full border-0"
               loading="lazy"
+              allowFullScreen
+              referrerPolicy="no-referrer-when-downgrade"
+              title="Map showing PRIDEWALLS office location in Madhapur, Hyderabad"
             />
+            <a
+              href="https://www.google.com/maps/dir/?api=1&destination=Progressive+Towers%2C+100+Feet+Road%2C+Ayyappa+Society%2C+Madhapur%2C+Hyderabad+500081"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="absolute bottom-4 right-4 inline-flex items-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-white shadow-lg transition hover:bg-brand-primary-dark"
+            >
+              Get Directions
+            </a>
           </div>
         </div>
       </div>
@@ -327,7 +342,7 @@ function Input({
     <input
       type={type}
       placeholder={placeholder}
-      className="h-12 w-full px-4 rounded-xl border bg-white focus:outline-none focus:ring-2 focus:ring-[#c42630]/40"
+      className="h-12 w-full px-4 rounded-xl border bg-white focus:outline-none focus:ring-2 focus:ring-brand-gold/40"
       {...props}
     />
   );
@@ -343,7 +358,7 @@ function Textarea({
     <textarea
       rows={4}
       placeholder={placeholder}
-      className="w-full px-4 py-3 rounded-xl border bg-white focus:outline-none focus:ring-2 focus:ring-[#c42630]/40"
+      className="w-full px-4 py-3 rounded-xl border bg-white focus:outline-none focus:ring-2 focus:ring-brand-gold/40"
       {...props}
     />
   );

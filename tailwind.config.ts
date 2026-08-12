@@ -7,6 +7,7 @@ const config: Config = {
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
@@ -40,6 +41,21 @@ const config: Config = {
           DEFAULT: "var(--accent)",
           foreground: "var(--accent-foreground)",
         },
+        brand: {
+          gold: {
+            DEFAULT: "var(--brand-gold)",
+            hover: "var(--brand-gold-hover)",
+          },
+          primary: {
+            DEFAULT: "var(--brand-primary)",
+            foreground: "var(--brand-primary-foreground)",
+            light: "var(--brand-primary-light)",
+            dark: "var(--brand-primary-dark)",
+          },
+        },
+        success: "var(--success)",
+        warning: "var(--warning)",
+        info: "var(--info)",
         destructive: {
           DEFAULT: "var(--destructive)",
           foreground: "var(--destructive-foreground)",
@@ -54,22 +70,16 @@ const config: Config = {
           "4": "var(--chart-4)",
           "5": "var(--chart-5)",
         },
-        brand: {
-          primary: {
-            DEFAULT: "var(--brand-primary)",
-            foreground: "var(--brand-primary-foreground)",
-          },
-          silver: {
-            DEFAULT: "var(--brand-silver)",
-            muted: "var(--brand-silver-muted)",
-            strong: "var(--brand-silver-strong)",
-          },
-        },
       },
       borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
+        lg: "0.75rem",
+        md: "0.625rem",
+        sm: "0.5rem",
+        xl: "1rem",
+      },
+      boxShadow: {
+        card: "var(--shadow-card)",
+        "card-hover": "var(--shadow-card-hover)",
       },
     },
   },

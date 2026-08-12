@@ -23,26 +23,27 @@ export default function CTASection() {
       {/* ⭐ Background */}
       <div className="absolute inset-0">
         <Image
-          src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1920"
+          src="/pride-walls-hero.png"
           alt=""
           fill
+          sizes="100vw"
           className="object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#140708] via-[#1a0a0c]/95 to-[#140708]" />
+        <div className="absolute inset-0 bg-gradient-to-r from-primary via-primary/90 to-primary/80" />
       </div>
       
 
       {/* ⭐ Light sources */}
       {/* <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute -left-20 top-0 w-[420px] h-[420px] bg-[#c42630]/30 blur-[140px]" />
-        <div className="absolute -right-20 bottom-0 w-[420px] h-[420px] bg-[#c42630]/25 blur-[140px]" />
+        <div className="absolute -left-20 top-0 w-[420px] h-[420px] bg-brand-gold/30 blur-[140px]" />
+        <div className="absolute -right-20 bottom-0 w-[420px] h-[420px] bg-brand-gold/25 blur-[140px]" />
       </div> */}
 
 
-      <div className="relative container mx-auto px-4">
+      <div className="section-shell relative">
         {/* ⭐ Section Badge */}
         <div className="text-center mb-16">
-          <span className="inline-block px-4 py-1 bg-[#c42630]/10 text-[#ff9aa0] rounded-full text-sm font-medium">
+          <span className="eyebrow border-white/20 bg-white/10 text-white">
             Let's Connect
           </span>
         </div>
@@ -55,14 +56,14 @@ export default function CTASection() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
           >
-            <span className="inline-block px-4 py-1 rounded-full bg-[#c42630]/20 text-[#ff9aa0] mb-6">
+            <span className="mb-6 inline-block rounded-full bg-brand-gold/20 px-4 py-1 text-brand-gold">
               Start Your Journey
             </span>
 
             <h2 className="text-4xl md:text-5xl font-bold text-white leading-tight mb-6">
               Your Dream Home
               <br />
-              <span className="bg-gradient-to-r from-[#c42630] to-[#ff7a81] bg-clip-text text-transparent">
+              <span className="text-brand-gold">
                 Awaits You
               </span>
             </h2>
@@ -88,10 +89,10 @@ export default function CTASection() {
             className="relative"
           >
             {/* glow */}
-            {/* <div className="absolute inset-0 bg-[#c42630]/20 blur-[120px] rounded-3xl" /> */}
+            {/* <div className="absolute inset-0 bg-brand-gold/20 blur-[120px] rounded-3xl" /> */}
 
             {/* card */}
-            <div className="relative p-8 rounded-3xl bg-white/10 backdrop-blur-xl border border-white/20 shadow-[0_30px_80px_rgba(0,0,0,0.4)]">
+            <div className="relative rounded-xl border border-white/20 bg-white/10 p-8 shadow-card backdrop-blur-xl">
 
               <h3 className="text-2xl font-bold text-white mb-6">
                 Speak With Our Experts
@@ -100,9 +101,9 @@ export default function CTASection() {
               {/* primary */}
               <button
                 onClick={scrollToContact}
-                className="w-full py-4 rounded-xl bg-gradient-to-r from-[#c4263198] to-[#a61f28cf] text-white font-semibold flex items-center justify-center gap-2 mb-4 hover:scale-[1.02] transition"
+                className="mb-4 flex w-full items-center justify-center gap-2 rounded-md bg-brand-gold py-4 font-semibold text-white transition hover:bg-brand-gold-hover"
               >
-                Enquire Now <ArrowRight size={18} />
+                Get In Touch <ArrowRight size={18} />
               </button>
 
               {/* secondary */}
@@ -119,7 +120,7 @@ export default function CTASection() {
                   href={whatsappHref}
                   target="_blank"
                   rel="noreferrer"
-                  className="py-3 rounded-xl bg-[#25D366]/30 text-white flex items-center justify-center gap-2 hover:bg-[#25D366]/40 transition"
+                  className="py-3 rounded-xl bg-success/20 text-white flex items-center justify-center gap-2 hover:bg-success/30 transition"
                 >
                   <MessageCircle size={18} /> WhatsApp
                 </a>

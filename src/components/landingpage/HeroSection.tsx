@@ -11,26 +11,40 @@ import { companyInfo } from '@/lib/project-data';
 
 const heroSlides = [
   {
-    title: "Own Your Future, One Plot at a Time",
-    subtitle: "Premium open plots in prime locations — invest with confidence",
-    image: "/hero-section.jpg",
+    title: 'Premium Spaces for',
+    accent: 'Confident Living',
+    subtitle:
+      "Residential communities, open plots, and villas planned for long-term value in Hyderabad's growth corridors.",
+    image: '/hero-section.jpg',
+    imageAlt: 'Aerial view of a premium residential community in Hyderabad',
   },
   {
-    title: "Land That Grows In Value",
-    subtitle: "Strategically located plots with high appreciation potential",
-    image: "/hero2.jpg",
+    title: 'Invest In Land With',
+    accent: 'Clear Potential',
+    subtitle:
+      'Approved plots in well-connected locations with infrastructure, access, and future appreciation in focus.',
+    image: '/hero2.jpg',
+    imageAlt: 'Open plots in a well-planned residential layout',
   },
   {
-    title: "Build Your Dreams On Solid Ground",
-    subtitle: "Approved land plots with modern infrastructure & amenities",
-    image: "/hero.png",
+    title: 'Build On',
+    accent: 'Solid Ground',
+    subtitle:
+      'Thoughtfully planned developments with modern amenities, transparent documentation, and dependable guidance.',
+    image: '/hero.png',
+    imageAlt: 'Modern villa development with landscaped surroundings',
   },
   {
-    title: "Design Your Dream Home, Your Way",
-    subtitle: "Spacious apartments crafted for comfort, style, and future value",
-    image: "/pride-walls-appartments.jpg",
-  }
+    title: 'Homes Designed Around',
+    accent: 'Everyday Comfort',
+    subtitle:
+      'Spacious apartments and villas crafted for natural light, practical layouts, and a refined community lifestyle.',
+    image: '/pride-walls-appartments.jpg',
+    imageAlt: 'Contemporary apartment building exterior in Hyderabad',
+  },
 ];
+
+const trustItems = ['HMDA planned', 'RERA-aligned process', 'Guided site visits'];
 
 export default function HeroSection() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -53,55 +67,66 @@ export default function HeroSection() {
   };
 
   return (
-    <section className="relative h-[90vh] min-h-[700px] max-h-[1000px] overflow-hidden">
-      {/* Background Slides */}
+    <section className="relative h-[86vh] min-h-[640px] max-h-[920px] overflow-hidden bg-primary">
       {heroSlides.map((slide, index) => (
         <motion.div
-          key={index}
+          key={slide.title}
           initial={{ opacity: 0 }}
           animate={{ opacity: currentSlide === index ? 1 : 0 }}
-          transition={{ duration: 1.5 }}
+          transition={{ duration: 1.1 }}
           className="absolute inset-0"
         >
           <Image
             src={slide.image}
-            alt={slide.title}
+            alt={slide.imageAlt}
             fill
+            sizes="100vw"
             className="object-cover"
+            loading="eager"
             priority={index === 0}
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-black/30" />
+          <div className="absolute inset-0 bg-gradient-to-r from-primary/72 via-primary/32 to-primary/5" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/28 via-transparent to-black/10" />
         </motion.div>
       ))}
 
-      {/* Decorative Elements */}
-      {/* <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 right-20 w-64 h-64 bg-primary/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-20 left-20 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
-      </div> */}
-
-      {/* Content */}
-      <div className="relative h-full container mx-auto px-4 flex items-center">
-        <div className="max-w-3xl">
+      <div className="relative flex h-full items-center">
+        <div className="section-shell">
           <motion.div
             key={currentSlide}
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            transition={{ duration: 0.7, delay: 0.15 }}
+            className="max-w-[780px] border-l-4 border-brand-gold px-5 py-6 sm:px-7 sm:py-8"
           >
-            {/* Title */}
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-extrabold leading-tight tracking-tight text-transparent bg-gradient-to-r from-rose-200 via-white to-slate-200 bg-clip-text drop-shadow-[0_20px_30px_rgba(0,0,0,0.65)] mb-6">
-              {heroSlides[currentSlide].title}
+            <span className="mb-5 inline-flex rounded-full border border-white/25 bg-white/15 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.16em] text-white shadow-sm backdrop-blur-md">
+              PRIDEWALLS Real Estate
+            </span>
+
+            <h1 className="mb-5 max-w-[14ch] text-4xl font-extrabold leading-[1.02] text-white text-balance sm:text-5xl md:text-6xl lg:text-[4.4rem]">
+              {heroSlides[currentSlide].title}{' '}
+              <span className="block font-signature text-[1.08em] font-normal leading-[0.92] text-brand-gold">
+                {heroSlides[currentSlide].accent}
+              </span>
             </h1>
-            
-            {/* Subtitle */}
-            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-slate-100/90 mb-8 max-w-xl leading-relaxed tracking-wide">
+
+            <p className="mb-7 max-w-2xl text-base font-medium leading-8 text-white/90 sm:text-lg md:text-xl">
               {heroSlides[currentSlide].subtitle}
             </p>
 
-            {/* CTA Buttons */}
+            <div className="mb-8 flex flex-wrap gap-3">
+              {trustItems.map((item) => (
+                <span
+                  key={item}
+                  className="rounded-full border border-white/25 bg-black/25 px-3 py-1.5 text-xs font-semibold text-white shadow-sm backdrop-blur-md"
+                >
+                  {item}
+                </span>
+              ))}
+            </div>
+
             <div className="flex flex-wrap gap-4">
-              <Button asChild size="lg" className="bg-linear-to-r from-[#c42630] to-[#a61f28] px-8 py-6 text-lg text-white shadow-xl shadow-[#c42630]/25">
+              <Button asChild size="lg" className="bg-primary px-7 font-semibold shadow-lg shadow-primary/25 hover:bg-brand-primary-dark">
                 <Link href="/#projects">
                   Explore Projects
                   <ArrowRight className="ml-2 h-5 w-5" />
@@ -112,12 +137,10 @@ export default function HeroSection() {
                 size="lg"
                 variant="outline"
                 onClick={() => setIsSiteVisitOpen(true)}
-                className="text-lg px-8 py-6 bg-white/10 border-white/30 text-white hover:bg-white/20"
+                className="border-white/50 bg-white/15 px-7 font-semibold text-white shadow-sm backdrop-blur-md hover:bg-white hover:text-primary"
               >
                 <Calendar className="h-5 w-5" />
-                <span>
-                  Book Site Visit
-                </span>
+                <span>Book Site Visit</span>
               </Button>
             </div>
           </motion.div>
@@ -131,33 +154,31 @@ export default function HeroSection() {
         whatsappHref={whatsappHref}
       />
 
-      {/* Slide Indicators */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-3">
-        {heroSlides.map((_, index) => (
+      <div className="absolute bottom-8 left-1/2 flex -translate-x-1/2 gap-3">
+        {heroSlides.map((slide, index) => (
           <button
-            key={index}
+            key={slide.title}
             onClick={() => setCurrentSlide(index)}
             className={`h-2 rounded-full transition-all duration-300 ${
               currentSlide === index
-                ? 'bg-primary w-10'
-                : 'bg-white/40 hover:bg-white/60 w-2'
+                ? 'w-10 bg-brand-gold'
+                : 'w-2 bg-white/45 hover:bg-white/70'
             }`}
             aria-label={`Go to slide ${index + 1}`}
           />
         ))}
       </div>
 
-      {/* Scroll Down Indicator - Centered */}
       <button
         onClick={scrollToProjects}
-        className="absolute bottom-24 left-1/2 -translate-x-1/2 text-white/80 hover:text-white transition-colors hidden lg:flex flex-col items-center gap-2 group"
+        className="absolute bottom-24 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-white/70 transition-colors hover:text-white lg:flex"
         aria-label="Scroll to projects"
       >
-        <span className="text-sm font-medium">Scroll to explore</span>
+        <span className="text-xs font-semibold uppercase tracking-[0.14em]">Scroll</span>
         <motion.div
           animate={{ y: [0, 8, 0] }}
           transition={{ duration: 1.5, repeat: Infinity }}
-          className="w-8 h-12 rounded-full border-2 border-white/40 flex items-start justify-center p-2 group-hover:border-white/60"
+          className="flex h-12 w-8 items-start justify-center rounded-full border-2 border-white/40 p-2"
         >
           <ChevronDown className="h-4 w-4" />
         </motion.div>

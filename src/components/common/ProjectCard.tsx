@@ -21,10 +21,15 @@ const typeIcons: Record<string, React.ReactNode> = {
 };
 
 const statusColors: Record<string, string> = {
-  ongoing: 'bg-green-500/10 text-green-600 border-green-200',
-  upcoming: 'bg-amber-500/10 text-amber-600 border-amber-200',
-  completed: 'bg-blue-500/10 text-blue-600 border-blue-200',
+  ongoing: 'border-info bg-info text-white shadow-md',
+  upcoming: 'border-warning bg-warning text-white shadow-md',
+  completed: 'border-success bg-success text-white shadow-md',
 };
+
+const formatArea = (project: Project) =>
+  project.area.min === project.area.max
+    ? `${project.area.min}+ ${project.area.unit}`
+    : `${project.area.min} - ${project.area.max} ${project.area.unit}`;
 
 export default function ProjectCard({ project, featured = false }: ProjectCardProps) {
   return (
@@ -50,7 +55,7 @@ export default function ProjectCard({ project, featured = false }: ProjectCardPr
           
           {/* Status Badge */}
           <div className="absolute top-4 left-4">
-            <Badge className={`${statusColors[project.status]} border font-medium`}>
+            <Badge className={`${statusColors[project.status]} px-3 py-1 font-semibold`}>
               {project.status.charAt(0).toUpperCase() + project.status.slice(1)}
             </Badge>
           </div>
@@ -112,18 +117,18 @@ export default function ProjectCard({ project, featured = false }: ProjectCardPr
         <div className="flex items-center gap-4 text-sm text-muted-foreground mb-4">
           <span>{project.totalUnits} Units</span>
           <span>•</span>
-          <span>{project.area.min} - {project.area.max} {project.area.unit}</span>
+          <span>{formatArea(project)}</span>
           {project.reraApproved && (
             <>
               <span>•</span>
-              <span className="text-green-600 font-medium">RERA Approved</span>
+              <span className="text-success font-medium">RERA Approved</span>
             </>
           )}
         </div>
 
         {/* CTA */}
         <Button asChild className="w-full group/btn">
-          <Link href={`/#project/${project.slug}`}>
+          <Link href={`/projects/${project.slug}`}>
             View Details
             <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
           </Link>

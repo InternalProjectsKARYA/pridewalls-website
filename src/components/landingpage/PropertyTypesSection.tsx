@@ -1,7 +1,9 @@
 'use client';
 
+import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { MapPin, Home, Building, Store, ArrowRight } from 'lucide-react';
+import { projects } from '@/lib/project-data';
 
 const propertyTypes = [
   {
@@ -9,47 +11,50 @@ const propertyTypes = [
     icon: MapPin,
     title: 'Open Plots',
     description: 'High-growth residential & commercial plots in rapidly developing prime locations',
-    count: 1,
-    gradient: 'from-emerald-500 to-teal-600',
-    bgGradient: 'from-emerald-50 to-teal-50',
+    cardClass: 'bg-emerald-50 text-emerald-700',
+    iconClass: 'bg-teal-600 text-white shadow-teal-600/25',
+    bubbleClass: 'bg-teal-200/45',
+    linkClass: 'text-teal-700',
   },
   {
     id: 'villas',
     icon: Home,
     title: 'Luxury Villas',
     description: 'Ready-to-move villas with premium amenities, privacy, and elegant architecture',
-    count: 1,
-    gradient: 'from-amber-500 to-orange-600',
-    bgGradient: 'from-amber-50 to-orange-50',
+    cardClass: 'bg-orange-50 text-orange-600',
+    iconClass: 'bg-orange-500 text-white shadow-orange-500/25',
+    bubbleClass: 'bg-orange-200/55',
+    linkClass: 'text-orange-600',
   },
   {
     id: 'apartments',
     icon: Building,
     title: 'Modern Apartments',
     description: 'Well-designed apartments with top-class facilities in prime urban locations',
-    count: 1,
-    gradient: 'from-blue-500 to-indigo-600',
-    bgGradient: 'from-blue-50 to-indigo-50',
+    cardClass: 'bg-blue-50 text-blue-600',
+    iconClass: 'bg-blue-600 text-white shadow-blue-600/25',
+    bubbleClass: 'bg-blue-200/55',
+    linkClass: 'text-blue-600',
   },
   {
     id: 'commercial',
     icon: Store,
     title: 'Commercial Spaces',
     description: 'High-visibility commercial properties ideal for business growth and steady returns',
-    count: 1,
-    gradient: 'from-rose-500 to-pink-600',
-    bgGradient: 'from-rose-50 to-pink-50',
+    cardClass: 'bg-rose-50 text-rose-600',
+    iconClass: 'bg-pink-600 text-white shadow-pink-600/25',
+    bubbleClass: 'bg-pink-200/55',
+    linkClass: 'text-pink-600',
   },
 ];
 
 export default function PropertyTypesSection() {
-  const scrollToProjects = () => {
-    document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
-  };
+  const countForType = (type: string) =>
+    projects.filter((p) => p.type === type).length;
 
   return (
-    <section className="py-20 bg-gradient-to-b from-slate-50 to-white">
-      <div className="container mx-auto px-4">
+    <section className="bg-muted/30 py-20">
+      <div className="section-shell">
         {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -58,60 +63,67 @@ export default function PropertyTypesSection() {
           transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
-           <span className="inline-block px-5 py-1.5 bg-[#c42630]/10 text-[#c42630] rounded-full text-sm font-semibold mb-4">
+           <span className="eyebrow mb-4">
             Our Portfolio
           </span>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-4">
+          <h2 className="mb-4 text-3xl font-bold text-primary md:text-4xl lg:text-5xl">
             Property Types
           </h2>
-          <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+          <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
             Explore our diverse range of properties designed to meet every lifestyle and investment need
           </p>
         </motion.div>
 
         {/* Property Types Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {propertyTypes.map((type, index) => (
-            <motion.div
-              key={type.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              whileHover={{ y: -8, transition: { duration: 0.3 } }}
-              onClick={scrollToProjects}
-              className="group cursor-pointer"
-            >
-              <div className={`relative overflow-hidden rounded-2xl bg-gradient-to-br ${type.bgGradient} p-6 border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-300`}>
-                {/* Background Decoration */}
-                <div className={`absolute -right-4 -top-4 w-24 h-24 bg-gradient-to-br ${type.gradient} rounded-full opacity-10 group-hover:opacity-20 transition-opacity duration-300`} />
-                
-                {/* Icon */}
-                <div className={`inline-flex items-center justify-center w-14 h-14 rounded-xl bg-gradient-to-br ${type.gradient} shadow-lg mb-4 group-hover:scale-110 transition-transform duration-300`}>
-                  <type.icon className="h-7 w-7 text-white" />
-                </div>
+          {propertyTypes.map((type, index) => {
+            const count = countForType(type.id);
 
-                {/* Content */}
-                <h3 className="text-xl font-bold text-slate-900 mb-2 group-hover:text-slate-800">
-                  {type.title}
-                </h3>
-                <p className="text-slate-600 text-sm mb-4 leading-relaxed">
-                  {type.description}
-                </p>
+            return (
+              <motion.div
+                key={type.id}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                whileHover={{ y: -8, transition: { duration: 0.3 } }}
+                className="group cursor-pointer"
+              >
+                <Link
+                  href={`/projects?type=${type.id}`}
+                  className="block h-full rounded-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold focus-visible:ring-offset-2"
+                  aria-label={`Browse ${type.title}`}
+                >
+                  <div className={`relative min-h-[300px] overflow-hidden rounded-xl border border-border p-7 shadow-card transition-all duration-300 hover:shadow-card-hover ${type.cardClass}`}>
+                    <div className={`absolute -right-10 -top-10 h-28 w-28 rounded-full ${type.bubbleClass}`} />
+                    {/* Icon */}
+                    <div className={`mb-6 inline-flex h-16 w-16 items-center justify-center rounded-xl shadow-lg transition-transform duration-300 group-hover:scale-105 ${type.iconClass}`}>
+                      <type.icon className="h-7 w-7" />
+                    </div>
 
-                {/* Count Badge */}
-                <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium text-slate-500">
-                    {type.count}+ Properties
-                  </span>
-                  <div className={`flex items-center gap-1 text-sm font-medium bg-gradient-to-r ${type.gradient} bg-clip-text text-transparent group-hover:gap-2 transition-all duration-300`}>
-                    Explore
-                    <ArrowRight className="h-4 w-4 text-primary group-hover:translate-x-1 transition-transform duration-300" />
+                    {/* Content */}
+                    <h3 className="mb-3 text-xl font-bold text-foreground">
+                      {type.title}
+                    </h3>
+                    <p className="mb-7 text-sm leading-7 text-foreground/75">
+                      {type.description}
+                    </p>
+
+                    {/* Count Badge */}
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-medium text-foreground/60">
+                        {count > 0 ? `${count} Project${count > 1 ? 's' : ''}` : 'Coming Soon'}
+                      </span>
+                      <div className={`flex items-center gap-1 text-sm font-semibold transition-all duration-300 group-hover:gap-2 ${type.linkClass}`}>
+                        Browse
+                        <ArrowRight className="h-4 w-4 text-foreground group-hover:translate-x-1 transition-transform duration-300" />
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-            </motion.div>
-          ))}
+                </Link>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </section>

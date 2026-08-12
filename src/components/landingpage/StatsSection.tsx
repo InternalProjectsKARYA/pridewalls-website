@@ -12,15 +12,21 @@ const stats = [
 ];
 
 function AnimatedCounter({ value, suffix = '' }: { value: string; suffix?: string }) {
-  const [count, setCount] = useState(0);
+  // Start at the real value so server-rendered HTML (and no-JS / pre-hydration
+  // viewers) always shows the true number — never "0".
+  const [count, setCount] = useState(parseInt(value.replace(/[^0-9]/g, '')));
   const [done, setDone] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true });
+  const hasAnimated = useRef(false);
 
   const numericValue = parseInt(value.replace(/[^0-9]/g, ''));
 
   useEffect(() => {
-    if (isInView) {
+    // Count-up is purely a progressive enhancement: only run it once, after
+    // mount, and only when the section scrolls into view.
+    if (isInView && !hasAnimated.current) {
+      hasAnimated.current = true;
       const duration = 2000;
       const steps = 60;
       const increment = numericValue / steps;
@@ -66,19 +72,18 @@ export default function StatsSection() {
           transition={{ duration: 10, ease: 'easeOut' }}
           className="absolute inset-0 bg-cover bg-center"
           style={{
-            backgroundImage:
-              'url(https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1920&h=600&fit=crop)',
+            backgroundImage: "url('/master-plan.png')",
           }}
         />
 
         {/* ⭐ Cinematic overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#1a0c0e] via-[#240d11]/95 to-[#1a0c0e]" />
+        <div className="absolute inset-0 bg-gradient-to-r from-primary via-primary/95 to-primary" />
       </div>
 
       {/* ⭐ Glow lights */}
       {/* <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute -top-24 -right-24 w-96 h-96 bg-[#c42630]/30 blur-[140px]" />
-        <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-[#c42630]/20 blur-[140px]" />
+        <div className="absolute -top-24 -right-24 w-96 h-96 bg-brand-gold/30 blur-[140px]" />
+        <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-brand-gold/20 blur-[140px]" />
       </div> */}
 
       <div className="container mx-auto px-4 relative">
@@ -99,7 +104,7 @@ export default function StatsSection() {
           </h2>
 
           {/* ⭐ underline accent */}
-          <div className="mx-auto mt-3 h-[2px] w-24 bg-gradient-to-r from-transparent via-[#c42630] to-transparent" />
+          <div className="mx-auto mt-3 h-[2px] w-24 bg-gradient-to-r from-transparent via-brand-gold to-transparent" />
 
           <p className="text-lg text-white/70 max-w-2xl mx-auto mt-4">
             Two decades of trust, quality, and customer satisfaction. Building dreams, creating legacies.
@@ -128,11 +133,9 @@ export default function StatsSection() {
 
                 {/* ⭐ icon breathing glow */}
                 <motion.div
-                  animate={{ boxShadow: ['0 0 0px #c42630', '0 0 24px #c42630', '0 0 0px #c42630'] }}
-                  transition={{ duration: 3, repeat: Infinity }}
-                  className="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-gradient-to-br from-[#c42630] to-[#a61f28] mb-4 group-hover:scale-110 transition"
+                  className="mb-4 inline-flex h-14 w-14 items-center justify-center rounded-xl border border-brand-gold/35 bg-white text-brand-gold shadow-card transition group-hover:scale-105"
                 >
-                  <stat.icon className="h-7 w-7 text-white" />
+                  <stat.icon className="h-7 w-7" />
                 </motion.div>
 
                 <AnimatedCounter value={stat.value} suffix={stat.suffix} />
@@ -164,7 +167,7 @@ export default function StatsSection() {
       </div>
 
       {/* ⭐ Bottom accent */}
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#c42630]/50 to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-brand-gold/50 to-transparent" />
     </section>
   );
 }

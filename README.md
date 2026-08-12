@@ -1,6 +1,6 @@
-# Pridewalls Real Estate Website
+# PRIDEWALLS Real Estate Website
 
-A production-focused real estate web application for showcasing Pridewalls residential projects (apartments, plots, and villas), highlighting amenities, location advantages, and collecting customer enquiries.
+A production-focused real estate web application for showcasing PRIDEWALLS residential projects (apartments, plots, and villas), highlighting amenities, location advantages, and collecting customer enquiries.
 
 ## Table of Contents
 
@@ -18,7 +18,7 @@ A production-focused real estate web application for showcasing Pridewalls resid
 
 ## Overview
 
-This repository contains the Pridewalls marketing and project-discovery website built with Next.js App Router.
+This repository contains the PRIDEWALLS marketing and project-discovery website built with Next.js App Router.
 
 The application includes:
 - A branded landing page with company highlights and CTAs
