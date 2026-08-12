@@ -9,7 +9,6 @@ import AmenitiesPreviewSection from '@/components/landingpage/AmenitiesPreviewSe
 import AboutSection from '@/components/landingpage/AboutSection'
 import CTASection from '@/components/landingpage/CTASection'
 import GetInTouch from '@/components/landingpage/GetInTouch'
-import WhyHyderabad from '@/components/landingpage/WhyHyderabad'
 import PropertyCategories from '@/components/landingpage/PropertyCategories'
 
 const page = () => {
@@ -25,7 +24,6 @@ const page = () => {
       <HowItWorks />
       <StatsSection/>
       <AmenitiesPreviewSection/>
-      <WhyHyderabad />
       <AboutSection/>
       <CTASection />
       <GetInTouch/>

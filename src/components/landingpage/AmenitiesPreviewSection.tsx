@@ -3,178 +3,145 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import {
-  Activity,
   Baby,
-  BookOpen,
   Building2,
   Flower2,
   Footprints,
   Gamepad2,
   Mic2,
-  Users,
-  UtensilsCrossed,
+  Sparkles,
+  Trees,
   Waves,
 } from 'lucide-react';
 
 const amenities = [
   {
-    icon: Waves,
-    title: 'Swimming Pool',
-    description: 'Refreshing pool with a relaxing deck',
-    image: '/Amenities/Swimming Pool.jpg',
+    icon: Building2,
+    title: 'Clubhouse',
+    description: 'A central lifestyle destination for social gatherings, leisure, and community experiences.',
+    image: '/amenities-generated/clubhouse.png',
   },
   {
-    icon: Activity,
-    title: 'Cricket Pitch',
-    description: 'Dedicated pitch for sports enthusiasts',
-    image: '/Amenities/Cricket Pitch.jpg',
+    icon: Waves,
+    title: 'Swimming Pool',
+    description: 'A signature pool amenity designed for relaxation, family time, and everyday refreshment.',
+    image: '/amenities-generated/swimming-pool.png',
+  },
+  {
+    icon: Flower2,
+    title: 'Gymnasium',
+    description: 'A modern fitness space planned for daily workouts, wellness routines, and active living.',
+    image: '/amenities-generated/gymnasium.png',
   },
   {
     icon: Gamepad2,
-    title: 'Indoor Sports',
-    description: 'Table tennis, carrom and more',
-    image: '/Amenities/Indoor Sports.jpg',
+    title: 'Indoor Games',
+    description: 'Versatile recreation spaces that keep residents engaged across all seasons and age groups.',
+    image: '/amenities-generated/indoor-games.png',
   },
   {
-    icon: UtensilsCrossed,
-    title: 'Food Court',
-    description: 'Multi-cuisine dining options',
-    image: '/Amenities/Food Court.jpg',
-  },
-  {
-    icon: BookOpen,
-    title: 'Library',
-    description: 'Quiet reading and study space',
-    image: '/Amenities/Library.jpg',
+    icon: Footprints,
+    title: 'Jogging Track',
+    description: 'A dedicated outdoor circuit for walking, jogging, and maintaining an active everyday routine.',
+    image: '/amenities-generated/jogging-track.png',
   },
   {
     icon: Baby,
     title: "Children's Play Area",
-    description: 'Safe, vibrant space for kids',
-    image: '/Amenities/Children Area.jpg',
+    description: 'Safe and cheerful play zones created for children to explore, play, and connect freely.',
+    image: '/amenities-generated/childrens-play-area.png',
   },
-];
-
-const amenityFeatures = [
-  { icon: Building2, title: 'Clubhouse' },
-  { icon: Footprints, title: 'Jogging Track' },
-  { icon: Gamepad2, title: 'Indoor Games' },
-  { icon: Flower2, title: 'Yoga Deck' },
-  { icon: Mic2, title: 'Amphitheater' },
-  { icon: Users, title: 'Senior Citizen Area' },
+  {
+    icon: Trees,
+    title: 'Landscaped Gardens',
+    description: 'Open green spaces designed to bring calm, beauty, and a refreshing natural setting to daily life.',
+    image: '/amenities-generated/landscaped-gardens.png',
+  },
+  {
+    icon: Mic2,
+    title: 'Amphitheater',
+    description: 'A community venue for events, celebrations, performances, and memorable gatherings.',
+    image: '/amenities-generated/amphitheater.png',
+  },
 ];
 
 export default function AmenitiesPreviewSection() {
   return (
-    <section className="py-20 bg-muted/30">
-      <div className="container mx-auto px-4">
+    <section className="relative overflow-hidden bg-white py-20 text-slate-900">
+      <div className="absolute inset-0">
+        <div className="absolute left-[-8rem] top-12 h-72 w-72 rounded-full bg-brand-gold/10 blur-3xl" />
+        <div className="absolute right-[-10rem] top-1/3 h-80 w-80 rounded-full bg-sky-200/40 blur-3xl" />
+        <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.92),transparent_28%,transparent_72%,rgba(201,162,39,0.06))]" />
+      </div>
 
-        {/* ⭐ Header */}
+      <div className="section-shell relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-12"
+          className="mx-auto mb-14 max-w-3xl text-center"
         >
-          <span className="inline-block px-4 py-1 bg-brand-gold/10 text-brand-gold rounded-full text-sm font-medium mb-4">
-            Lifestyle
+          <span className="inline-flex items-center gap-2 rounded-full border border-brand-gold/20 bg-brand-gold/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.22em] text-brand-gold">
+            <Sparkles className="h-3.5 w-3.5" />
+            Signature Lifestyle
           </span>
 
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-primary mb-4">
-            World-Class Amenities
+          <h2 className="mt-5 text-3xl font-semibold leading-tight text-slate-900 md:text-4xl lg:text-5xl">
+            World-Class Amenities,
+            <span className="block text-brand-gold">Presented With a Grander Sense of Arrival</span>
           </h2>
 
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Every project comes with premium amenities designed for a modern, comfortable lifestyle
+          <p className="mt-4 text-base leading-7 text-slate-600 md:text-lg">
+            Inspired by premium builder websites, this section now highlights amenities like destination experiences
+            instead of a simple card grid.
           </p>
         </motion.div>
 
-        {/* ⭐ Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {amenities.map((amenity, index) => (
-            <motion.div
-              key={amenity.title}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="group relative overflow-hidden rounded-2xl bg-white shadow-card hover:shadow-xl transition-all duration-300"
-            >
-              {/* ⭐ Image */}
-              <div className="relative h-48 overflow-hidden">
-                <Image
-                  src={amenity.image}
-                  alt={amenity.title}
-                  fill
-                  sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
-                  className="object-cover group-hover:scale-110 transition-transform duration-500"
-                />
-
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-
-                {/* ⭐ Icon badge */}
-                <div className="absolute top-4 right-4 w-12 h-12 bg-white/95 backdrop-blur rounded-xl flex items-center justify-center shadow-lg">
-                  <amenity.icon className="h-6 w-6 text-brand-gold" />
-                </div>
-              </div>
-
-              {/* ⭐ Content */}
-              <div className="p-5">
-                <h3 className="text-lg font-bold text-primary mb-1 group-hover:text-brand-gold transition-colors">
-                  {amenity.title}
-                </h3>
-
-                <p className="text-muted-foreground text-sm">
-                  {amenity.description}
-                </p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* ⭐ Feature chips */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="mt-12"
+          transition={{ duration: 0.6, delay: 0.15 }}
+          className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4"
         >
-          <div className="mx-auto max-w-5xl rounded-3xl border border-border bg-white/70 backdrop-blur p-6 shadow-card">
-            <h3 className="text-lg font-bold text-primary mb-4 text-center">
-              More Lifestyle Amenities
-            </h3>
+          {amenities.map((amenity, index) => (
+            <motion.div
+              key={amenity.title}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: index * 0.05 }}
+              whileHover={{ y: -4 }}
+              className="group overflow-hidden rounded-[1.35rem] border border-primary/80 bg-brand-primary-dark shadow-lg transition-colors hover:border-brand-gold/50"
+            >
+              <div className="relative h-56 overflow-hidden">
+                <Image
+                  src={amenity.image}
+                  alt={amenity.title}
+                  fill
+                  sizes="(min-width: 1280px) 25vw, (min-width: 640px) 50vw, 100vw"
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/65 via-slate-900/20 to-transparent" />
+                <div className="absolute left-4 top-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-black/30 text-brand-gold backdrop-blur-sm">
+                  <amenity.icon className="h-5 w-5" />
+                </div>
+              </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {amenityFeatures.map((feature, index) => (
-                <motion.div
-                  key={feature.title}
-                  initial={{ opacity: 0, y: 16 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: index * 0.05 }}
-                  whileHover={{ y: -3 }}
-                  className="group flex items-center gap-3 rounded-2xl border border-border bg-white px-4 py-3 shadow-card hover:shadow-card-hover transition"
-                >
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-gold/10 text-brand-gold">
-                    <feature.icon className="h-5 w-5" />
-                  </div>
-
-                  <div className="flex-1">
-                    <p className="text-sm font-semibold text-primary group-hover:text-brand-gold transition-colors">
-                      {feature.title}
-                    </p>
-                    <p className="text-xs text-muted-foreground">
-                      Included in select projects
-                    </p>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
+              <div className="p-5">
+                <div>
+                  <p className="text-sm font-semibold text-white transition-colors group-hover:text-brand-gold">
+                    {amenity.title}
+                  </p>
+                  <p className="mt-2 text-sm leading-6 text-slate-300">
+                    {amenity.description}
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+          ))}
         </motion.div>
-
       </div>
     </section>
   );
