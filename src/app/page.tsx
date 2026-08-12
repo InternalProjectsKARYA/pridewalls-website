@@ -17,17 +17,16 @@ const page = () => {
       <HeroSection />
       <TrustStrip />
       <WhyInvestSection />
+      <PropertyCategories />
       <Suspense fallback={null}>
         <FeaturedProjects />
       </Suspense>
-      <PropertyCategories />
       <HowItWorks />
       <StatsSection/>
       <AmenitiesPreviewSection/>
       <AboutSection/>
       <CTASection />
       <GetInTouch/>
-      
     </>
   )
 }

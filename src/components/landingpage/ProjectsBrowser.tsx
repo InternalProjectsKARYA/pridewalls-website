@@ -1,187 +1,53 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
-import { motion } from 'framer-motion';
-import {
-  ArrowRight,
-  SlidersHorizontal,
-  MapPin,
-  Building,
-  Home,
-  LandPlot,
-  Store,
-  Award,
-  ShieldCheck,
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 import { projects } from '@/lib/project-data';
-import { Project } from '@/lib/project-interface';
-
-const formatAreaStat = (project: Project) =>
-  project.area.min === project.area.max
-    ? `${project.area.min}+`
-    : `${project.area.min} - ${project.area.max}`;
+import ProjectCard, { type ProjectCardData } from '@/components/common/ProjectCard';
 
 /* ================= FILTER CONFIG ================= */
 
-const typeFilters = [
-  { value: 'all', label: 'All', icon: Building },
-  { value: 'apartments', label: 'Apartments', icon: Building },
-  { value: 'villas', label: 'Villas', icon: Home },
-  { value: 'plots', label: 'Plots', icon: LandPlot },
-  { value: 'commercial', label: 'Commercial', icon: Store },
-];
+const propertyTypes = ['Apartments', 'Villas', 'Open Plots', 'Commercial'] as const;
+type PropertyType = (typeof propertyTypes)[number];
 
 const statusFilters = [
   { value: 'all', label: 'All Status' },
-  { value: 'ongoing', label: 'Ongoing' },
+  { value: 'ongoing', label: 'New Launch' },
   { value: 'upcoming', label: 'Upcoming' },
-  { value: 'completed', label: 'Completed' },
+  { value: 'completed', label: 'Ready to Move' },
 ];
 
-const statusColors: Record<string, string> = {
-  ongoing: 'border-info bg-info text-white shadow-md',
-  upcoming: 'border-warning bg-warning text-white shadow-md',
-  completed: 'border-success bg-success text-white shadow-md',
+/* ================= TRANSFORM ================= */
+
+const statusMap: Record<string, 'Upcoming' | 'Ongoing' | 'Completed'> = {
+  upcoming: 'Upcoming',
+  ongoing: 'Ongoing',
+  completed: 'Completed',
 };
 
-const typeIcons: Record<string, React.ReactNode> = {
-  plots: <LandPlot className="h-4 w-4" />,
-  villas: <Home className="h-4 w-4" />,
-  apartments: <Building className="h-4 w-4" />,
-  commercial: <Store className="h-4 w-4" />,
+const typeMap: Record<string, 'Apartments' | 'Open Plots' | 'Villas' | 'Commercial'> = {
+  apartments: 'Apartments',
+  plots: 'Open Plots',
+  villas: 'Villas',
+  commercial: 'Commercial',
 };
 
-/* ================= PROJECT CARD ================= */
-
-interface ProjectCardProps {
-  project: Project;
-  index: number;
+function toCardData(p: (typeof projects)[number]): ProjectCardData {
+  return {
+    name: p.name,
+    slug: p.slug,
+    location: p.location,
+    image: p.coverImage,
+    status: statusMap[p.status] ?? 'Upcoming',
+    type: typeMap[p.type] ?? 'Apartments',
+    units: `${p.totalUnits}+ Units`,
+    area: p.projectSize,
+    sizes: `${p.area.min} – ${p.area.max} ${p.area.unit}`,
+    approvals: p.approvals.filter(Boolean),
+  };
 }
 
-function ProjectCard({ project, index }: ProjectCardProps) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="premium-card group relative overflow-hidden"
-    >
-      {/* Image */}
-      <Link
-        href={`/projects/${project.slug}`}
-        aria-label={`View details for ${project.name}`}
-        className="relative block h-64 overflow-hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold focus-visible:ring-offset-2"
-      >
-        <Image
-          src={project.coverImage}
-          alt={`${project.name} – ${project.tagline} in ${project.location}`}
-          fill
-          sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
-          className="object-cover transition-transform duration-700 group-hover:scale-110"
-        />
-
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
-
-        {/* Status */}
-        <div className="absolute top-4 left-4">
-          <Badge className={`${statusColors[project.status]} px-3 py-1 font-semibold`}>
-            {project.status.charAt(0).toUpperCase() + project.status.slice(1)}
-          </Badge>
-        </div>
-
-        {/* Featured */}
-        {project.featured && (
-          <div className="absolute top-4 right-4">
-            <Badge className="bg-brand-gold text-white font-semibold">Featured</Badge>
-          </div>
-        )}
-
-        {/* Overlay Info */}
-        <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
-          <div className="flex items-center gap-2 text-white/80 text-sm mb-1">
-            {typeIcons[project.type]}
-            <span className="capitalize">{project.type}</span>
-          </div>
-
-          <h3 className="text-xl font-bold mb-1">{project.name}</h3>
-
-          <div className="flex items-center gap-1 text-white/70 text-sm">
-            <MapPin className="h-4 w-4" />
-            <span>{project.location}</span>
-          </div>
-        </div>
-      </Link>
-
-      {/* Content */}
-      <div className="p-5">
-        <p className="text-muted-foreground text-sm mb-4 line-clamp-2">{project.tagline}</p>
-
-        {/* Stats */}
-        <div className="grid grid-cols-3 gap-3 mb-4">
-          <Stat value={project.totalUnits} label="Units" />
-          <Stat value={project.projectSize} label="Area" />
-          <Stat value={formatAreaStat(project)} label={project.area.unit} />
-        </div>
-
-        {/* Approvals */}
-        <div className="flex flex-wrap gap-2 mb-4">
-          {project.reraApproved && <Chip icon={<Award size={12} />} label="RERA Approved" />}
-          {project.hmdaApproved && <Chip icon={<ShieldCheck size={12} />} label="HMDA Approved" />}
-        </div>
-
-        {/* Price + CTA */}
-        <div className="mb-4 rounded-lg bg-muted/50 p-3 text-center">
-          <span className="text-xs uppercase tracking-wide text-muted-foreground">Starting From</span>
-          <div className="text-lg font-bold text-brand-gold">
-            ₹ {project.priceRange.min} {project.priceRange.currency}
-            {project.priceRange.max > project.priceRange.min && (
-              <span className="text-sm font-medium text-muted-foreground">
-                {' '}
-                - ₹ {project.priceRange.max} {project.priceRange.currency}
-              </span>
-            )}
-          </div>
-        </div>
-
-        <Button asChild className="w-full">
-          <Link href={`/projects/${project.slug}`}>
-            View Details
-            <ArrowRight className="ml-2 h-4 w-4" />
-          </Link>
-        </Button>
-      </div>
-    </motion.div>
-  );
-}
-
-/* helpers */
-
-const Stat = ({ value, label }: any) => (
-  <div className="text-center p-3 bg-muted/50 rounded-lg">
-    <div className="text-lg font-bold">{value}</div>
-    <div className="text-xs text-muted-foreground">{label}</div>
-  </div>
-);
-
-const Chip = ({ icon, label }: any) => (
-  <span className="flex items-center gap-1 rounded-full bg-brand-gold/10 px-2 py-1 text-xs font-medium text-brand-gold">
-    {icon}
-    {label}
-  </span>
-);
+const allCards = projects.map(toCardData);
 
 /* ================= MAIN ================= */
 
@@ -190,7 +56,7 @@ export default function ProjectsBrowser() {
   const pathname = usePathname();
   const router = useRouter();
 
-  const [activeType, setActiveType] = useState('all');
+  const [activeType, setActiveType] = useState<PropertyType | 'all'>('all');
   const [activeStatus, setActiveStatus] = useState('all');
 
   // Keep filters in sync with the URL (supports /projects?type=villas&status=ongoing)
@@ -198,14 +64,14 @@ export default function ProjectsBrowser() {
     const type = searchParams.get('type');
     const status = searchParams.get('status');
 
-    const isValidType = typeFilters.some((filter) => filter.value === type);
+    const isValidType = type && propertyTypes.includes(type as PropertyType);
     const isValidStatus = statusFilters.some((filter) => filter.value === status);
 
-    setActiveType(isValidType && type ? type : 'all');
+    setActiveType(isValidType ? (type as PropertyType) : 'all');
     setActiveStatus(isValidStatus && status ? status : 'all');
   }, [searchParams]);
 
-  const updateFilters = (type: string, status: string) => {
+  const updateFilters = (type: PropertyType | 'all', status: string) => {
     const params = new URLSearchParams();
     if (type !== 'all') params.set('type', type);
     if (status !== 'all') params.set('status', status);
@@ -216,62 +82,87 @@ export default function ProjectsBrowser() {
     router.replace(`${pathname}${qs ? `?${qs}` : ''}${hash}`, { scroll: false });
   };
 
-  const filteredProjects = projects.filter(
-    (p) => (activeType === 'all' || p.type === activeType) && (activeStatus === 'all' || p.status === activeStatus)
+  const filteredProjects = allCards.filter(
+    (p) =>
+      (activeType === 'all' || p.type === activeType) &&
+      (activeStatus === 'all' || p.status.toLowerCase() === activeStatus)
   );
+
+  // Filter options for pills (matching homepage style)
+  const typeFilterOptions = [
+    { value: 'all', label: 'All Projects' },
+    ...propertyTypes.map((type) => ({ value: type, label: type })),
+  ] as const;
+  const hasActiveFilters = activeType !== 'all' || activeStatus !== 'all';
 
   return (
     <div>
-      {/* ⭐ Type Tabs */}
-      <div className="mb-8 flex justify-start">
-        <div className="w-full rounded-xl bg-muted p-2 shadow-sm sm:w-auto">
-          <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
-            {typeFilters.map((filter) => {
-              const active = activeType === filter.value;
-
-              return (
-                <button
-                  key={filter.value}
-                  type="button"
-                  onClick={() => updateFilters(filter.value, activeStatus)}
-                  aria-pressed={active}
-                  className={`flex min-w-0 items-center justify-center gap-2 rounded-lg px-3 py-2.5 text-[13px] font-medium transition-all duration-200 sm:justify-start sm:px-4 sm:py-2 sm:text-sm
-            ${active
-                      ? 'bg-primary text-white shadow-card'
-                      : 'text-muted-foreground hover:bg-accent hover:text-primary'
-                    }
-          `}
-                >
-                  <filter.icon className="h-4 w-4 shrink-0" />
-                  <span className="truncate">{filter.label}</span>
-                </button>
-              );
-            })}
-          </div>
-        </div>
+      {/* ⭐ Type Filter Pills (matching homepage style) */}
+      <div className="mb-8 flex items-center justify-center gap-2 flex-wrap">
+        {typeFilterOptions.map((option) => {
+          const isActive = activeType === option.value;
+          return (
+            <button
+              key={option.value}
+              type="button"
+              onClick={() => updateFilters(option.value, activeStatus)}
+              aria-pressed={isActive}
+              className={`shrink-0 rounded-full px-5 py-2 text-sm font-medium transition-all duration-300 ${
+                isActive
+                  ? 'bg-brand-primary text-white shadow-md shadow-brand-primary/20'
+                  : 'border border-gray-300 bg-white text-gray-600 hover:border-brand-primary/40 hover:bg-brand-primary/5 hover:text-brand-primary'
+              }`}
+            >
+              {option.label}
+            </button>
+          );
+        })}
       </div>
 
-      <div className="mb-10 flex justify-end">
-        <Select value={activeStatus} onValueChange={(value) => updateFilters(activeType, value)}>
-          <SelectTrigger className="h-11 w-full gap-2 rounded-xl border-border bg-background px-4 text-sm font-medium sm:w-[220px]">
-            <SlidersHorizontal className="h-4 w-4 text-primary" />
-            <SelectValue placeholder="Filter by status" />
-          </SelectTrigger>
-          <SelectContent>
-            {statusFilters.map((filter) => (
-              <SelectItem key={filter.value} value={filter.value}>
-                {filter.label}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+      {/* Status Filter Pills */}
+      <div className="mb-10 flex items-center justify-center gap-2 flex-wrap">
+        {statusFilters.map((filter) => {
+          const isActive = activeStatus === filter.value;
+          return (
+            <button
+              key={filter.value}
+              type="button"
+              onClick={() => updateFilters(activeType, filter.value)}
+              aria-pressed={isActive}
+              className={`shrink-0 rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-300 ${
+                isActive
+                  ? 'bg-brand-primary text-white shadow-md shadow-brand-primary/20'
+                  : 'border border-gray-300 bg-white text-gray-600 hover:border-brand-primary/40 hover:bg-brand-primary/5 hover:text-brand-primary'
+              }`}
+            >
+              {filter.label}
+            </button>
+          );
+        })}
+      </div>
+
+      <div className="mb-8 flex flex-col gap-3 border-y border-border/70 py-4 text-sm sm:flex-row sm:items-center sm:justify-between">
+        <p className="font-medium text-muted-foreground" aria-live="polite">
+          Showing <span className="font-semibold text-foreground">{filteredProjects.length}</span> of{' '}
+          <span className="font-semibold text-foreground">{allCards.length}</span>{' '}
+          {allCards.length === 1 ? 'project' : 'projects'}
+        </p>
+        {hasActiveFilters && (
+          <button
+            type="button"
+            onClick={() => updateFilters('all', 'all')}
+            className="w-fit font-semibold text-brand-primary transition-colors hover:text-brand-gold"
+          >
+            Clear filters
+          </button>
+        )}
       </div>
 
       {/* Grid */}
       {filteredProjects.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           {filteredProjects.map((project, index) => (
-            <ProjectCard key={project.id} project={project} index={index} />
+            <ProjectCard key={project.slug} project={project} index={index} />
           ))}
         </div>
       ) : (
@@ -280,13 +171,13 @@ export default function ProjectsBrowser() {
           <p className="mt-2 text-muted-foreground">
             Check back soon or browse other project types and statuses to see more properties.
           </p>
-          <Button
-            variant="outline"
-            className="mt-6"
+          <button
+            type="button"
             onClick={() => updateFilters('all', 'all')}
+            className="mt-6 inline-flex items-center justify-center rounded-lg border border-gray-300 bg-white px-6 py-2.5 text-sm font-semibold text-gray-700 transition-all hover:bg-gray-50"
           >
             Clear All Filters
-          </Button>
+          </button>
         </div>
       )}
     </div>

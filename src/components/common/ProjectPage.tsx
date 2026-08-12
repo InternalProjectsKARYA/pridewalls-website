@@ -1,13 +1,13 @@
 'use client';
 
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useRouter } from "next/navigation";
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { 
   ArrowLeft, MapPin, Building, Home, LandPlot, Store, 
   Check, Share2, Heart, Ruler, Phone, Mail, Calendar,
-  Award, FileCheck, TrendingUp, Compass,  Train, Plane, Gem, Leaf, Users, Layout,
+  Award, FileCheck, TrendingUp, Compass,  Train, Plane, Gem, Leaf, Users, Layout, ZoomIn,
   Building2, Maximize,  
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -15,6 +15,7 @@ import { Badge } from '@/components/ui/badge';
 import ContactForm from './ContactForm';
 import LocationHighlights from './LocationHighlights';
 import FacilitiesGrid from './FacilitiesGrid';
+import ImageLightbox, { type LightboxImage } from './ImageLightbox';
 import SiteVisitDialog from '@/components/landingpage/SiteVisitDialog';
 import { Project, Facility } from '@/lib/project-interface';
 import { companyInfo } from '@/lib/project-data';
@@ -58,10 +59,19 @@ interface ProjectPageProps {
   project: Project;
 }
 
-const getZoneKey = (zone: Project['siteLayout']['zones'][number]) => zone.id ?? zone.name;
+const getZoneKey = (zone: NonNullable<Project['siteLayout']>['zones'][number]) =>
+  zone.id ?? zone.name;
 
 export default function ProjectPage({ project }: ProjectPageProps) {
   const [isSiteVisitOpen, setIsSiteVisitOpen] = useState(false);
+  const [lightboxImage, setLightboxImage] = useState<LightboxImage | null>(null);
+
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).get('siteVisit') === 'true') {
+      setIsSiteVisitOpen(true);
+    }
+  }, []);
+
   const handleShare = useCallback(async () => {
     if (navigator.share) {
       try {
@@ -87,6 +97,7 @@ export default function ProjectPage({ project }: ProjectPageProps) {
   const activeZone = activeBlock
     ? project.siteLayout?.zones.find((zone) => getZoneKey(zone) === activeBlock) ?? null
     : null;
+  const siteLayout = project.siteLayout;
 
   return (
     <div className="min-h-screen bg-background">
@@ -246,7 +257,7 @@ export default function ProjectPage({ project }: ProjectPageProps) {
       {/* Main Content */}
       <section className="py-8 sm:py-12">
         <div className="section-shell">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-3 lg:items-start">
             {/* Left Column - Details */}
             <div className="lg:col-span-2 space-y-10">
 
@@ -397,7 +408,17 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                    <div className="p-4 sm:p-6">
                      <div className="grid grid-cols-1 gap-4 min-[480px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                       {project.amenities.map((amenity) => (
-                        <div key={amenity.id} className="group relative aspect-square rounded-xl overflow-hidden">
+                        <button
+                          key={amenity.id}
+                          type="button"
+                          className="group relative aspect-square overflow-hidden rounded-xl text-left focus-visible:outline-offset-4"
+                          onClick={() =>
+                            amenity.image &&
+                            setLightboxImage({ src: amenity.image, alt: amenity.name })
+                          }
+                          disabled={!amenity.image}
+                          aria-label={amenity.image ? `View ${amenity.name} image` : undefined}
+                        >
                           {amenity.image ? (
                             <Image
                               src={amenity.image}
@@ -412,10 +433,15 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                             </div>
                           )}
                           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                          {amenity.image && (
+                            <span className="absolute right-3 top-3 inline-flex size-8 items-center justify-center rounded-full bg-black/55 text-white opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
+                              <ZoomIn className="size-4" />
+                            </span>
+                          )}
                           <div className="absolute bottom-0 left-0 right-0 p-3">
                             <div className="font-medium text-white text-sm">{amenity.name}</div>
                           </div>
-                        </div>
+                        </button>
                       ))}
                     </div>
                   </div>
@@ -484,7 +510,7 @@ export default function ProjectPage({ project }: ProjectPageProps) {
               )} */}
 
               {/* Master Plan / Site Layout */}
-              {project.siteLayout && (
+              {siteLayout && (
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -500,16 +526,29 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                    <div className="p-4 sm:p-6">
 
                      {/* ===== Master Plan Image ===== */}
-                     <div className="group relative mb-6 aspect-[4/3] overflow-hidden rounded-xl sm:mb-8 sm:aspect-[16/10]">
+                     <button
+                       type="button"
+                       className="group relative mb-6 aspect-[4/3] w-full overflow-hidden rounded-xl text-left focus-visible:outline-offset-4 sm:mb-8 sm:aspect-[16/10]"
+                       onClick={() =>
+                         setLightboxImage({
+                           src: siteLayout.image,
+                           alt: `${project.name} site layout`,
+                         })
+                       }
+                       aria-label="View site layout image"
+                     >
                        <Image
-                        src={project.siteLayout.image}
+                        src={siteLayout.image}
                         alt={`${project.name} Site Layout`}
                         fill
                         sizes="(min-width: 1024px) 66vw, 100vw"
                         className="object-cover transition-transform group-hover:scale-105"
                       />
                       <div className="absolute inset-0 bg-black/20" />
-                    </div>
+                      <span className="absolute right-4 top-4 inline-flex size-10 items-center justify-center rounded-full bg-black/55 text-white opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
+                        <ZoomIn className="size-5" />
+                      </span>
+                    </button>
                   </div>
                 </motion.div>
               )}
@@ -556,7 +595,7 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                   {/* ===== TAB BAR ===== */}
                   <div className="mb-6 w-full p-4 sm:p-6">
                       <div className="grid w-full grid-cols-1 gap-2 rounded-xl bg-muted p-2 shadow-card sm:grid-cols-2 xl:grid-cols-3">
-                        {project.siteLayout.zones.map((zone) => {
+                        {project.siteLayout?.zones?.map((zone) => {
                           const zoneKey = getZoneKey(zone);
                           const active = activeBlock === zoneKey;
                           return (
@@ -584,7 +623,17 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                     )}
 
                     {activeZone?.image && (
-                      <div className="relative mx-4 mb-4 aspect-[4/3] overflow-hidden rounded-xl border border-border sm:mx-6 sm:mb-6 sm:aspect-[16/10]">
+                      <button
+                        type="button"
+                        className="group relative mx-4 mb-4 aspect-[4/3] w-[calc(100%-2rem)] overflow-hidden rounded-xl border border-border text-left focus-visible:outline-offset-4 sm:mx-6 sm:mb-6 sm:w-[calc(100%-3rem)] sm:aspect-[16/10]"
+                        onClick={() => {
+                          const image = activeZone.image;
+                          if (image) {
+                            setLightboxImage({ src: image, alt: activeZone.name });
+                          }
+                        }}
+                        aria-label={`View ${activeZone.name} image`}
+                      >
                         
                         <img
                           key={activeBlock}
@@ -592,7 +641,10 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                           alt={activeZone.name}
                           className="w-full h-full object-contain transition-opacity duration-300"
                         />
-                      </div>
+                        <span className="absolute right-4 top-4 inline-flex size-10 items-center justify-center rounded-full bg-black/55 text-white opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
+                          <ZoomIn className="size-5" />
+                        </span>
+                      </button>
                     )}
                 </motion.div>
               ) : null}
@@ -654,8 +706,8 @@ export default function ProjectPage({ project }: ProjectPageProps) {
             </div>
 
             {/* Right Column - Contact Form */}
-            <div className="lg:col-span-1">
-              <div className="space-y-6 lg:sticky lg:top-36">
+            <aside className="lg:col-span-1 lg:sticky lg:top-24 lg:self-start">
+              <div className="space-y-6">
 
                 {/* ================= CONTACT FORM CARD ================= */}
                 <motion.div
@@ -740,7 +792,7 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                 </motion.div>
 
               </div>
-            </div>
+            </aside>
           </div>
         </div>
         <SiteVisitDialog
@@ -751,6 +803,7 @@ export default function ProjectPage({ project }: ProjectPageProps) {
           sourceLabel="Project page site visit request."
           projectName={project.name}
         />
+        <ImageLightbox image={lightboxImage} onOpenChange={(open) => !open && setLightboxImage(null)} />
       </section>
     </div>
   );

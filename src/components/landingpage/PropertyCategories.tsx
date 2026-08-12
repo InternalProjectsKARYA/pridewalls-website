@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 import ScrollReveal from './ScrollReveal';
 
 const categories = [
@@ -14,6 +15,7 @@ const categories = [
     features: ['Swimming Pool', 'Gymnasium', "Children's Play Area", 'Jogging Track', 'Power Backup'],
     image: '/pride-walls-appartments.jpg',
     cta: 'View Apartments',
+    filterType: 'apartments',
   },
   {
     title: 'Luxury Villas',
@@ -23,6 +25,7 @@ const categories = [
     features: ['Private Garden', 'Modular Kitchen', 'Premium Fittings', 'Vastu Compliant', 'Clubhouse'],
     image: '/premium-villas.jpg',
     cta: 'Explore Villas',
+    filterType: 'villas',
   },
   {
     title: 'Open Plots',
@@ -32,17 +35,11 @@ const categories = [
     features: ['HMDA Approved', 'Clear Titles', 'Gated Community', 'Black-Top Roads', 'Underground Drainage'],
     image: '/open-plots.png',
     cta: 'View Plots',
+    filterType: 'plots',
   },
 ];
 
 export default function PropertyCategories() {
-  const scrollToProjects = () => {
-    document.querySelector('#projects')?.scrollIntoView({
-      behavior: 'smooth',
-      block: 'start',
-    });
-  };
-
   return (
     <section className="bg-white py-20 md:py-28" aria-label="Property categories">
       <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
@@ -172,15 +169,16 @@ export default function PropertyCategories() {
                       ))}
                     </div>
 
-                    <Button
-                      onClick={scrollToProjects}
-                      className={`h-11 rounded-lg bg-[#0D2558] px-6 text-sm font-semibold text-white transition-all hover:-translate-y-0.5 hover:bg-[#193B78] hover:shadow-lg ${
-                        !imageLeft ? 'lg:ml-auto' : ''
-                      }`}
-                    >
-                      {cat.cta}
-                      <ArrowRight className="ml-2 h-4 w-4" />
-                    </Button>
+                    <Link href={`/projects?type=${cat.filterType}`}>
+                      <Button
+                        className={`h-11 rounded-lg bg-[#0D2558] px-6 text-sm font-semibold text-white transition-all hover:-translate-y-0.5 hover:bg-[#193B78] hover:shadow-lg ${
+                          !imageLeft ? 'lg:ml-auto' : ''
+                        }`}
+                      >
+                        {cat.cta}
+                        <ArrowRight className="ml-2 h-4 w-4" />
+                      </Button>
+                    </Link>
                   </div>
                 </div>
 

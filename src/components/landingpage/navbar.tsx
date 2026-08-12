@@ -15,9 +15,9 @@ const navigation = [
     name: 'Projects',
     href: '/projects',
     children: [
-      { name: 'Ongoing Projects', href: '/projects?status=ongoing' },
+      { name: 'New Launch Projects', href: '/projects?status=ongoing' },
       { name: 'Upcoming Projects', href: '/projects?status=upcoming' },
-      { name: 'Completed Projects', href: '/projects?status=completed' },
+      { name: 'Ready to Move Projects', href: '/projects?status=completed' },
     ],
   },
   { name: 'About', href: '/#about' },
