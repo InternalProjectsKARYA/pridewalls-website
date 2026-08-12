@@ -23,9 +23,10 @@ export default function CTASection() {
       {/* ⭐ Background */}
       <div className="absolute inset-0">
         <Image
-          src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1920"
+          src="/pride-walls-hero.png"
           alt=""
           fill
+          sizes="100vw"
           className="object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-primary via-primary/90 to-primary/80" />

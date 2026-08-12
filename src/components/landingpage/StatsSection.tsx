@@ -12,15 +12,21 @@ const stats = [
 ];
 
 function AnimatedCounter({ value, suffix = '' }: { value: string; suffix?: string }) {
-  const [count, setCount] = useState(0);
+  // Start at the real value so server-rendered HTML (and no-JS / pre-hydration
+  // viewers) always shows the true number — never "0".
+  const [count, setCount] = useState(parseInt(value.replace(/[^0-9]/g, '')));
   const [done, setDone] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true });
+  const hasAnimated = useRef(false);
 
   const numericValue = parseInt(value.replace(/[^0-9]/g, ''));
 
   useEffect(() => {
-    if (isInView) {
+    // Count-up is purely a progressive enhancement: only run it once, after
+    // mount, and only when the section scrolls into view.
+    if (isInView && !hasAnimated.current) {
+      hasAnimated.current = true;
       const duration = 2000;
       const steps = 60;
       const increment = numericValue / steps;
@@ -66,8 +72,7 @@ export default function StatsSection() {
           transition={{ duration: 10, ease: 'easeOut' }}
           className="absolute inset-0 bg-cover bg-center"
           style={{
-            backgroundImage:
-              'url(https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1920&h=600&fit=crop)',
+            backgroundImage: "url('/master-plan.png')",
           }}
         />
 

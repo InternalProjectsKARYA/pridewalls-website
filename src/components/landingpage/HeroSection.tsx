@@ -16,6 +16,7 @@ const heroSlides = [
     subtitle:
       "Residential communities, open plots, and villas planned for long-term value in Hyderabad's growth corridors.",
     image: '/hero-section.jpg',
+    imageAlt: 'Aerial view of a premium residential community in Hyderabad',
   },
   {
     title: 'Invest In Land With',
@@ -23,6 +24,7 @@ const heroSlides = [
     subtitle:
       'Approved plots in well-connected locations with infrastructure, access, and future appreciation in focus.',
     image: '/hero2.jpg',
+    imageAlt: 'Open plots in a well-planned residential layout',
   },
   {
     title: 'Build On',
@@ -30,6 +32,7 @@ const heroSlides = [
     subtitle:
       'Thoughtfully planned developments with modern amenities, transparent documentation, and dependable guidance.',
     image: '/hero.png',
+    imageAlt: 'Modern villa development with landscaped surroundings',
   },
   {
     title: 'Homes Designed Around',
@@ -37,6 +40,7 @@ const heroSlides = [
     subtitle:
       'Spacious apartments and villas crafted for natural light, practical layouts, and a refined community lifestyle.',
     image: '/pride-walls-appartments.jpg',
+    imageAlt: 'Contemporary apartment building exterior in Hyderabad',
   },
 ];
 
@@ -74,9 +78,11 @@ export default function HeroSection() {
         >
           <Image
             src={slide.image}
-            alt={slide.title}
+            alt={slide.imageAlt}
             fill
+            sizes="100vw"
             className="object-cover"
+            loading="eager"
             priority={index === 0}
           />
           <div className="absolute inset-0 bg-gradient-to-r from-primary/72 via-primary/32 to-primary/5" />

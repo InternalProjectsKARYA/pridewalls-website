@@ -122,9 +122,9 @@ export default function ContactSection() {
               <p className="text-sm text-muted-foreground leading-relaxed">
                 Plot No: 19/B, 4th Floor, Progressive Towers,
                 <br />
-                Jaihind Enclave, 100 Feet Road, Ayyappa Society, ,
+                Jaihind Enclave, 100 Feet Road, Ayyappa Society,
                 <br />
-                Madhapur, Hyderabad- 500081.
+                Madhapur, Hyderabad - 500081.
               </p>
 
               <div className="mt-4 space-y-1 text-sm text-muted-foreground">
@@ -148,6 +148,7 @@ export default function ContactSection() {
                     value={name}
                     onChange={(event) => setName(event.target.value)}
                     autoComplete="name"
+                    aria-required="true"
                     disabled={isSubmitting}
                   />
                 </label>
@@ -163,6 +164,7 @@ export default function ContactSection() {
                     value={email}
                     onChange={(event) => setEmail(event.target.value)}
                     autoComplete="email"
+                    aria-required="true"
                     disabled={isSubmitting}
                   />
                 </label>
@@ -179,6 +181,7 @@ export default function ContactSection() {
                   value={mobile}
                   onChange={(event) => setMobile(event.target.value)}
                   autoComplete="tel"
+                  aria-required="true"
                   disabled={isSubmitting}
                 />
               </label>
@@ -194,6 +197,7 @@ export default function ContactSection() {
                     setInterestType(event.target.value as InterestType);
                     setOtherInterest("");
                   }}
+                  aria-required="true"
                   disabled={isSubmitting}
                   className="h-12 w-full px-4 rounded-xl border bg-white focus:outline-none focus:ring-2 focus:ring-brand-gold/40"
                 >
@@ -297,17 +301,28 @@ export default function ContactSection() {
                 className="w-full h-12 flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-brand-gold to-brand-gold-hover text-white font-semibold hover:scale-[1.02] transition shadow-[0_10px_25px_rgba(13,38,89,0.12)] disabled:opacity-70 disabled:hover:scale-100"
               >
                 <Send size={18} />
-                {isSubmitting ? "SUBMITTING..." : "GET IN TOUCH"}
+                {isSubmitting ? "Submitting..." : "Get In Touch"}
               </button>
             </form>
           </div>
 
           <div className="relative h-200 rounded-2xl overflow-hidden shadow-xl border">
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2193.1565800134977!2d78.38806349526911!3d17.45274661195516!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcb91005f5ce709%3A0xc1f2e0646b78f7ed!2sKaryahub%20Solutions!5e1!3m2!1sen!2sin!4v1772012440540!5m2!1sen!2sin%22"
+              src="https://www.google.com/maps?q=Progressive+Towers,+100+Feet+Road,+Ayyappa+Society,+Madhapur,+Hyderabad+500081&z=16&output=embed&hl=en"
               className="w-full h-full border-0"
               loading="lazy"
+              allowFullScreen
+              referrerPolicy="no-referrer-when-downgrade"
+              title="Map showing PRIDEWALLS office location in Madhapur, Hyderabad"
             />
+            <a
+              href="https://www.google.com/maps/dir/?api=1&destination=Progressive+Towers%2C+100+Feet+Road%2C+Ayyappa+Society%2C+Madhapur%2C+Hyderabad+500081"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="absolute bottom-4 right-4 inline-flex items-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-white shadow-lg transition hover:bg-brand-primary-dark"
+            >
+              Get Directions
+            </a>
           </div>
         </div>
       </div>

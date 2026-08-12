@@ -23,7 +23,7 @@ export interface Project {
   highlights: Highlight[];
   specifications: Specification[];
   floorPlans?: FloorPlan[];
-  siteLayout: SiteLayout;
+  siteLayout?: SiteLayout;
   locationHighlights: LocationHighlight[];
   
   // Numbers

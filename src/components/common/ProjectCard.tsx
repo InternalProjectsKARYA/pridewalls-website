@@ -128,7 +128,7 @@ export default function ProjectCard({ project, featured = false }: ProjectCardPr
 
         {/* CTA */}
         <Button asChild className="w-full group/btn">
-          <Link href={`/#project/${project.slug}`}>
+          <Link href={`/projects/${project.slug}`}>
             View Details
             <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
           </Link>

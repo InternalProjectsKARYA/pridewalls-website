@@ -12,11 +12,11 @@ const navigation = [
   { name: 'Home', href: '/' },
   {
     name: 'Projects',
-    href: '/#projects',
+    href: '/projects',
     children: [
-      { name: 'Ongoing Projects', href: '/?status=ongoing#projects' },
-      { name: 'Upcoming Projects', href: '/?status=upcoming#projects' },
-      { name: 'Completed Projects', href: '/?status=completed#projects' },
+      { name: 'Ongoing Projects', href: '/projects?status=ongoing' },
+      { name: 'Upcoming Projects', href: '/projects?status=upcoming' },
+      { name: 'Completed Projects', href: '/projects?status=completed' },
     ],
   },
   { name: 'About', href: '/#about' },
@@ -88,12 +88,13 @@ export default function Navbar() {
                   <Link
                     href={item.href}
                     className="flex items-center gap-1 rounded-full px-4 py-2 text-sm font-semibold text-foreground transition-colors hover:bg-white hover:text-primary hover:shadow-sm"
+                    aria-haspopup="true"
                   >
                     {item.name}
-                    <ChevronDown size={14} className="transition-transform duration-200 group-hover:rotate-180" />
+                    <ChevronDown size={14} className="transition-transform duration-200 group-hover:rotate-180 group-focus-within:rotate-180" />
                   </Link>
 
-                  <div className="absolute left-0 top-full pt-3 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition">
+                  <div className="absolute left-0 top-full pt-3 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto group-focus-within:opacity-100 group-focus-within:pointer-events-auto transition">
                     <div className="min-w-[230px] overflow-hidden rounded-xl border border-border/80 bg-white p-1 shadow-[0_18px_45px_rgba(13,38,89,0.14)]">
                       {item.children.map((child) => (
                         <Link

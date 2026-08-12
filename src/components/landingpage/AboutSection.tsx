@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { ArrowRight, ShieldCheck, Award, Lightbulb, Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -29,33 +30,41 @@ export default function AboutSection() {
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-4">
                 <div className="relative h-48 rounded-2xl overflow-hidden">
-                  <img
-                    src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&h=400&fit=crop"
-                    alt="Modern architecture"
-                    className="w-full h-full object-cover"
+                  <Image
+                    src="/pride-walls-appartments.jpg"
+                    alt="PRIDEWALLS apartment community exterior"
+                    fill
+                    sizes="(min-width: 1024px) 25vw, 50vw"
+                    className="object-cover"
                   />
                 </div>
                 <div className="relative h-64 rounded-2xl overflow-hidden">
-                  <img
-                    src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=500&fit=crop"
-                    alt="Luxury villa"
-                    className="w-full h-full object-cover"
+                  <Image
+                    src="/villas.jpg"
+                    alt="PRIDEWALLS luxury villa homes"
+                    fill
+                    sizes="(min-width: 1024px) 25vw, 50vw"
+                    className="object-cover"
                   />
                 </div>
               </div>
               <div className="space-y-4 pt-8">
                 <div className="relative h-64 rounded-2xl overflow-hidden">
-                  <img
-                    src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=600&h=500&fit=crop"
-                    alt="Interior design"
-                    className="w-full h-full object-cover"
+                  <Image
+                    src="/clubhouse.png"
+                    alt="PRIDEWALLS community clubhouse"
+                    fill
+                    sizes="(min-width: 1024px) 25vw, 50vw"
+                    className="object-cover"
                   />
                 </div>
                 <div className="relative h-48 rounded-2xl overflow-hidden">
-                  <img
-                    src="https://images.unsplash.com/photo-1600573472550-8090b5e0745e?w=600&h=400&fit=crop"
-                    alt="Amenities"
-                    className="w-full h-full object-cover"
+                  <Image
+                    src="/Amenities/Swimming Pool.jpg"
+                    alt="Resident swimming pool at a PRIDEWALLS community"
+                    fill
+                    sizes="(min-width: 1024px) 25vw, 50vw"
+                    className="object-cover"
                   />
                 </div>
               </div>
@@ -132,14 +141,6 @@ export default function AboutSection() {
 }
 
 /* ⭐ helpers */
-
-function ImageBlock({ src, h }: { src: string; h: string }) {
-  return (
-    <div className={`relative ${h} rounded-2xl overflow-hidden`}>
-      <img src={src} className="w-full h-full object-cover" />
-    </div>
-  );
-}
 
 function InfoCard({ title, text }: { title: string; text: string }) {
   return (

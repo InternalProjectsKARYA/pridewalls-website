@@ -20,9 +20,10 @@ Developed by PRIDEWALLS, Espino comprises six residential blocks (A to F) with a
     featured: false,
     coverImage: '/pride-walls-appartments.jpg',
     gallery: [
-      'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1200&h=800&fit=crop',
-      'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200&h=800&fit=crop',
-      'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200&h=800&fit=crop',
+      '/clubhouse.png',
+      '/blocks/block-a.jpg',
+      '/Amenities/Swimming Pool.jpg',
+      '/Amenities/Indoor Sports.jpg',
     ],
     amenities: [
       { id: '1', name: 'Swimming Pool', icon: 'waves', description: 'Infinity swimming pool with relaxing deck and seating', image: '/Amenities/Swimming Pool.jpg' },
@@ -61,8 +62,8 @@ Developed by PRIDEWALLS, Espino comprises six residential blocks (A to F) with a
       },
     ],
     floorPlans: [
-      { id: '1', name: 'Apartment Type A', type: '2 BHK', area: '1250 sq.ft', image: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&h=600&fit=crop' },
-      { id: '2', name: 'Apartment Type B', type: '3 BHK', area: '1650 sq.ft', image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&h=600&fit=crop' },
+      { id: '1', name: '2 BHK', type: '2 BHK', area: '1250 sq.ft', image: '/master_plan.jpg' },
+      { id: '2', name: '3 BHK', type: '3 BHK', area: '1650 sq.ft', image: '/master_plan.jpg' },
     ],
     siteLayout: {
       image: '/master_plan.jpg',
@@ -137,9 +138,9 @@ Developed by PRIDEWALLS, Espino comprises six residential blocks (A to F) with a
     slug: 'siri-eco-space',
     name: 'SIRI ECO SPACE',
     tagline: 'Premium Plots',
-    description: `Business Hub is a state-of-the-art commercial development designed for modern enterprises. Located in the bustling Electronic City, this project offers ready-to-move office spaces, retail outlets, and co-working spaces with world-class infrastructure.
+    description: `SIRI ECO SPACE is an upcoming open-plot development by PRIDEWALLS in Rudraram, Hyderabad. Located in the city's fast-growing western growth corridor, the project offers HMDA-approved residential plots with clear titles, wide internal roads, and good connectivity to major IT hubs and everyday amenities.
 
-The building features high-speed elevators, ample parking, 100% power backup, and advanced fire safety systems. With excellent visibility from the main road and proximity to major tech parks, Business Hub is the ideal address for your growing business.`,
+Designed for both end-users and investors, SIRI ECO SPACE combines a well-planned layout with transparent documentation and a straightforward booking process, making it a strong choice for those seeking long-term value appreciation.`,
     location: 'Rudraram, Hyderabad',
     mapEmbedUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3888.123456789!2d77.68!3d12.84!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTLCsDUwJzI0LjAiTiA3N8KwNDAnNDguMCJF!5e0!3m2!1sen!2sin!4v1234567890',
     type: 'plots',
@@ -147,8 +148,8 @@ The building features high-speed elevators, ample parking, 100% power backup, an
     featured: false,
     coverImage: '/plots.jpg',
     gallery: [
-      'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1200&h=800&fit=crop',
-      'https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200&h=800&fit=crop',
+      '/plots-master-plan1.jpg',
+      '/master-plan.png',
     ],
     // amenities: [
     //   { id: '1', name: 'High-Speed Elevators', icon: 'arrow-up-down', description: 'High-speed passenger and service elevators', image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&h=600&fit=crop' },
@@ -191,12 +192,12 @@ The building features high-speed elevators, ample parking, 100% power backup, an
     // ],
     siteLayout: {
       image: '/plots-master-plan1.jpg',
-      description: 'A modern commercial complex with efficient floor plates, double-height entrance lobby, and strategically placed retail spaces for maximum visibility.',
+      description: 'Master plan of SIRI ECO SPACE showing the plotted layout, internal road network, and open spaces across the development.',
       zones: [
-        { name: 'Ground Floor', color: '#DC2626', description: 'Retail stores and food court' },
-        { name: 'Floors 1-5', color: '#7C2D12', description: 'Office spaces' },
-        { name: 'Floors 6-10', color: '#92400E', description: 'Premium office spaces with terrace' },
-        { name: 'Parking', color: '#6B7280', description: 'Multi-level parking structure' },
+        { name: 'Residential Plots', color: '#DC2626', description: 'Plotted residential development with clear titles' },
+        { name: 'Road Network', color: '#7C2D12', description: 'Wide internal roads for smooth access' },
+        { name: 'Open Spaces', color: '#92400E', description: 'Green buffers and community open areas' },
+        { name: 'Entrance', color: '#6B7280', description: 'Main entrance and approach road' },
       ],
     },
     locationHighlights: [
@@ -260,9 +261,9 @@ The building features high-speed elevators, ample parking, 100% power backup, an
     slug: 'premimum-villas',
     name: 'PRIDEWALLS VILLAS',
     tagline: 'Premium Villas',
-    description: `Business Hub is a state-of-the-art commercial development designed for modern enterprises. Located in the bustling Electronic City, this project offers ready-to-move office spaces, retail outlets, and co-working spaces with world-class infrastructure.
+    description: `PRIDEWALLS VILLAS is an upcoming premium villa development by PRIDEWALLS in Rudraram, Hyderabad. Designed for families seeking space, privacy, and modern comfort, the project offers thoughtfully planned villas with quality construction, landscaped surroundings, and gated-community living.
 
-The building features high-speed elevators, ample parking, 100% power backup, and advanced fire safety systems. With excellent visibility from the main road and proximity to major tech parks, Business Hub is the ideal address for your growing business.`,
+With easy access to major highways and Hyderabad's growth corridors, PRIDEWALLS VILLAS provides a balanced lifestyle — close to nature without compromising on connectivity to schools, healthcare, and daily conveniences.`,
     location: 'Rudraram, Hyderabad',
     mapEmbedUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3888.123456789!2d77.68!3d12.84!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTLCsDUwJzI0LjAiTiA3N8KwNDAnNDguMCJF!5e0!3m2!1sen!2sin!4v1234567890',
     type: 'villas',
@@ -270,17 +271,10 @@ The building features high-speed elevators, ample parking, 100% power backup, an
     featured: false,
     coverImage: '/villas.jpg',
     gallery: [
-      'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1200&h=800&fit=crop',
-      'https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200&h=800&fit=crop',
+      '/villas.jpg',
+      '/pride-walls-hero.png',
     ],
-    amenities: [
-      { id: '1', name: 'High-Speed Elevators', icon: 'arrow-up-down', description: 'High-speed passenger and service elevators', image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&h=600&fit=crop' },
-      { id: '2', name: 'Power Backup', icon: 'zap', description: '100% DG power backup', image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&h=600&fit=crop' },
-      { id: '3', name: 'Conference Rooms', icon: 'presentation', description: 'Fully equipped meeting rooms', image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&h=600&fit=crop' },
-      { id: '4', name: 'Food Court', icon: 'utensils', description: 'Multi-cuisine food court', image: 'https://images.unsplash.com/photo-1567521464027-f127ff144326?w=800&h=600&fit=crop' },
-      { id: '5', name: 'Parking', icon: 'car', description: 'Multi-level parking for 500+ vehicles', image: 'https://images.unsplash.com/photo-1506521781263-d8422e82f27a?w=800&h=600&fit=crop' },
-      { id: '6', name: 'Security', icon: 'shield', description: '24/7 security with access control', image: 'https://images.unsplash.com/photo-1558002038-1055907df827?w=800&h=600&fit=crop' },
-    ],
+    amenities: [],
     facilities: [
       { id: '1', name: 'High-Speed Elevators', icon: 'arrow-up-down', description: 'High-speed passenger elevators' },
       { id: '2', name: 'Power Backup', icon: 'zap', description: '100% DG power backup' },
@@ -306,41 +300,46 @@ The building features high-speed elevators, ample parking, 100% power backup, an
         ],
       },
     ],
-    floorPlans: [
-      { id: '1', name: 'Office Space', type: 'Office', area: '500-5000 sq.ft', image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&h=600&fit=crop' },
-      { id: '2', name: 'Retail Unit', type: 'Retail', area: '300-2000 sq.ft', image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&h=600&fit=crop' },
-    ],
-    siteLayout: {
-      image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1600&h=1200&fit=crop',
-      description: 'A modern commercial complex with efficient floor plates, double-height entrance lobby, and strategically placed retail spaces for maximum visibility.',
-      zones: [
-        { name: 'Ground Floor', color: '#DC2626', description: 'Retail stores and food court' },
-        { name: 'Floors 1-5', color: '#7C2D12', description: 'Office spaces' },
-        { name: 'Floors 6-10', color: '#92400E', description: 'Premium office spaces with terrace' },
-        { name: 'Parking', color: '#6B7280', description: 'Multi-level parking structure' },
-      ],
-    },
+    floorPlans: [],
     locationHighlights: [
       {
         id: '1',
-        category: 'IT Parks Nearby',
+        category: 'IT & Business Hubs',
         icon: 'building',
         items: [
-          'Infosys Campus - 5 mins',
-          'Wipro Campus - 5 mins',
-          'Tech Mahindra - 10 mins',
-          'HP Campus - 10 mins',
+          'Neopolis Ultra Premium SEZ - 30 mins',
+          'Financial District - 35 mins',
+          'HITEC City - 40 mins',
         ],
       },
       {
         id: '2',
-        category: 'Connectivity',
+        category: 'Healthcare & Essentials',
+        icon: 'heart-pulse',
+        items: [
+          'Multi-specialty Hospitals - Nearby',
+          'Supermarkets & Retail Hubs - Nearby',
+          'Hotels & Restaurants - Nearby',
+        ],
+      },
+      {
+        id: '3',
+        category: 'Commute & Highways',
         icon: 'navigation',
         items: [
-          'Nice Road - 10 mins',
-          'Hosur Road - 5 mins',
-          'Hyderabad City - 45 mins',
-          'Airport - 60 mins',
+          'NH-65 Mumbai Highway - 2 mins',
+          'Outer Ring Road (ORR) - 5 mins',
+          'Patancheru Metro Station (Upcoming) - 10 mins',
+          'RGIA Airport - 40 mins',
+        ],
+      },
+      {
+        id: '4',
+        category: 'Premier Education',
+        icon: 'graduation-cap',
+        items: [
+          'Gitam University - Opposite Site',
+          'IIT Kandi - On Mumbai Highway',
         ],
       },
     ],

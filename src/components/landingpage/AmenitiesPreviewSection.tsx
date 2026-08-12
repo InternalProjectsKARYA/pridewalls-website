@@ -3,55 +3,55 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import {
+  Activity,
+  Baby,
+  BookOpen,
   Building2,
-  Car,
-  Dumbbell,
   Flower2,
   Footprints,
   Gamepad2,
   Mic2,
-  Shield,
-  TreePine,
   Users,
+  UtensilsCrossed,
   Waves,
 } from 'lucide-react';
 
 const amenities = [
   {
-    icon: Dumbbell,
-    title: 'Modern Gym',
-    description: 'State-of-the-art fitness center',
-    image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=400&h=300&fit=crop',
-  },
-  {
     icon: Waves,
     title: 'Swimming Pool',
-    description: 'Olympic-sized pool with deck',
-    image: 'https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?w=400&h=300&fit=crop',
+    description: 'Refreshing pool with a relaxing deck',
+    image: '/Amenities/Swimming Pool.jpg',
   },
   {
-    icon: TreePine,
-    title: 'Landscaped Gardens',
-    description: 'Lush green spaces throughout',
-    image: 'https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=400&h=300&fit=crop',
+    icon: Activity,
+    title: 'Cricket Pitch',
+    description: 'Dedicated pitch for sports enthusiasts',
+    image: '/Amenities/Cricket Pitch.jpg',
   },
   {
-    icon: Car,
-    title: 'Covered Parking',
-    description: 'Secure parking for residents',
-    image: 'https://images.unsplash.com/photo-1506521781263-d8422e82f27a?w=400&h=300&fit=crop',
+    icon: Gamepad2,
+    title: 'Indoor Sports',
+    description: 'Table tennis, carrom and more',
+    image: '/Amenities/Indoor Sports.jpg',
   },
   {
-    icon: Shield,
-    title: '24/7 Security',
-    description: 'Round-the-clock surveillance',
-    image: 'https://images.unsplash.com/photo-1558002038-1055907df827?w=400&h=300&fit=crop',
+    icon: UtensilsCrossed,
+    title: 'Food Court',
+    description: 'Multi-cuisine dining options',
+    image: '/Amenities/Food Court.jpg',
   },
   {
-    icon: Flower2,
-    title: 'Parks & Play Areas',
-    description: 'Dedicated spaces for children',
-    image: 'https://images.unsplash.com/photo-1544776193-352d25ca82cd?w=400&h=300&fit=crop',
+    icon: BookOpen,
+    title: 'Library',
+    description: 'Quiet reading and study space',
+    image: '/Amenities/Library.jpg',
+  },
+  {
+    icon: Baby,
+    title: "Children's Play Area",
+    description: 'Safe, vibrant space for kids',
+    image: '/Amenities/Children Area.jpg',
   },
 ];
 
@@ -107,6 +107,7 @@ export default function AmenitiesPreviewSection() {
                   src={amenity.image}
                   alt={amenity.title}
                   fill
+                  sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
                   className="object-cover group-hover:scale-110 transition-transform duration-500"
                 />
 

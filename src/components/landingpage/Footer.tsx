@@ -8,16 +8,16 @@ import { Button } from '@/components/ui/button';
 
 const quickLinks = [
   { name: 'Home', href: '/' },
-  { name: 'Projects', href: '/#projects' },
+  { name: 'Projects', href: '/projects' },
   { name: 'About Us', href: '/#about' },
   { name: 'Contact', href: '/#contact' },
 ];
 
 const projectTypes = [
-  { name: 'Plots', href: '/#projects?type=plots' },
-  { name: 'Villas', href: '/#projects?type=villas' },
-  { name: 'Apartments', href: '/#projects?type=apartments' },
-  { name: 'Commercial', href: '/#projects?type=commercial' },
+  { name: 'Plots', href: '/projects?type=plots' },
+  { name: 'Villas', href: '/projects?type=villas' },
+  { name: 'Apartments', href: '/projects?type=apartments' },
+  { name: 'Commercial', href: '/projects?type=commercial' },
 ];
 
 const legalLinks = [
@@ -82,6 +82,7 @@ export default function Footer() {
                   href={social.url}
                   target="_blank"
                   rel="noopener noreferrer"
+                  aria-label={`${companyInfo.name} on ${social.platform}`}
                   className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 backdrop-blur transition hover:bg-brand-gold hover:text-white"
                 >
                   {socialIcons[social.icon]}

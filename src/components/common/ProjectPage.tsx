@@ -94,8 +94,9 @@ export default function ProjectPage({ project }: ProjectPageProps) {
       <section className="relative h-[70svh] min-h-[520px] max-h-[700px] sm:h-[60vh] sm:min-h-[500px]">
         <Image
           src={project.coverImage}
-          alt={project.name}
+          alt={`${project.name} – ${project.tagline} in ${project.location}`}
           fill
+          sizes="100vw"
           className="object-cover"
           priority
         />
@@ -402,6 +403,7 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                               src={amenity.image}
                               alt={amenity.name}
                               fill
+                              sizes="(min-width: 1024px) 25vw, (min-width: 480px) 50vw, 100vw"
                               className="object-cover transition-transform group-hover:scale-110"
                             />
                           ) : (
@@ -503,6 +505,7 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                         src={project.siteLayout.image}
                         alt={`${project.name} Site Layout`}
                         fill
+                        sizes="(min-width: 1024px) 66vw, 100vw"
                         className="object-cover transition-transform group-hover:scale-105"
                       />
                       <div className="absolute inset-0 bg-black/20" />
@@ -511,8 +514,9 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                 </motion.div>
               )}
 
-              {/* Floor Plans */}
-              {project.floorPlans && project.floorPlans.length > 0 && (
+              {/* Floor Plans / Site Blocks */}
+              {(project.floorPlans && project.floorPlans.length > 0) ||
+              (project.siteLayout?.zones?.length ?? 0) > 0 ? (
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -520,7 +524,7 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                    className="overflow-hidden rounded-2xl border border-border bg-card"
                  >
                    <div className="border-b border-border bg-muted/30 p-4 sm:p-6">
-                     <h2 className="text-xl font-semibold sm:text-2xl">Floor Plans & Plot Layouts</h2>
+                     <h2 className="text-xl font-semibold sm:text-2xl">Site Layout & Blocks</h2>
                    </div>
                   {/* <div className="p-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -591,9 +595,9 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                       </div>
                     )}
                 </motion.div>
-              )}
+              ) : null}
 
-              
+
               {/* Location Map */}
               {project.mapEmbedUrl && (
                 <motion.div
@@ -686,19 +690,19 @@ export default function ProjectPage({ project }: ProjectPageProps) {
 
                   <div className="space-y-3">
                     <a
-                      href="tel:+919876543210"
+                      href={phoneHref}
                       className="flex items-center gap-3 break-all text-muted-foreground transition hover:text-primary sm:break-normal"
                     >
                       <Phone className="h-5 w-5" />
-                      <span>+91 70364 45500</span>
+                      <span>{primaryPhone}</span>
                     </a>
 
                     <a
-                      href="mailto:sales@pridewalls.com"
+                      href={`mailto:${companyInfo.contact.email[1] || companyInfo.contact.email[0]}`}
                       className="flex items-center gap-3 break-all text-muted-foreground transition hover:text-primary sm:break-normal"
                     >
                       <Mail className="h-5 w-5" />
-                      <span>sales@pridewalls.com</span>
+                      <span>{companyInfo.contact.email[1] || companyInfo.contact.email[0]}</span>
                     </a>
                   </div>
 

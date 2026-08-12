@@ -77,6 +77,7 @@ export default function ImageCarousel({
               size="icon"
               className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white"
               onClick={goToPrevious}
+              aria-label="Previous image"
             >
               <ChevronLeft className="h-4 w-4" />
             </Button>
@@ -85,6 +86,7 @@ export default function ImageCarousel({
               size="icon"
               className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white"
               onClick={goToNext}
+              aria-label="Next image"
             >
               <ChevronRight className="h-4 w-4" />
             </Button>
@@ -131,6 +133,7 @@ export default function ImageCarousel({
               size="icon"
               className="absolute left-4 top-1/2 -translate-y-1/2 text-white hover:bg-white/20 z-10"
               onClick={goToPrevious}
+              aria-label="Previous image in lightbox"
             >
               <ChevronLeft className="h-8 w-8" />
             </Button>
@@ -149,6 +152,7 @@ export default function ImageCarousel({
               size="icon"
               className="absolute right-4 top-1/2 -translate-y-1/2 text-white hover:bg-white/20 z-10"
               onClick={goToNext}
+              aria-label="Next image in lightbox"
             >
               <ChevronRight className="h-8 w-8" />
             </Button>
