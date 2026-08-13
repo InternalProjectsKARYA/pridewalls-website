@@ -33,6 +33,34 @@ const statusColors: Record<string, string> = {
   completed: 'bg-success/10 text-success border-success/20',
 };
 
+// Type-specific styling and colors
+const typeStyles: Record<string, { color: string; bgGradient: string; accentBg: string; badgeBg: string }> = {
+  plots: { 
+    color: '#059669', 
+    bgGradient: 'from-emerald-50 to-teal-50',
+    accentBg: 'bg-emerald-50 border-emerald-200',
+    badgeBg: 'bg-emerald-100 text-emerald-700'
+  },
+  villas: { 
+    color: '#7c3aed', 
+    bgGradient: 'from-violet-50 to-purple-50',
+    accentBg: 'bg-violet-50 border-violet-200',
+    badgeBg: 'bg-violet-100 text-violet-700'
+  },
+  apartments: { 
+    color: '#3b82f6', 
+    bgGradient: 'from-blue-50 to-cyan-50',
+    accentBg: 'bg-blue-50 border-blue-200',
+    badgeBg: 'bg-blue-100 text-blue-700'
+  },
+  commercial: { 
+    color: '#dc2626', 
+    bgGradient: 'from-red-50 to-orange-50',
+    accentBg: 'bg-red-50 border-red-200',
+    badgeBg: 'bg-red-100 text-red-700'
+  },
+};
+
 const formatAreaValue = (project: Project) =>
   project.area.min === project.area.max
     ? `${project.area.min}+`
@@ -65,6 +93,7 @@ const getZoneKey = (zone: NonNullable<Project['siteLayout']>['zones'][number]) =
 export default function ProjectPage({ project }: ProjectPageProps) {
   const [isSiteVisitOpen, setIsSiteVisitOpen] = useState(false);
   const [lightboxImage, setLightboxImage] = useState<LightboxImage | null>(null);
+  const typeStyle = typeStyles[project.type];
 
   useEffect(() => {
     if (new URLSearchParams(window.location.search).get('siteVisit') === 'true') {
@@ -530,36 +559,74 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.65 }}
-                      className="overflow-hidden rounded-2xl border border-border bg-card"
+                      className={`overflow-hidden rounded-2xl border-2 border-blue-200 bg-gradient-to-br ${typeStyle.bgGradient}`}
                     >
-                      <div className="border-b border-border bg-muted/30 p-4 sm:p-6">
-                        <h2 className="text-xl font-semibold sm:text-2xl">Floor Plans & Unit Configurations</h2>
+                      <div className="border-b border-blue-200 bg-gradient-to-r from-blue-100 to-cyan-100 p-4 sm:p-6">
+                        <h2 className="text-xl font-semibold text-blue-900 sm:text-2xl flex items-center gap-2">
+                          <Layout className="h-6 w-6" />
+                          Floor Plans & Unit Configurations
+                        </h2>
                       </div>
                       <div className="p-4 sm:p-6">
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                           {project.floorPlans.map((plan) => (
-                            <div key={plan.id} className="bg-muted/30 rounded-xl overflow-hidden group">
-                              <div className="relative aspect-[4/3] overflow-hidden">
+                            <div key={plan.id} className="bg-white rounded-xl overflow-hidden group border border-blue-100 hover:border-blue-300 transition-colors shadow-sm hover:shadow-md">
+                              <div className="relative aspect-[4/3] overflow-hidden bg-gradient-to-br from-blue-100 to-cyan-100">
                                 <Image
                                   src={plan.image}
                                   alt={plan.name}
                                   fill
-                                  className="object-cover transition-transform group-hover:scale-105"
+                                  className="object-cover transition-transform group-hover:scale-110"
                                 />
                               </div>
                               <div className="p-4">
                                 <div className="font-semibold text-foreground">{plan.name}</div>
-                                <div className="flex items-center justify-between mt-2 text-sm text-muted-foreground">
-                                  <span className="flex items-center gap-1">
+                                <div className="flex items-center justify-between mt-3 text-sm">
+                                  <span className="flex items-center gap-2 text-blue-600 font-medium">
                                     <Ruler className="h-4 w-4" />
                                     {plan.type}
                                   </span>
-                                  <span>{plan.area}</span>
+                                  <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-semibold">{plan.area}</span>
                                 </div>
                               </div>
                             </div>
                           ))}
                         </div>
+                      </div>
+                    </motion.div>
+                  )}
+
+                  {/* Unit Types & Specifications */}
+                  {project.specifications && project.specifications.length > 0 && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.7 }}
+                      className={`overflow-hidden rounded-2xl border-2 border-blue-200 bg-gradient-to-br ${typeStyle.bgGradient}`}
+                    >
+                      <div className="border-b border-blue-200 bg-gradient-to-r from-blue-100 to-cyan-100 p-4 sm:p-6">
+                        <h2 className="text-xl font-semibold text-blue-900 sm:text-2xl flex items-center gap-2">
+                          <Building2 className="h-6 w-6" />
+                          Apartment Specifications
+                        </h2>
+                      </div>
+                      <div className="p-4 sm:p-6 space-y-4">
+                        {project.specifications.map((spec) => (
+                          <div key={spec.id} className="bg-white rounded-xl p-5 border border-blue-100 hover:border-blue-300 transition-colors">
+                            <h4 className="font-semibold text-blue-900 mb-4 flex items-center gap-2">
+                              <Check className="h-5 w-5 text-blue-600" />
+                              {spec.category}
+                            </h4>
+                            <ul className="space-y-2">
+                              {spec.items.map((item, index) => (
+                                <li key={index} className="flex items-start gap-3 text-gray-700">
+                                  <div className="w-2 h-2 rounded-full bg-blue-500 shrink-0 mt-2" />
+                                  <span>{item}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        ))}
                       </div>
                     </motion.div>
                   )}
@@ -574,30 +641,33 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.65 }}
-                      className="overflow-hidden rounded-2xl border border-border bg-card"
+                      className={`overflow-hidden rounded-2xl border-2 border-emerald-200 bg-gradient-to-br ${typeStyle.bgGradient}`}
                     >
-                      <div className="border-b border-border bg-muted/30 p-4 sm:p-6">
-                        <h2 className="text-xl font-semibold sm:text-2xl">Plot Layout & Zones</h2>
+                      <div className="border-b border-emerald-200 bg-gradient-to-r from-emerald-100 to-teal-100 p-4 sm:p-6">
+                        <h2 className="text-xl font-semibold text-emerald-900 sm:text-2xl flex items-center gap-2">
+                          <Compass className="h-6 w-6" />
+                          Plot Layout & Master Plan Zones
+                        </h2>
                       </div>
                       <div className="p-4 sm:p-6">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                           {project.siteLayout.zones.map((zone) => (
                             <div
                               key={zone.name}
-                              className="flex items-start gap-4 p-4 rounded-xl border border-border hover:border-primary/30 transition-colors"
+                              className="flex items-start gap-4 p-4 rounded-xl border-2 border-emerald-100 bg-white hover:border-emerald-300 transition-colors hover:shadow-md"
                             >
                               <div
-                                className="w-12 h-12 rounded-xl shrink-0 flex items-center justify-center"
-                                style={{ backgroundColor: zone.color + '20' }}
+                                className="w-12 h-12 rounded-xl shrink-0 flex items-center justify-center border-2"
+                                style={{ backgroundColor: zone.color + '20', borderColor: zone.color }}
                               >
                                 <div
-                                  className="w-6 h-6 rounded"
+                                  className="w-5 h-5 rounded-sm"
                                   style={{ backgroundColor: zone.color }}
                                 />
                               </div>
                               <div>
-                                <div className="font-medium text-foreground">{zone.name}</div>
-                                <div className="text-sm text-muted-foreground">{zone.description}</div>
+                                <div className="font-semibold text-emerald-900">{zone.name}</div>
+                                <div className="text-sm text-gray-600">{zone.description}</div>
                               </div>
                             </div>
                           ))}
@@ -611,24 +681,30 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.7 }}
-                    className="overflow-hidden rounded-2xl border border-border bg-card"
+                    className={`overflow-hidden rounded-2xl border-2 border-emerald-200 bg-gradient-to-br ${typeStyle.bgGradient}`}
                   >
-                    <div className="border-b border-border bg-muted/30 p-4 sm:p-6">
-                      <h2 className="text-xl font-semibold sm:text-2xl">Available Plot Sizes</h2>
+                    <div className="border-b border-emerald-200 bg-gradient-to-r from-emerald-100 to-teal-100 p-4 sm:p-6">
+                      <h2 className="text-xl font-semibold text-emerald-900 sm:text-2xl flex items-center gap-2">
+                        <Ruler className="h-6 w-6" />
+                        Available Plot Sizes
+                      </h2>
                     </div>
                     <div className="p-4 sm:p-6">
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div className="bg-muted/30 rounded-xl p-6 text-center">
-                          <div className="text-3xl font-bold text-primary">{project.area.min}</div>
-                          <div className="text-muted-foreground">Minimum Size ({project.area.unit})</div>
+                        <div className="bg-white rounded-xl p-6 text-center border border-emerald-100 hover:border-emerald-300 transition-colors">
+                          <div className="text-3xl font-bold text-emerald-600">{project.area.min}</div>
+                          <div className="text-sm text-gray-600 mt-2">Minimum Plot Size</div>
+                          <div className="text-xs text-gray-500 mt-1">({project.area.unit})</div>
                         </div>
-                        <div className="bg-muted/30 rounded-xl p-6 text-center">
-                          <div className="text-3xl font-bold text-primary">{project.area.max}</div>
-                          <div className="text-muted-foreground">Maximum Size ({project.area.unit})</div>
+                        <div className="bg-white rounded-xl p-6 text-center border border-emerald-100 hover:border-emerald-300 transition-colors">
+                          <div className="text-3xl font-bold text-emerald-600">{project.area.max}</div>
+                          <div className="text-sm text-gray-600 mt-2">Maximum Plot Size</div>
+                          <div className="text-xs text-gray-500 mt-1">({project.area.unit})</div>
                         </div>
-                        <div className="bg-muted/30 rounded-xl p-6 text-center">
-                          <div className="text-3xl font-bold text-primary">{project.totalUnits}</div>
-                          <div className="text-muted-foreground">Total Plots Available</div>
+                        <div className="bg-gradient-to-br from-emerald-100 to-teal-100 rounded-xl p-6 text-center border-2 border-emerald-300">
+                          <div className="text-3xl font-bold text-emerald-700">{project.totalUnits}</div>
+                          <div className="text-sm text-emerald-900 font-medium mt-2">Total Plots</div>
+                          <div className="text-xs text-emerald-700 mt-1">Available</div>
                         </div>
                       </div>
                     </div>
@@ -644,31 +720,34 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.65 }}
-                      className="overflow-hidden rounded-2xl border border-border bg-card"
+                      className={`overflow-hidden rounded-2xl border-2 border-violet-200 bg-gradient-to-br ${typeStyle.bgGradient}`}
                     >
-                      <div className="border-b border-border bg-muted/30 p-4 sm:p-6">
-                        <h2 className="text-xl font-semibold sm:text-2xl">Villa Configurations</h2>
+                      <div className="border-b border-violet-200 bg-gradient-to-r from-violet-100 to-purple-100 p-4 sm:p-6">
+                        <h2 className="text-xl font-semibold text-violet-900 sm:text-2xl flex items-center gap-2">
+                          <Home className="h-6 w-6" />
+                          Villa Configurations & Floor Plans
+                        </h2>
                       </div>
                       <div className="p-4 sm:p-6">
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                           {project.floorPlans.map((plan) => (
-                            <div key={plan.id} className="bg-muted/30 rounded-xl overflow-hidden group">
-                              <div className="relative aspect-[4/3] overflow-hidden">
+                            <div key={plan.id} className="bg-white rounded-xl overflow-hidden group border border-violet-100 hover:border-violet-300 transition-colors shadow-sm hover:shadow-md">
+                              <div className="relative aspect-[4/3] overflow-hidden bg-gradient-to-br from-violet-100 to-purple-100">
                                 <Image
                                   src={plan.image}
                                   alt={plan.name}
                                   fill
-                                  className="object-cover transition-transform group-hover:scale-105"
+                                  className="object-cover transition-transform group-hover:scale-110"
                                 />
                               </div>
                               <div className="p-4">
                                 <div className="font-semibold text-foreground">{plan.name}</div>
-                                <div className="flex items-center justify-between mt-2 text-sm text-muted-foreground">
-                                  <span className="flex items-center gap-1">
+                                <div className="flex items-center justify-between mt-3 text-sm">
+                                  <span className="flex items-center gap-2 text-violet-600 font-medium">
                                     <Ruler className="h-4 w-4" />
                                     {plan.type}
                                   </span>
-                                  <span>{plan.area}</span>
+                                  <span className="bg-violet-100 text-violet-700 px-3 py-1 rounded-full text-xs font-semibold">{plan.area}</span>
                                 </div>
                               </div>
                             </div>
@@ -684,24 +763,27 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.7 }}
-                      className="overflow-hidden rounded-2xl border border-border bg-card"
+                      className={`overflow-hidden rounded-2xl border-2 border-violet-200 bg-gradient-to-br ${typeStyle.bgGradient}`}
                     >
-                      <div className="border-b border-border bg-muted/30 p-4 sm:p-6">
-                        <h2 className="text-xl font-semibold sm:text-2xl">Private Villa Amenities</h2>
+                      <div className="border-b border-violet-200 bg-gradient-to-r from-violet-100 to-purple-100 p-4 sm:p-6">
+                        <h2 className="text-xl font-semibold text-violet-900 sm:text-2xl flex items-center gap-2">
+                          <Gem className="h-6 w-6" />
+                          Private Villa Amenities
+                        </h2>
                       </div>
                       <div className="p-4 sm:p-6">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                           {project.amenities.map((amenity) => (
                             <div
                               key={amenity.id}
-                              className="flex items-start gap-4 p-4 rounded-xl border border-border hover:border-primary/30 transition-colors"
+                              className="flex items-start gap-4 p-4 rounded-xl border-2 border-violet-100 bg-white hover:border-violet-300 transition-colors hover:shadow-md"
                             >
-                              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-accent text-primary">
+                              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-violet-100 to-purple-100 text-violet-700 border border-violet-200">
                                 {amenity.icon && <span className="text-2xl">{amenity.icon}</span>}
                               </div>
                               <div>
-                                <div className="font-semibold text-foreground">{amenity.name}</div>
-                                <div className="text-sm text-muted-foreground">{amenity.description}</div>
+                                <div className="font-semibold text-violet-900">{amenity.name}</div>
+                                <div className="text-sm text-gray-600">{amenity.description}</div>
                               </div>
                             </div>
                           ))}
@@ -715,24 +797,30 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.75 }}
-                    className="overflow-hidden rounded-2xl border border-border bg-card"
+                    className={`overflow-hidden rounded-2xl border-2 border-violet-200 bg-gradient-to-br ${typeStyle.bgGradient}`}
                   >
-                    <div className="border-b border-border bg-muted/30 p-4 sm:p-6">
-                      <h2 className="text-xl font-semibold sm:text-2xl">Land & Built-up Area</h2>
+                    <div className="border-b border-violet-200 bg-gradient-to-r from-violet-100 to-purple-100 p-4 sm:p-6">
+                      <h2 className="text-xl font-semibold text-violet-900 sm:text-2xl flex items-center gap-2">
+                        <Maximize className="h-6 w-6" />
+                        Land & Built-up Area
+                      </h2>
                     </div>
                     <div className="p-4 sm:p-6">
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div className="bg-muted/30 rounded-xl p-6 text-center">
-                          <div className="text-3xl font-bold text-primary">{project.area.min}</div>
-                          <div className="text-muted-foreground">Min. Built-up ({project.area.unit})</div>
+                        <div className="bg-white rounded-xl p-6 text-center border border-violet-100 hover:border-violet-300 transition-colors">
+                          <div className="text-3xl font-bold text-violet-600">{project.area.min}</div>
+                          <div className="text-sm text-gray-600 mt-2">Min. Built-up Area</div>
+                          <div className="text-xs text-gray-500 mt-1">({project.area.unit})</div>
                         </div>
-                        <div className="bg-muted/30 rounded-xl p-6 text-center">
-                          <div className="text-3xl font-bold text-primary">{project.area.max}</div>
-                          <div className="text-muted-foreground">Max. Built-up ({project.area.unit})</div>
+                        <div className="bg-white rounded-xl p-6 text-center border border-violet-100 hover:border-violet-300 transition-colors">
+                          <div className="text-3xl font-bold text-violet-600">{project.area.max}</div>
+                          <div className="text-sm text-gray-600 mt-2">Max. Built-up Area</div>
+                          <div className="text-xs text-gray-500 mt-1">({project.area.unit})</div>
                         </div>
-                        <div className="bg-muted/30 rounded-xl p-6 text-center">
-                          <div className="text-3xl font-bold text-primary">{project.projectSize}</div>
-                          <div className="text-muted-foreground">Total Project Area</div>
+                        <div className="bg-gradient-to-br from-violet-100 to-purple-100 rounded-xl p-6 text-center border-2 border-violet-300">
+                          <div className="text-3xl font-bold text-violet-700">{project.projectSize}</div>
+                          <div className="text-sm text-violet-900 font-medium mt-2">Total Project</div>
+                          <div className="text-xs text-violet-700 mt-1">Land Area</div>
                         </div>
                       </div>
                     </div>
@@ -911,29 +999,61 @@ export default function ProjectPage({ project }: ProjectPageProps) {
 
               
 
-              {/* Approvals */}
-              {/* {project.approvals && project.approvals.length > 0 && (
+              {/* Approvals & Certifications */}
+              {project.reraNumber && (
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 1.0 }}
-                  className="bg-card rounded-2xl overflow-hidden border border-border"
+                  transition={{ delay: 0.95 }}
+                  className="overflow-hidden rounded-2xl border-2 border-amber-200 bg-gradient-to-br from-amber-50 to-yellow-50"
                 >
-                  <div className="p-6 border-b border-border bg-muted/30">
-                    <h2 className="text-2xl font-semibold">Approvals & Certifications</h2>
+                  <div className="border-b border-amber-200 bg-gradient-to-r from-amber-100 to-yellow-100 p-4 sm:p-6">
+                    <h2 className="text-xl font-semibold text-amber-900 sm:text-2xl flex items-center gap-2">
+                      <Award className="h-6 w-6" />
+                      Approvals & Certifications
+                    </h2>
                   </div>
-                  <div className="p-6">
-                    <div className="flex flex-wrap gap-3">
-                      {project.approvals.map((approval, index) => (
-                        <Badge key={index} variant="outline" className="px-4 py-2 text-sm">
-                          <FileCheck className="h-4 w-4 mr-2" />
-                          {approval}
-                        </Badge>
-                      ))}
+                  <div className="p-4 sm:p-6">
+                    <div className="space-y-3">
+                      {project.reraNumber && (
+                        <div className="flex items-start gap-4 p-4 rounded-xl border-2 border-amber-100 bg-white hover:border-amber-300 transition-colors">
+                          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-amber-100 to-yellow-100 text-amber-700">
+                            <FileCheck className="h-6 w-6" />
+                          </div>
+                          <div>
+                            <div className="font-semibold text-amber-900">RERA Registration</div>
+                            <div className="text-sm text-gray-700 font-mono mt-1">{project.reraNumber}</div>
+                          </div>
+                        </div>
+                      )}
+                      {project.hmdaApproved && (
+                        <div className="flex items-start gap-4 p-4 rounded-xl border-2 border-amber-100 bg-white hover:border-amber-300 transition-colors">
+                          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-amber-100 to-yellow-100 text-amber-700">
+                            <Award className="h-6 w-6" />
+                          </div>
+                          <div>
+                            <div className="font-semibold text-amber-900">HMDA Approved</div>
+                            <div className="text-sm text-gray-600">Project meets all HMDA guidelines</div>
+                          </div>
+                        </div>
+                      )}
+                      {project.approvals && project.approvals.length > 0 && (
+                        <div className="pt-2 mt-2 border-t border-amber-200">
+                          <div className="text-sm font-semibold text-amber-900 mb-3">Additional Certifications</div>
+                          <div className="flex flex-wrap gap-2">
+                            {project.approvals.map((approval, index) => (
+                              <Badge key={index} className="bg-amber-100 text-amber-700 border border-amber-300 hover:bg-amber-200">
+                                <FileCheck className="h-3 w-3 mr-1" />
+                                {approval}
+                              </Badge>
+                            ))}
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </motion.div>
-              )} */}
+              )}
             </div>
 
             {/* Right Column - Contact Form */}
