@@ -131,7 +131,13 @@ export default function ProjectPage({ project }: ProjectPageProps) {
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
-      <section className="relative h-screen min-h-[100svh]">
+      <section
+        className={`relative overflow-hidden ${
+          isWideHeroProject
+            ? 'aspect-[21/9] min-h-[240px] sm:min-h-[320px] lg:min-h-[420px]'
+            : 'h-screen min-h-[100svh]'
+        }`}
+      >
         <Image
           src={project.coverImage}
           alt={`${project.name} – ${project.tagline} in ${project.location}`}
@@ -140,7 +146,6 @@ export default function ProjectPage({ project }: ProjectPageProps) {
           className="object-cover"
           priority
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20" />
         
         {/* Navigation Bar */}
         {/* <div className="absolute top-0 left-0 right-0 z-10 p-3 sm:p-4">

@@ -16,10 +16,11 @@ const page = () => {
     <>
       <HeroSection />
       <TrustStrip />
-      <WhyInvestSection />
+       <FeaturedProjects />
+     
       <PropertyCategories />
       <Suspense fallback={null}>
-        <FeaturedProjects />
+        <WhyInvestSection />
       </Suspense>
       <HowItWorks />
       <StatsSection/>

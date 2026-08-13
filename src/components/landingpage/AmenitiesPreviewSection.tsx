@@ -92,17 +92,14 @@ export default function AmenitiesPreviewSection() {
             <span className="block text-brand-gold">Presented With a Grander Sense of Arrival</span>
           </h2>
 
-          {/* <p className="mt-4 text-base leading-7 text-slate-600 md:text-lg">
-            Inspired by premium builder websites, this section now highlights amenities like destination experiences
-            instead of a simple card grid.
-          </p> */}
+     
         </motion.div>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.15 }}
+          transition={{ duration: 0.65, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
           className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4"
         >
           {amenities.map((amenity, index) => (
@@ -111,9 +108,9 @@ export default function AmenitiesPreviewSection() {
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: index * 0.05 }}
-              whileHover={{ y: -4 }}
-              className="group overflow-hidden rounded-[1.35rem] border border-primary/80 bg-brand-primary-dark shadow-lg transition-colors hover:border-brand-gold/50"
+              transition={{ duration: 0.55, delay: index * 0.06, ease: [0.22, 1, 0.36, 1] }}
+              whileHover={{ y: -8, scale: 1.015 }}
+              className="group overflow-hidden rounded-[1.35rem] border border-primary/80 bg-brand-primary-dark shadow-lg transition-[border-color,box-shadow] duration-500 hover:border-brand-gold/50 hover:shadow-[0_24px_60px_rgba(15,23,42,0.24)]"
             >
               <div className="relative h-56 overflow-hidden">
                 <Image
@@ -121,20 +118,21 @@ export default function AmenitiesPreviewSection() {
                   alt={amenity.title}
                   fill
                   sizes="(min-width: 1280px) 25vw, (min-width: 640px) 50vw, 100vw"
-                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  className="object-cover transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-110"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/65 via-slate-900/20 to-transparent" />
-                <div className="absolute left-4 top-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-black/30 text-brand-gold backdrop-blur-sm">
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-900/25 to-transparent transition-opacity duration-500 group-hover:opacity-90" />
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(201,162,39,0.24),transparent_42%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                <div className="absolute left-4 top-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-black/30 text-brand-gold backdrop-blur-sm transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-y-1 group-hover:scale-105">
                   <amenity.icon className="h-5 w-5" />
                 </div>
               </div>
 
-              <div className="p-5">
+              <div className="p-5 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-1">
                 <div>
-                  <p className="text-sm font-semibold text-white transition-colors group-hover:text-brand-gold">
+                  <p className="text-sm font-semibold text-white transition-colors duration-300 group-hover:text-brand-gold">
                     {amenity.title}
                   </p>
-                  <p className="mt-2 text-sm leading-6 text-slate-300">
+                  <p className="mt-2 text-sm leading-6 text-slate-300 transition-colors duration-300 group-hover:text-slate-200">
                     {amenity.description}
                   </p>
                 </div>
