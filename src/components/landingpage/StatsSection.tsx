@@ -1,8 +1,8 @@
 'use client';
 
 import { motion, useInView } from 'framer-motion';
-import { useEffect, useRef, useState } from 'react';
-import { Calendar, MoveRight, Ruler, Sparkles, Users } from 'lucide-react';
+import { useRef, useEffect, useState } from 'react';
+import { Calendar, Users, Ruler } from 'lucide-react';
 
 const stats = [
   {
@@ -10,64 +10,74 @@ const stats = [
     value: '8',
     suffix: '+',
     label: 'Years of Excellence',
-    description: 'A legacy shaped by consistency, trust, and a steady commitment to quality-led development.',
-    kicker: 'Established Journey',
+    description: 'Delivering quality since 2004',
   },
   {
     icon: Users,
     value: '1000',
     suffix: '+',
     label: 'Happy Customers',
-    description: 'Families and investors who chose PRIDEWALLS for dependable guidance and thoughtfully planned communities.',
-    kicker: 'Customer Confidence',
+    description: 'Families living their dreams',
   },
   {
     icon: Ruler,
     value: '1',
     suffix: 'M+',
     label: 'Sq.ft Developed',
-    description: 'Premium living environments created with modern layouts, practical planning, and long-term livability.',
-    kicker: 'Built Footprint',
+    description: 'Premium construction area',
   },
 ];
 
-function AnimatedCounter({ value, suffix = '' }: { value: string; suffix?: string }) {
-  const numericValue = parseInt(value.replace(/[^0-9]/g, ''));
-  const [count, setCount] = useState(numericValue);
-  const [done, setDone] = useState(false);
+function AnimatedCounter({
+  value,
+  suffix = '',
+}: {
+  value: string;
+  suffix?: string;
+}) {
+  const [count, setCount] = useState(0);
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: '-15% 0px' });
-  const hasAnimated = useRef(false);
+
+  const isInView = useInView(ref, {
+    once: true,
+    margin: '-80px',
+  });
+
+  const numericValue = parseInt(value.replace(/[^0-9]/g, ''));
 
   useEffect(() => {
-    if (isInView && !hasAnimated.current) {
-      hasAnimated.current = true;
-      const duration = 1800;
-      const steps = 60;
-      const increment = numericValue / steps;
-      let current = 0;
+    if (!isInView) return;
 
-      const timer = setInterval(() => {
-        current += increment;
-        if (current >= numericValue) {
-          setCount(numericValue);
-          setDone(true);
-          clearInterval(timer);
-        } else {
-          setCount(Math.floor(current));
-        }
-      }, duration / steps);
+    const duration = 1600;
+    const startTime = performance.now();
 
-      return () => clearInterval(timer);
-    }
+    let animationFrame: number;
+
+    const animate = (currentTime: number) => {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+
+      // Smooth ease-out
+      const easedProgress = 1 - Math.pow(1 - progress, 3);
+
+      setCount(Math.floor(numericValue * easedProgress));
+
+      if (progress < 1) {
+        animationFrame = requestAnimationFrame(animate);
+      } else {
+        setCount(numericValue);
+      }
+    };
+
+    animationFrame = requestAnimationFrame(animate);
+
+    return () => cancelAnimationFrame(animationFrame);
   }, [isInView, numericValue]);
 
   return (
     <div
       ref={ref}
-      className={`text-5xl font-semibold leading-none tracking-tight text-white transition-transform duration-300 md:text-6xl ${
-        done ? 'scale-[1.03]' : ''
-      }`}
+      className="text-4xl md:text-5xl font-bold text-white tracking-tight"
     >
       {count}
       {suffix}
@@ -77,122 +87,147 @@ function AnimatedCounter({ value, suffix = '' }: { value: string; suffix?: strin
 
 export default function StatsSection() {
   return (
-    <section className="relative overflow-hidden bg-[#07152f] py-20 text-white lg:py-24">
+    <section className="relative overflow-hidden py-30 md:py-32">
+
+      {/* Background */}
       <div className="absolute inset-0">
         <motion.div
-          initial={{ scale: 1.08, opacity: 0.28 }}
-          whileInView={{ scale: 1, opacity: 0.5 }}
+          initial={{ scale: 1.03 }}
+          whileInView={{ scale: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 1.3, ease: 'easeOut' }}
+          transition={{
+            duration: 8,
+            ease: [0.22, 1, 0.36, 1],
+          }}
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: "url('/master-plan.png')" }}
+          style={{
+            backgroundImage:
+              'url(https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1920&h=600&fit=crop)',
+          }}
         />
-        <div className="absolute inset-0 bg-[linear-gradient(125deg,rgba(7,21,47,0.98),rgba(13,38,89,0.9)_42%,rgba(7,21,47,0.96))]" />
-        <div className="absolute left-[-6rem] top-10 h-72 w-72 rounded-full bg-brand-gold/15 blur-3xl" />
-        <div className="absolute right-[-7rem] top-1/3 h-80 w-80 rounded-full bg-cyan-400/10 blur-3xl" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_15%,rgba(255,255,255,0.12),transparent_20%),radial-gradient(circle_at_82%_78%,rgba(201,162,39,0.16),transparent_18%)]" />
+
+        {/* Smooth cinematic overlay */}
+        <div className="absolute inset-0 bg-gradient-to-r from-primary/95 via-primary/90 to-primary/95" />
+
+        {/* Subtle glow */}
+        <div className="absolute inset-0 bg-primary/10" />
       </div>
 
-      <div className="section-shell relative z-10">
+      <div className="container relative mx-auto px-4">
+
+        {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 22 }}
+          initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.65 }}
-          className="mx-auto mb-14 max-w-3xl text-center"
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{
+            duration: 0.7,
+            ease: [0.22, 1, 0.36, 1],
+          }}
+          className="mb-9 text-center"
         >
-          <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.24em] text-brand-gold backdrop-blur-sm">
-            <Sparkles className="h-3.5 w-3.5" />
+          <span className="mb-3 inline-block rounded-full border border-white/15 bg-white/10 px-4 py-1 text-xs font-medium text-white backdrop-blur">
             Our Achievements
           </span>
 
-          <h2 className="mt-5 text-4xl font-semibold leading-tight md:text-5xl lg:text-6xl">
+          <h2 className="text-3xl font-bold text-white md:text-4xl lg:text-5xl">
             Our Legacy of Excellence
           </h2>
 
-          <p className="mt-5 text-base leading-8 text-slate-200 md:text-lg">
-            Reimagined as a premium showcase section with a stronger sense of theatre, layered motion, and a more
-            intentional luxury real-estate presentation.
+          <div className="mx-auto mt-3 h-px w-20 bg-gradient-to-r from-transparent via-brand-gold to-transparent" />
+
+          <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-white/65 md:text-base">
+            Two decades of trust, quality, and customer satisfaction.
+            Building dreams, creating legacies.
           </p>
         </motion.div>
 
-        <div className="grid gap-6 lg:grid-cols-12">
-          <motion.article
-            initial={{ opacity: 0, x: -26 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.75 }}
-            className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-[linear-gradient(145deg,rgba(255,255,255,0.14),rgba(255,255,255,0.05))] p-8 backdrop-blur-md lg:col-span-5 lg:min-h-[31rem]"
-          >
-            <div className="absolute inset-0 bg-[linear-gradient(150deg,rgba(201,162,39,0.12),transparent_34%,rgba(255,255,255,0.08))]" />
+        {/* Stats */}
+        <div className="mx-auto grid max-w-5xl grid-cols-1 gap-4 sm:grid-cols-3 lg:gap-5">
+          {stats.map((stat, index) => (
+            <motion.div
+              key={stat.label}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-60px' }}
+              transition={{
+                delay: index * 0.1,
+                duration: 0.6,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              whileHover={{
+                y: -4,
+                transition: { duration: 0.25 },
+              }}
+              className="group"
+            >
+              <div className="relative overflow-hidden rounded-xl border border-white/10 bg-white/[0.06] px-5 py-5 text-center backdrop-blur-md transition-all duration-500 hover:border-white/20 hover:bg-white/[0.10]">
 
-            <div className="relative flex h-full flex-col justify-between">
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-brand-gold">Signature Milestone</p>
-                <h3 className="mt-4 max-w-sm text-3xl font-semibold leading-tight md:text-4xl">
-                  Excellence measured in trust, scale, and lived experience
-                </h3>
-                <p className="mt-5 max-w-md text-sm leading-7 text-slate-300 md:text-base">
-                  Instead of simple stat boxes, this version gives the section a more curated rhythm with a dominant
-                  highlight panel and layered milestone cards.
-                </p>
+                {/* Subtle sheen */}
+                <motion.div
+                  initial={{ x: '-120%' }}
+                  whileHover={{ x: '120%' }}
+                  transition={{
+                    duration: 0.8,
+                    ease: 'easeInOut',
+                  }}
+                  className="pointer-events-none absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent"
+                />
+
+                {/* Icon */}
+                <motion.div
+                  whileHover={{
+                    scale: 1.05,
+                    rotate: 2,
+                  }}
+                  transition={{
+                    duration: 0.3,
+                    ease: 'easeOut',
+                  }}
+                  className="relative mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl border border-brand-gold/30 bg-white text-brand-gold shadow-card"
+                >
+                  <stat.icon className="h-6 w-6" />
+                </motion.div>
+
+                {/* Number */}
+                <AnimatedCounter
+                  value={stat.value}
+                  suffix={stat.suffix}
+                />
+
+                {/* Label */}
+                <div className="mt-1 text-base font-semibold text-white">
+                  {stat.label}
+                </div>
+
+                {/* Description */}
+                <div className="mt-1 text-xs text-white/50">
+                  {stat.description}
+                </div>
               </div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 18 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                className="mt-10 rounded-[1.8rem] border border-white/10 bg-[#c9a227] p-6 text-primary shadow-2xl"
-              >
-                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-primary/70">Brand Promise</p>
-                <div className="mt-4 flex items-end justify-between gap-4">
-                  <div>
-                    <p className="text-5xl font-semibold leading-none md:text-6xl">8+</p>
-                    <p className="mt-2 text-sm font-medium text-primary/80">Years of vision-driven development</p>
-                  </div>
-                  <MoveRight className="h-8 w-8 shrink-0 text-primary/75" />
-                </div>
-              </motion.div>
-            </div>
-          </motion.article>
-
-          <div className="grid gap-5 lg:col-span-7">
-            {stats.map((stat, index) => (
-              <motion.article
-                key={stat.label}
-                initial={{ opacity: 0, x: 26, y: 16 }}
-                whileInView={{ opacity: 1, x: 0, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.55, delay: 0.12 + index * 0.12 }}
-                whileHover={{ y: -5 }}
-                className="group relative overflow-hidden rounded-[1.9rem] border border-white/10 bg-[linear-gradient(135deg,rgba(255,255,255,0.12),rgba(255,255,255,0.04))] p-6 backdrop-blur-md md:p-7"
-              >
-                <div className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
-                  <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(201,162,39,0.12),transparent_40%,rgba(255,255,255,0.08))]" />
-                </div>
-
-                <div className="relative grid gap-6 md:grid-cols-[auto_1fr_auto] md:items-center">
-                  <div className="flex h-16 w-16 items-center justify-center rounded-2xl border border-brand-gold/35 bg-brand-gold/10 text-brand-gold shadow-lg">
-                    <stat.icon className="h-7 w-7" />
-                  </div>
-
-                  <div>
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-white/45">{stat.kicker}</p>
-                    <h3 className="mt-2 text-2xl font-semibold text-white">{stat.label}</h3>
-                    <p className="mt-3 max-w-xl text-sm leading-7 text-slate-300">{stat.description}</p>
-                  </div>
-
-                  <div className="md:text-right">
-                    <AnimatedCounter value={stat.value} suffix={stat.suffix} />
-                  </div>
-                </div>
-              </motion.article>
-            ))}
-          </div>
+            </motion.div>
+          ))}
         </div>
+
+        {/* Trust chip */}
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{
+            delay: 0.4,
+            duration: 0.6,
+            ease: 'easeOut',
+          }}
+          className="mt-8 flex justify-center"
+        >
+          <div className="rounded-full border border-white/15 bg-white/10 px-4 py-1 text-xs text-white/65 backdrop-blur">
+            Trusted by thousands of families across India
+          </div>
+        </motion.div>
       </div>
 
+      {/* Bottom accent */}
       <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-brand-gold/50 to-transparent" />
     </section>
   );

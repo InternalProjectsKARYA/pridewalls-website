@@ -448,18 +448,59 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                 </motion.div>
               )}
 
-              {/* Specifications */}
-              {/* {project.specifications && project.specifications.length > 0 && (
+              {/* Project Gallery */}
+              {project.gallery && project.gallery.length > 0 && (
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.7 }}
-                  className="bg-card rounded-2xl overflow-hidden border border-border"
+                  transition={{ delay: 0.55 }}
+                  className="overflow-hidden rounded-2xl border border-border bg-card"
                 >
-                  <div className="p-6 border-b border-border bg-muted/30">
-                    <h2 className="text-2xl font-semibold">Specifications</h2>
+                  <div className="border-b border-border bg-muted/30 p-4 sm:p-6">
+                    <h2 className="text-xl font-semibold sm:text-2xl">Project Gallery</h2>
                   </div>
-                  <div className="p-6 space-y-4">
+                  <div className="p-4 sm:p-6">
+                    <div className="grid grid-cols-1 gap-4 min-[480px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                      {project.gallery.map((image, index) => (
+                        <button
+                          key={index}
+                          type="button"
+                          className="group relative aspect-video overflow-hidden rounded-xl text-left focus-visible:outline-offset-4"
+                          onClick={() =>
+                            setLightboxImage({ src: image, alt: `${project.name} gallery ${index + 1}` })
+                          }
+                          aria-label={`View ${project.name} gallery image ${index + 1}`}
+                        >
+                          <Image
+                            src={image}
+                            alt={`${project.name} gallery ${index + 1}`}
+                            fill
+                            sizes="(min-width: 1024px) 25vw, (min-width: 480px) 50vw, 100vw"
+                            className="object-cover transition-transform group-hover:scale-110"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+                          <span className="absolute right-3 top-3 inline-flex size-8 items-center justify-center rounded-full bg-black/55 text-white opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
+                            <ZoomIn className="size-4" />
+                          </span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+
+              {/* Specifications */}
+              {project.specifications && project.specifications.length > 0 && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.6 }}
+                  className="overflow-hidden rounded-2xl border border-border bg-card"
+                >
+                  <div className="border-b border-border bg-muted/30 p-4 sm:p-6">
+                    <h2 className="text-xl font-semibold sm:text-2xl">Specifications</h2>
+                  </div>
+                  <div className="p-4 sm:p-6 space-y-4">
                     {project.specifications.map((spec) => (
                       <div key={spec.id} className="bg-muted/30 rounded-xl p-5">
                         <h4 className="font-semibold text-foreground mb-4 flex items-center gap-2">
@@ -478,36 +519,226 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                     ))}
                   </div>
                 </motion.div>
-              )} */}
+              )}
 
-              {/* Project Gallery */}
-              {/* {project.gallery && project.gallery.length > 0 && (
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.8 }}
-                  className="bg-card rounded-2xl overflow-hidden border border-border"
-                >
-                  <div className="p-6 border-b border-border bg-muted/30">
-                    <h2 className="text-2xl font-semibold">Project Gallery</h2>
-                  </div>
-                  <div className="p-6">
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                      {project.gallery.map((image, index) => (
-                        <div key={index} className="relative aspect-video rounded-xl overflow-hidden group">
-                          <Image
-                            src={image}
-                            alt={`${project.name} ${index + 1}`}
-                            fill
-                            className="object-cover transition-transform group-hover:scale-110"
-                          />
-                          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors" />
+              {/* Type-Specific Sections */}
+              {project.type === 'apartments' && (
+                <>
+                  {/* Floor Plans / Unit Configurations */}
+                  {project.floorPlans && project.floorPlans.length > 0 && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.65 }}
+                      className="overflow-hidden rounded-2xl border border-border bg-card"
+                    >
+                      <div className="border-b border-border bg-muted/30 p-4 sm:p-6">
+                        <h2 className="text-xl font-semibold sm:text-2xl">Floor Plans & Unit Configurations</h2>
+                      </div>
+                      <div className="p-4 sm:p-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                          {project.floorPlans.map((plan) => (
+                            <div key={plan.id} className="bg-muted/30 rounded-xl overflow-hidden group">
+                              <div className="relative aspect-[4/3] overflow-hidden">
+                                <Image
+                                  src={plan.image}
+                                  alt={plan.name}
+                                  fill
+                                  className="object-cover transition-transform group-hover:scale-105"
+                                />
+                              </div>
+                              <div className="p-4">
+                                <div className="font-semibold text-foreground">{plan.name}</div>
+                                <div className="flex items-center justify-between mt-2 text-sm text-muted-foreground">
+                                  <span className="flex items-center gap-1">
+                                    <Ruler className="h-4 w-4" />
+                                    {plan.type}
+                                  </span>
+                                  <span>{plan.area}</span>
+                                </div>
+                              </div>
+                            </div>
+                          ))}
                         </div>
-                      ))}
+                      </div>
+                    </motion.div>
+                  )}
+                </>
+              )}
+
+              {project.type === 'plots' && (
+                <>
+                  {/* Plot Sizes & Layout Zones */}
+                  {project.siteLayout?.zones && project.siteLayout.zones.length > 0 && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.65 }}
+                      className="overflow-hidden rounded-2xl border border-border bg-card"
+                    >
+                      <div className="border-b border-border bg-muted/30 p-4 sm:p-6">
+                        <h2 className="text-xl font-semibold sm:text-2xl">Plot Layout & Zones</h2>
+                      </div>
+                      <div className="p-4 sm:p-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          {project.siteLayout.zones.map((zone) => (
+                            <div
+                              key={zone.name}
+                              className="flex items-start gap-4 p-4 rounded-xl border border-border hover:border-primary/30 transition-colors"
+                            >
+                              <div
+                                className="w-12 h-12 rounded-xl shrink-0 flex items-center justify-center"
+                                style={{ backgroundColor: zone.color + '20' }}
+                              >
+                                <div
+                                  className="w-6 h-6 rounded"
+                                  style={{ backgroundColor: zone.color }}
+                                />
+                              </div>
+                              <div>
+                                <div className="font-medium text-foreground">{zone.name}</div>
+                                <div className="text-sm text-muted-foreground">{zone.description}</div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+
+                  {/* Plot Size Range */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.7 }}
+                    className="overflow-hidden rounded-2xl border border-border bg-card"
+                  >
+                    <div className="border-b border-border bg-muted/30 p-4 sm:p-6">
+                      <h2 className="text-xl font-semibold sm:text-2xl">Available Plot Sizes</h2>
                     </div>
-                  </div>
-                </motion.div>
-              )} */}
+                    <div className="p-4 sm:p-6">
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div className="bg-muted/30 rounded-xl p-6 text-center">
+                          <div className="text-3xl font-bold text-primary">{project.area.min}</div>
+                          <div className="text-muted-foreground">Minimum Size ({project.area.unit})</div>
+                        </div>
+                        <div className="bg-muted/30 rounded-xl p-6 text-center">
+                          <div className="text-3xl font-bold text-primary">{project.area.max}</div>
+                          <div className="text-muted-foreground">Maximum Size ({project.area.unit})</div>
+                        </div>
+                        <div className="bg-muted/30 rounded-xl p-6 text-center">
+                          <div className="text-3xl font-bold text-primary">{project.totalUnits}</div>
+                          <div className="text-muted-foreground">Total Plots Available</div>
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                </>
+              )}
+
+              {project.type === 'villas' && (
+                <>
+                  {/* Villa Configurations */}
+                  {project.floorPlans && project.floorPlans.length > 0 && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.65 }}
+                      className="overflow-hidden rounded-2xl border border-border bg-card"
+                    >
+                      <div className="border-b border-border bg-muted/30 p-4 sm:p-6">
+                        <h2 className="text-xl font-semibold sm:text-2xl">Villa Configurations</h2>
+                      </div>
+                      <div className="p-4 sm:p-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                          {project.floorPlans.map((plan) => (
+                            <div key={plan.id} className="bg-muted/30 rounded-xl overflow-hidden group">
+                              <div className="relative aspect-[4/3] overflow-hidden">
+                                <Image
+                                  src={plan.image}
+                                  alt={plan.name}
+                                  fill
+                                  className="object-cover transition-transform group-hover:scale-105"
+                                />
+                              </div>
+                              <div className="p-4">
+                                <div className="font-semibold text-foreground">{plan.name}</div>
+                                <div className="flex items-center justify-between mt-2 text-sm text-muted-foreground">
+                                  <span className="flex items-center gap-1">
+                                    <Ruler className="h-4 w-4" />
+                                    {plan.type}
+                                  </span>
+                                  <span>{plan.area}</span>
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+
+                  {/* Villa Highlights - Private Amenities */}
+                  {project.amenities && project.amenities.length > 0 && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.7 }}
+                      className="overflow-hidden rounded-2xl border border-border bg-card"
+                    >
+                      <div className="border-b border-border bg-muted/30 p-4 sm:p-6">
+                        <h2 className="text-xl font-semibold sm:text-2xl">Private Villa Amenities</h2>
+                      </div>
+                      <div className="p-4 sm:p-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          {project.amenities.map((amenity) => (
+                            <div
+                              key={amenity.id}
+                              className="flex items-start gap-4 p-4 rounded-xl border border-border hover:border-primary/30 transition-colors"
+                            >
+                              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-accent text-primary">
+                                {amenity.icon && <span className="text-2xl">{amenity.icon}</span>}
+                              </div>
+                              <div>
+                                <div className="font-semibold text-foreground">{amenity.name}</div>
+                                <div className="text-sm text-muted-foreground">{amenity.description}</div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+
+                  {/* Land Area */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.75 }}
+                    className="overflow-hidden rounded-2xl border border-border bg-card"
+                  >
+                    <div className="border-b border-border bg-muted/30 p-4 sm:p-6">
+                      <h2 className="text-xl font-semibold sm:text-2xl">Land & Built-up Area</h2>
+                    </div>
+                    <div className="p-4 sm:p-6">
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div className="bg-muted/30 rounded-xl p-6 text-center">
+                          <div className="text-3xl font-bold text-primary">{project.area.min}</div>
+                          <div className="text-muted-foreground">Min. Built-up ({project.area.unit})</div>
+                        </div>
+                        <div className="bg-muted/30 rounded-xl p-6 text-center">
+                          <div className="text-3xl font-bold text-primary">{project.area.max}</div>
+                          <div className="text-muted-foreground">Max. Built-up ({project.area.unit})</div>
+                        </div>
+                        <div className="bg-muted/30 rounded-xl p-6 text-center">
+                          <div className="text-3xl font-bold text-primary">{project.projectSize}</div>
+                          <div className="text-muted-foreground">Total Project Area</div>
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                </>
+              )}
 
               {/* Master Plan / Site Layout */}
               {siteLayout && (

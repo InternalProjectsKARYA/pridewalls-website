@@ -92,10 +92,10 @@ export default function AmenitiesPreviewSection() {
             <span className="block text-brand-gold">Presented With a Grander Sense of Arrival</span>
           </h2>
 
-          <p className="mt-4 text-base leading-7 text-slate-600 md:text-lg">
+          {/* <p className="mt-4 text-base leading-7 text-slate-600 md:text-lg">
             Inspired by premium builder websites, this section now highlights amenities like destination experiences
             instead of a simple card grid.
-          </p>
+          </p> */}
         </motion.div>
 
         <motion.div
