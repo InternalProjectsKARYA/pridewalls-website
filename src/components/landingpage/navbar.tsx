@@ -29,6 +29,13 @@ export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+  const handleLogoClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    if (pathname === '/') {
+      event.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
     handleScroll();
@@ -46,19 +53,17 @@ export default function Navbar() {
 
   const topBarClassName = 'bg-primary text-white';
 
-  const linkTextClass = isScrolled
-    ? 'text-foreground hover:bg-white hover:text-primary'
-    : 'text-white hover:text-white/80';
+  const linkTextClass =
+    'relative text-primary font-semibold hover:text-primary after:absolute after:left-4 after:right-4 after:bottom-1 after:h-0.5 after:rounded-full after:bg-brand-gold after:opacity-0 after:transition-all after:duration-300 after:content-[\'\'] hover:after:opacity-100 hover:after:left-3 hover:after:right-3';
 
   const navContainerClass = isScrolled
     ? 'hidden items-center rounded-full border border-border/80 bg-muted/45 p-1 shadow-inner lg:flex'
     : 'hidden items-center gap-3 lg:flex';
 
-  const logoTextClass = isScrolled ? 'text-primary' : 'text-white';
-  const logoTaglineClass = isScrolled ? 'text-muted-foreground' : 'text-white/70';
-  const ctaButtonClass = isScrolled
-    ? 'h-11 rounded-xl px-5 font-semibold shadow-[0_10px_24px_rgba(13,38,89,0.18)]'
-    : 'h-11 rounded-xl px-5 font-semibold border border-white/40 bg-white/10 text-white shadow-none hover:bg-white/20';
+  const logoTextClass = 'text-primary';
+  const logoTaglineClass = isScrolled ? 'text-muted-foreground' : 'text-primary/70';
+  const ctaButtonClass =
+    'h-11 rounded-xl bg-primary px-5 font-bold text-white shadow-[0_10px_24px_rgba(13,38,89,0.18)] transition-colors hover:bg-brand-primary-dark';
 
   return (
     <>
@@ -88,7 +93,7 @@ export default function Navbar() {
         <nav className="section-shell flex h-18 items-center justify-between lg:h-20">
 
           {/* LOGO */}
-          <Link href="/" className="group flex items-center gap-3" aria-label="PRIDEWALLS home">
+          <Link href="/" onClick={handleLogoClick} className="group flex items-center gap-3" aria-label="PRIDEWALLS home">
             <span className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-border/80 bg-white shadow-[0_8px_22px_rgba(13,38,89,0.10)] transition-transform duration-300 group-hover:-translate-y-0.5 lg:h-16 lg:w-16">
               <Image
                 src="/pridewalls-logo-mark.png"

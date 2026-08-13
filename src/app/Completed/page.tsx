@@ -75,7 +75,7 @@ export default function CompletedProjectsPage() {
 
       {/* EMPTY STATE */}
       {completedProjects.length === 0 && (
-        <div className="text-center py-20 text-muted-foreground">
+        <div className="text-center py-10 text-muted-foreground">
           No completed projects found.
         </div>
       )}

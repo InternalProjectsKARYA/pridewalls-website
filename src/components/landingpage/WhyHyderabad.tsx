@@ -22,7 +22,7 @@ const stats = [
 export default function WhyHyderabad() {
   return (
     <section
-      className="bg-[#0D2558] py-20 md:py-24"
+      className="bg-[#0D2558] py-10 md:py-24"
       aria-label="Why Hyderabad"
     >
       {/* Decorative top line */}

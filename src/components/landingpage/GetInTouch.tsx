@@ -102,7 +102,7 @@ export default function ContactSection() {
   return (
     <section
       id="contact"
-      className="w-full py-20 bg-gradient-to-b from-muted/40 to-white"
+      className="w-full py-10 bg-gradient-to-b from-muted/40 to-white"
     >
       <div className="max-w-7xl mx-auto px-6">
         <div className="mb-12">

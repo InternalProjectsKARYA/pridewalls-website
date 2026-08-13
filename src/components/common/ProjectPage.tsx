@@ -361,11 +361,11 @@ export default function ProjectPage({ project }: ProjectPageProps) {
       </section>
 
       {/* Main Content */}
-      <section className="py-8 sm:py-12">
+      <section className="py-6 sm:py-8">
         <div className="container mx-auto px-4 sm:px-6">
-          <div ref={contentGridRef} className="grid grid-cols-1 gap-8 lg:grid-cols-3 lg:items-start">
+          <div ref={contentGridRef} className="grid grid-cols-1 gap-6 lg:grid-cols-3 lg:items-start">
             {/* Left Column - Details */}
-            <div className="space-y-10 lg:col-span-2">
+            <div className="space-y-6 lg:col-span-2">
 
               {/* Project Overview */}
               <motion.div
@@ -1080,7 +1080,7 @@ export default function ProjectPage({ project }: ProjectPageProps) {
 
             {/* Right Column - Contact Form */}
             <div ref={sidebarColumnRef} className="relative lg:col-span-1 lg:self-start">
-              <div ref={sidebarInnerRef} className="space-y-6" style={sidebarStyle}>
+              <div ref={sidebarInnerRef} className="space-y-5" style={sidebarStyle}>
 
                 {/* ================= CONTACT FORM CARD ================= */}
                 <motion.div

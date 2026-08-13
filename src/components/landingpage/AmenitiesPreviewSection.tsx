@@ -67,7 +67,7 @@ const amenities = [
 
 export default function AmenitiesPreviewSection() {
   return (
-    <section className="relative overflow-hidden bg-white py-20 text-slate-900">
+    <section className="relative overflow-hidden bg-white py-10 text-slate-900">
       <div className="absolute inset-0">
         <div className="absolute left-[-8rem] top-12 h-72 w-72 rounded-full bg-brand-gold/10 blur-3xl" />
         <div className="absolute right-[-10rem] top-1/3 h-80 w-80 rounded-full bg-sky-200/40 blur-3xl" />
