@@ -94,6 +94,8 @@ export default function ProjectPage({ project }: ProjectPageProps) {
   const [isSiteVisitOpen, setIsSiteVisitOpen] = useState(false);
   const [lightboxImage, setLightboxImage] = useState<LightboxImage | null>(null);
   const typeStyle = typeStyles[project.type];
+  const isWideHeroProject =
+    project.coverImage.includes('21x9') || project.type === 'plots' || project.type === 'villas';
 
   useEffect(() => {
     if (new URLSearchParams(window.location.search).get('siteVisit') === 'true') {
