@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState, type CSSProperties } from 'react';
 import { useRouter } from "next/navigation";
 import Image from 'next/image';
 import { motion } from 'framer-motion';
@@ -93,14 +93,84 @@ const getZoneKey = (zone: NonNullable<Project['siteLayout']>['zones'][number]) =
 export default function ProjectPage({ project }: ProjectPageProps) {
   const [isSiteVisitOpen, setIsSiteVisitOpen] = useState(false);
   const [lightboxImage, setLightboxImage] = useState<LightboxImage | null>(null);
+  const [sidebarStyle, setSidebarStyle] = useState<CSSProperties>({});
   const typeStyle = typeStyles[project.type];
   const isWideHeroProject =
     project.coverImage.includes('21x9') || project.type === 'plots' || project.type === 'villas';
+  const contentGridRef = useRef<HTMLDivElement>(null);
+  const sidebarColumnRef = useRef<HTMLDivElement>(null);
+  const sidebarInnerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (new URLSearchParams(window.location.search).get('siteVisit') === 'true') {
       setIsSiteVisitOpen(true);
     }
+  }, []);
+
+  useEffect(() => {
+    const updateSidebarPosition = () => {
+      const contentGrid = contentGridRef.current;
+      const sidebarColumn = sidebarColumnRef.current;
+      const sidebarInner = sidebarInnerRef.current;
+
+      if (!contentGrid || !sidebarColumn || !sidebarInner) return;
+
+      if (window.innerWidth < 1024) {
+        setSidebarStyle({});
+        return;
+      }
+
+      const topOffset = 144;
+      const gridRect = contentGrid.getBoundingClientRect();
+      const columnRect = sidebarColumn.getBoundingClientRect();
+      const gridTop = window.scrollY + gridRect.top;
+      const gridHeight = contentGrid.offsetHeight;
+      const sidebarHeight = sidebarInner.offsetHeight;
+      const sidebarWidth = sidebarColumn.clientWidth;
+      const maxFixedScroll = gridTop + gridHeight - sidebarHeight - topOffset;
+
+      if (window.scrollY < gridTop - topOffset) {
+        setSidebarStyle({});
+        return;
+      }
+
+      if (window.scrollY >= maxFixedScroll) {
+        setSidebarStyle({
+          position: 'absolute',
+          top: `${Math.max(0, gridHeight - sidebarHeight)}px`,
+          width: `${sidebarWidth}px`,
+        });
+        return;
+      }
+
+      setSidebarStyle({
+        position: 'fixed',
+        top: `${topOffset}px`,
+        width: `${sidebarWidth}px`,
+      });
+    };
+
+    updateSidebarPosition();
+
+    const resizeObserver =
+      typeof ResizeObserver !== 'undefined'
+        ? new ResizeObserver(() => updateSidebarPosition())
+        : null;
+
+    if (resizeObserver) {
+      if (contentGridRef.current) resizeObserver.observe(contentGridRef.current);
+      if (sidebarColumnRef.current) resizeObserver.observe(sidebarColumnRef.current);
+      if (sidebarInnerRef.current) resizeObserver.observe(sidebarInnerRef.current);
+    }
+
+    window.addEventListener('scroll', updateSidebarPosition, { passive: true });
+    window.addEventListener('resize', updateSidebarPosition);
+
+    return () => {
+      resizeObserver?.disconnect();
+      window.removeEventListener('scroll', updateSidebarPosition);
+      window.removeEventListener('resize', updateSidebarPosition);
+    };
   }, []);
 
   const handleShare = useCallback(async () => {
@@ -292,10 +362,10 @@ export default function ProjectPage({ project }: ProjectPageProps) {
 
       {/* Main Content */}
       <section className="py-8 sm:py-12">
-        <div className="section-shell">
-          <div className="grid grid-cols-1 gap-8 lg:grid-cols-3 lg:items-start">
+        <div className="container mx-auto px-4 sm:px-6">
+          <div ref={contentGridRef} className="grid grid-cols-1 gap-8 lg:grid-cols-3 lg:items-start">
             {/* Left Column - Details */}
-            <div className="lg:col-span-2 space-y-10">
+            <div className="space-y-10 lg:col-span-2">
 
               {/* Project Overview */}
               <motion.div
@@ -1006,66 +1076,11 @@ export default function ProjectPage({ project }: ProjectPageProps) {
 
               
 
-              {/* Approvals & Certifications */}
-              {project.reraNumber && (
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.95 }}
-                  className="overflow-hidden rounded-2xl border-2 border-amber-200 bg-gradient-to-br from-amber-50 to-yellow-50"
-                >
-                  <div className="border-b border-amber-200 bg-gradient-to-r from-amber-100 to-yellow-100 p-4 sm:p-6">
-                    <h2 className="text-xl font-semibold text-amber-900 sm:text-2xl flex items-center gap-2">
-                      <Award className="h-6 w-6" />
-                      Approvals & Certifications
-                    </h2>
-                  </div>
-                  <div className="p-4 sm:p-6">
-                    <div className="space-y-3">
-                      {project.reraNumber && (
-                        <div className="flex items-start gap-4 p-4 rounded-xl border-2 border-amber-100 bg-white hover:border-amber-300 transition-colors">
-                          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-amber-100 to-yellow-100 text-amber-700">
-                            <FileCheck className="h-6 w-6" />
-                          </div>
-                          <div>
-                            <div className="font-semibold text-amber-900">RERA Registration</div>
-                            <div className="text-sm text-gray-700 font-mono mt-1">{project.reraNumber}</div>
-                          </div>
-                        </div>
-                      )}
-                      {project.hmdaApproved && (
-                        <div className="flex items-start gap-4 p-4 rounded-xl border-2 border-amber-100 bg-white hover:border-amber-300 transition-colors">
-                          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-amber-100 to-yellow-100 text-amber-700">
-                            <Award className="h-6 w-6" />
-                          </div>
-                          <div>
-                            <div className="font-semibold text-amber-900">HMDA Approved</div>
-                            <div className="text-sm text-gray-600">Project meets all HMDA guidelines</div>
-                          </div>
-                        </div>
-                      )}
-                      {project.approvals && project.approvals.length > 0 && (
-                        <div className="pt-2 mt-2 border-t border-amber-200">
-                          <div className="text-sm font-semibold text-amber-900 mb-3">Additional Certifications</div>
-                          <div className="flex flex-wrap gap-2">
-                            {project.approvals.map((approval, index) => (
-                              <Badge key={index} className="bg-amber-100 text-amber-700 border border-amber-300 hover:bg-amber-200">
-                                <FileCheck className="h-3 w-3 mr-1" />
-                                {approval}
-                              </Badge>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </motion.div>
-              )}
             </div>
 
             {/* Right Column - Contact Form */}
-            <aside className="lg:col-span-1 lg:sticky lg:top-24 lg:self-start">
-              <div className="space-y-6">
+            <div ref={sidebarColumnRef} className="relative lg:col-span-1 lg:self-start">
+              <div ref={sidebarInnerRef} className="space-y-6" style={sidebarStyle}>
 
                 {/* ================= CONTACT FORM CARD ================= */}
                 <motion.div
@@ -1150,7 +1165,7 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                 </motion.div>
 
               </div>
-            </aside>
+            </div>
           </div>
         </div>
         <SiteVisitDialog

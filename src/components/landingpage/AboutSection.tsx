@@ -31,7 +31,7 @@ export default function AboutSection() {
               <div className="space-y-4">
                 <div className="relative h-48 rounded-2xl overflow-hidden">
                   <Image
-                    src="/pride-walls-appartments.jpg"
+                    src="/pride-walls-appartments.png"
                     alt="PRIDEWALLS apartment community exterior"
                     fill
                     sizes="(min-width: 1024px) 25vw, 50vw"

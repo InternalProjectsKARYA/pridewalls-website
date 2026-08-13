@@ -13,7 +13,7 @@ const categories = [
       'Thoughtfully designed 2 & 3 BHK apartments with panoramic views, smart layouts, and resort-style amenities that redefine urban living.',
     count: '1+ Projects',
     features: ['Swimming Pool', 'Gymnasium', "Children's Play Area", 'Jogging Track', 'Power Backup'],
-    image: '/pride-walls-appartments.jpg',
+    image: '/pride-walls-appartments.png',
     cta: 'View Apartments',
     filterType: 'apartments',
   },

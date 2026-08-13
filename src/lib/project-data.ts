@@ -18,7 +18,7 @@ Developed by PRIDEWALLS, Espino comprises six residential blocks (A to F) with a
     type: 'apartments',
     status: 'completed',
     featured: false,
-    coverImage: '/pride-walls-appartments.jpg',
+    coverImage: '/pride-walls-appartments.png',
     gallery: [
       '/clubhouse.png',
       '/blocks/block-a.jpg',
