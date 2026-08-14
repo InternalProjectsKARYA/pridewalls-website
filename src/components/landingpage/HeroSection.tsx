@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 const heroContent = {
-  image: '/hero-home-premium.png',
+  image: '/hero-home-premium-v2.png',
   imageAlt: 'Premium residential boulevard with contemporary apartments, villas, and landscaped open space',
 };
 

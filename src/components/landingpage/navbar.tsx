@@ -53,8 +53,9 @@ export default function Navbar() {
 
   const topBarClassName = 'bg-primary text-white';
 
-  const linkTextClass =
-    'relative text-primary font-semibold hover:text-primary after:absolute after:left-4 after:right-4 after:bottom-1 after:h-0.5 after:rounded-full after:bg-brand-gold after:opacity-0 after:transition-all after:duration-300 after:content-[\'\'] hover:after:opacity-100 hover:after:left-3 hover:after:right-3';
+  const linkTextClass = isScrolled
+    ? 'relative text-primary font-semibold hover:text-primary after:absolute after:left-4 after:right-4 after:bottom-1 after:h-0.5 after:rounded-full after:bg-brand-gold after:opacity-0 after:transition-all after:duration-300 after:content-[\'\'] hover:after:opacity-100 hover:after:left-3 hover:after:right-3'
+    : 'relative text-white font-semibold hover:text-white after:absolute after:left-4 after:right-4 after:bottom-1 after:h-0.5 after:rounded-full after:bg-brand-gold after:opacity-0 after:transition-all after:duration-300 after:content-[\'\'] hover:after:opacity-100 hover:after:left-3 hover:after:right-3';
 
   const navContainerClass = isScrolled
     ? 'hidden items-center rounded-full border border-border/80 bg-muted/45 p-1 shadow-inner lg:flex'
