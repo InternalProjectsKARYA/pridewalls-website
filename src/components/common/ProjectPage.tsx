@@ -555,7 +555,7 @@ export default function ProjectPage({ project }: ProjectPageProps) {
               )}
 
               {/* Project Gallery */}
-              {project.gallery && project.gallery.length > 0 && (
+              {/* {project.gallery && project.gallery.length > 0 && (
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -593,7 +593,7 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                     </div>
                   </div>
                 </motion.div>
-              )}
+              )} */}
 
               {/* Specifications */}
               {project.specifications && project.specifications.length > 0 && (
@@ -623,6 +623,34 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                         </ul>
                       </div>
                     ))}
+                  </div>
+                </motion.div>
+              )}
+
+              {/* Permissions */}
+              {project.permissions && project.permissions.items.length > 0 && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.65 }}
+                  className="overflow-hidden rounded-2xl border border-border bg-card"
+                >
+                  <div className="border-b border-border bg-muted/30 p-4 sm:p-6">
+                    <h2 className="text-xl font-semibold sm:text-2xl">
+                      {project.permissions.title}
+                    </h2>
+                  </div>
+                  <div className="p-4 sm:p-6">
+                    <div className="rounded-xl bg-muted/30 p-5">
+                      <ul className="space-y-3">
+                        {project.permissions.items.map((item, index) => (
+                          <li key={index} className="flex items-start gap-3 text-muted-foreground">
+                            <div className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   </div>
                 </motion.div>
               )}

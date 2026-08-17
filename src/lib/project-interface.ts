@@ -22,6 +22,7 @@ export interface Project {
   facilities?: Facility[];
   highlights: Highlight[];
   specifications: Specification[];
+  permissions?: PermissionSection;
   floorPlans?: FloorPlan[];
   siteLayout?: SiteLayout;
   locationHighlights: LocationHighlight[];
@@ -72,6 +73,11 @@ export interface Highlight {
 export interface Specification {
   id: string;
   category: string;
+  items: string[];
+}
+
+export interface PermissionSection {
+  title: string;
   items: string[];
 }
 

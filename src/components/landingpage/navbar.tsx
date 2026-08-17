@@ -61,8 +61,8 @@ export default function Navbar() {
     ? 'hidden items-center rounded-full border border-border/80 bg-muted/45 p-1 shadow-inner lg:flex'
     : 'hidden items-center gap-3 lg:flex';
 
-  const logoTextClass = 'text-primary';
-  const logoTaglineClass = isScrolled ? 'text-muted-foreground' : 'text-primary/70';
+  const logoTextClass = isScrolled ? 'text-primary' : 'text-white';
+  const logoTaglineClass = isScrolled ? 'text-primary/70' : 'text-white/80';
   const ctaButtonClass =
     'h-11 rounded-xl bg-primary px-5 font-bold text-white shadow-[0_10px_24px_rgba(13,38,89,0.18)] transition-colors hover:bg-brand-primary-dark';
 

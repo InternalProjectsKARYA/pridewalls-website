@@ -61,6 +61,18 @@ Developed by PRIDEWALLS, Espino comprises six residential blocks (A to F) with a
         ],
       },
     ],
+    permissions: {
+      title: 'Permissions',
+      items: [
+        'TS-RERA: P01100003785, Dt:20-12-2021',
+        'HMDA: Application No: 040979/SKP/R1/U6/HMDA/05122020, Dt:01-09-2021',
+        'Ameenpur Municipality: File No-673, Permit No-055, Dt:08-11-2021',
+        'Fire N.O.C: ACK No. 379770002021, 379780002021, 379790002021, 379810002021, 379820002021, 379830002021, Dt:30-03-2021',
+        'Irrigation N.O.C: SE/IC/SRD/DEE(T)/TS4/213, Dt:11-02-2021',
+        'Airport N.O.C: HYDE/SOUTH/B/101920/503615, Dt:28-10-2020',
+        'Environmental Clearance: SEIAA/TS/OL/SRD-345/2021',
+      ],
+    },
     floorPlans: [
       { id: '1', name: '2 BHK', type: '2 BHK', area: '1250 sq.ft', image: '/master_plan.jpg' },
       { id: '2', name: '3 BHK', type: '3 BHK', area: '1650 sq.ft', image: '/master_plan.jpg' },
@@ -130,8 +142,8 @@ Developed by PRIDEWALLS, Espino comprises six residential blocks (A to F) with a
     projectSize: '7 Acres',
     reraApproved: true,
     hmdaApproved: true,
-    reraNumber: 'RERA/1251/310/PR/200325',
-    approvals: [''],
+    reraNumber: 'P01100003785',
+    approvals: ['TS-RERA', 'HMDA', 'Ameenpur Municipality', 'Fire N.O.C', 'Irrigation N.O.C', 'Airport N.O.C', 'Environmental Clearance'],
   },
   {
     id: '2',
