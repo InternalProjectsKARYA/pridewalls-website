@@ -71,7 +71,7 @@ Developed by PRIDEWALLS, Espino comprises six residential blocks (A to F) with a
       zones: [
         { id: '1', name: 'Block-A', image: '/blocks/block-a.jpg', description: 'Contains 14 unites of 2BHK each floor. Total 140 units.', blockname: 'BLOCK A – ASTER' },
         { id: '2', name: 'Block-B', image: '/blocks/block-b.jpg', description: 'Contains 11 units of 3BHK per each floor. Total 110 Units.', blockname: 'BLOCK B – BELLIS' },
-        { id: '3', name: 'Block-C', image: '/blocks/block-c.jpg', description: 'Contains 20 units of 2BHK per each floor. Total 200 Units.', blockname: 'BLOCK C – COSMOS' }, 
+        { id: '3', name: 'Block-C', image: '/blocks/block-c.jpg', description: 'Contains 20 units of 2BHK per each floor. Total 200 Units.', blockname: 'BLOCK C – COSMOS' },
         { id: '4', name: 'Block-D', image: '/blocks/block-d.jpg', description: 'Contains 6 units of 2BHK and 3BHK aid 3BHK per each floor. Total 90 units.', blockname: 'BLOCK D – DAHLIA' },
         { id: '5', name: 'Block-E', image: '/blocks/block-e.jpg', description: 'Contains 4 units of 2BHK and 3 Units of 3BHK per each floor. Total 70 units.', blockname: 'BLOCK E – EUSTOMA' },
         { id: '6', name: 'Block-F', image: '/blocks/block-f.jpg', description: 'Contains 11 Units of 2BHK and 7 Units of 3BHK per each floor .Total 180 Units.', blockname: ' BLOCK F – FELICIA' },
@@ -154,12 +154,12 @@ Designed for both end-users and investors, SIRI ECO SPACE combines strategic mas
       '/amenities-generated/plot-landscape.jpg',
     ],
     amenities: [
-      { id: '1', name: 'Community Garden', icon: 'leaf', description: 'Landscaped gardens with recreational areas' },
-      { id: '2', name: 'Walking Tracks', icon: 'footprints', description: 'Tree-lined walking and jogging paths' },
-      { id: '3', name: 'Parks & Open Spaces', icon: 'tree-pine', description: 'Green spaces for community gathering' },
-      { id: '4', name: 'Play Areas', icon: 'baby', description: 'Children play zones with safety features' },
-      { id: '5', name: 'Community Hall', icon: 'home', description: 'Multi-purpose community gathering space' },
-      { id: '6', name: 'Security Gate', icon: 'shield', description: '24/7 security with access control' },
+      { id: '1', name: 'Community Garden', icon: 'leaf', description: 'Landscaped gardens with recreational areas', image: '/amenities-generated/community-garden.jpg' },
+      { id: '2', name: 'Walking Tracks', icon: 'footprints', description: 'Tree-lined walking and jogging paths', image: '/amenities-generated/walking-tracks.jpg' },
+      { id: '3', name: 'Parks & Open Spaces', icon: 'tree-pine', description: 'Green spaces for community gathering', image: '/amenities-generated/parks-open-spaces.jpg' },
+      { id: '4', name: 'Play Areas', icon: 'baby', description: 'Children play zones with safety features', image: '/Amenities/Children Area.jpg' },
+      { id: '5', name: 'Community Hall', icon: 'home', description: 'Multi-purpose community gathering space', image: '/amenities-generated/community-hall.jpg' },
+      { id: '6', name: 'Security Gate', icon: 'shield', description: '24/7 security with access control', image: '/amenities-generated/security-gate.jpg' },
     ],
     facilities: [
       { id: '1', name: 'Grand Entrance & Gate', icon: 'landmark', description: 'Secure and elegant community entrance' },
@@ -301,14 +301,14 @@ With flexible payment plans and transparent documentation, PRIDEWALLS VILLAS is 
       '/amenities-generated/villa-pool.jpg',
     ],
     amenities: [
-      { id: '1', name: 'Swimming Pool', icon: 'waves', description: 'Olympic-size swimming pool with deck seating' },
-      { id: '2', name: 'Clubhouse', icon: 'home', description: 'Premium clubhouse with multipurpose halls' },
-      { id: '3', name: 'Gymnasium', icon: 'dumbbell', description: 'State-of-the-art fitness center with modern equipment' },
-      { id: '4', name: 'Yoga & Meditation', icon: 'flower2', description: 'Dedicated yoga and meditation hall' },
-      { id: '5', name: 'Children Play Area', icon: 'baby', description: 'Safe recreational play zones for kids' },
-      { id: '6', name: 'Landscaped Gardens', icon: 'leaf', description: 'Beautifully landscaped common gardens' },
-      { id: '7', name: 'Jogging Track', icon: 'footprints', description: 'Tree-lined jogging and walking tracks' },
-      { id: '8', name: 'Security Gate', icon: 'shield', description: '24/7 gated security with CCTV surveillance' },
+      { id: '1', name: 'Swimming Pool', icon: 'waves', description: 'Olympic-size swimming pool with deck seating', image: '/Amenities/Swimming Pool.jpg' },
+      { id: '2', name: 'Clubhouse', icon: 'home', description: 'Premium clubhouse with multipurpose halls', image: '/clubhouse.png' },
+      { id: '3', name: 'Gymnasium', icon: 'dumbbell', description: 'State-of-the-art fitness center with modern equipment', image: '/amenities-generated/gymnasium.jpg' },
+      { id: '4', name: 'Yoga & Meditation', icon: 'flower2', description: 'Dedicated yoga and meditation hall', image: '/amenities-generated/yoga-meditation.jpg' },
+      { id: '5', name: 'Children Play Area', icon: 'baby', description: 'Safe recreational play zones for kids', image: '/Amenities/Children Area.jpg' },
+      { id: '6', name: 'Landscaped Gardens', icon: 'leaf', description: 'Beautifully landscaped common gardens', image: '/amenities-generated/landscaped-gardens.jpg' },
+      { id: '7', name: 'Jogging Track', icon: 'footprints', description: 'Tree-lined jogging and walking tracks', image: '/amenities-generated/jogging-track.jpg' },
+      { id: '8', name: 'Security Gate', icon: 'shield', description: '24/7 gated security with CCTV surveillance', image: '/amenities-generated/security-gate.jpg' },
     ],
     facilities: [
       { id: '1', name: 'Gated Community', icon: 'shield', description: 'Secure gated community with controlled access' },
@@ -499,14 +499,14 @@ export const testimonials: Testimonial[] = [
 ];
 
 export const defaultAmenities: Amenity[] = [
-  { id: 'pool', name: 'Swimming Pool', icon: 'waves', description: 'Modern swimming pool with separate kids pool' },
-  { id: 'clubhouse', name: 'Clubhouse', icon: 'home', description: 'Well-equipped clubhouse for community gatherings' },
-  { id: 'gym', name: 'Fitness Center', icon: 'dumbbell', description: 'State-of-the-art gym with modern equipment' },
-  { id: 'security', name: '24/7 Security', icon: 'shield', description: 'Round-the-clock security with CCTV surveillance' },
-  { id: 'garden', name: 'Landscaped Gardens', icon: 'flower2', description: 'Beautifully landscaped gardens and parks' },
-  { id: 'play', name: 'Children Play Area', icon: 'baby', description: 'Safe and fun play zones for children' },
-  { id: 'sports', name: 'Sports Courts', icon: 'trophy', description: 'Tennis, badminton, and basketball courts' },
-  { id: 'jogging', name: 'Jogging Track', icon: 'footprints', description: 'Tree-lined jogging and walking tracks' },
+  { id: 'pool', name: 'Swimming Pool', icon: 'waves', description: 'Modern swimming pool with separate kids pool', image: '/Amenities/Swimming Pool.jpg' },
+  { id: 'clubhouse', name: 'Clubhouse', icon: 'home', description: 'Well-equipped clubhouse for community gatherings', image: '/clubhouse.png' },
+  { id: 'gym', name: 'Fitness Center', icon: 'dumbbell', description: 'State-of-the-art gym with modern equipment', image: '/amenities-generated/gymnasium.jpg' },
+  { id: 'security', name: '24/7 Security', icon: 'shield', description: 'Round-the-clock security with CCTV surveillance', image: '/amenities-generated/security-gate.jpg' },
+  { id: 'garden', name: 'Landscaped Gardens', icon: 'flower2', description: 'Beautifully landscaped gardens and parks', image: '/amenities-generated/landscaped-gardens.jpg' },
+  { id: 'play', name: 'Children Play Area', icon: 'baby', description: 'Safe and fun play zones for children', image: '/Amenities/Children Area.jpg' },
+  { id: 'sports', name: 'Sports Courts', icon: 'trophy', description: 'Tennis, badminton, and basketball courts', image: '/Amenities/Shuttle Court.jpg' },
+  { id: 'jogging', name: 'Jogging Track', icon: 'footprints', description: 'Tree-lined jogging and walking tracks', image: '/amenities-generated/jogging-track.jpg' },
 ];
 
 export const investmentHighlights: Highlight[] = [
