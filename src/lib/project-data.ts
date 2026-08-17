@@ -140,7 +140,7 @@ Developed by PRIDEWALLS, Espino comprises six residential blocks (A to F) with a
     area: { min: 1084, max: 1779, unit: 'sq.ft' },
     totalUnits: 790,
     projectSize: '7 Acres',
-    startingPrice: '73 Lakhs',
+    startingPrice: '75 Lakhs',
     reraApproved: true,
     hmdaApproved: true,
     reraNumber: 'P01100003785',
