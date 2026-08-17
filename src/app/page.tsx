@@ -10,24 +10,29 @@ import AboutSection from '@/components/landingpage/AboutSection'
 import CTASection from '@/components/landingpage/CTASection'
 import GetInTouch from '@/components/landingpage/GetInTouch'
 import PropertyCategories from '@/components/landingpage/PropertyCategories'
+import TestimonialsSection from '@/components/landingpage/TestimonialsSection'
+import CompareProjects from '@/components/landingpage/CompareProjects'
 
 const page = () => {
   return (
     <>
       <HeroSection />
       <TrustStrip />
-       <FeaturedProjects />
-     
+      <FeaturedProjects />
       <PropertyCategories />
       <Suspense fallback={null}>
         <WhyInvestSection />
       </Suspense>
       <HowItWorks />
-      <StatsSection/>
-      <AmenitiesPreviewSection/>
-      <AboutSection/>
+  
+      <StatsSection />
+      <AmenitiesPreviewSection />
+
+      <AboutSection />
+            <TestimonialsSection />
       <CTASection />
-      <GetInTouch/>
+      
+      <GetInTouch />
     </>
   )
 }

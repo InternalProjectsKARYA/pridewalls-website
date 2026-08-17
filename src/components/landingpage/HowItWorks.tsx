@@ -1,49 +1,64 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { MessagesSquare, CalendarCheck, PenLine, FileCheck2, KeyRound } from 'lucide-react';
+import {
+  MessagesSquare,
+  CalendarCheck,
+  PenLine,
+  FileCheck2,
+  KeyRound,
+  ShieldCheck,
+  BadgeIndianRupee,
+  MapPin,
+} from 'lucide-react';
 
 const steps = [
   {
     icon: MessagesSquare,
     step: '01',
-    title: 'Enquire',
+    title: 'Tell us what you need',
     description:
       'Share your requirements through the contact form, a call, or WhatsApp. Our team responds within 10 minutes.',
   },
   {
     icon: CalendarCheck,
     step: '02',
-    title: 'Site Visit',
+    title: 'Visit the property',
     description:
       'Tour the project and experience the location, layouts, and amenities firsthand with our guided site visits.',
   },
   {
     icon: PenLine,
     step: '03',
-    title: 'Booking',
+    title: 'Select your home',
     description:
       'Reserve your unit or plot with a booking amount and receive the allotment letter and agreement details.',
   },
   {
     icon: FileCheck2,
     step: '04',
-    title: 'Documentation & Loan Assistance',
+    title: 'Complete documentation',
     description:
       'We guide you through agreements, registration, and documentation, with home loan assistance from partner banks.',
   },
   {
     icon: KeyRound,
     step: '05',
-    title: 'Possession',
+    title: 'Get your keys',
     description:
       'Complete the formalities, receive your keys, and move into a home built with quality and care.',
   },
 ];
 
+const reassurances = [
+  { icon: ShieldCheck, label: 'No-pressure consultation' },
+  { icon: BadgeIndianRupee, label: 'Transparent pricing' },
+  { icon: MapPin, label: 'Site visits available' },
+];
+
 export default function HowItWorks() {
   return (
-    <section className="overflow-x-hidden bg-background py-16 lg:py-24">
+    <section className="overflow-x-hidden bg-background py-16 lg:py-18">
       <div className="section-shell">
         {/* Header */}
         <motion.div
@@ -63,7 +78,7 @@ export default function HowItWorks() {
           </p>
         </motion.div>
 
-        {/* Steps: horizontal on desktop, vertical on mobile */}
+        {/* Steps: horizontal journey on desktop, vertical on mobile */}
         <div className="grid grid-cols-1 gap-8 md:grid-cols-5 md:gap-4">
           {steps.map((step, index) => (
             <motion.div
@@ -98,6 +113,25 @@ export default function HowItWorks() {
             </motion.div>
           ))}
         </div>
+
+        {/* Reassurance strip */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="mt-12 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 rounded-2xl border border-brand-gold/20 bg-brand-gold/5 px-6 py-4"
+        >
+          {reassurances.map((item) => (
+            <div
+              key={item.label}
+              className="flex items-center gap-2 text-sm font-medium text-foreground"
+            >
+              <item.icon className="h-4 w-4 text-brand-gold" />
+              {item.label}
+            </div>
+          ))}
+        </motion.div>
       </div>
     </section>
   );

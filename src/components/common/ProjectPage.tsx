@@ -8,7 +8,9 @@ import {
   MapPin, Building, Home, LandPlot, Store, 
   Check, Ruler, Phone, Mail, Calendar,
   Award, FileCheck, TrendingUp, Compass,  Train, Plane, Gem, Leaf, Users, Layout, ZoomIn,
-  Building2, Maximize,  
+  Building2, Maximize,
+  MessageCircle,
+  Currency,  
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -268,6 +270,8 @@ export default function ProjectPage({ project }: ProjectPageProps) {
               <MapPin className="mt-0.5 h-5 w-5 shrink-0 sm:mt-0" />
               <span className="text-base sm:text-lg">{project.location}</span>
             </div>
+
+         
           </div>
         </div>
       </section>
@@ -282,7 +286,7 @@ export default function ProjectPage({ project }: ProjectPageProps) {
         </div> */}
 
         <div className="section-shell relative py-4 sm:py-5">
-          <div className="grid grid-cols-1 gap-3 min-[480px]:grid-cols-2 sm:gap-4 xl:grid-cols-4">
+          <div className="grid grid-cols-1 gap-3 min-[480px]:grid-cols-2 sm:gap-4 xl:grid-cols-5">
 
             {/* Price */}
             {/* <div className="flex items-center gap-3 justify-center md:justify-start">
@@ -334,7 +338,7 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                 <div className="text-xl font-bold text-white sm:text-2xl">
                   {formatAreaValue(project)}
                 </div>
-                <div className="text-xs text-white/65 sm:text-sm">{project.area.unit}</div>
+                <div className="text-xs text-white/65 sm:text-sm">{project.area.unit} / 2BHK & 3BHK</div>
               </div>
             </div>
 
@@ -348,11 +352,22 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                   <div className="break-words text-sm font-bold text-white sm:text-base">
                     {project.reraNumber}
                   </div>
-                  <div className="text-xs text-white/65">Approved</div>
+                  <div className="text-xs text-white/65">RERA Approved</div>
                 </div>
               </div>
             )}
-
+        
+            <div className="flex min-w-0 items-center gap-3 rounded-2xl border border-white/10 bg-primary p-4 shadow-lg shadow-black/10 backdrop-blur-sm sm:p-5">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-gold text-white shadow-card">
+                <Currency className="w-5 h-5 text-white" />
+              </div>
+              <div className="min-w-0">
+                <div className="text-xl font-bold text-white sm:text-2xl">
+                  {project.startingPrice}
+                </div>
+                <div className="text-xs text-white/65 sm:text-sm">Onwards</div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -378,7 +393,7 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                 </div>
 
                 <div className="p-4 sm:p-6">
-                  <p className="text-base leading-relaxed text-muted-foreground whitespace-pre-line sm:text-lg">
+                  <p className="line-clamp-6 text-base leading-relaxed text-muted-foreground whitespace-pre-line sm:text-lg">
                     {project.description}
                   </p>
                 </div>
@@ -418,7 +433,32 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                   </div>
                 </div>
               </motion.div>
-
+{project.permissions && project.permissions.items.length > 0 && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.65 }}
+                  className="overflow-hidden rounded-2xl border border-border bg-card"
+                >
+                  <div className="border-b border-border bg-muted/30 p-4 sm:p-6">
+                    <h2 className="text-xl font-semibold sm:text-2xl">
+                      {project.permissions.title}
+                    </h2>
+                  </div>
+                  <div className="p-4 sm:p-6">
+                    <div className="rounded-xl bg-muted/30 p-5">
+                      <ul className="space-y-3">
+                        {project.permissions.items.map((item, index) => (
+                          <li key={index} className="flex items-start gap-3 text-muted-foreground">
+                            <div className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
               {/* Master Plan / Site Layout */}
               {/* {project.siteLayout && (
                 <motion.div
@@ -554,46 +594,7 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                 </motion.div>
               )}
 
-              {/* Project Gallery */}
-              {/* {project.gallery && project.gallery.length > 0 && (
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.55 }}
-                  className="overflow-hidden rounded-2xl border border-border bg-card"
-                >
-                  <div className="border-b border-border bg-muted/30 p-4 sm:p-6">
-                    <h2 className="text-xl font-semibold sm:text-2xl">Project Gallery</h2>
-                  </div>
-                  <div className="p-4 sm:p-6">
-                    <div className="grid grid-cols-1 gap-4 min-[480px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                      {project.gallery.map((image, index) => (
-                        <button
-                          key={index}
-                          type="button"
-                          className="group relative aspect-video overflow-hidden rounded-xl text-left focus-visible:outline-offset-4"
-                          onClick={() =>
-                            setLightboxImage({ src: image, alt: `${project.name} gallery ${index + 1}` })
-                          }
-                          aria-label={`View ${project.name} gallery image ${index + 1}`}
-                        >
-                          <Image
-                            src={image}
-                            alt={`${project.name} gallery ${index + 1}`}
-                            fill
-                            sizes="(min-width: 1024px) 25vw, (min-width: 480px) 50vw, 100vw"
-                            className="object-cover transition-transform group-hover:scale-110"
-                          />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-                          <span className="absolute right-3 top-3 inline-flex size-8 items-center justify-center rounded-full bg-black/55 text-white opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
-                            <ZoomIn className="size-4" />
-                          </span>
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                </motion.div>
-              )} */}
+          
 
               {/* Specifications */}
               {project.specifications && project.specifications.length > 0 && (
@@ -628,32 +629,7 @@ export default function ProjectPage({ project }: ProjectPageProps) {
               )}
 
               {/* Permissions */}
-              {project.permissions && project.permissions.items.length > 0 && (
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.65 }}
-                  className="overflow-hidden rounded-2xl border border-border bg-card"
-                >
-                  <div className="border-b border-border bg-muted/30 p-4 sm:p-6">
-                    <h2 className="text-xl font-semibold sm:text-2xl">
-                      {project.permissions.title}
-                    </h2>
-                  </div>
-                  <div className="p-4 sm:p-6">
-                    <div className="rounded-xl bg-muted/30 p-5">
-                      <ul className="space-y-3">
-                        {project.permissions.items.map((item, index) => (
-                          <li key={index} className="flex items-start gap-3 text-muted-foreground">
-                            <div className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
-                            <span>{item}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-                </motion.div>
-              )}
+              
 
               {/* Master Plan / Site Layout */}
               {siteLayout && (
@@ -887,6 +863,33 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                       <span>Mon - Sat: 9:00 AM - 7:00 PM</span>
                     </div>
                   </div>
+                </motion.div>
+
+                {/* ================= WHATSAPP CTA ================= */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2 }}
+                  className="rounded-xl border border-success/30 bg-success/10 p-4 text-center sm:p-6"
+                >
+                  <h4 className="font-semibold text-foreground mb-2">
+                    Chat on WhatsApp
+                  </h4>
+
+                  <p className="text-sm text-muted-foreground mb-4">
+                    Have questions? Chat with a property expert on WhatsApp.
+                    Usually responds within 10 minutes.
+                  </p>
+
+                  <a
+                    href={whatsappHref}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-success px-4 font-semibold text-white transition hover:bg-success/90"
+                  >
+                    <MessageCircle className="h-4 w-4" />
+                    Chat on WhatsApp
+                  </a>
                 </motion.div>
 
                 {/* ================= SITE VISIT ================= */}

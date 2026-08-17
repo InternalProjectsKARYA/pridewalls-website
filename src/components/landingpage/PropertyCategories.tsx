@@ -41,7 +41,7 @@ const categories = [
 
 export default function PropertyCategories() {
   return (
-    <section className="bg-white py-10 md:py-28" aria-label="Property categories">
+    <section className="bg-white py-5 md:py-10" aria-label="Property categories">
       <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
 
         {/* Header */}

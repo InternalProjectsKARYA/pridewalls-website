@@ -287,16 +287,28 @@ const navigation = [
     href: '/projects',
     children: [
       {
-        name: 'New Launch Projects',
-        href: '/projects?status=ongoing',
+        name: 'All Projects',
+        href: '/projects',
       },
       {
-        name: 'Upcoming Projects',
-        href: '/projects?status=upcoming',
+        name: 'Apartments',
+        href: '/projects?type=Apartments',
       },
       {
-        name: 'Ready to Move Projects',
+        name: 'Villas',
+        href: '/projects?type=Villas',
+      },
+      {
+        name: 'Open Plots',
+        href: '/projects?type=Open%20Plots',
+      },
+      {
+        name: 'Ready to Move',
         href: '/projects?status=completed',
+      },
+      {
+        name: 'Upcoming',
+        href: '/projects?status=upcoming',
       },
     ],
   },
@@ -304,6 +316,7 @@ const navigation = [
     name: 'About',
     href: '/#about',
   },
+
   {
     name: 'Contact',
     href: '/#contact',

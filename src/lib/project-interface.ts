@@ -6,6 +6,7 @@ export interface Project {
   description: string;
   location: string;
   mapEmbedUrl?: string;
+  startingPrice?: string;
   
   // Classification
   type: 'plots' | 'villas' | 'apartments' | 'commercial';

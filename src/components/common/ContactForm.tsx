@@ -3,20 +3,11 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { motion } from 'framer-motion';
-import { Send, Loader2, CheckCircle2, Phone, Mail, MessageSquare } from 'lucide-react';
+import { Send, Loader2, CheckCircle2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
-import { projects } from '@/lib/project-data';
 import { EnquiryFormData } from '@/lib/project-interface';
 
 interface ContactFormProps {
@@ -24,16 +15,24 @@ interface ContactFormProps {
   showProjectSelect?: boolean;
 }
 
+type QuickInterest = 'Apartment' | 'Villa' | 'Plot' | 'Commercial';
+
+const quickInterests: QuickInterest[] = [
+  'Apartment',
+  'Villa',
+  'Plot',
+  'Commercial',
+];
+
 export default function ContactForm({ projectName, showProjectSelect = true }: ContactFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-  const [selectedInterest, setSelectedInterest] = useState('');
+  const [selectedInterest, setSelectedInterest] = useState<QuickInterest | ''>('');
   const { toast } = useToast();
 
   const {
     register,
     handleSubmit,
-    setValue,
     reset,
     formState: { errors },
   } = useForm<EnquiryFormData>({
@@ -50,7 +49,7 @@ export default function ContactForm({ projectName, showProjectSelect = true }: C
 
   const onSubmit = async (data: EnquiryFormData) => {
     setIsSubmitting(true);
-    
+
     try {
       const response = await fetch('/api/leads', {
         method: 'POST',
@@ -60,6 +59,7 @@ export default function ContactForm({ projectName, showProjectSelect = true }: C
         body: JSON.stringify({
           ...data,
           mobile: data.phone,
+          interestedIn: selectedInterest || data.interestedIn,
           consent: true,
         }),
       });
@@ -109,7 +109,7 @@ export default function ContactForm({ projectName, showProjectSelect = true }: C
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-      {/* Name */}
+      {/* Step 1: Name & Mobile - minimal friction */}
       <div className="space-y-2">
         <Label htmlFor="name">Full Name *</Label>
         <Input
@@ -126,152 +126,67 @@ export default function ContactForm({ projectName, showProjectSelect = true }: C
         )}
       </div>
 
-      {/* Email & Phone Row */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="space-y-2">
-          <Label htmlFor="email">Email Address *</Label>
-          <Input
-            id="email"
-            type="email"
-            placeholder="Enter your email"
-            aria-required="true"
-            aria-invalid={errors.email ? true : undefined}
-            aria-describedby={errors.email ? 'email-error' : undefined}
-            {...register('email', {
-              required: 'Email is required',
-              pattern: {
-                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                message: 'Invalid email address',
-              },
-            })}
-            className={errors.email ? 'border-destructive' : ''}
-          />
-          {errors.email && (
-            <p id="email-error" className="text-sm text-destructive">{errors.email.message}</p>
-          )}
-        </div>
-        <div className="space-y-2">
-          <Label htmlFor="phone">Phone Number *</Label>
-          <Input
-            id="phone"
-            type="tel"
-            placeholder="Enter your phone number"
-            aria-required="true"
-            aria-invalid={errors.phone ? true : undefined}
-            aria-describedby={errors.phone ? 'phone-error' : undefined}
-            {...register('phone', {
-              required: 'Phone number is required',
-              pattern: {
-                value: /^[0-9]{10}$/,
-                message: 'Please enter a valid 10-digit phone number',
-              },
-            })}
-            className={errors.phone ? 'border-destructive' : ''}
-          />
-          {errors.phone && (
-            <p id="phone-error" className="text-sm text-destructive">{errors.phone.message}</p>
-          )}
-        </div>
-      </div>
-
-      {/* Project Interest */}
-      {showProjectSelect && (
-        <div className="space-y-2">
-          <Label htmlFor="project">Project Interest</Label>
-          <Select
-            onValueChange={(value) => setValue('projectInterest', value)}
-            defaultValue={projectName || ''}
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="Select a project (optional)" />
-            </SelectTrigger>
-            <SelectContent>
-              {projects.map((project) => (
-                <SelectItem key={project.id} value={project.name}>
-                  {project.name} - {project.location}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-      )}
-
-      {/* Interested In */}
       <div className="space-y-2">
-        <Label htmlFor="interestedIn">Interested In</Label>
-        <Select
-          onValueChange={(value) => {
-            setSelectedInterest(value);
-            if (value !== 'Other') {
-              setValue('interestedIn', value);
-            } else {
-              setValue('interestedIn', '');
-            }
-          }}
-          value={selectedInterest}
-        >
-          <SelectTrigger>
-            <SelectValue placeholder="Select property type (optional)" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="Villas">Villas</SelectItem>
-            <SelectItem value="Open Plots">Open Plots</SelectItem>
-            <SelectItem value="Apartments">Apartments</SelectItem>
-            <SelectItem value="Commercial">Commercial</SelectItem>
-            <SelectItem value="Other">Other</SelectItem>
-          </SelectContent>
-        </Select>
-        {selectedInterest === 'Other' && (
-          <input
-            type="text"
-            aria-label="Tell us what you're interested in"
-            placeholder="Tell us what you're interested in"
-            onChange={(e) => setValue('interestedIn', e.target.value)}
-            className="mt-2 h-10 w-full rounded-md border px-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-gold/40"
-          />
+        <Label htmlFor="phone">Mobile Number *</Label>
+        <Input
+          id="phone"
+          type="tel"
+          placeholder="Enter your mobile number"
+          aria-required="true"
+          aria-invalid={errors.phone ? true : undefined}
+          aria-describedby={errors.phone ? 'phone-error' : undefined}
+          {...register('phone', {
+            required: 'Phone number is required',
+            pattern: {
+              value: /^[0-9]{10}$/,
+              message: 'Please enter a valid 10-digit phone number',
+            },
+          })}
+          className={errors.phone ? 'border-destructive' : ''}
+        />
+        {errors.phone && (
+          <p id="phone-error" className="text-sm text-destructive">{errors.phone.message}</p>
         )}
       </div>
 
-      {/* Preferred Contact Method */}
+      {/* Step 2: Quick interest selection */}
       <div className="space-y-2">
-        <Label>Preferred Contact Method</Label>
-        <div className="flex flex-wrap gap-3">
-          {[
-            { value: 'phone', icon: Phone, label: 'Phone Call' },
-            { value: 'email', icon: Mail, label: 'Email' },
-            { value: 'whatsapp', icon: MessageSquare, label: 'WhatsApp' },
-          ].map((method) => (
-            <label
-              key={method.value}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg border cursor-pointer transition-all ${
-                errors.preferredContact ? 'border-destructive' : 'border-border'
-              } hover:border-primary/50 has-[:checked]:border-primary has-[:checked]:bg-primary/5`}
+        <Label>What are you interested in?</Label>
+        <div className="grid grid-cols-2 gap-2">
+          {quickInterests.map((interest) => (
+            <button
+              key={interest}
+              type="button"
+              onClick={() => setSelectedInterest(interest)}
+              className={`rounded-xl border px-4 py-2.5 text-sm font-medium transition-all ${
+                selectedInterest === interest
+                  ? 'border-brand-gold bg-brand-gold/10 text-primary'
+                  : 'border-border bg-white text-muted-foreground hover:border-brand-primary/40 hover:bg-brand-primary/5'
+              }`}
             >
-              <input
-                type="radio"
-                value={method.value}
-                {...register('preferredContact')}
-                className="sr-only"
-              />
-              <method.icon className="h-4 w-4" />
-              <span className="text-sm">{method.label}</span>
-            </label>
+              {interest}
+            </button>
           ))}
         </div>
       </div>
 
-      {/* Message */}
+      {/* Optional: Email (hidden behind a toggle for low friction) */}
       <div className="space-y-2">
-        <Label htmlFor="message">Your Message</Label>
-        <Textarea
-          id="message"
-          placeholder="Tell us about your requirements..."
-          rows={4}
-          {...register('message')}
-          className={errors.message ? 'border-destructive' : ''}
+        <Label htmlFor="email">Email Address (optional)</Label>
+        <Input
+          id="email"
+          type="email"
+          placeholder="Enter your email (optional)"
+          {...register('email', {
+            pattern: {
+              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+              message: 'Invalid email address',
+            },
+          })}
+          className={errors.email ? 'border-destructive' : ''}
         />
-        {errors.message && (
-          <p className="text-sm text-destructive">{errors.message.message}</p>
+        {errors.email && (
+          <p className="text-sm text-destructive">{errors.email.message}</p>
         )}
       </div>
 
@@ -290,7 +205,7 @@ export default function ContactForm({ projectName, showProjectSelect = true }: C
         ) : (
           <>
             <Send className="mr-2 h-4 w-4" />
-            Submit Enquiry
+            Get Project Details
           </>
         )}
       </Button>

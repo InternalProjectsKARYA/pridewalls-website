@@ -28,7 +28,7 @@ const trustItems = [
 export default function WhyInvestSection() {
   return (
     <section
-      className="relative overflow-hidden bg-[#FBFAF7] py-10 md:py-28"
+      className="relative overflow-hidden bg-[#FBFAF7] py-10 md:py-18"
       aria-label="Why invest with us"
     >
       {/* Subtle decorative glow */}

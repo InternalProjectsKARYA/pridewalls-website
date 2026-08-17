@@ -10,18 +10,18 @@ const stats = [
     value: '8',
     suffix: '+',
     label: 'Years of Excellence',
-    description: 'Delivering quality since 2004',
+    description: 'Delivering quality since 2018',
   },
   {
     icon: Users,
-    value: '1000',
+    value: '5000',
     suffix: '+',
     label: 'Happy Customers',
     description: 'Families living their dreams',
   },
   {
     icon: Ruler,
-    value: '1',
+    value: '10',
     suffix: 'M+',
     label: 'Sq.ft Developed',
     description: 'Premium construction area',
@@ -137,7 +137,7 @@ export default function StatsSection() {
           <div className="mx-auto mt-3 h-px w-20 bg-gradient-to-r from-transparent via-brand-gold to-transparent" />
 
           <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-white/65 md:text-base">
-            Two decades of trust, quality, and customer satisfaction.
+            Over 8 years of trust, quality, and customer satisfaction.
             Building dreams, creating legacies.
           </p>
         </motion.div>

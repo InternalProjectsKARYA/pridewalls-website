@@ -98,6 +98,22 @@ export default function CTASection() {
                 Speak With Our Experts
               </h3>
 
+              {/* WhatsApp - First-class CTA */}
+              <a
+                href={whatsappHref}
+                target="_blank"
+                rel="noreferrer"
+                className="mb-4 flex w-full items-center justify-center gap-2 rounded-md bg-success py-4 font-semibold text-white transition hover:bg-success/90"
+              >
+                <MessageCircle size={18} />
+                Chat on WhatsApp
+              </a>
+
+              <p className="mb-4 text-center text-xs text-white/60">
+                Have questions? Chat with a property expert on WhatsApp.
+                Usually responds within 10 minutes.
+              </p>
+
               {/* primary */}
               <button
                 onClick={scrollToContact}
@@ -116,28 +132,14 @@ export default function CTASection() {
                   <Phone size={18} /> Call
                 </a>
 
-                <a
-                  href={whatsappHref}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="py-3 rounded-xl bg-success/20 text-white flex items-center justify-center gap-2 hover:bg-success/30 transition"
+                <button
+                  type="button"
+                  onClick={() => setIsSiteVisitOpen(true)}
+                  className="py-3 rounded-xl bg-white/20 text-white flex items-center justify-center gap-2 hover:bg-white/30 transition"
                 >
-                  <MessageCircle size={18} /> WhatsApp
-                </a>
+                  <Calendar size={18} /> Site Visit
+                </button>
               </div>
-
-              <button
-                type="button"
-                onClick={() => setIsSiteVisitOpen(true)}
-                className="w-full py-3 rounded-xl border border-white/20 text-white flex items-center justify-center gap-2 hover:bg-white/10 transition"
-              >
-                <Calendar size={18} /> Book Site Visit
-              </button>
-
-              {/* micro copy */}
-              <p className="text-white/50 text-xs mt-4 text-center">
-                Our team typically responds within 10 minutes
-              </p>
             </div>
           </motion.div>
 

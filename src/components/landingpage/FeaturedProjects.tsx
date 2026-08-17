@@ -43,6 +43,15 @@ const typeMap: Record<
 };
 
 function toCardData(p: (typeof projects)[number]): ProjectCardData {
+  const priceMin = p.priceRange.min;
+  const priceMax = p.priceRange.max;
+  const currency = p.priceRange.currency;
+
+  const priceLabel =
+    priceMin === priceMax
+      ? `${priceMin} ${currency}`
+      : `${priceMin} – ${priceMax} ${currency}`;
+
   return {
     name: p.name,
     slug: p.slug,
@@ -54,6 +63,20 @@ function toCardData(p: (typeof projects)[number]): ProjectCardData {
     area: p.projectSize,
     sizes: `${p.area.min} – ${p.area.max} ${p.area.unit}`,
     approvals: p.approvals.filter(Boolean),
+    price: priceLabel,
+    configurations:
+      p.type === 'apartments'
+        ? '2 & 3 BHK'
+        : p.type === 'villas'
+          ? '3 & 4 BHK'
+          : undefined,
+    reraNumber: p.reraNumber,
+    possession:
+      p.status === 'completed'
+        ? 'Ready to Move'
+        : p.status === 'ongoing'
+          ? 'Under Construction'
+          : 'Upcoming Launch',
   };
 }
 
@@ -101,7 +124,7 @@ export default function FeaturedProjects() {
   return (
     <section
       id="projects"
-      className="relative overflow-hidden bg-muted/30 py-16 md:py-24"
+      className="relative overflow-hidden bg-muted/30 py-10 md:py-15"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
