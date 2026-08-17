@@ -1,8 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Menu, Phone, Mail, ChevronDown, ArrowUpRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
@@ -26,8 +26,12 @@ const navigation = [
 
 export default function Navbar() {
   const pathname = usePathname();
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [openDesktopDropdown, setOpenDesktopDropdown] = useState<string | null>(null);
+  const desktopNavRef = useRef<HTMLDivElement>(null);
 
   const handleLogoClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
     if (pathname === '/') {
@@ -36,11 +40,35 @@ export default function Navbar() {
     }
   };
 
+  const handleDesktopSubmenuNavigation = (
+    event: React.MouseEvent<HTMLAnchorElement>,
+    href: string
+  ) => {
+    event.preventDefault();
+    setOpenDesktopDropdown(null);
+    router.push(href);
+  };
+
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
     handleScroll();
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    setOpenDesktopDropdown(null);
+  }, [pathname, searchParams]);
+
+  useEffect(() => {
+    const handlePointerDown = (event: MouseEvent) => {
+      if (!desktopNavRef.current?.contains(event.target as Node)) {
+        setOpenDesktopDropdown(null);
+      }
+    };
+
+    document.addEventListener('mousedown', handlePointerDown);
+    return () => document.removeEventListener('mousedown', handlePointerDown);
   }, []);
 
   const isTopImagePage = pathname === '/' || pathname.startsWith('/projects');
@@ -114,32 +142,44 @@ export default function Navbar() {
           </Link>
 
           {/* DESKTOP */}
-          <div className={navContainerClass}>
+          <div ref={desktopNavRef} className={navContainerClass}>
             {navigation.map((item) =>
               item.children ? (
-                <div key={item.name} className="relative group">
-                  <Link
-                    href={item.href}
+                <div key={item.name} className="relative">
+                  <button
+                    type="button"
                     className={`flex items-center gap-1 rounded-full px-4 py-2 text-sm font-semibold transition-colors hover:shadow-sm ${linkTextClass}`}
                     aria-haspopup="true"
+                    aria-expanded={openDesktopDropdown === item.name}
+                    onClick={() => {
+                      setOpenDesktopDropdown((current) => (current === item.name ? null : item.name));
+                    }}
                   >
                     {item.name}
-                    <ChevronDown size={14} className="transition-transform duration-200 group-hover:rotate-180 group-focus-within:rotate-180" />
-                  </Link>
+                    <ChevronDown
+                      size={14}
+                      className={`transition-transform duration-200 ${
+                        openDesktopDropdown === item.name ? 'rotate-180' : ''
+                      }`}
+                    />
+                  </button>
 
-                  <div className="absolute left-0 top-full pt-3 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto group-focus-within:opacity-100 group-focus-within:pointer-events-auto transition">
-                    <div className="min-w-[230px] overflow-hidden rounded-xl border border-border/80 bg-white p-1 shadow-[0_18px_45px_rgba(13,38,89,0.14)]">
-                      {item.children.map((child) => (
-                        <Link
-                          key={child.name}
-                          href={child.href}
-                          className="block rounded-lg px-4 py-3 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-primary"
-                        >
-                          {child.name}
-                        </Link>
-                      ))}
+                  {openDesktopDropdown === item.name && (
+                    <div className="absolute left-0 top-full pt-3">
+                      <div className="min-w-[230px] overflow-hidden rounded-xl border border-border/80 bg-white p-1 shadow-[0_18px_45px_rgba(13,38,89,0.14)]">
+                        {item.children.map((child) => (
+                          <Link
+                            key={child.name}
+                            href={child.href}
+                            onClick={(event) => handleDesktopSubmenuNavigation(event, child.href)}
+                            className="block rounded-lg px-4 py-3 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-primary"
+                          >
+                            {child.name}
+                          </Link>
+                        ))}
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </div>
               ) : (
                 <Link

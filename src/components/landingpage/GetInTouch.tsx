@@ -1,6 +1,6 @@
 "use client";
 
-import { Send, Phone, Mail, MessageSquare } from "lucide-react";
+import { Send, Mail, MessageSquare } from "lucide-react";
 import { useState, type ComponentPropsWithoutRef, type FormEvent } from "react";
 
 type InterestType =
@@ -112,8 +112,8 @@ export default function ContactSection() {
           <div className="h-[2px] w-24 bg-gradient-to-r from-brand-gold to-transparent" />
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-12 items-start">
-          <div className="space-y-8">
+        <div className="grid items-stretch gap-12 lg:grid-cols-2">
+          <div className="flex h-full flex-col gap-8">
             <div className="p-6 rounded-2xl bg-white/80 backdrop-blur border shadow-card">
               <h3 className="font-semibold text-lg mb-3 text-brand-gold">
                 HYDERABAD OFFICE
@@ -135,8 +135,9 @@ export default function ContactSection() {
 
             <form
               onSubmit={handleSubmit}
-              className="p-6 rounded-2xl bg-white border shadow-lg space-y-4"
+              className="flex flex-1 flex-col rounded-2xl border bg-white p-6 shadow-lg"
             >
+              <div className="space-y-4">
               <div className="grid md:grid-cols-2 gap-4">
                 <label className="space-y-1">
                   <span className="text-sm font-medium text-foreground">
@@ -231,7 +232,7 @@ export default function ContactSection() {
                 </span>
                 <div className="flex flex-wrap gap-3 pt-1">
                   {([
-                    { value: "phone" as const, icon: Phone, label: "Phone Call" },
+                    { value: "phone" as const, label: "Phone Call" },
                     { value: "email" as const, icon: Mail, label: "Email" },
                     { value: "whatsapp" as const, icon: MessageSquare, label: "WhatsApp" },
                   ] as const).map((method) => (
@@ -252,7 +253,7 @@ export default function ContactSection() {
                         disabled={isSubmitting}
                         className="sr-only"
                       />
-                      <method.icon className="h-4 w-4" />
+                      {"icon" in method ? <method.icon className="h-4 w-4" /> : null}
                       <span className="text-sm">{method.label}</span>
                     </label>
                   ))}
@@ -294,11 +295,12 @@ export default function ContactSection() {
                   {successMessage}
                 </p>
               ) : null}
+              </div>
 
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full h-12 flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-brand-gold to-brand-gold-hover text-white font-semibold hover:scale-[1.02] transition shadow-[0_10px_25px_rgba(13,38,89,0.12)] disabled:opacity-70 disabled:hover:scale-100"
+                className="mt-4 h-12 w-full flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-brand-gold to-brand-gold-hover text-white font-semibold shadow-[0_10px_25px_rgba(13,38,89,0.12)] transition hover:scale-[1.02] disabled:opacity-70 disabled:hover:scale-100"
               >
                 <Send size={18} />
                 {isSubmitting ? "Submitting..." : "Get In Touch"}
@@ -306,7 +308,7 @@ export default function ContactSection() {
             </form>
           </div>
 
-          <div className="relative h-200 rounded-2xl overflow-hidden shadow-xl border">
+          <div className="relative h-full min-h-[720px] rounded-2xl overflow-hidden border shadow-xl">
             <iframe
               src="https://www.google.com/maps?q=Progressive+Towers,+100+Feet+Road,+Ayyappa+Society,+Madhapur,+Hyderabad+500081&z=16&output=embed&hl=en"
               className="w-full h-full border-0"

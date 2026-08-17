@@ -151,7 +151,7 @@ export default function ContactSection() {
             viewport={{ once: true }}
             className="lg:col-span-2"
           >
-            <div className="bg-card rounded-2xl p-6 md:p-8 shadow-lg border border-border">
+            <div className="bg-card rounded-2xl p-6 md:p-8 shadow-lg border border-border h-full">
               <h3 className="text-xl font-bold text-foreground mb-6">Send Us a Message</h3>
               <ContactForm showProjectSelect={true} />
             </div>
