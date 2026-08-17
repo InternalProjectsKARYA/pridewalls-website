@@ -302,14 +302,7 @@ const navigation = [
         name: 'Open Plots',
         href: '/projects?type=Open%20Plots',
       },
-      {
-        name: 'Ready to Move',
-        href: '/projects?status=completed',
-      },
-      {
-        name: 'Upcoming',
-        href: '/projects?status=upcoming',
-      },
+    
     ],
   },
   {

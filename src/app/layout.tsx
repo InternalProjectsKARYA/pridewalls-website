@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import Navbar from '../components/landingpage/navbar'
 import WhatsAppButton from "@/components/common/WhatsAppButton";
-import StickyMobileCTA from '@/components/landingpage/StickyMobileCTA';
+
 import Footer from '@/components/landingpage/Footer'
 import { companyInfo } from "@/lib/project-data";
 
@@ -76,7 +76,7 @@ export default function RootLayout({
         <Navbar />
         {children}
         <WhatsAppButton />
-        <StickyMobileCTA />
+       
         <Footer />
         {/* Structured data: site-wide organization / real estate agent */}
         <script
