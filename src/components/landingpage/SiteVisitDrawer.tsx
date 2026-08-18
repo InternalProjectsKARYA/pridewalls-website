@@ -205,7 +205,7 @@ export default function SiteVisitDrawer({
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          type: 'SITE_VISIT',
+          type: 'site_visit_request',
           name,
           email,
           mobile,

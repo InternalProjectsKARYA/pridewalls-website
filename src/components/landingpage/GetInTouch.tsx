@@ -63,7 +63,7 @@ export default function ContactSection() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          type: "LEAD",
+          type: "property_enquiry",
           name: safeName,
           email: safeEmail,
           mobile: safeMobile,

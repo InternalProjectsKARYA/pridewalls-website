@@ -1,18 +1,18 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { 
-  Eye, EyeOff, Download, RefreshCw, Lock, Search, X, MessageSquare, 
+import {
+  Eye, EyeOff, Download, RefreshCw, Lock, Search, X, MessageSquare,
   Mail, Phone, Grid3x3, List, ChevronRight, TrendingUp, Users, Clock, CheckCircle,
   ChevronLeft, ChevronRight as ChevronRightIcon
 } from "lucide-react";
 
-type InquiryRecord = {
+type EnquiryRecord = {
   id: number | string | null;
   name: string;
   email: string | null;  // Optional - many customers only have mobile/WhatsApp
   mobile: string;
-  inquiryType: string;
+  enquiryType: string;
   interestedIn: string;
   message: string;
   preferredContact?: string;
@@ -20,9 +20,9 @@ type InquiryRecord = {
   submittedAt: string;
 };
 
-type ViewInquiriesResponse = {
+type ViewEnquiriesResponse = {
   message?: string;
-  inquiries?: InquiryRecord[];
+  enquiries?: EnquiryRecord[];
   totalCount?: number;
   totalPages?: number;
   currentPage?: number;
@@ -58,18 +58,18 @@ function escapeCsvCell(value: string | boolean | null | undefined) {
   return str;
 }
 
-function downloadCsv(inquiries: InquiryRecord[]) {
+function downloadCsv(enquiries: EnquiryRecord[]) {
   const headers = [
     "ID", "Name", "Email", "Mobile", "Type", "Interested In",
     "Preferred Contact", "Message", "Consent", "Submitted At",
   ];
-  const rows = inquiries.map((l) =>
+  const rows = enquiries.map((l) =>
     [
       String(l.id ?? ""),
       l.name,
       l.email ?? "",  // Handle optional email
       l.mobile,
-      l.inquiryType,
+      l.enquiryType,
       l.interestedIn,
       l.preferredContact ?? "",
       l.message,
@@ -82,24 +82,24 @@ function downloadCsv(inquiries: InquiryRecord[]) {
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
-  a.download = `inquiries-${new Date().toISOString().slice(0, 10)}.csv`;
+  a.download = `enquiries-${new Date().toISOString().slice(0, 10)}.csv`;
   a.click();
   URL.revokeObjectURL(url);
 }
 
-function calculateStats(inquiries: InquiryRecord[]) {
+function calculateStats(enquiries: EnquiryRecord[]) {
   const categories = new Map<string, number>();
   const contactMethods = new Map<string, number>();
-  
-  inquiries.forEach((inquiry) => {
-    categories.set(inquiry.interestedIn, (categories.get(inquiry.interestedIn) || 0) + 1);
-    const method = inquiry.preferredContact || "Not specified";
+
+  enquiries.forEach((enquiry) => {
+    categories.set(enquiry.interestedIn, (categories.get(enquiry.interestedIn) || 0) + 1);
+    const method = enquiry.preferredContact || "Not specified";
     contactMethods.set(method, (contactMethods.get(method) || 0) + 1);
   });
 
   return {
-    total: inquiries.length,
-    withConsent: inquiries.filter((l) => l.consent).length,
+    total: enquiries.length,
+    withConsent: enquiries.filter((l) => l.consent).length,
     byCategory: Array.from(categories.entries())
       .map(([name, count]) => ({ name, count }))
       .sort((a, b) => b.count - a.count),
@@ -109,11 +109,11 @@ function calculateStats(inquiries: InquiryRecord[]) {
   };
 }
 
-export default function InquiriesViewer() {
+export default function EnquiriesViewer() {
   const [password, setPassword] = useState("");
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [verifiedPassword, setVerifiedPassword] = useState<string | null>(null);
-  const [inquiries, setInquiries] = useState<InquiryRecord[]>([]);
+  const [enquiries, setEnquiries] = useState<EnquiryRecord[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
@@ -122,24 +122,24 @@ export default function InquiriesViewer() {
   const [totalPages, setTotalPages] = useState(1);
   const [viewMode, setViewMode] = useState<"table" | "card">("table");
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedInquiry, setSelectedInquiry] = useState<InquiryRecord | null>(null);
+  const [selectedEnquiry, setSelectedEnquiry] = useState<EnquiryRecord | null>(null);
   const [filterBy, setFilterBy] = useState<"all" | "email" | "phone" | "message">("all");
-  const [inquiryTypeFilter, setInquiryTypeFilter] = useState<"ALL" | "LEAD" | "SITE_VISIT">("ALL");
+  const [enquiryTypeFilter, setEnquiryTypeFilter] = useState<"ALL" | "property_enquiry" | "site_visit_request">("ALL");
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  const loadInquiries = async (pwd: string, page = 1, type = "ALL") => {
-    const response = await fetch("/api/inquiries/view", {
+  const loadEnquiries = async (pwd: string, page = 1, type = "ALL") => {
+    const response = await fetch("/api/enquiries/view", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ password: pwd, page, pageSize: PAGE_SIZE, type }),
     });
-    const result = (await response.json()) as ViewInquiriesResponse;
-    if (!response.ok) throw new Error(result.message || "Unable to load inquiries.");
+    const result = (await response.json()) as ViewEnquiriesResponse;
+    if (!response.ok) throw new Error(result.message || "Unable to load enquiries.");
     return {
-      inquiries: result.inquiries ?? [],
+      enquiries: result.enquiries ?? [],
       totalCount: result.totalCount ?? 0,
       totalPages: result.totalPages ?? 1,
       currentPage: result.currentPage ?? 1,
@@ -156,9 +156,9 @@ export default function InquiriesViewer() {
     }
     setIsLoading(true);
     try {
-      const result = await loadInquiries(password.trim(), 1, inquiryTypeFilter);
+      const result = await loadEnquiries(password.trim(), 1, enquiryTypeFilter);
       setVerifiedPassword(password.trim());
-      setInquiries(result.inquiries);
+      setEnquiries(result.enquiries);
       setCurrentPage(result.currentPage);
       setTotalCount(result.totalCount);
       setTotalPages(result.totalPages);
@@ -177,8 +177,8 @@ export default function InquiriesViewer() {
     setErrorMessage("");
     setSuccessMessage("");
     try {
-      const result = await loadInquiries(verifiedPassword, currentPage, inquiryTypeFilter);
-      setInquiries(result.inquiries);
+      const result = await loadEnquiries(verifiedPassword, currentPage, enquiryTypeFilter);
+      setEnquiries(result.enquiries);
       setCurrentPage(result.currentPage);
       setTotalCount(result.totalCount);
       setTotalPages(result.totalPages);
@@ -192,12 +192,12 @@ export default function InquiriesViewer() {
 
   const handleLock = () => {
     setVerifiedPassword(null);
-    setInquiries([]);
+    setEnquiries([]);
     setCurrentPage(1);
     setTotalCount(0);
     setTotalPages(1);
 
-    setInquiryTypeFilter("ALL");
+    setEnquiryTypeFilter("ALL");
     setFilterBy("all");
     setViewMode("table");
 
@@ -205,7 +205,7 @@ export default function InquiriesViewer() {
     setSuccessMessage("");
     setPassword("");
     setSearchTerm("");
-    setSelectedInquiry(null);
+    setSelectedEnquiry(null);
   };
 
   const handlePageChange = async (page: number) => {
@@ -213,8 +213,8 @@ export default function InquiriesViewer() {
     setIsLoading(true);
     setErrorMessage("");
     try {
-      const result = await loadInquiries(verifiedPassword, page, inquiryTypeFilter);
-      setInquiries(result.inquiries);
+      const result = await loadEnquiries(verifiedPassword, page, enquiryTypeFilter);
+      setEnquiries(result.enquiries);
       setCurrentPage(result.currentPage);
       setTotalCount(result.totalCount);
       setTotalPages(result.totalPages);
@@ -225,16 +225,16 @@ export default function InquiriesViewer() {
     }
   };
 
-  const handleInquiryTypeFilterChange = async (
-    type: "ALL" | "LEAD" | "SITE_VISIT"
+  const handleenquiryTypeFilterChange = async (
+    type: "ALL" | "property_enquiry" | "site_visit_request"
   ) => {
-    if (type === inquiryTypeFilter && inquiries.length > 0) {
+    if (type === enquiryTypeFilter && enquiries.length > 0) {
       return;
     }
 
-    setInquiryTypeFilter(type);
+    setEnquiryTypeFilter(type);
     setSearchTerm("");
-    setSelectedInquiry(null);
+    setSelectedEnquiry(null);
 
     // If not unlocked, only change the selected tab.
     // Data will be loaded when the user unlocks.
@@ -247,26 +247,26 @@ export default function InquiriesViewer() {
     setSuccessMessage("");
 
     try {
-      const result = await loadInquiries(
+      const result = await loadEnquiries(
         verifiedPassword,
         1,
         type
       );
 
-      setInquiries(result.inquiries);
+      setEnquiries(result.enquiries);
       setCurrentPage(result.currentPage);
       setTotalCount(result.totalCount);
       setTotalPages(result.totalPages);
 
       if (type === "ALL") {
         setSuccessMessage("All enquiries loaded.");
-      } else if (type === "LEAD") {
+      } else if (type === "property_enquiry") {
         setSuccessMessage("Enquiries loaded.");
       } else {
         setSuccessMessage("Site visits loaded.");
       }
     } catch (error) {
-      setInquiries([]);
+      setEnquiries([]);
       setCurrentPage(1);
       setTotalCount(0);
       setTotalPages(1);
@@ -274,7 +274,7 @@ export default function InquiriesViewer() {
       setErrorMessage(
         error instanceof Error
           ? error.message
-          : "Unable to filter inquiries."
+          : "Unable to filter enquiries."
       );
     } finally {
       setIsLoading(false);
@@ -298,26 +298,26 @@ export default function InquiriesViewer() {
     return pageNumbers;
   };
 
-  const filteredInquiries = inquiries.filter((inquiry) => {
+  const filteredEnquiries = enquiries.filter((enquiry) => {
     const query = searchTerm.toLowerCase();
     if (filterBy === "all") {
       return (
-        inquiry.name.toLowerCase().includes(query) ||
-        (inquiry.email?.toLowerCase().includes(query) ?? false) ||
-        inquiry.mobile.includes(query) ||
-        inquiry.interestedIn.toLowerCase().includes(query)
+        enquiry.name.toLowerCase().includes(query) ||
+        (enquiry.email?.toLowerCase().includes(query) ?? false) ||
+        enquiry.mobile.includes(query) ||
+        enquiry.interestedIn.toLowerCase().includes(query)
       );
     } else if (filterBy === "email") {
-      return inquiry.email?.toLowerCase().includes(query) ?? false;
+      return enquiry.email?.toLowerCase().includes(query) ?? false;
     } else if (filterBy === "phone") {
-      return inquiry.mobile.includes(query);
+      return enquiry.mobile.includes(query);
     } else if (filterBy === "message") {
-      return inquiry.message.toLowerCase().includes(query);
+      return enquiry.message.toLowerCase().includes(query);
     }
     return true;
   });
 
-  const stats = calculateStats(inquiries);
+  const stats = calculateStats(enquiries);
 
   if (!verifiedPassword) {
     return (
@@ -370,7 +370,7 @@ export default function InquiriesViewer() {
 
               {errorMessage && (
                 <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 flex items-start gap-2">
-                    <X className="h-4 w-4 shrink-0 mt-0.5" />
+                  <X className="h-4 w-4 shrink-0 mt-0.5" />
                   <p>{errorMessage}</p>
                 </div>
               )}
@@ -402,8 +402,8 @@ export default function InquiriesViewer() {
             <div className="flex flex-wrap gap-2">
               <button
                 type="button"
-                onClick={() => downloadCsv(filteredInquiries.length > 0 ? filteredInquiries : inquiries)}
-                disabled={inquiries.length === 0}
+                onClick={() => downloadCsv(filteredEnquiries.length > 0 ? filteredEnquiries : enquiries)}
+                disabled={enquiries.length === 0}
                 className="inline-flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-green-700 disabled:opacity-50"
               >
                 <Download className="h-4 w-4" />
@@ -433,34 +433,31 @@ export default function InquiriesViewer() {
           <div className="mb-8 flex gap-2">
             <button
               type="button"
-              onClick={() => handleInquiryTypeFilterChange("ALL")}
-              className={`rounded-lg px-4 py-2 text-sm font-semibold transition ${
-                inquiryTypeFilter === "ALL"
+              onClick={() => handleenquiryTypeFilterChange("ALL")}
+              className={`rounded-lg px-4 py-2 text-sm font-semibold transition ${enquiryTypeFilter === "ALL"
                   ? "bg-primary text-white"
                   : "border border-slate-300 bg-white text-slate-700 hover:bg-slate-50"
-              }`}
+                }`}
             >
               All
             </button>
             <button
               type="button"
-              onClick={() => handleInquiryTypeFilterChange("LEAD")}
-              className={`rounded-lg px-4 py-2 text-sm font-semibold transition ${
-                inquiryTypeFilter === "LEAD"
+              onClick={() => handleenquiryTypeFilterChange("property_enquiry")}
+              className={`rounded-lg px-4 py-2 text-sm font-semibold transition ${enquiryTypeFilter === "property_enquiry"
                   ? "bg-primary text-white"
                   : "border border-slate-300 bg-white text-slate-700 hover:bg-slate-50"
-              }`}
+                }`}
             >
               Enquiries
             </button>
             <button
               type="button"
-              onClick={() => handleInquiryTypeFilterChange("SITE_VISIT")}
-              className={`rounded-lg px-4 py-2 text-sm font-semibold transition ${
-                inquiryTypeFilter === "SITE_VISIT"
+              onClick={() => handleenquiryTypeFilterChange("site_visit_request")}
+              className={`rounded-lg px-4 py-2 text-sm font-semibold transition ${enquiryTypeFilter === "site_visit_request"
                   ? "bg-primary text-white"
                   : "border border-slate-300 bg-white text-slate-700 hover:bg-slate-50"
-              }`}
+                }`}
             >
               Site Visits
             </button>
@@ -531,7 +528,7 @@ export default function InquiriesViewer() {
           )}
 
           {/* Search and View Toggle */}
-          {inquiries.length > 0 && (
+          {enquiries.length > 0 && (
             <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between rounded-xl bg-white border border-slate-200 p-4">
               <div className="flex-1">
                 <div className="relative">
@@ -562,11 +559,10 @@ export default function InquiriesViewer() {
                   <button
                     type="button"
                     onClick={() => setViewMode("table")}
-                    className={`rounded p-2 transition ${
-                      viewMode === "table"
+                    className={`rounded p-2 transition ${viewMode === "table"
                         ? "bg-primary text-white"
                         : "text-slate-600 hover:text-slate-900"
-                    }`}
+                      }`}
                     title="Table view"
                   >
                     <List className="h-5 w-5" />
@@ -574,11 +570,10 @@ export default function InquiriesViewer() {
                   <button
                     type="button"
                     onClick={() => setViewMode("card")}
-                    className={`rounded p-2 transition ${
-                      viewMode === "card"
+                    className={`rounded p-2 transition ${viewMode === "card"
                         ? "bg-primary text-white"
                         : "text-slate-600 hover:text-slate-900"
-                    }`}
+                      }`}
                     title="Card view"
                   >
                     <Grid3x3 className="h-5 w-5" />
@@ -608,22 +603,22 @@ export default function InquiriesViewer() {
               <Users className="h-12 w-12 text-slate-400 mx-auto mb-4" />
 
               <p className="text-slate-500 font-medium">
-                {inquiryTypeFilter === "SITE_VISIT"
+                {enquiryTypeFilter === "site_visit_request"
                   ? "No site visits found yet."
-                  : inquiryTypeFilter === "LEAD"
-                  ? "No enquiries found yet."
-                  : "No records found yet."}
+                  : enquiryTypeFilter === "property_enquiry"
+                    ? "No enquiries found yet."
+                    : "No records found yet."}
               </p>
 
               <p className="text-sm text-slate-400 mt-1">
-                {inquiryTypeFilter === "SITE_VISIT"
+                {enquiryTypeFilter === "site_visit_request"
                   ? "Site visit requests will appear here when submitted."
-                  : inquiryTypeFilter === "LEAD"
-                  ? "Enquiries will appear here when submitted."
-                  : "Enquiries and site visits will appear here when submitted."}
+                  : enquiryTypeFilter === "property_enquiry"
+                    ? "Enquiries will appear here when submitted."
+                    : "Enquiries and site visits will appear here when submitted."}
               </p>
             </div>
-          ) : filteredInquiries.length === 0 && searchTerm ? (
+          ) : filteredEnquiries.length === 0 && searchTerm ? (
             <div className="rounded-xl border border-dashed border-slate-300 bg-white px-6 py-16 text-center">
               <Search className="h-12 w-12 text-slate-400 mx-auto mb-4" />
               <p className="text-slate-500 font-medium">No enquiries match your search.</p>
@@ -649,51 +644,49 @@ export default function InquiriesViewer() {
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-200">
-                      {filteredInquiries.map((inquiry) => (
+                      {filteredEnquiries.map((enquiry) => (
                         <tr
-                          key={`${inquiry.id ?? inquiry.email}-${inquiry.submittedAt}`}
+                          key={`${enquiry.id ?? enquiry.email}-${enquiry.submittedAt}`}
                           className="transition hover:bg-slate-50"
                         >
                           <td className="px-6 py-4">
-                            <span className={`rounded-lg px-3 py-1 text-xs font-semibold ${
-                              inquiry.inquiryType === 'LEAD'
+                            <span className={`rounded-lg px-3 py-1 text-xs font-semibold ${enquiry.enquiryType === 'property_enquiry'
                                 ? 'bg-blue-100 text-blue-700'
                                 : 'bg-purple-100 text-purple-700'
-                            }`}>
-                              {inquiry.inquiryType === 'LEAD' ? 'Enquiry' : 'Site Visit'}
+                              }`}>
+                              {enquiry.enquiryType === 'property_enquiry' ? 'Enquiry' : 'Site Visit'}
                             </span>
                           </td>
                           <td className="px-6 py-4">
-                            <div className="font-medium text-slate-900">{inquiry.name}</div>
+                            <div className="font-medium text-slate-900">{enquiry.name}</div>
                           </td>
-                          <td className="px-6 py-4 text-slate-600 max-w-xs truncate">{inquiry.email}</td>
-                          <td className="px-6 py-4 text-slate-600">{inquiry.mobile}</td>
+                          <td className="px-6 py-4 text-slate-600 max-w-xs truncate">{enquiry.email}</td>
+                          <td className="px-6 py-4 text-slate-600">{enquiry.mobile}</td>
                           <td className="px-6 py-4">
                             <span className="rounded-lg bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-700">
-                              {inquiry.interestedIn || "—"}
+                              {enquiry.interestedIn || "—"}
                             </span>
                           </td>
                           <td className="px-6 py-4 capitalize text-slate-600">
-                            {inquiry.preferredContact || "—"}
+                            {enquiry.preferredContact || "—"}
                           </td>
                           <td className="px-6 py-4">
                             <span
-                              className={`rounded-lg px-3 py-1 text-xs font-semibold ${
-                                inquiry.consent
+                              className={`rounded-lg px-3 py-1 text-xs font-semibold ${enquiry.consent
                                   ? "bg-green-100 text-green-700"
                                   : "bg-red-100 text-red-700"
-                              }`}
+                                }`}
                             >
-                              {inquiry.consent ? "Yes" : "No"}
+                              {enquiry.consent ? "Yes" : "No"}
                             </span>
                           </td>
                           <td className="px-6 py-4 text-slate-600 text-xs">
-                            {formatDateShort(inquiry.submittedAt)}
+                            {formatDateShort(enquiry.submittedAt)}
                           </td>
                           <td className="px-6 py-4">
                             <button
                               type="button"
-                              onClick={() => setSelectedInquiry(inquiry)}
+                              onClick={() => setSelectedEnquiry(enquiry)}
                               className="text-primary hover:text-primary/80 font-semibold text-xs transition"
                             >
                               View
@@ -710,52 +703,51 @@ export default function InquiriesViewer() {
             <>
               {/* Card View */}
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                {filteredInquiries.map((inquiry) => (
+                {filteredEnquiries.map((enquiry) => (
                   <div
-                    key={`${inquiry.id ?? inquiry.email}-${inquiry.submittedAt}`}
+                    key={`${enquiry.id ?? enquiry.email}-${enquiry.submittedAt}`}
                     className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition hover:shadow-md hover:border-primary/30 cursor-pointer"
-                    onClick={() => setSelectedInquiry(inquiry)}
+                    onClick={() => setSelectedEnquiry(enquiry)}
                   >
                     <div className="flex items-start justify-between mb-4">
                       <div className="flex-1">
-                        <h3 className="font-semibold text-slate-900">{inquiry.name}</h3>
+                        <h3 className="font-semibold text-slate-900">{enquiry.name}</h3>
                         <p className="text-xs text-slate-500 mt-1">
-                          {formatDateShort(inquiry.submittedAt)}
+                          {formatDateShort(enquiry.submittedAt)}
                         </p>
                       </div>
                       <span
-                        className={`ml-2 shrink-0 rounded-lg px-2 py-1 text-xs font-semibold ${
-                          inquiry.inquiryType === 'LEAD'
+                        className={`ml-2 shrink-0 rounded-lg px-2 py-1 text-xs font-semibold ${enquiry.enquiryType === 'property_enquiry'
                             ? 'bg-blue-100 text-blue-700'
                             : 'bg-purple-100 text-purple-700'
-                        }`}
+                          }`}
                       >
-                        {inquiry.inquiryType === 'LEAD' ? 'Enquiry' : 'Site Visit'}
+                        {enquiry.enquiryType === 'property_enquiry' ? 'Enquiry' : 'Site Visit'}
                       </span>
                     </div>
 
                     <div className="space-y-3">
                       <div className="flex items-center gap-2 text-sm">
                         <Mail className="h-4 w-4 text-slate-400 shrink-0" />
-                        <span className="text-slate-600 truncate">{inquiry.email}</span>
+                        <span className="text-slate-600 truncate">{enquiry.email}</span>
                       </div>
                       <div className="flex items-center gap-2 text-sm">
                         <Phone className="h-4 w-4 text-slate-400 shrink-0" />
-                        <span className="text-slate-600">{inquiry.mobile}</span>
+                        <span className="text-slate-600">{enquiry.mobile}</span>
                       </div>
 
-                      {inquiry.interestedIn && (
+                      {enquiry.interestedIn && (
                         <div className="mt-3 pt-3 border-t border-slate-100">
                           <p className="text-xs text-slate-500 mb-2">Interested In</p>
                           <span className="rounded-lg bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-700">
-                            {inquiry.interestedIn}
+                            {enquiry.interestedIn}
                           </span>
                         </div>
                       )}
 
-                      {inquiry.preferredContact && (
+                      {enquiry.preferredContact && (
                         <div className="text-xs text-slate-500">
-                          Prefers: <span className="font-medium capitalize text-slate-700">{inquiry.preferredContact}</span>
+                          Prefers: <span className="font-medium capitalize text-slate-700">{enquiry.preferredContact}</span>
                         </div>
                       )}
                     </div>
@@ -764,7 +756,7 @@ export default function InquiriesViewer() {
                       type="button"
                       onClick={(e) => {
                         e.stopPropagation();
-                        setSelectedInquiry(inquiry);
+                        setSelectedEnquiry(enquiry);
                       }}
                       className="mt-4 w-full inline-flex items-center justify-center gap-2 rounded-lg bg-primary/10 px-3 py-2 text-sm font-semibold text-primary transition hover:bg-primary/20"
                     >
@@ -778,7 +770,7 @@ export default function InquiriesViewer() {
           )}
 
           {/* Pagination */}
-          {inquiries.length > 0 && (
+          {enquiries.length > 0 && (
             <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <p className="text-sm text-slate-600">
                 Showing {Math.min((currentPage - 1) * PAGE_SIZE + 1, totalCount)}–
@@ -801,11 +793,10 @@ export default function InquiriesViewer() {
                     type="button"
                     onClick={() => handlePageChange(p)}
                     disabled={isLoading}
-                    className={`rounded-lg px-3 py-2 text-sm font-semibold transition ${
-                      p === currentPage
+                    className={`rounded-lg px-3 py-2 text-sm font-semibold transition ${p === currentPage
                         ? "bg-primary text-white"
                         : "border border-slate-300 bg-white text-slate-700 hover:bg-slate-50"
-                    }`}
+                      }`}
                   >
                     {p}
                   </button>
@@ -826,15 +817,15 @@ export default function InquiriesViewer() {
         </div>
       </div>
 
-      {/* Inquiry Detail Modal */}
-      {selectedInquiry && (
+      {/* Enquiry Detail Modal */}
+      {selectedEnquiry && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
           <div className="max-h-screen max-w-2xl w-full overflow-y-auto rounded-2xl bg-white shadow-2xl">
             <div className="sticky top-0 border-b border-slate-200 bg-white px-6 py-5 sm:px-8 sm:py-6 flex items-center justify-between">
-              <h2 className="text-xl font-bold text-slate-900">Inquiry Details</h2>
+              <h2 className="text-xl font-bold text-slate-900">Enquiry Details</h2>
               <button
                 type="button"
-                onClick={() => setSelectedInquiry(null)}
+                onClick={() => setSelectedEnquiry(null)}
                 className="rounded-lg p-1 text-slate-500 transition hover:bg-slate-100 hover:text-slate-900"
               >
                 <X className="h-6 w-6" />
@@ -847,12 +838,11 @@ export default function InquiriesViewer() {
                 <div>
                   <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">Type</p>
                   <div className="mt-2">
-                    <span className={`rounded-lg px-3 py-1 text-sm font-semibold ${
-                      selectedInquiry.inquiryType === 'LEAD'
+                    <span className={`rounded-lg px-3 py-1 text-sm font-semibold ${selectedEnquiry.enquiryType === 'property_enquiry'
                         ? 'bg-blue-100 text-blue-700'
                         : 'bg-purple-100 text-purple-700'
-                    }`}>
-                      {selectedInquiry.inquiryType === 'LEAD' ? 'Enquiry' : 'Site Visit'}
+                      }`}>
+                      {selectedEnquiry.enquiryType === 'property_enquiry' ? 'Enquiry' : 'Site Visit'}
                     </span>
                   </div>
                 </div>
@@ -860,17 +850,17 @@ export default function InquiriesViewer() {
                 {/* Basic Info */}
                 <div>
                   <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">Name</p>
-                  <p className="mt-2 text-lg font-semibold text-slate-900">{selectedInquiry.name}</p>
+                  <p className="mt-2 text-lg font-semibold text-slate-900">{selectedEnquiry.name}</p>
                 </div>
 
                 <div>
                   <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">Email</p>
-                  <p className="mt-2 text-base text-slate-600 break-all">{selectedInquiry.email}</p>
+                  <p className="mt-2 text-base text-slate-600 break-all">{selectedEnquiry.email}</p>
                 </div>
 
                 <div>
                   <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">Mobile</p>
-                  <p className="mt-2 text-base text-slate-600">{selectedInquiry.mobile}</p>
+                  <p className="mt-2 text-base text-slate-600">{selectedEnquiry.mobile}</p>
                 </div>
 
                 <div>
@@ -879,7 +869,7 @@ export default function InquiriesViewer() {
                   </p>
                   <div className="mt-2">
                     <span className="rounded-lg bg-blue-100 px-3 py-1 text-sm font-semibold text-blue-700">
-                      {selectedInquiry.interestedIn || "—"}
+                      {selectedEnquiry.interestedIn || "—"}
                     </span>
                   </div>
                 </div>
@@ -889,7 +879,7 @@ export default function InquiriesViewer() {
                     Preferred Contact
                   </p>
                   <p className="mt-2 text-base capitalize text-slate-600">
-                    {selectedInquiry.preferredContact || "—"}
+                    {selectedEnquiry.preferredContact || "—"}
                   </p>
                 </div>
 
@@ -897,30 +887,29 @@ export default function InquiriesViewer() {
                   <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">Consent</p>
                   <div className="mt-2">
                     <span
-                      className={`rounded-lg px-3 py-1 text-sm font-semibold ${
-                        selectedInquiry.consent
+                      className={`rounded-lg px-3 py-1 text-sm font-semibold ${selectedEnquiry.consent
                           ? "bg-green-100 text-green-700"
                           : "bg-red-100 text-red-700"
-                      }`}
+                        }`}
                     >
-                      {selectedInquiry.consent ? "Given" : "Not Given"}
+                      {selectedEnquiry.consent ? "Given" : "Not Given"}
                     </span>
                   </div>
                 </div>
 
                 <div>
                   <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">Submitted</p>
-                  <p className="mt-2 text-base text-slate-600">{formatDate(selectedInquiry.submittedAt)}</p>
+                  <p className="mt-2 text-base text-slate-600">{formatDate(selectedEnquiry.submittedAt)}</p>
                 </div>
               </div>
 
               {/* Message */}
-              {selectedInquiry.message && (
+              {selectedEnquiry.message && (
                 <div className="mt-6 border-t border-slate-200 pt-6">
                   <p className="text-xs font-semibold uppercase tracking-wider text-slate-500 mb-3">
                     Message
                   </p>
-                  <p className="rounded-lg bg-slate-50 px-4 py-3 text-sm text-slate-700 whitespace-pre-wrap wrap-break-word">                    {selectedInquiry.message}
+                  <p className="rounded-lg bg-slate-50 px-4 py-3 text-sm text-slate-700 whitespace-pre-wrap wrap-break-word">                    {selectedEnquiry.message}
                   </p>
                 </div>
               )}
@@ -932,21 +921,21 @@ export default function InquiriesViewer() {
                 </p>
                 <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
                   <a
-                    href={`mailto:${selectedInquiry.email}`}
+                    href={`mailto:${selectedEnquiry.email}`}
                     className="inline-flex items-center justify-center gap-2 rounded-lg bg-blue-100 px-4 py-2 font-semibold text-blue-700 transition hover:bg-blue-200"
                   >
                     <Mail className="h-4 w-4" />
                     Email
                   </a>
                   <a
-                    href={`tel:${selectedInquiry.mobile}`}
+                    href={`tel:${selectedEnquiry.mobile}`}
                     className="inline-flex items-center justify-center gap-2 rounded-lg bg-green-100 px-4 py-2 font-semibold text-green-700 transition hover:bg-green-200"
                   >
                     <Phone className="h-4 w-4" />
                     Call
                   </a>
                   <a
-                    href={`https://wa.me/${selectedInquiry.mobile.replace(/\D/g, "")}`}
+                    href={`https://wa.me/${selectedEnquiry.mobile.replace(/\D/g, "")}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center justify-center gap-2 rounded-lg bg-emerald-100 px-4 py-2 font-semibold text-emerald-700 transition hover:bg-emerald-200"
