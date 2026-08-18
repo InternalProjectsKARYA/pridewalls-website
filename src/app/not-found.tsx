@@ -13,7 +13,7 @@ export default function NotFound() {
   }, [setIsNotFound]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-primary/5 via-slate-50 to-slate-50 pt-28 sm:pt-32 lg:pt-36">
+    <div className="min-h-screen bg-linear-to-b from-primary/5 via-slate-50 to-slate-50 pt-28 sm:pt-32 lg:pt-36">
       <div className="px-4 pb-10 sm:px-6">
         <div className="mx-auto max-w-xl rounded-3xl border border-slate-200 bg-white px-6 py-12 text-center shadow-xl sm:px-8">
           <p className="text-xs font-semibold uppercase tracking-[0.28em] text-brand-gold">404</p>

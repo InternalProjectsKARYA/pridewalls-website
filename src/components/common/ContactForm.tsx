@@ -52,13 +52,13 @@ export default function ContactForm({ projectName, showProjectSelect = true }: C
     setIsSubmitting(true);
 
     try {
-      const response = await fetch('/api/inquiries', {
+      const response = await fetch('/api/enquiries', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          type: 'LEAD',
+          type: 'property_enquiry',
           name: data.name,
           email: data.email,
           mobile: data.phone,

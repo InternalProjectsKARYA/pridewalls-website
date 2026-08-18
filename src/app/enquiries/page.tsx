@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import InquiriesViewer from "@/components/landingpage/InquiriesViewer";
+import EnquiriesViewer from "@/components/landingpage/EnquiriesViewer";
 
 export const metadata: Metadata = {
   title: "Enquiries · Admin",
@@ -8,5 +8,5 @@ export const metadata: Metadata = {
 };
 
 export default function InquiriesPage() {
-  return <InquiriesViewer />;
+  return <EnquiriesViewer />;
 }

@@ -199,7 +199,7 @@ export default function SiteVisitDrawer({
     setIsSubmitting(true);
 
     try {
-      const response = await fetch('/api/inquiries', {
+      const response = await fetch('/api/enquiries', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
