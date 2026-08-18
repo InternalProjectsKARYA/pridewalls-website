@@ -134,7 +134,7 @@ export default function AboutSection() {
             {/* ⭐ CTA */}
             <Button asChild className="bg-brand-gold hover:bg-brand-gold-hover text-white">
               <Link href="/#contact">
-                Get in Touch
+                Talk to a Property Advisor
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>

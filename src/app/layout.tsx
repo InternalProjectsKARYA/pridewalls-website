@@ -5,6 +5,7 @@ import WhatsAppButton from "@/components/common/WhatsAppButton";
 
 import Footer from '@/components/landingpage/Footer'
 import { companyInfo } from "@/lib/project-data";
+import { NotFoundProvider } from "@/context/NotFoundContext";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://pridewall.vercel.app";
 
@@ -73,11 +74,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="antialiased">
-        <Navbar />
-        {children}
-        <WhatsAppButton />
-       
-        <Footer />
+        <NotFoundProvider>
+          <Navbar />
+          {children}
+          <WhatsAppButton />
+          <Footer />
+        </NotFoundProvider>
         {/* Structured data: site-wide organization / real estate agent */}
         <script
           type="application/ld+json"

@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { ArrowRight, Phone, Calendar, MessageCircle } from 'lucide-react';
-import SiteVisitDialog from '@/components/landingpage/SiteVisitDialog';
+import SiteVisitDrawer from '@/components/landingpage/SiteVisitDrawer';
 import { companyInfo } from '@/lib/project-data';
 
 export default function CTASection() {
@@ -119,7 +119,7 @@ export default function CTASection() {
                 onClick={scrollToContact}
                 className="mb-4 flex w-full items-center justify-center gap-2 rounded-md bg-brand-gold py-4 font-semibold text-white transition hover:bg-brand-gold-hover"
               >
-                Get In Touch <ArrowRight size={18} />
+                Talk to a Property Advisor <ArrowRight size={18} />
               </button>
 
               {/* secondary */}
@@ -137,7 +137,7 @@ export default function CTASection() {
                   onClick={() => setIsSiteVisitOpen(true)}
                   className="py-3 rounded-xl bg-white/20 text-white flex items-center justify-center gap-2 hover:bg-white/30 transition"
                 >
-                  <Calendar size={18} /> Site Visit
+                  <Calendar size={18} /> Schedule a Visit
                 </button>
               </div>
             </div>
@@ -146,7 +146,7 @@ export default function CTASection() {
         </div>
       </div>
 
-      <SiteVisitDialog
+      <SiteVisitDrawer
         open={isSiteVisitOpen}
         onOpenChange={setIsSiteVisitOpen}
         phoneHref={phoneHref}

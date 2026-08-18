@@ -34,6 +34,7 @@ export default function ContactForm({ projectName, showProjectSelect = true }: C
     register,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors },
   } = useForm<EnquiryFormData>({
     defaultValues: {
@@ -51,15 +52,19 @@ export default function ContactForm({ projectName, showProjectSelect = true }: C
     setIsSubmitting(true);
 
     try {
-      const response = await fetch('/api/leads', {
+      const response = await fetch('/api/inquiries', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          ...data,
+          type: 'LEAD',
+          name: data.name,
+          email: data.email,
           mobile: data.phone,
-          interestedIn: selectedInterest || data.interestedIn,
+          interestedIn: data.interestedIn,
+          message: data.message,
+          preferredContact: data.preferredContact,
           consent: true,
         }),
       });
@@ -151,13 +156,16 @@ export default function ContactForm({ projectName, showProjectSelect = true }: C
 
       {/* Step 2: Quick interest selection */}
       <div className="space-y-2">
-        <Label>What are you interested in?</Label>
+        <Label>What are you interested in? *</Label>
         <div className="grid grid-cols-2 gap-2">
           {quickInterests.map((interest) => (
             <button
               key={interest}
               type="button"
-              onClick={() => setSelectedInterest(interest)}
+              onClick={() => {
+                setSelectedInterest(interest);
+                setValue('interestedIn', interest);
+              }}
               className={`rounded-xl border px-4 py-2.5 text-sm font-medium transition-all ${
                 selectedInterest === interest
                   ? 'border-brand-gold bg-brand-gold/10 text-primary'
@@ -168,16 +176,23 @@ export default function ContactForm({ projectName, showProjectSelect = true }: C
             </button>
           ))}
         </div>
+        {errors.interestedIn && (
+          <p className="text-sm text-destructive">{errors.interestedIn.message}</p>
+        )}
       </div>
 
-      {/* Optional: Email (hidden behind a toggle for low friction) */}
+      {/* Email - required for submission */}
       <div className="space-y-2">
-        <Label htmlFor="email">Email Address (optional)</Label>
+        <Label htmlFor="email">Email Address *</Label>
         <Input
           id="email"
           type="email"
-          placeholder="Enter your email (optional)"
+          placeholder="Enter your email"
+          aria-required="true"
+          aria-invalid={errors.email ? true : undefined}
+          aria-describedby={errors.email ? 'email-error' : undefined}
           {...register('email', {
+            required: 'Email is required',
             pattern: {
               value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
               message: 'Invalid email address',
@@ -186,7 +201,7 @@ export default function ContactForm({ projectName, showProjectSelect = true }: C
           className={errors.email ? 'border-destructive' : ''}
         />
         {errors.email && (
-          <p className="text-sm text-destructive">{errors.email.message}</p>
+          <p id="email-error" className="text-sm text-destructive">{errors.email.message}</p>
         )}
       </div>
 
@@ -194,7 +209,7 @@ export default function ContactForm({ projectName, showProjectSelect = true }: C
       <Button
         type="submit"
         size="lg"
-        className="w-full bg-gradient-to-r from-brand-gold to-brand-gold-hover text-white font-semibold hover:scale-[1.02] transition shadow-[0_10px_25px_rgba(13,38,89,0.12)]"
+        className="w-full bg-linear-to-r from-brand-gold to-brand-gold-hover text-white font-semibold hover:scale-[1.02] transition shadow-[0_10px_25px_rgba(13,38,89,0.12)]"
         disabled={isSubmitting}
       >
         {isSubmitting ? (

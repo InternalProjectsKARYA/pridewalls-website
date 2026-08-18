@@ -24,7 +24,7 @@ export default function ContactSection() {
             viewport={{ once: true }}
             className="inline-block px-4 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4"
           >
-            Contact Us
+            Request a Callback
           </motion.span>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
@@ -33,7 +33,7 @@ export default function ContactSection() {
             transition={{ delay: 0.1 }}
             className="text-3xl md:text-4xl font-bold text-foreground mb-4"
           >
-            Get in Touch
+            Talk to a Property Advisor
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}

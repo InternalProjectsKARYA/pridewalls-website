@@ -57,12 +57,13 @@ export default function ContactSection() {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch("/api/leads", {
+      const response = await fetch("/api/inquiries", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
+          type: "LEAD",
           name: safeName,
           email: safeEmail,
           mobile: safeMobile,
@@ -107,7 +108,7 @@ export default function ContactSection() {
       <div className="max-w-7xl mx-auto px-6">
         <div className="mb-12">
           <h2 className="text-4xl font-bold mb-2">
-            Get In Touch With <span className="text-brand-gold">Us</span>
+            Talk to a Property Advisor
           </h2>
           <div className="h-[2px] w-24 bg-gradient-to-r from-brand-gold to-transparent" />
         </div>
@@ -303,7 +304,7 @@ export default function ContactSection() {
                 className="mt-4 h-12 w-full flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-brand-gold to-brand-gold-hover text-white font-semibold shadow-[0_10px_25px_rgba(13,38,89,0.12)] transition hover:scale-[1.02] disabled:opacity-70 disabled:hover:scale-100"
               >
                 <Send size={18} />
-                {isSubmitting ? "Submitting..." : "Get In Touch"}
+                {isSubmitting ? "Submitting..." : "Talk to a Property Advisor"}
               </button>
             </form>
           </div>

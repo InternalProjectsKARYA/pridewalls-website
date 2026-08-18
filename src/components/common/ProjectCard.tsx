@@ -501,7 +501,7 @@ export default function ProjectCard({
               `}
             >
               {/* ================================================= */}
-              {/* Enquire Now                                         */}
+              {/* Enquire Now                               */}
               {/* ================================================= */}
 
               <Link
@@ -549,7 +549,7 @@ export default function ProjectCard({
               </Link>
 
               {/* ================================================= */}
-              {/* Site Visit                                         */}
+              {/* Schedule a Visit                                   */}
               {/* ================================================= */}
 
               <Link
@@ -606,12 +606,12 @@ export default function ProjectCard({
                     !text-white
                   "
                 >
-                  Site Visit
+                  Schedule a Visit
                 </span>
               </Link>
 
               {/* ================================================= */}
-              {/* View Details                                       */}
+              {/* View Property                                     */}
               {/* ================================================= */}
 
               <Link
@@ -634,7 +634,7 @@ export default function ProjectCard({
                 onClick={(e) =>
                   e.stopPropagation()
                 }
-                aria-label="View project details"
+                aria-label="View property details"
               >
                 <ArrowRight
                   className="

@@ -18,7 +18,7 @@ import ContactForm from './ContactForm';
 import LocationHighlights from './LocationHighlights';
 import FacilitiesGrid from './FacilitiesGrid';
 import ImageLightbox, { type LightboxImage } from './ImageLightbox';
-import SiteVisitDialog from '@/components/landingpage/SiteVisitDialog';
+import SiteVisitDrawer from '@/components/landingpage/SiteVisitDrawer';
 import { Project, Facility } from '@/lib/project-interface';
 import { companyInfo } from '@/lib/project-data';
 
@@ -892,7 +892,7 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                   </a>
                 </motion.div>
 
-                {/* ================= SITE VISIT ================= */}
+                {/* ================= SCHEDULE A VISIT ================= */}
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -900,7 +900,7 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                   className="rounded-xl border border-brand-gold/30 bg-brand-gold/10 p-4 text-center sm:p-6"
                 >
                   <h4 className="font-semibold text-foreground mb-2">
-                    Schedule a Site Visit
+                    Schedule a Visit
                   </h4>
 
                   <p className="text-sm text-muted-foreground mb-4">
@@ -913,7 +913,7 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                     variant="accent"
                     className="w-full"
                   >
-                    Book Site Visit
+                    Schedule a Visit
                   </Button>
                 </motion.div>
 
@@ -921,12 +921,12 @@ export default function ProjectPage({ project }: ProjectPageProps) {
             </div>
           </div>
         </div>
-        <SiteVisitDialog
+        <SiteVisitDrawer
           open={isSiteVisitOpen}
           onOpenChange={setIsSiteVisitOpen}
           phoneHref={phoneHref}
           whatsappHref={whatsappHref}
-          sourceLabel="Project page site visit request."
+          sourceLabel="Project page schedule visit request."
           projectName={project.name}
         />
         <ImageLightbox image={lightboxImage} onOpenChange={(open) => !open && setLightboxImage(null)} />

@@ -83,7 +83,7 @@ export default function WhatsAppButton() {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={() => setIsOpen(!isOpen)}
-          aria-label={isOpen ? "Close contact options" : "Contact us"}
+          aria-label={isOpen ? "Close contact options" : "Request a callback"}
           aria-expanded={isOpen}
           className={`w-14 h-14 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 ${
             isOpen 

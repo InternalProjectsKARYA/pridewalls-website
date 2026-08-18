@@ -197,7 +197,7 @@
 //           <div className="hidden lg:flex">
 //             <Button asChild className={ctaButtonClass}>
 //               <Link href="/#contact">
-//                 Get In Touch
+//                 Talk to a Property Advisor
 //                 <ArrowUpRight className="ml-2 h-4 w-4" />
 //               </Link>
 //             </Button>
@@ -272,6 +272,7 @@ import {
 } from '@/components/ui/sheet';
 import { companyInfo } from '@/lib/project-data';
 import Image from 'next/image';
+import { useNotFound } from '@/context/NotFoundContext';
 
 /* ------------------------------------------------------------------ */
 /* Navigation                                                         */
@@ -324,6 +325,7 @@ function NavbarContent() {
   const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { isNotFound } = useNotFound();
 
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] =
@@ -438,9 +440,10 @@ function NavbarContent() {
 
   const isTopImagePage =
     pathname === '/' ||
-    pathname.startsWith('/projects');
+    pathname.startsWith('/projects') ||
+    isNotFound;
 
-  const showTopBar = !isScrolled;
+  const showTopBar = isTopImagePage && !isScrolled;
 
   const isOverlayHeader =
     isTopImagePage && !isScrolled;
@@ -881,7 +884,7 @@ function NavbarContent() {
               className={ctaButtonClass}
             >
               <Link href="/#contact">
-                Get In Touch
+                Talk to a Property Advisor
 
                 <ArrowUpRight
                   className="

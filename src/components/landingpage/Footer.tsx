@@ -97,7 +97,7 @@ export default function Footer() {
 
           {/* ⭐ CONTACT */}
           <div className="md:col-span-2 lg:col-span-3">
-            <h4 className="font-semibold text-lg mb-6">Contact Us</h4>
+            <h4 className="font-semibold text-lg mb-6">Request a Callback</h4>
 
             <ul className="space-y-4 text-white/60 text-sm">
 
