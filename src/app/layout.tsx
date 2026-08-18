@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import Navbar from '../components/landingpage/navbar'
-import WhatsAppButton from "@/components/common/WhatsAppButton";
+import SocialMediaFloating from "@/components/common/SocialMediaFloating";
 
 import Footer from '@/components/landingpage/Footer'
 import { companyInfo } from "@/lib/project-data";
@@ -77,7 +77,7 @@ export default function RootLayout({
         <NotFoundProvider>
           <Navbar />
           {children}
-          <WhatsAppButton />
+          <SocialMediaFloating />
           <Footer />
         </NotFoundProvider>
         {/* Structured data: site-wide organization / real estate agent */}
