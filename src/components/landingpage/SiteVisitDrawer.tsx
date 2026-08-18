@@ -169,14 +169,14 @@ export default function SiteVisitDrawer({
         ? otherInterest
         : siteVisitForm.interestType;
 
-    if (!name || !email || !mobile || !selectedInterest) {
+    if (!name || !mobile || !selectedInterest) {
       setErrorMessage(
-        'Please enter your name, email, mobile number, and property interest.'
+        'Please enter your name, mobile number, and property interest.'
       );
       return;
     }
 
-    if (!isValidEmail(email)) {
+    if (email && !isValidEmail(email)) {
       setErrorMessage('Please enter a valid email address.');
       return;
     }
@@ -413,7 +413,7 @@ export default function SiteVisitDrawer({
                       htmlFor="site-visit-email"
                       className="text-[13px] font-medium text-foreground"
                     >
-                      Email Address *
+                      Email Address (Optional)
                     </Label>
                     <Input
                       id="site-visit-email"
@@ -422,7 +422,7 @@ export default function SiteVisitDrawer({
                       onChange={(event) =>
                         updateField('email', event.target.value)
                       }
-                      placeholder="Enter your email address"
+                      placeholder="Enter your email address (optional)"
                       disabled={isSubmitting}
                       className={fieldClassName}
                     />

@@ -181,18 +181,17 @@ export default function ContactForm({ projectName, showProjectSelect = true }: C
         )}
       </div>
 
-      {/* Email - required for submission */}
+      {/* Email - optional for submission */}
       <div className="space-y-2">
-        <Label htmlFor="email">Email Address *</Label>
+        <Label htmlFor="email">Email Address (Optional)</Label>
         <Input
           id="email"
           type="email"
-          placeholder="Enter your email"
-          aria-required="true"
+          placeholder="Enter your email (optional)"
+          aria-required="false"
           aria-invalid={errors.email ? true : undefined}
           aria-describedby={errors.email ? 'email-error' : undefined}
           {...register('email', {
-            required: 'Email is required',
             pattern: {
               value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
               message: 'Invalid email address',

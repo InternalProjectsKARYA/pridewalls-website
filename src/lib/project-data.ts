@@ -480,6 +480,7 @@ export const companyInfo: CompanyInfo = {
     { platform: 'Facebook', url: 'https://facebook.com/Pridewalls', icon: 'facebook' },
     { platform: 'Instagram', url: 'https://instagram.com/pridewalls_infratech', icon: 'instagram' },
     { platform: 'LinkedIn', url: 'https://linkedin.com/company/pridewalls', icon: 'linkedin' },
+    { platform: 'YouTube', url: 'https://youtube.com/@pridewalls', icon: 'youtube' },
   ],
 };
 

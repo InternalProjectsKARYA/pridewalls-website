@@ -20,7 +20,7 @@ export default function CTASection() {
   return (
     <section className="relative py-32 overflow-hidden">
 
-      {/* ⭐ Background */}
+      {/* Background */}
       <div className="absolute inset-0">
         <Image
           src="/pride-walls-hero.png"
@@ -33,7 +33,7 @@ export default function CTASection() {
       </div>
       
 
-      {/* ⭐ Light sources */}
+      {/* Light sources */}
       {/* <div className="absolute inset-0 pointer-events-none">
         <div className="absolute -left-20 top-0 w-[420px] h-[420px] bg-brand-gold/30 blur-[140px]" />
         <div className="absolute -right-20 bottom-0 w-[420px] h-[420px] bg-brand-gold/25 blur-[140px]" />
@@ -41,7 +41,7 @@ export default function CTASection() {
 
 
       <div className="section-shell relative">
-        {/* ⭐ Section Badge */}
+        {/* Section Badge */}
         <div className="text-center mb-16">
           <span className="eyebrow border-white/20 bg-white/10 text-white">
             Let's Connect
@@ -73,7 +73,7 @@ export default function CTASection() {
               investment growth, and a lifestyle your family deserves.
             </p>
 
-            {/* ⭐ trust */}
+            {/* trust */}
             <div className="flex gap-6 text-white/60 text-sm">
               <span>✔ 8+ Years Experience</span>
               <span>✔ 2500+ Families</span>

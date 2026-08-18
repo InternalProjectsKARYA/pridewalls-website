@@ -20,7 +20,7 @@ export default function AboutSection() {
       <div className="container mx-auto overflow-hidden px-4">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 
-          {/* ⭐ Image Grid */}
+          {/* Image Grid */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -89,7 +89,7 @@ export default function AboutSection() {
             </motion.div>
           </motion.div>
 
-          {/* ⭐ Content */}
+          {/* Content */}
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -108,14 +108,14 @@ export default function AboutSection() {
               {companyInfo.description}
             </p>
 
-            {/* ⭐ Mission / Vision */}
+            {/* Mission / Vision */}
             <div className="space-y-4 mb-8">
               <InfoCard title="Who We Are" text={companyInfo.weare} />
               <InfoCard title="Our Design Philosophy" text={companyInfo.design} />
               <InfoCard title="Community Living" text={companyInfo.community} />
             </div>
 
-            {/* ⭐ Values */}
+            {/* Values */}
             <div className="grid grid-cols-2 gap-4 mb-8">
               {companyInfo.values.map((value) => (
                 <div key={value.title} className="group flex items-start gap-3">
@@ -131,7 +131,7 @@ export default function AboutSection() {
               ))}
             </div>
 
-            {/* ⭐ CTA */}
+            {/* CTA */}
             <Button asChild className="bg-brand-gold hover:bg-brand-gold-hover text-white">
               <Link href="/#contact">
                 Talk to a Property Advisor
@@ -146,7 +146,7 @@ export default function AboutSection() {
   );
 }
 
-/* ⭐ helpers */
+/* helpers */
 
 function InfoCard({ title, text }: { title: string; text: string }) {
   return (

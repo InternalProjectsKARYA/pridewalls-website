@@ -42,9 +42,9 @@ export default function ContactSection() {
     const safeMobile = mobile.trim();
     const safeMessage = message.trim();
 
-    if (!safeName || !safeEmail || !safeMobile || !interestedIn ) {
+    if (!safeName || !safeMobile || !interestedIn ) {
       setErrorMessage(
-        "Please enter your name, email, mobile number, and what you're interested in."
+        "Please enter your name, mobile number, and what you're interested in."
       );
       return;
     }
@@ -103,14 +103,14 @@ export default function ContactSection() {
   return (
     <section
       id="contact"
-      className="w-full py-10 bg-gradient-to-b from-muted/40 to-white"
+      className="w-full py-10 bg-linear-to-b from-muted/40 to-white"
     >
       <div className="max-w-7xl mx-auto px-6">
         <div className="mb-12">
           <h2 className="text-4xl font-bold mb-2">
             Talk to a Property Advisor
           </h2>
-          <div className="h-[2px] w-24 bg-gradient-to-r from-brand-gold to-transparent" />
+          <div className="h-0.5 w-24 bg-linear-to-r from-brand-gold to-transparent" />
         </div>
 
         <div className="grid items-stretch gap-12 lg:grid-cols-2">
@@ -157,16 +157,16 @@ export default function ContactSection() {
 
                 <label className="space-y-1">
                   <span className="text-sm font-medium text-foreground">
-                    Email <span className="text-destructive">*</span>
+                    Email (Optional)
                   </span>
                   <Input
                     id="lead-email"
-                    placeholder="Enter email address"
+                    placeholder="Enter email address (optional)"
                     type="email"
                     value={email}
                     onChange={(event) => setEmail(event.target.value)}
                     autoComplete="email"
-                    aria-required="true"
+                    aria-required="false"
                     disabled={isSubmitting}
                   />
                 </label>
@@ -301,7 +301,7 @@ export default function ContactSection() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="mt-4 h-12 w-full flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-brand-gold to-brand-gold-hover text-white font-semibold shadow-[0_10px_25px_rgba(13,38,89,0.12)] transition hover:scale-[1.02] disabled:opacity-70 disabled:hover:scale-100"
+                className="mt-4 h-12 w-full flex items-center justify-center gap-2 rounded-xl bg-linear-to-r from-brand-gold to-brand-gold-hover text-white font-semibold shadow-[0_10px_25px_rgba(13,38,89,0.12)] transition hover:scale-[1.02] disabled:opacity-70 disabled:hover:scale-100"
               >
                 <Send size={18} />
                 {isSubmitting ? "Submitting..." : "Talk to a Property Advisor"}
@@ -309,7 +309,7 @@ export default function ContactSection() {
             </form>
           </div>
 
-          <div className="relative h-full min-h-[720px] rounded-2xl overflow-hidden border shadow-xl">
+          <div className="relative h-full min-h-180 rounded-2xl overflow-hidden border shadow-xl">
             <iframe
               src="https://www.google.com/maps?q=Progressive+Towers,+100+Feet+Road,+Ayyappa+Society,+Madhapur,+Hyderabad+500081&z=16&output=embed&hl=en"
               className="w-full h-full border-0"

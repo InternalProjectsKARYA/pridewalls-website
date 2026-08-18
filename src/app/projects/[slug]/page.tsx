@@ -37,7 +37,7 @@ export default async function Page({
 }: {
   params: Promise<{ slug: string }>;
 }) {
-  const { slug } = await params;   // ⭐ THIS IS THE FIX
+  const { slug } = await params;   // THIS IS THE FIX
 
   console.log("slug:", slug);
 

@@ -10,7 +10,7 @@ import {
 type InquiryRecord = {
   id: number | string | null;
   name: string;
-  email: string;
+  email: string | null;  // Optional - many customers only have mobile/WhatsApp
   mobile: string;
   inquiryType: string;
   interestedIn: string;
@@ -67,7 +67,7 @@ function downloadCsv(inquiries: InquiryRecord[]) {
     [
       String(l.id ?? ""),
       l.name,
-      l.email,
+      l.email ?? "",  // Handle optional email
       l.mobile,
       l.inquiryType,
       l.interestedIn,
@@ -303,12 +303,12 @@ export default function InquiriesViewer() {
     if (filterBy === "all") {
       return (
         inquiry.name.toLowerCase().includes(query) ||
-        inquiry.email.toLowerCase().includes(query) ||
+        (inquiry.email?.toLowerCase().includes(query) ?? false) ||
         inquiry.mobile.includes(query) ||
         inquiry.interestedIn.toLowerCase().includes(query)
       );
     } else if (filterBy === "email") {
-      return inquiry.email.toLowerCase().includes(query);
+      return inquiry.email?.toLowerCase().includes(query) ?? false;
     } else if (filterBy === "phone") {
       return inquiry.mobile.includes(query);
     } else if (filterBy === "message") {
