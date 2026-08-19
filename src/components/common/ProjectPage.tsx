@@ -11,7 +11,7 @@ import {
   Building2, Maximize,
   MessageCircle,
   Currency,
-  ShieldCheck, Info // Added Info and ShieldCheck icons
+  ChevronDown, ChevronUp
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -92,6 +92,84 @@ interface ProjectPageProps {
 
 const getZoneKey = (zone: NonNullable<Project['siteLayout']>['zones'][number]) =>
   zone.id ?? zone.name;
+
+// ================= ProjectDescription Component =================
+function ProjectDescription({ description }: { description: string }) {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [isTruncated, setIsTruncated] = useState(false);
+
+  const descriptionRef = useRef<HTMLDivElement>(null);
+
+  const paragraphs = description
+    .split(/\n\s*\n/)
+    .filter((paragraph) => paragraph.trim());
+
+  useEffect(() => {
+    const element = descriptionRef.current;
+
+    if (!element) return;
+
+    const checkOverflow = () => {
+      if (!isExpanded) {
+        setIsTruncated(element.scrollHeight > element.clientHeight + 1);
+      }
+    };
+
+    checkOverflow();
+
+    window.addEventListener("resize", checkOverflow);
+
+    return () => {
+      window.removeEventListener("resize", checkOverflow);
+    };
+  }, [description, isExpanded]);
+
+  return (
+    <div className="p-4 sm:p-6">
+      <div className="relative">
+        {/* Accent line */}
+        <div className="absolute bottom-0 left-0 top-0 w-1 rounded-r-full bg-gradient-to-b from-brand-primary to-brand-gold" />
+
+        <div className="pl-4">
+          <div
+            ref={descriptionRef}
+            className={`
+              text-base leading-relaxed text-muted-foreground
+              transition-all duration-300 sm:text-lg
+              ${!isExpanded ? "line-clamp-4" : ""}
+            `}
+          >
+            {paragraphs.map((paragraph, index) => (
+              <p key={index} className={index > 0 ? "mt-4" : ""}>
+                {paragraph}
+              </p>
+            ))}
+          </div>
+
+          {isTruncated || isExpanded ? (
+            <button
+              type="button"
+              onClick={() => setIsExpanded((prev) => !prev)}
+              className="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-primary transition-colors hover:text-brand-primary-dark"
+            >
+              {isExpanded ? (
+                <>
+                  Read Less
+                  <ChevronUp className="h-4 w-4" />
+                </>
+              ) : (
+                <>
+                  Read More
+                  <ChevronDown className="h-4 w-4" />
+                </>
+              )}
+            </button>
+          ) : null}
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default function ProjectPage({ project }: ProjectPageProps) {
   const [isSiteVisitOpen, setIsSiteVisitOpen] = useState(false);
@@ -387,27 +465,27 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                 animate={{ opacity: 1, y: 0 }}
                 className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm"
               >
+                {/* Header */}
                 <div className="relative overflow-hidden">
                   <div className="absolute inset-0 bg-gradient-to-br from-brand-primary/5 via-transparent to-brand-gold/5" />
+
                   <div className="relative flex items-center gap-3 border-b border-border bg-gradient-to-r from-brand-primary/10 to-brand-gold/10 p-4 sm:p-6">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-brand-primary to-brand-primary-dark text-white shadow-lg shadow-brand-primary/25">
-                      <Info className="h-6 w-6" />
-                    </div>
+
+
                     <div>
-                      <h2 className="text-xl font-bold text-foreground sm:text-2xl">Project Overview</h2>
-                      <p className="text-xs text-muted-foreground">Discover the vision behind {project.name}</p>
+                      <h2 className="text-xl font-bold text-foreground sm:text-2xl">
+                        Project Overview
+                      </h2>
+
+                      <p className="text-xs text-muted-foreground">
+                        Discover the vision behind {project.name}
+                      </p>
                     </div>
                   </div>
                 </div>
 
-                <div className="p-4 sm:p-6">
-                  <div className="relative">
-                    <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-brand-primary to-brand-gold rounded-r-full" />
-                    <p className="line-clamp-6 text-base leading-relaxed text-muted-foreground whitespace-pre-line sm:text-lg pl-4">
-                      {project.description}
-                    </p>
-                  </div>
-                </div>
+                {/* Description */}
+                <ProjectDescription description={project.description} />
               </motion.div>
 
 
@@ -421,9 +499,7 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                 <div className="relative overflow-hidden">
                   <div className="absolute inset-0 bg-gradient-to-br from-brand-primary/5 via-transparent to-brand-gold/5" />
                   <div className="relative flex items-center gap-3 border-b border-border bg-gradient-to-r from-brand-primary/10 to-brand-gold/10 p-4 sm:p-6">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-brand-gold to-amber-600 text-white shadow-lg shadow-brand-gold/25">
-                      <Award className="h-6 w-6" />
-                    </div>
+
                     <div>
                       <h2 className="text-xl font-bold text-foreground sm:text-2xl">
                         Why Choose {project.name}?
@@ -470,9 +546,7 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                   className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm"
                 >
                   <div className="flex items-center gap-3 border-b border-border bg-muted/40 p-4 sm:p-6">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-white shadow-sm">
-                      <ShieldCheck className="h-5 w-5" />
-                    </div>
+
                     <div>
                       <h2 className="text-xl font-bold text-primary sm:text-2xl">
                         {project.permissions.title} & Approvals
@@ -497,7 +571,7 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                   </div>
                 </motion.div>
               )}
-              
+
               {/* Master Plan / Site Layout */}
               {/* {project.siteLayout && (
                 <motion.div
