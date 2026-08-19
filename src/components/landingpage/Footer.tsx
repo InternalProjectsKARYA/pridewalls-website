@@ -68,6 +68,7 @@ const legalLinks = [
   { name: 'Terms of Service', href: '/terms-of-service' },
   { name: 'Cookie Policy', href: '/cookie-policy' },
   { name: 'Disclaimer', href: '/disclaimer' },
+  { name: 'Admin Portal', href: '/enquiries' },
 ];
 
 /* ─────────────────────────────────────────────

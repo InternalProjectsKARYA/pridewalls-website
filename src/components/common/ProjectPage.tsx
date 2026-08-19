@@ -4,13 +4,14 @@ import { useCallback, useEffect, useRef, useState, type CSSProperties } from 're
 import { useRouter } from "next/navigation";
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { 
-  MapPin, Building, Home, LandPlot, Store, 
+import {
+  MapPin, Building, Home, LandPlot, Store,
   Check, Ruler, Phone, Mail, Calendar,
-  Award, FileCheck, TrendingUp, Compass,  Train, Plane, Gem, Leaf, Users, Layout, ZoomIn,
+  Award, FileCheck, TrendingUp, Compass, Train, Plane, Gem, Leaf, Users, Layout, ZoomIn,
   Building2, Maximize,
   MessageCircle,
-  Currency,  
+  Currency,
+  ShieldCheck, Info // Added Info and ShieldCheck icons
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -37,26 +38,26 @@ const statusColors: Record<string, string> = {
 
 // Type-specific styling and colors
 const typeStyles: Record<string, { color: string; bgGradient: string; accentBg: string; badgeBg: string }> = {
-  plots: { 
-    color: '#059669', 
+  plots: {
+    color: '#059669',
     bgGradient: 'from-emerald-50 to-teal-50',
     accentBg: 'bg-emerald-50 border-emerald-200',
     badgeBg: 'bg-emerald-100 text-emerald-700'
   },
-  villas: { 
-    color: '#7c3aed', 
+  villas: {
+    color: '#7c3aed',
     bgGradient: 'from-violet-50 to-purple-50',
     accentBg: 'bg-violet-50 border-violet-200',
     badgeBg: 'bg-violet-100 text-violet-700'
   },
-  apartments: { 
-    color: '#3b82f6', 
+  apartments: {
+    color: '#3b82f6',
     bgGradient: 'from-blue-50 to-cyan-50',
     accentBg: 'bg-blue-50 border-blue-200',
     badgeBg: 'bg-blue-100 text-blue-700'
   },
-  commercial: { 
-    color: '#dc2626', 
+  commercial: {
+    color: '#dc2626',
     bgGradient: 'from-red-50 to-orange-50',
     accentBg: 'bg-red-50 border-red-200',
     badgeBg: 'bg-red-100 text-red-700'
@@ -188,6 +189,7 @@ export default function ProjectPage({ project }: ProjectPageProps) {
       }
     }
   }, [project]);
+
   const [activeBlock, setActiveBlock] = useState<string | null>(
     project.siteLayout?.zones?.[0] ? getZoneKey(project.siteLayout.zones[0]) : null
   );
@@ -206,11 +208,10 @@ export default function ProjectPage({ project }: ProjectPageProps) {
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
       <section
-        className={`relative overflow-hidden ${
-          isWideHeroProject
-            ? 'aspect-[21/9] min-h-[240px] sm:min-h-[320px] lg:min-h-[420px]'
-            : 'h-screen min-h-[100svh]'
-        }`}
+        className={`relative overflow-hidden ${isWideHeroProject
+          ? 'aspect-21/9 min-h-60 sm:min-h-80 lg:min-h-105'
+          : 'h-screen min-h-svh'
+          }`}
       >
         <Image
           src={project.coverImage}
@@ -220,7 +221,7 @@ export default function ProjectPage({ project }: ProjectPageProps) {
           className="object-cover"
           priority
         />
-        
+
         {/* Navigation Bar */}
         {/* <div className="absolute top-0 left-0 right-0 z-10 p-3 sm:p-4">
           <div className="section-shell flex items-start justify-between gap-3 sm:items-center">
@@ -270,8 +271,6 @@ export default function ProjectPage({ project }: ProjectPageProps) {
               <MapPin className="mt-0.5 h-5 w-5 shrink-0 sm:mt-0" />
               <span className="text-base sm:text-lg">{project.location}</span>
             </div>
-
-         
           </div>
         </div>
       </section>
@@ -349,14 +348,14 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                   <FileCheck className="w-5 h-5 text-white" />
                 </div>
                 <div className="min-w-0">
-                  <div className="break-words text-sm font-bold text-white sm:text-base">
+                  <div className="wrap-break-word text-sm font-bold text-white sm:text-base">
                     {project.reraNumber}
                   </div>
                   <div className="text-xs text-white/65">RERA Approved</div>
                 </div>
               </div>
             )}
-        
+
             <div className="flex min-w-0 items-center gap-3 rounded-2xl border border-white/10 bg-primary p-4 shadow-lg shadow-black/10 backdrop-blur-sm sm:p-5">
               <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-gold text-white shadow-card">
                 <Currency className="w-5 h-5 text-white" />
@@ -372,7 +371,7 @@ export default function ProjectPage({ project }: ProjectPageProps) {
         </div>
 
         {/* ===== Bottom accent line ===== */}
-        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-brand-gold/60 to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-brand-gold/60 to-transparent" />
       </section>
 
       {/* Main Content */}
@@ -382,76 +381,115 @@ export default function ProjectPage({ project }: ProjectPageProps) {
             {/* Left Column - Details */}
             <div className="space-y-6 lg:col-span-2">
 
-              {/* Project Overview */}
+              {/* ================= Project Overview ================= */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                  className="premium-card overflow-hidden"
-                >
-                <div className="border-b border-border bg-muted/40 p-4 sm:p-6">
-                  <h2 className="text-xl font-semibold text-primary sm:text-2xl">Project Overview</h2>
+                className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm"
+              >
+                <div className="relative overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-br from-brand-primary/5 via-transparent to-brand-gold/5" />
+                  <div className="relative flex items-center gap-3 border-b border-border bg-gradient-to-r from-brand-primary/10 to-brand-gold/10 p-4 sm:p-6">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-brand-primary to-brand-primary-dark text-white shadow-lg shadow-brand-primary/25">
+                      <Info className="h-6 w-6" />
+                    </div>
+                    <div>
+                      <h2 className="text-xl font-bold text-foreground sm:text-2xl">Project Overview</h2>
+                      <p className="text-xs text-muted-foreground">Discover the vision behind {project.name}</p>
+                    </div>
+                  </div>
                 </div>
 
                 <div className="p-4 sm:p-6">
-                  <p className="line-clamp-6 text-base leading-relaxed text-muted-foreground whitespace-pre-line sm:text-lg">
-                    {project.description}
-                  </p>
+                  <div className="relative">
+                    <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-brand-primary to-brand-gold rounded-r-full" />
+                    <p className="line-clamp-6 text-base leading-relaxed text-muted-foreground whitespace-pre-line sm:text-lg pl-4">
+                      {project.description}
+                    </p>
+                  </div>
                 </div>
               </motion.div>
 
 
-              {/* ================= Highlights ================= */}
+              {/* ================= Highlights (Why Choose) ================= */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
-                className="premium-card overflow-hidden"
+                className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm"
               >
-                <div className="border-b border-border bg-muted/40 p-4 sm:p-6">
-                  <h2 className="text-xl font-semibold text-primary sm:text-2xl">
-                    Why Choose {project.name}?
-                  </h2>
+                <div className="relative overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-br from-brand-primary/5 via-transparent to-brand-gold/5" />
+                  <div className="relative flex items-center gap-3 border-b border-border bg-gradient-to-r from-brand-primary/10 to-brand-gold/10 p-4 sm:p-6">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-brand-gold to-amber-600 text-white shadow-lg shadow-brand-gold/25">
+                      <Award className="h-6 w-6" />
+                    </div>
+                    <div>
+                      <h2 className="text-xl font-bold text-foreground sm:text-2xl">
+                        Why Choose {project.name}?
+                      </h2>
+                      <p className="text-xs text-muted-foreground">Premium features and strategic advantages</p>
+                    </div>
+                  </div>
                 </div>
 
                 <div className="p-4 sm:p-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {project.highlights.map((highlight) => (
-                      <div
+                    {project.highlights.map((highlight, index) => (
+                      <motion.div
                         key={highlight.id}
-                        className="flex items-start gap-4 rounded-xl border border-border bg-muted/40 p-4 transition hover:border-primary/20 hover:bg-accent"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.1 + index * 0.05 }}
+                        className="group relative overflow-hidden rounded-xl border border-border bg-white p-5 shadow-sm transition-all duration-300 hover:shadow-xl hover:border-brand-gold/50 hover:-translate-y-1"
                       >
-                        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-accent text-primary">
-                          {highlightIconMap[highlight.icon] || <Check className="h-5 w-5" />}
-                        </div>
+                        <div className="absolute inset-0 bg-gradient-to-br from-brand-primary/5 to-brand-gold/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                        <div className="relative flex items-start gap-4">
+                          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-brand-primary/10 to-brand-gold/10 text-primary transition-all duration-300 group-hover:bg-gradient-to-br group-hover:from-brand-primary group-hover:to-brand-primary-dark group-hover:text-white group-hover:shadow-lg group-hover:shadow-brand-primary/25">
+                            {highlightIconMap[highlight.icon] || <Check className="h-5 w-5" />}
+                          </div>
 
-                        <div>
-                          <div className="font-semibold text-foreground">{highlight.title}</div>
-                          <div className="text-sm text-muted-foreground">{highlight.description}</div>
+                          <div className="flex-1">
+                            <div className="font-bold text-foreground text-lg group-hover:text-brand-primary transition-colors">{highlight.title}</div>
+                            <div className="text-sm text-muted-foreground mt-1 leading-relaxed">{highlight.description}</div>
+                          </div>
                         </div>
-                      </div>
+                        <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-brand-primary to-brand-gold scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
+                      </motion.div>
                     ))}
                   </div>
                 </div>
               </motion.div>
-{project.permissions && project.permissions.items.length > 0 && (
+
+              {/* ================= Permissions & Approvals ================= */}
+              {project.permissions && project.permissions.items.length > 0 && (
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.65 }}
-                  className="overflow-hidden rounded-2xl border border-border bg-card"
+                  className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm"
                 >
-                  <div className="border-b border-border bg-muted/30 p-4 sm:p-6">
-                    <h2 className="text-xl font-semibold sm:text-2xl">
-                      {project.permissions.title}
-                    </h2>
+                  <div className="flex items-center gap-3 border-b border-border bg-muted/40 p-4 sm:p-6">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-white shadow-sm">
+                      <ShieldCheck className="h-5 w-5" />
+                    </div>
+                    <div>
+                      <h2 className="text-xl font-bold text-primary sm:text-2xl">
+                        {project.permissions.title} & Approvals
+                      </h2>
+                      <p className="text-xs text-muted-foreground">Fully compliant and legally verified</p>
+                    </div>
                   </div>
+
                   <div className="p-4 sm:p-6">
-                    <div className="rounded-xl bg-muted/30 p-5">
-                      <ul className="space-y-3">
+                    <div className="rounded-xl border border-blue-900/10 bg-linear-to-br from-blue-50/50 to-amber-50/20 p-5 sm:p-6">
+                      <ul className="grid grid-cols-1 gap-x-8 gap-y-4 md:grid-cols-2">
                         {project.permissions.items.map((item, index) => (
-                          <li key={index} className="flex items-start gap-3 text-muted-foreground">
-                            <div className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
-                            <span>{item}</span>
+                          <li key={index} className="flex items-start gap-3 text-slate-700">
+                            <div className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-brand-gold/20 text-amber-700">
+                              <Check className="h-3.5 w-3.5" strokeWidth={3} />
+                            </div>
+                            <span className="text-sm font-medium leading-relaxed">{item}</span>
                           </li>
                         ))}
                       </ul>
@@ -459,6 +497,7 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                   </div>
                 </motion.div>
               )}
+              
               {/* Master Plan / Site Layout */}
               {/* {project.siteLayout && (
                 <motion.div
@@ -512,8 +551,8 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 }}
-                    className="overflow-hidden rounded-2xl border border-border bg-card"
-                  >
+                  className="overflow-hidden rounded-2xl border border-border bg-card"
+                >
                   <div className="border-b border-border bg-muted/30 p-4 sm:p-6">
                     <h2 className="text-xl font-semibold sm:text-2xl">Location Highlights</h2>
                   </div>
@@ -529,8 +568,8 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4 }}
-                    className="overflow-hidden rounded-2xl border border-border bg-card"
-                  >
+                  className="overflow-hidden rounded-2xl border border-border bg-card"
+                >
                   <div className="border-b border-border bg-muted/30 p-4 sm:p-6">
                     <h2 className="text-xl font-semibold sm:text-2xl">Facilities & Infrastructure</h2>
                   </div>
@@ -546,13 +585,13 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.5 }}
-                   className="overflow-hidden rounded-2xl border border-border bg-card"
-                 >
-                   <div className="border-b border-border bg-muted/30 p-4 sm:p-6">
-                     <h2 className="text-xl font-semibold sm:text-2xl">Amenities</h2>
-                   </div>
-                   <div className="p-4 sm:p-6">
-                     <div className="grid grid-cols-1 gap-4 min-[480px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                  className="overflow-hidden rounded-2xl border border-border bg-card"
+                >
+                  <div className="border-b border-border bg-muted/30 p-4 sm:p-6">
+                    <h2 className="text-xl font-semibold sm:text-2xl">Amenities</h2>
+                  </div>
+                  <div className="p-4 sm:p-6">
+                    <div className="grid grid-cols-1 gap-4 min-[480px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                       {project.amenities.map((amenity) => (
                         <button
                           key={amenity.id}
@@ -578,7 +617,7 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                               <span className="text-4xl text-muted-foreground">📷</span>
                             </div>
                           )}
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                          <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent" />
                           {amenity.image && (
                             <span className="absolute right-3 top-3 inline-flex size-8 items-center justify-center rounded-full bg-black/55 text-white opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
                               <ZoomIn className="size-4" />
@@ -594,31 +633,40 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                 </motion.div>
               )}
 
-          
 
-              {/* Specifications */}
+
+              {/* ================= Specifications ================= */}
               {project.specifications && project.specifications.length > 0 && (
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.6 }}
-                  className="overflow-hidden rounded-2xl border border-border bg-card"
+                  className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm"
                 >
-                  <div className="border-b border-border bg-muted/30 p-4 sm:p-6">
-                    <h2 className="text-xl font-semibold sm:text-2xl">Specifications</h2>
+                  <div className="flex items-center gap-3 border-b border-border bg-muted/40 p-4 sm:p-6">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-white shadow-sm">
+                      <FileCheck className="h-5 w-5" />
+                    </div>
+                    <div>
+                      <h2 className="text-xl font-bold text-primary sm:text-2xl">Specifications</h2>
+                      <p className="text-xs text-muted-foreground">Premium materials and craftsmanship</p>
+                    </div>
                   </div>
-                  <div className="p-4 sm:p-6 space-y-4">
+
+                  <div className="p-4 sm:p-6 grid grid-cols-1 gap-4 md:grid-cols-2">
                     {project.specifications.map((spec) => (
-                      <div key={spec.id} className="bg-muted/30 rounded-xl p-5">
-                        <h4 className="font-semibold text-foreground mb-4 flex items-center gap-2">
-                          <Check className="h-4 w-4 text-primary" />
+                      <div key={spec.id} className="bg-white rounded-xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow hover:border-brand-gold/30">
+                        <h4 className="font-bold text-blue-950 mb-4 flex items-center gap-2 border-b border-slate-100 pb-3">
+                          <Building2 className="h-5 w-5 text-brand-gold" />
                           {spec.category}
                         </h4>
-                        <ul className="space-y-2">
+                        <ul className="space-y-3">
                           {spec.items.map((item, index) => (
-                            <li key={index} className="flex items-start gap-3 text-muted-foreground">
-                              <div className="w-1.5 h-1.5 rounded-full bg-primary shrink-0 mt-2" />
-                              <span>{item}</span>
+                            <li key={index} className="flex items-start gap-3 text-slate-600">
+                              <div className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-emerald-50 text-emerald-600">
+                                <Check className="h-3 w-3" strokeWidth={3} />
+                              </div>
+                              <span className="text-sm leading-relaxed">{item}</span>
                             </li>
                           ))}
                         </ul>
@@ -628,8 +676,6 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                 </motion.div>
               )}
 
-              {/* Permissions */}
-              
 
               {/* Master Plan / Site Layout */}
               {siteLayout && (
@@ -637,29 +683,28 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2 }}
-                   className="overflow-hidden rounded-2xl border border-border bg-card"
-                 >
-                   <div className="border-b border-border bg-muted/30 p-4 sm:p-6">
-                     <h2 className="text-xl font-semibold sm:text-2xl">
-                       Master Plan / Site Layout
-                     </h2>
-                   </div>
+                  className="overflow-hidden rounded-2xl border border-border bg-card"
+                >
+                  <div className="border-b border-border bg-muted/30 p-4 sm:p-6">
+                    <h2 className="text-xl font-semibold sm:text-2xl">
+                      Master Plan / Site Layout
+                    </h2>
+                  </div>
 
-                   <div className="p-4 sm:p-6">
-
-                     {/* ===== Master Plan Image ===== */}
-                     <button
-                       type="button"
-                       className="group relative mb-6 aspect-[4/3] w-full overflow-hidden rounded-xl text-left focus-visible:outline-offset-4 sm:mb-8 sm:aspect-[16/10]"
-                       onClick={() =>
-                         setLightboxImage({
-                           src: siteLayout.image,
-                           alt: `${project.name} site layout`,
-                         })
-                       }
-                       aria-label="View site layout image"
-                     >
-                       <Image
+                  <div className="p-4 sm:p-6">
+                    {/* ===== Master Plan Image ===== */}
+                    <button
+                      type="button"
+                      className="group relative mb-6 aspect-4/3 w-full overflow-hidden rounded-xl text-left focus-visible:outline-offset-4 sm:mb-8 sm:aspect-16/10"
+                      onClick={() =>
+                        setLightboxImage({
+                          src: siteLayout.image,
+                          alt: `${project.name} site layout`,
+                        })
+                      }
+                      aria-label="View site layout image"
+                    >
+                      <Image
                         src={siteLayout.image}
                         alt={`${project.name} Site Layout`}
                         fill
@@ -677,16 +722,16 @@ export default function ProjectPage({ project }: ProjectPageProps) {
 
               {/* Floor Plans / Site Blocks */}
               {(project.floorPlans && project.floorPlans.length > 0) ||
-              (project.siteLayout?.zones?.length ?? 0) > 0 ? (
+                (project.siteLayout?.zones?.length ?? 0) > 0 ? (
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.6 }}
-                   className="overflow-hidden rounded-2xl border border-border bg-card"
-                 >
-                   <div className="border-b border-border bg-muted/30 p-4 sm:p-6">
-                     <h2 className="text-xl font-semibold sm:text-2xl">Site Layout & Blocks</h2>
-                   </div>
+                  className="overflow-hidden rounded-2xl border border-border bg-card"
+                >
+                  <div className="border-b border-border bg-muted/30 p-4 sm:p-6">
+                    <h2 className="text-xl font-semibold sm:text-2xl">Site Layout & Blocks</h2>
+                  </div>
                   {/* <div className="p-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                       {project.floorPlans.map((plan) => (
@@ -716,58 +761,58 @@ export default function ProjectPage({ project }: ProjectPageProps) {
 
                   {/* ===== TAB BAR ===== */}
                   <div className="mb-6 w-full p-4 sm:p-6">
-                      <div className="grid w-full grid-cols-1 gap-2 rounded-xl bg-muted p-2 shadow-card sm:grid-cols-2 xl:grid-cols-3">
-                        {project.siteLayout?.zones?.map((zone) => {
-                          const zoneKey = getZoneKey(zone);
-                          const active = activeBlock === zoneKey;
-                          return (
-                            <button
-                              key={zoneKey}
-                              onClick={() => setActiveBlock(zoneKey)}
-                              className={`w-full rounded-lg px-4 py-2.5 text-center text-sm font-medium transition-all duration-200
-                                ${active ? 'bg-primary text-white shadow-card': 'text-muted-foreground hover:bg-accent hover:text-primary'}`}
-                            >
-                              {zone.name}
-                            </button>
-                          )
-                        })}
-                      </div>
+                    <div className="grid w-full grid-cols-1 gap-2 rounded-xl bg-muted p-2 shadow-card sm:grid-cols-2 xl:grid-cols-3">
+                      {project.siteLayout?.zones?.map((zone) => {
+                        const zoneKey = getZoneKey(zone);
+                        const active = activeBlock === zoneKey;
+                        return (
+                          <button
+                            key={zoneKey}
+                            onClick={() => setActiveBlock(zoneKey)}
+                            className={`w-full rounded-lg px-4 py-2.5 text-center text-sm font-medium transition-all duration-200
+                                ${active ? 'bg-primary text-white shadow-card' : 'text-muted-foreground hover:bg-accent hover:text-primary'}`}
+                          >
+                            {zone.name}
+                          </button>
+                        )
+                      })}
                     </div>
+                  </div>
 
-                    {/* ===== ACTIVE BLOCK IMAGE ===== */}
-                    {activeBlock && (
-                      <div className="mb-4 px-4 text-center text-sm sm:px-6 sm:text-base">
-                        <h3 className="mb-2 text-xl font-semibold text-foreground sm:text-2xl">
-                          {activeZone?.blockname}
-                        </h3>
-                        {activeZone?.description}
-                      </div>
-                    )}
+                  {/* ===== ACTIVE BLOCK IMAGE ===== */}
+                  {activeBlock && (
+                    <div className="mb-4 px-4 text-center text-sm sm:px-6 sm:text-base">
+                      <h3 className="mb-2 text-xl font-semibold text-foreground sm:text-2xl">
+                        {activeZone?.blockname}
+                      </h3>
+                      {activeZone?.description}
+                    </div>
+                  )}
 
-                    {activeZone?.image && (
-                      <button
-                        type="button"
-                        className="group relative mx-4 mb-4 aspect-[4/3] w-[calc(100%-2rem)] overflow-hidden rounded-xl border border-border text-left focus-visible:outline-offset-4 sm:mx-6 sm:mb-6 sm:w-[calc(100%-3rem)] sm:aspect-[16/10]"
-                        onClick={() => {
-                          const image = activeZone.image;
-                          if (image) {
-                            setLightboxImage({ src: image, alt: activeZone.name });
-                          }
-                        }}
-                        aria-label={`View ${activeZone.name} image`}
-                      >
-                        
-                        <img
-                          key={activeBlock}
-                          src={activeZone.image}
-                          alt={activeZone.name}
-                          className="w-full h-full object-contain transition-opacity duration-300"
-                        />
-                        <span className="absolute right-4 top-4 inline-flex size-10 items-center justify-center rounded-full bg-black/55 text-white opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
-                          <ZoomIn className="size-5" />
-                        </span>
-                      </button>
-                    )}
+                  {activeZone?.image && (
+                    <button
+                      type="button"
+                      className="group relative mx-4 mb-4 aspect-4/3 w-[calc(100%-2rem)] overflow-hidden rounded-xl border border-border text-left focus-visible:outline-offset-4 sm:mx-6 sm:mb-6 sm:w-[calc(100%-3rem)] sm:aspect-16/10"
+                      onClick={() => {
+                        const image = activeZone.image;
+                        if (image) {
+                          setLightboxImage({ src: image, alt: activeZone.name });
+                        }
+                      }}
+                      aria-label={`View ${activeZone.name} image`}
+                    >
+
+                      <img
+                        key={activeBlock}
+                        src={activeZone.image}
+                        alt={activeZone.name}
+                        className="w-full h-full object-contain transition-opacity duration-300"
+                      />
+                      <span className="absolute right-4 top-4 inline-flex size-10 items-center justify-center rounded-full bg-black/55 text-white opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
+                        <ZoomIn className="size-5" />
+                      </span>
+                    </button>
+                  )}
                 </motion.div>
               ) : null}
 
@@ -784,7 +829,7 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                     <h2 className="text-xl font-semibold sm:text-2xl">Location Map</h2>
                   </div>
                   <div className="p-4 sm:p-6">
-                    <div className="h-[320px] overflow-hidden rounded-xl sm:h-[400px]">
+                    <div className="h-80 overflow-hidden rounded-xl sm:h-100">
                       <iframe
                         src={project.mapEmbedUrl}
                         width="100%"
@@ -800,7 +845,7 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                 </motion.div>
               )}
 
-              
+
 
             </div>
 

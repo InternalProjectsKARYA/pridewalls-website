@@ -35,6 +35,8 @@ export type PropertyEnquiryPayload = BaseEnquiryPayload & {
     type: "property_enquiry";
     message?: string;
     preferredContact?: string;
+    projectName?: string;
+    source?: string;
 };
 
 // Site visit-specific payload

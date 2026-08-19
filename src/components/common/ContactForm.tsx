@@ -123,6 +123,8 @@ export default function ContactForm({ projectName, showProjectSelect = true }: C
           interestedIn: data.interestedIn.trim(),
           message: data.message?.trim() || '',
           preferredContact: data.preferredContact,
+          projectName: projectName || '',
+          source: showProjectSelect ? 'Landing page get details form.' : 'Project page get details form.',
           consent: true,
         }),
       });

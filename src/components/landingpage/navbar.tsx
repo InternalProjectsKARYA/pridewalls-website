@@ -441,6 +441,7 @@ function NavbarContent() {
   const isTopImagePage =
     pathname === '/' ||
     pathname.startsWith('/projects') ||
+    pathname === '/enquiries' ||
     isNotFound;
 
   const showTopBar = isTopImagePage && !isScrolled;

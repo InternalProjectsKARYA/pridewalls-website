@@ -154,6 +154,10 @@ export async function POST(request: Request) {
 
       preferredContact =
         payload.preferredContact?.trim() ?? "";
+
+      projectName = payload.projectName?.trim() ?? "";
+
+      source = payload.source?.trim() ?? "";
     }
 
     // =========================================================================
