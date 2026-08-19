@@ -35,7 +35,9 @@ export default function ContactForm({ projectName, showProjectSelect = true }: C
     handleSubmit,
     reset,
     setValue,
+    watch,
     formState: { errors },
+    trigger,
   } = useForm<EnquiryFormData>({
     defaultValues: {
       name: '',
@@ -46,9 +48,65 @@ export default function ContactForm({ projectName, showProjectSelect = true }: C
       message: '',
       preferredContact: 'phone',
     },
+    mode: 'onChange',
   });
 
+  // Watch interestedIn to show/hide validation error
+  const watchedInterestedIn = watch('interestedIn');
+
   const onSubmit = async (data: EnquiryFormData) => {
+    // Client-side validation before submitting
+    if (!data.name?.trim()) {
+      toast({
+        variant: 'destructive',
+        title: 'Missing Information',
+        description: 'Please enter your full name.',
+      });
+      return;
+    }
+
+    if (!data.phone?.trim()) {
+      toast({
+        variant: 'destructive',
+        title: 'Missing Information',
+        description: 'Please enter your mobile number.',
+      });
+      return;
+    }
+
+    if (!data.interestedIn?.trim()) {
+      toast({
+        variant: 'destructive',
+        title: 'Missing Information',
+        description: 'Please select what you are interested in.',
+      });
+      return;
+    }
+
+    // Validate phone number format
+    const phoneRegex = /^[0-9]{10}$/;
+    if (!phoneRegex.test(data.phone.trim())) {
+      toast({
+        variant: 'destructive',
+        title: 'Invalid Mobile Number',
+        description: 'Please enter a valid 10-digit mobile number.',
+      });
+      return;
+    }
+
+    // Validate email if provided
+    if (data.email?.trim()) {
+      const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+      if (!emailRegex.test(data.email.trim())) {
+        toast({
+          variant: 'destructive',
+          title: 'Invalid Email',
+          description: 'Please enter a valid email address.',
+        });
+        return;
+      }
+    }
+
     setIsSubmitting(true);
 
     try {
@@ -59,11 +117,11 @@ export default function ContactForm({ projectName, showProjectSelect = true }: C
         },
         body: JSON.stringify({
           type: 'property_enquiry',
-          name: data.name,
-          email: data.email,
-          mobile: data.phone,
-          interestedIn: data.interestedIn,
-          message: data.message,
+          name: data.name.trim(),
+          email: data.email?.trim() || '',
+          mobile: data.phone.trim(),
+          interestedIn: data.interestedIn.trim(),
+          message: data.message?.trim() || '',
           preferredContact: data.preferredContact,
           consent: true,
         }),
@@ -72,19 +130,20 @@ export default function ContactForm({ projectName, showProjectSelect = true }: C
       if (response.ok) {
         setIsSuccess(true);
         toast({
-          title: 'Success!',
-          description: 'Your enquiry has been submitted. We will contact you soon.',
+          title: 'Enquiry Submitted!',
+          description: 'Thank you for your interest. Our property advisor will contact you shortly.',
         });
         setSelectedInterest('');
         reset();
       } else {
-        throw new Error('Failed to submit enquiry');
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to submit enquiry');
       }
     } catch (error) {
       toast({
         variant: 'destructive',
-        title: 'Error',
-        description: 'Failed to submit your enquiry. Please try again.',
+        title: 'Submission Failed',
+        description: error instanceof Error ? error.message : 'Unable to submit your enquiry. Please try again.',
       });
     } finally {
       setIsSubmitting(false);
@@ -103,7 +162,7 @@ export default function ContactForm({ projectName, showProjectSelect = true }: C
         </div>
         <h3 className="text-2xl font-bold text-foreground mb-2">Thank You!</h3>
         <p className="text-muted-foreground mb-6">
-          Your enquiry has been submitted successfully. Our team will contact you shortly.
+          Your enquiry has been submitted successfully. Our property advisor will contact you shortly.
         </p>
         <Button onClick={() => setIsSuccess(false)} variant="outline">
           Submit Another Enquiry
@@ -164,7 +223,7 @@ export default function ContactForm({ projectName, showProjectSelect = true }: C
               type="button"
               onClick={() => {
                 setSelectedInterest(interest);
-                setValue('interestedIn', interest);
+                setValue('interestedIn', interest, { shouldValidate: true });
               }}
               className={`rounded-xl border px-4 py-2.5 text-sm font-medium transition-all ${
                 selectedInterest === interest
@@ -176,6 +235,12 @@ export default function ContactForm({ projectName, showProjectSelect = true }: C
             </button>
           ))}
         </div>
+        {/* Hidden input for form validation */}
+        <input
+          type="hidden"
+          {...register('interestedIn', { required: 'Please select what you are interested in.' })}
+          value={selectedInterest}
+        />
         {errors.interestedIn && (
           <p className="text-sm text-destructive">{errors.interestedIn.message}</p>
         )}

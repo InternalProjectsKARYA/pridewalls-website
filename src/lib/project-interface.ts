@@ -146,7 +146,7 @@ export interface SocialLink {
 
 export interface EnquiryFormData {
   name: string;
-  email: string;
+  email?: string;
   phone: string;
   projectInterest?: string;
   interestedIn?: string;

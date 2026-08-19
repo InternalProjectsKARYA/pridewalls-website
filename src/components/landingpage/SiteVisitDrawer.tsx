@@ -45,6 +45,17 @@ type SiteVisitForm = {
   consent: boolean;
 };
 
+type FieldErrors = {
+  name?: string;
+  mobile?: string;
+  email?: string;
+  interestType?: string;
+  otherInterest?: string;
+  preferredDate?: string;
+  preferredSlot?: string;
+  consent?: string;
+};
+
 type SiteVisitDrawerProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -109,6 +120,7 @@ export default function SiteVisitDrawer({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
+  const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
 
   const today = getLocalDateInputValue();
 
@@ -146,6 +158,7 @@ export default function SiteVisitDrawer({
     setIsSubmitting(false);
     setErrorMessage('');
     setSuccessMessage('');
+    setFieldErrors({});
   };
 
   const handleDrawerChange = (nextOpen: boolean) => {
@@ -158,6 +171,7 @@ export default function SiteVisitDrawer({
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setErrorMessage('');
+    setFieldErrors({});
 
     const name = siteVisitForm.name.trim();
     const email = siteVisitForm.email.trim();
@@ -169,30 +183,52 @@ export default function SiteVisitDrawer({
         ? otherInterest
         : siteVisitForm.interestType;
 
-    if (!name || !mobile || !selectedInterest) {
-      setErrorMessage(
-        'Please enter your name, mobile number, and property interest.'
-      );
-      return;
+    // Client-side validation with clear error messages
+    let hasErrors = false;
+    const newFieldErrors: FieldErrors = {};
+
+    if (!name) {
+      newFieldErrors.name = 'Please enter your full name.';
+      hasErrors = true;
     }
 
+    if (!mobile) {
+      newFieldErrors.mobile = 'Please enter your mobile number.';
+      hasErrors = true;
+    } else if (!isValidIndianMobileNumber(mobile)) {
+      newFieldErrors.mobile = 'Please enter a valid 10-digit mobile number.';
+      hasErrors = true;
+    }
+
+    if (!selectedInterest) {
+      newFieldErrors.interestType = 'Please select the property type you are interested in.';
+      hasErrors = true;
+    }
+
+    if (siteVisitForm.interestType === 'Other' && !otherInterest) {
+      newFieldErrors.otherInterest = 'Please tell us what you want to visit.';
+      hasErrors = true;
+    }
+
+    // Validate email if provided
     if (email && !isValidEmail(email)) {
-      setErrorMessage('Please enter a valid email address.');
-      return;
-    }
-
-    if (!isValidIndianMobileNumber(mobile)) {
-      setErrorMessage('Please enter a valid mobile number.');
-      return;
+      newFieldErrors.email = 'Please enter a valid email address.';
+      hasErrors = true;
     }
 
     if (!siteVisitForm.preferredDate) {
-      setErrorMessage('Please select your preferred visit date.');
-      return;
+      newFieldErrors.preferredDate = 'Please select your preferred visit date.';
+      hasErrors = true;
     }
 
     if (!siteVisitForm.consent) {
-      setErrorMessage('Please provide consent before scheduling a visit.');
+      newFieldErrors.consent = 'Please provide your consent to be contacted for scheduling this visit.';
+      hasErrors = true;
+    }
+
+    if (hasErrors) {
+      setFieldErrors(newFieldErrors);
+      setErrorMessage('Please fix the errors above and try again.');
       return;
     }
 
@@ -226,8 +262,7 @@ export default function SiteVisitDrawer({
       }
 
       setSuccessMessage(
-        result.message ||
-        'Your visit request has been received. Our team will confirm shortly.'
+        'Your site visit request has been received! Our team will contact you shortly to confirm the appointment.'
       );
       setSiteVisitForm(initialSiteVisitForm);
     } catch (error) {
@@ -344,10 +379,11 @@ export default function SiteVisitDrawer({
               </motion.div>
             ) : (
               <motion.form
+                id="site-visit-form"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 onSubmit={handleSubmit}
-                className="space-y-5"
+                className="space-y-5 pb-4"
               >
                 <div className="rounded-2xl border border-border bg-white px-4 py-3 text-sm text-muted-foreground">
                   Choose your preferred property type, date, and time slot. We
@@ -378,13 +414,19 @@ export default function SiteVisitDrawer({
                       <Input
                         id="site-visit-name"
                         value={siteVisitForm.name}
-                        onChange={(event) =>
-                          updateField('name', event.target.value)
-                        }
+                        onChange={(event) => {
+                          updateField('name', event.target.value);
+                          if (fieldErrors.name) setFieldErrors(prev => ({ ...prev, name: undefined }));
+                        }}
                         placeholder="Enter your full name"
                         disabled={isSubmitting}
-                        className={fieldClassName}
+                        className={`${fieldClassName} ${fieldErrors.name ? 'border-destructive focus-visible:border-destructive' : ''}`}
+                        aria-invalid={fieldErrors.name ? 'true' : 'false'}
+                        aria-describedby={fieldErrors.name ? 'name-error' : undefined}
                       />
+                      {fieldErrors.name && (
+                        <p id="name-error" className="text-sm text-destructive">{fieldErrors.name}</p>
+                      )}
                     </div>
 
                     <div className="space-y-2">
@@ -398,13 +440,19 @@ export default function SiteVisitDrawer({
                         id="site-visit-mobile"
                         type="tel"
                         value={siteVisitForm.mobile}
-                        onChange={(event) =>
-                          updateField('mobile', event.target.value)
-                        }
+                        onChange={(event) => {
+                          updateField('mobile', event.target.value);
+                          if (fieldErrors.mobile) setFieldErrors(prev => ({ ...prev, mobile: undefined }));
+                        }}
                         placeholder="Enter your mobile number"
                         disabled={isSubmitting}
-                        className={fieldClassName}
+                        className={`${fieldClassName} ${fieldErrors.mobile ? 'border-destructive focus-visible:border-destructive' : ''}`}
+                        aria-invalid={fieldErrors.mobile ? 'true' : 'false'}
+                        aria-describedby={fieldErrors.mobile ? 'mobile-error' : undefined}
                       />
+                      {fieldErrors.mobile && (
+                        <p id="mobile-error" className="text-sm text-destructive">{fieldErrors.mobile}</p>
+                      )}
                     </div>
                   </div>
 
@@ -419,13 +467,19 @@ export default function SiteVisitDrawer({
                       id="site-visit-email"
                       type="email"
                       value={siteVisitForm.email}
-                      onChange={(event) =>
-                        updateField('email', event.target.value)
-                      }
+                      onChange={(event) => {
+                        updateField('email', event.target.value);
+                        if (fieldErrors.email) setFieldErrors(prev => ({ ...prev, email: undefined }));
+                      }}
                       placeholder="Enter your email address (optional)"
                       disabled={isSubmitting}
-                      className={fieldClassName}
+                      className={`${fieldClassName} ${fieldErrors.email ? 'border-destructive focus-visible:border-destructive' : ''}`}
+                      aria-invalid={fieldErrors.email ? 'true' : 'false'}
+                      aria-describedby={fieldErrors.email ? 'email-error' : undefined}
                     />
+                    {fieldErrors.email && (
+                      <p id="email-error" className="text-sm text-destructive">{fieldErrors.email}</p>
+                    )}
                   </div>
                 </div>
 
@@ -458,13 +512,16 @@ export default function SiteVisitDrawer({
                               SiteVisitForm['interestType'];
 
                             updateField('interestType', nextValue);
+                            if (fieldErrors.interestType) setFieldErrors(prev => ({ ...prev, interestType: undefined }));
 
                             if (nextValue !== 'Other') {
                               updateField('otherInterest', '');
                             }
                           }}
                           disabled={isSubmitting}
-                          className={`${fieldClassName} w-full appearance-none pr-11 text-sm pl-3`}
+                          className={`${fieldClassName} w-full appearance-none pr-11 text-sm pl-3 ${fieldErrors.interestType ? 'border-destructive focus-visible:border-destructive' : ''}`}
+                          aria-invalid={fieldErrors.interestType ? 'true' : 'false'}
+                          aria-describedby={fieldErrors.interestType ? 'interest-error' : undefined}
                         >
                           <option value="" className="text-black">
                             Select a property type
@@ -481,6 +538,9 @@ export default function SiteVisitDrawer({
                         </select>
                         <ChevronDown className="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                       </div>
+                      {fieldErrors.interestType && (
+                        <p id="interest-error" className="text-sm text-destructive">{fieldErrors.interestType}</p>
+                      )}
                     </div>
 
                     <div className="space-y-2">
@@ -495,12 +555,18 @@ export default function SiteVisitDrawer({
                         type="date"
                         min={today}
                         value={siteVisitForm.preferredDate}
-                        onChange={(event) =>
-                          updateField('preferredDate', event.target.value)
-                        }
+                        onChange={(event) => {
+                          updateField('preferredDate', event.target.value);
+                          if (fieldErrors.preferredDate) setFieldErrors(prev => ({ ...prev, preferredDate: undefined }));
+                        }}
                         disabled={isSubmitting}
-                        className={`${fieldClassName} scheme-light`}
+                        className={`${fieldClassName} scheme-light ${fieldErrors.preferredDate ? 'border-destructive focus-visible:border-destructive' : ''}`}
+                        aria-invalid={fieldErrors.preferredDate ? 'true' : 'false'}
+                        aria-describedby={fieldErrors.preferredDate ? 'date-error' : undefined}
                       />
+                      {fieldErrors.preferredDate && (
+                        <p id="date-error" className="text-sm text-destructive">{fieldErrors.preferredDate}</p>
+                      )}
                     </div>
                   </div>
 
@@ -515,13 +581,19 @@ export default function SiteVisitDrawer({
                       <Input
                         id="site-visit-other-interest"
                         value={siteVisitForm.otherInterest}
-                        onChange={(event) =>
-                          updateField('otherInterest', event.target.value)
-                        }
+                        onChange={(event) => {
+                          updateField('otherInterest', event.target.value);
+                          if (fieldErrors.otherInterest) setFieldErrors(prev => ({ ...prev, otherInterest: undefined }));
+                        }}
                         placeholder="Example: premium villa plots near ORR"
                         disabled={isSubmitting}
-                        className={fieldClassName}
+                        className={`${fieldClassName} ${fieldErrors.otherInterest ? 'border-destructive focus-visible:border-destructive' : ''}`}
+                        aria-invalid={fieldErrors.otherInterest ? 'true' : 'false'}
+                        aria-describedby={fieldErrors.otherInterest ? 'other-interest-error' : undefined}
                       />
+                      {fieldErrors.otherInterest && (
+                        <p id="other-interest-error" className="text-sm text-destructive">{fieldErrors.otherInterest}</p>
+                      )}
                     </div>
                   ) : null}
                 </div>
@@ -584,21 +656,27 @@ export default function SiteVisitDrawer({
                 </div>
 
                 {/* Consent */}
-                <label className="flex items-start gap-3 rounded-2xl border border-border bg-muted/40 px-4 py-4 text-sm leading-6 text-muted-foreground">
+                <label className={`flex items-start gap-3 rounded-2xl border px-4 py-4 text-sm leading-6 text-muted-foreground ${fieldErrors.consent ? 'border-destructive bg-destructive/10' : 'border-border bg-muted/40'}`}>
                   <input
                     type="checkbox"
                     checked={siteVisitForm.consent}
-                    onChange={(event) =>
-                      updateField('consent', event.target.checked)
-                    }
+                    onChange={(event) => {
+                      updateField('consent', event.target.checked);
+                      if (fieldErrors.consent) setFieldErrors(prev => ({ ...prev, consent: undefined }));
+                    }}
                     disabled={isSubmitting}
                     className="mt-1 h-4 w-4 shrink-0 accent-brand-gold"
+                    aria-invalid={fieldErrors.consent ? 'true' : 'false'}
+                    aria-describedby={fieldErrors.consent ? 'consent-error' : undefined}
                   />
                   <span>
                     I agree to be contacted by PRIDEWALLS to confirm and
                     coordinate this visit request.
                   </span>
                 </label>
+                {fieldErrors.consent && (
+                  <p id="consent-error" className="text-sm text-destructive -mt-3">{fieldErrors.consent}</p>
+                )}
 
                 {errorMessage ? (
                   <motion.p
@@ -609,30 +687,34 @@ export default function SiteVisitDrawer({
                     {errorMessage}
                   </motion.p>
                 ) : null}
-
-                <div>
-                  <Button
-                    type="submit"
-                    disabled={isSubmitting}
-                    size="lg"
-                    className="w-full h-12 gap-2"
-                  >
-                    {isSubmitting ? (
-                      <>
-                        <Loader2 className="h-4 w-4 animate-spin" />
-                        Submitting...
-                      </>
-                    ) : (
-                      <>
-                        <Calendar className="h-4 w-4" />
-                        Schedule a Visit
-                      </>
-                    )}
-                  </Button>
-                </div>
               </motion.form>
             )}
           </div>
+
+          {/* Sticky Footer with Submit Button */}
+          {!successMessage && (
+            <div className="sticky bottom-0 border-t border-border bg-white/95 backdrop-blur-sm px-5 py-4 sm:px-6">
+              <Button
+                type="submit"
+                form="site-visit-form"
+                disabled={isSubmitting}
+                size="lg"
+                className="w-full h-12 gap-2"
+              >
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    Submitting...
+                  </>
+                ) : (
+                  <>
+                    <Calendar className="h-4 w-4" />
+                    Schedule a Visit
+                  </>
+                )}
+              </Button>
+            </div>
+          )}
         </motion.div>
       </motion.div>
       </AnimatePresence>

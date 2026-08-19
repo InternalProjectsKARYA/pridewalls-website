@@ -126,8 +126,9 @@ export async function POST(request: Request) {
     // Common enquiry fields
     // =========================================================================
 
+    // Support both propertyInterest (backend) and interestedIn (frontend) field names
     const propertyInterest =
-      payload.propertyInterest?.trim() ?? "";
+      payload.propertyInterest?.trim() ?? payload.interestedIn?.trim() ?? "";
 
     const submittedAt = new Date().toISOString();
 

@@ -42,15 +42,40 @@ export default function ContactSection() {
     const safeMobile = mobile.trim();
     const safeMessage = message.trim();
 
-    if (!safeName || !safeMobile || !interestedIn ) {
-      setErrorMessage(
-        "Please enter your name, mobile number, and what you're interested in."
-      );
+    // Client-side validation with clear error messages
+    if (!safeName) {
+      setErrorMessage("Please enter your full name.");
       return;
     }
 
+    if (!safeMobile) {
+      setErrorMessage("Please enter your mobile number.");
+      return;
+    }
+
+    // Validate mobile number format
+    const phoneRegex = /^(?:\+?91|91|0)?[6-9]\d{9}$/;
+    if (!phoneRegex.test(safeMobile.replace(/[\s()-]/g, ''))) {
+      setErrorMessage("Please enter a valid 10-digit mobile number.");
+      return;
+    }
+
+    if (!interestedIn) {
+      setErrorMessage("Please select what you are interested in.");
+      return;
+    }
+
+    // Validate email if provided
+    if (safeEmail) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(safeEmail)) {
+        setErrorMessage("Please enter a valid email address.");
+        return;
+      }
+    }
+
     if (!consent) {
-      setErrorMessage("Please provide consent before submitting.");
+      setErrorMessage("Please provide your consent to be contacted about this enquiry.");
       return;
     }
 
@@ -80,7 +105,7 @@ export default function ContactSection() {
         throw new Error(result.message || "Unable to submit your details.");
       }
 
-      setSuccessMessage(result.message || "Thanks! We will contact you soon.");
+      setSuccessMessage("Thank you for your interest! Our property advisor will contact you shortly.");
       setName("");
       setEmail("");
       setMobile("");
@@ -93,7 +118,7 @@ export default function ContactSection() {
       setErrorMessage(
         error instanceof Error
           ? error.message
-          : "Unable to submit your details."
+          : "Unable to submit your details. Please try again."
       );
     } finally {
       setIsSubmitting(false);

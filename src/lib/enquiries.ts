@@ -26,6 +26,7 @@ export type BaseEnquiryPayload = {
     email?: string; // Optional - many customers only have mobile/WhatsApp
     mobile?: string;
     propertyInterest?: string;
+    interestedIn?: string; // Frontend field name for property interest
     consent?: boolean;
 };
 
@@ -546,7 +547,8 @@ export function validateEnquiryPayload(
             errors.push("Message is too long (max 2000 characters).");
         }
     } else if (payload.type === "site_visit_request") {
-        if (!payload.propertyInterest?.trim()) {
+        // Support both propertyInterest (backend) and interestedIn (frontend) field names
+        if (!payload.propertyInterest?.trim() && !payload.interestedIn?.trim()) {
             errors.push("Please select a property type you are interested in.");
         }
 
