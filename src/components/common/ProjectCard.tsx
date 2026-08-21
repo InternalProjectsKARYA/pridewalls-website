@@ -284,7 +284,8 @@ export default function ProjectCard({
               "
             >
               <IndianRupee className="h-3 w-3" />
-              {project.price}
+              {/* {project.price} */}
+              45 Lakhs Onwards
             </span>
           )}
 
