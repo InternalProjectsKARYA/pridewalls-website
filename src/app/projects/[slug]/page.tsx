@@ -5,7 +5,7 @@ import ProjectPage from "@/components/common/ProjectPage";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://pridewall.vercel.app";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.pridewalls.com";
 
 export async function generateMetadata({
   params,

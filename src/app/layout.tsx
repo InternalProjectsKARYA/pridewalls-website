@@ -1,13 +1,14 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
-import Navbar from '../components/landingpage/navbar'
-import SocialMediaFloating from "@/components/common/SocialMediaFloating";
 
+import Navbar from '@/components/landingpage/navbar'
+import SocialMediaFloating from "@/components/common/SocialMediaFloating";
 import Footer from '@/components/landingpage/Footer'
+
 import { companyInfo } from "@/lib/project-data";
 import { NotFoundProvider } from "@/context/NotFoundContext";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://pridewall.vercel.app";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.pridewalls.com";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
