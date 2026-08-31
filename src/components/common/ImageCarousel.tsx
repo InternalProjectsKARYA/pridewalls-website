@@ -20,10 +20,7 @@ interface ImageCarouselProps {
 
 export default function ImageCarousel({ 
   images, 
-  alt = 'Gallery image',
-  autoPlay = true,
-  interval = 5000 
-}: ImageCarouselProps) {
+  alt = 'Gallery image'}: ImageCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
 
@@ -42,7 +39,7 @@ export default function ImageCarousel({
   return (
     <div className="relative w-full">
       {/* Main Image */}
-      <div className="relative aspect-[16/9] overflow-hidden rounded-xl">
+      <div className="relative aspect-video overflow-hidden rounded-xl">
         <motion.div
           key={currentIndex}
           initial={{ opacity: 0 }}
@@ -56,6 +53,15 @@ export default function ImageCarousel({
             fill
             className="object-cover cursor-pointer"
             onClick={() => setIsLightboxOpen(true)}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 60vw"
+            priority={currentIndex === 0} // Only prioritize first image
+            quality={85} // Optimize quality
+            placeholder="blur"
+            blurDataURL={`data:image/svg+xml;base64,${Buffer.from(
+              `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 8 8" width="8" height="8">
+                <rect width="8" height="8" fill="%23f0f0f0"/>
+              </svg>`
+            ).toString('base64')}`}
           />
         </motion.div>
 

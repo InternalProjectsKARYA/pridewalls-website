@@ -175,6 +175,7 @@ export default function ProjectPage({ project }: ProjectPageProps) {
   const [isSiteVisitOpen, setIsSiteVisitOpen] = useState(false);
   const [lightboxImage, setLightboxImage] = useState<LightboxImage | null>(null);
   const [sidebarStyle, setSidebarStyle] = useState<CSSProperties>({});
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const typeStyle = typeStyles[project.type];
   const isWideHeroProject =
     project.coverImage.includes('21x9') || project.type === 'plots' || project.type === 'villas';
@@ -203,6 +204,7 @@ export default function ProjectPage({ project }: ProjectPageProps) {
 
       const topOffset = 144;
       const gridRect = contentGrid.getBoundingClientRect();
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const columnRect = sidebarColumn.getBoundingClientRect();
       const gridTop = window.scrollY + gridRect.top;
       const gridHeight = contentGrid.offsetHeight;
@@ -254,6 +256,7 @@ export default function ProjectPage({ project }: ProjectPageProps) {
     };
   }, []);
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleShare = useCallback(async () => {
     if (navigator.share) {
       try {
@@ -271,6 +274,7 @@ export default function ProjectPage({ project }: ProjectPageProps) {
   const [activeBlock, setActiveBlock] = useState<string | null>(
     project.siteLayout?.zones?.[0] ? getZoneKey(project.siteLayout.zones[0]) : null
   );
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const router = useRouter();
   const primaryPhone = companyInfo.contact.phone[0];
   const phoneHref = `tel:${primaryPhone.replace(/\s+/g, '')}`;

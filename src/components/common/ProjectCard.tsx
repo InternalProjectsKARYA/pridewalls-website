@@ -170,12 +170,25 @@ export default function ProjectCard({
           group-hover:-translate-y-1
           group-hover:shadow-xl
           group-hover:shadow-brand-primary/8
+          focus:outline-none
+          focus-visible:ring-2
+          focus-visible:ring-ring
+          focus-visible:ring-offset-2
         "
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         onClick={() =>
           router.push(`/projects/${project.slug}`)
         }
+        role="article"
+        aria-label={`View details for ${project.name}`}
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            router.push(`/projects/${project.slug}`);
+          }
+        }}
       >
         {/* ======================================================== */}
         {/* Image Section                                             */}
@@ -194,6 +207,14 @@ export default function ProjectCard({
               ease-out
               group-hover:scale-105
             "
+            quality={80}
+            priority={index < 3} // Prioritize first 3 images
+            placeholder="blur"
+            blurDataURL={`data:image/svg+xml;base64,${Buffer.from(
+              `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 10" width="16" height="10">
+                <rect width="16" height="10" fill="%23f0f0f0"/>
+              </svg>`
+            ).toString('base64')}`}
           />
 
           {/* Bottom gradient */}

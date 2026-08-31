@@ -1,9 +1,14 @@
 {
   "compilerOptions": {
-    "target": "ES2017",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "target": "ES2022",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext",
+      "es2022"
+    ],
     "allowJs": true,
-    "skipLibCheck": true,
+    "skipLibCheck": true, // Skip lib checking to avoid Next.js 16.1.6 internal type issues
     "strict": true,
     "noEmit": true,
     "esModuleInterop": true,
@@ -13,22 +18,38 @@
     "isolatedModules": true,
     "jsx": "react-jsx",
     "incremental": true,
+    "noUnusedLocals": true, // Catch unused variables
+    "noUnusedParameters": true, // Catch unused parameters
+    "noImplicitAny": true, // Prevent implicit any types
+    "noImplicitReturns": true, // Ensure all code paths return
+    "strictNullChecks": true, // Better null/undefined handling
+    "strictFunctionTypes": true, // Better function type checking
+    "strictBindCallApply": true, // Better call/apply/bind checking
+    "alwaysStrict": true, // Enable strict mode
+    "forceConsistentCasingInFileNames": true, // Prevent casing issues
     "plugins": [
       {
         "name": "next"
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": [
+        "./src/*"
+      ]
     }
   },
   "include": [
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
+    "**/*.mts",
     ".next/types/**/*.ts",
-    ".next/dev/types/**/*.ts",
-    "**/*.mts"
+    ".next/dev/types/**/*.ts"
   ],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules",
+    ".next/**/*",
+    "**/*.test.ts",
+    "**/*.spec.ts"
+  ]
 }

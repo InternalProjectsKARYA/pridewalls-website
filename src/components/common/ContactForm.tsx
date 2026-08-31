@@ -35,9 +35,7 @@ export default function ContactForm({ projectName, showProjectSelect = true }: C
     handleSubmit,
     reset,
     setValue,
-    watch,
     formState: { errors },
-    trigger,
   } = useForm<EnquiryFormData>({
     defaultValues: {
       name: '',
@@ -52,7 +50,6 @@ export default function ContactForm({ projectName, showProjectSelect = true }: C
   });
 
   // Watch interestedIn to show/hide validation error
-  const watchedInterestedIn = watch('interestedIn');
 
   const onSubmit = async (data: EnquiryFormData) => {
     // Client-side validation before submitting

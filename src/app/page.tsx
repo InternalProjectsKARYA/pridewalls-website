@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react'
+import { Suspense } from 'react'
 import HeroSection from '@/components/landingpage/HeroSection'
 import TrustStrip from '@/components/landingpage/TrustStrip'
 import WhyInvestSection from '@/components/landingpage/WhyInvestSection'
@@ -11,7 +11,6 @@ import CTASection from '@/components/landingpage/CTASection'
 import GetInTouch from '@/components/landingpage/GetInTouch'
 import PropertyCategories from '@/components/landingpage/PropertyCategories'
 import TestimonialsSection from '@/components/landingpage/TestimonialsSection'
-import CompareProjects from '@/components/landingpage/CompareProjects'
 
 const page = () => {
   return (

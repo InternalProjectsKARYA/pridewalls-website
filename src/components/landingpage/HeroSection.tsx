@@ -138,6 +138,13 @@ export default function HeroSection() {
           className="object-cover"
           loading="eager"
           priority
+          quality={85}
+          placeholder="blur"
+          blurDataURL={`data:image/svg+xml;base64,${Buffer.from(
+            `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 9" width="16" height="9">
+              <rect width="16" height="9" fill="%230D2659"/>
+            </svg>`
+          ).toString('base64')}`}
         />
       </motion.div>
 

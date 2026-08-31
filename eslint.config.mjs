@@ -1,13 +1,34 @@
 import { defineConfig, globalIgnores } from "eslint/config";
-import nextVitals from "eslint-config-next/core-web-vitals";
-import nextTs from "eslint-config-next/typescript";
+import next from "eslint-config-next";
 
 const eslintConfig = defineConfig([
-  ...nextVitals,
-  ...nextTs,
-  // Override default ignores of eslint-config-next.
+  next,
+  // Custom rules
+  {
+    rules: {
+      // React best practices
+      "react/no-unescaped-entities": "warn",
+      "react/jsx-key": "error",
+      "react/self-closing-comp": "error",
+      
+      // Accessibility
+      "jsx-a11y/alt-text": "error",
+      "jsx-a11y/anchor-is-valid": "error",
+      "jsx-a11y/aria-props": "error",
+      "jsx-a11y/aria-role": "error",
+      "jsx-a11y/no-static-element-interactions": "warn",
+      
+      // Performance
+      "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+      "@next/next/no-img-element": "error", // Prefer next/image
+      
+      // SEO
+      "jsx-a11y/heading-has-content": "error",
+      "jsx-a11y/html-has-lang": "error",
+    },
+  },
+  // Override default ignores
   globalIgnores([
-    // Default ignores of eslint-config-next:
     ".next/**",
     "out/**",
     "build/**",

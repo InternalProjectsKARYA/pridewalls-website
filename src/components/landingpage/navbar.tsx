@@ -185,7 +185,7 @@
 //                 <Link
 //                   key={item.name}
 //                   href={item.href}
-//                   className={`rounded-full px-4 py-2 text-sm font-semibold transition-colors hover:shadow-sm ${linkTextClass}`}
+//                   className={`rounded-full px-4 py-2 text-sm font-semibold transition-colors hover:shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${linkTextClass}`}
 //                 >
 //                   {item.name}
 //                 </Link>
@@ -433,6 +433,42 @@ function NavbarContent() {
       );
     };
   }, []);
+
+  /* ---------------------------------------------------------------- */
+  /* Keyboard navigation for dropdowns                                */
+  /* ---------------------------------------------------------------- */
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setOpenDesktopDropdown(null);
+        setIsMobileMenuOpen(false);
+      }
+      
+      // Handle arrow key navigation in dropdowns
+      if (openDesktopDropdown && (event.key === 'ArrowDown' || event.key === 'ArrowUp')) {
+        event.preventDefault();
+        const dropdownItems = document.querySelectorAll(
+          `[data-dropdown="${openDesktopDropdown}"] a`
+        );
+        if (dropdownItems.length > 0) {
+          const currentIndex = Array.from(dropdownItems).findIndex(
+            (item) => item === document.activeElement
+          );
+          let nextIndex = currentIndex;
+          if (event.key === 'ArrowDown') {
+            nextIndex = (currentIndex + 1) % dropdownItems.length;
+          } else {
+            nextIndex = (currentIndex - 1 + dropdownItems.length) % dropdownItems.length;
+          }
+          (dropdownItems[nextIndex] as HTMLElement)?.focus();
+        }
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [openDesktopDropdown, isMobileMenuOpen]);
 
   /* ---------------------------------------------------------------- */
   /* Header state                                                     */
@@ -809,6 +845,8 @@ function NavbarContent() {
                         top-full
                         pt-3
                       "
+                      role="menu"
+                      data-dropdown={item.name}
                     >
                       <div
                         className="
@@ -823,7 +861,7 @@ function NavbarContent() {
                         "
                       >
                         {item.children.map(
-                          (child) => (
+                          (child, index) => (
                             <Link
                               key={child.name}
                               href={child.href}
@@ -844,7 +882,13 @@ function NavbarContent() {
                                 transition-colors
                                 hover:bg-accent
                                 hover:text-primary
+                                focus:outline-none
+                                focus-visible:ring-2
+                                focus-visible:ring-ring
+                                focus-visible:ring-offset-2
                               "
+                              role="menuitem"
+                              tabIndex={0}
                             >
                               {child.name}
                             </Link>
@@ -866,6 +910,10 @@ function NavbarContent() {
                     font-semibold
                     transition-colors
                     hover:shadow-sm
+                    focus:outline-none
+                    focus-visible:ring-2
+                    focus-visible:ring-ring
+                    focus-visible:ring-offset-2
                     ${linkTextClass}
                   `}
                 >
@@ -914,7 +962,8 @@ function NavbarContent() {
                 variant="outline"
                 size="icon"
                 aria-label="Open Menu"
-                className="rounded-xl"
+                aria-expanded={isMobileMenuOpen}
+                className="rounded-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
               >
                 <Menu />
               </Button>
@@ -935,7 +984,7 @@ function NavbarContent() {
                         onClick={() =>
                           setIsMobileMenuOpen(false)
                         }
-                        className="font-medium"
+                        className="font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-lg px-2 py-1"
                       >
                         {item.name}
                       </Link>
@@ -950,6 +999,8 @@ function NavbarContent() {
                             border-border
                             pl-4
                           "
+                          role="group"
+                          aria-label={`${item.name} submenu`}
                         >
                           {item.children.map(
                             (child) => (
@@ -967,6 +1018,13 @@ function NavbarContent() {
                                   text-muted-foreground
                                   transition-colors
                                   hover:text-primary
+                                  focus:outline-none
+                                  focus-visible:ring-2
+                                  focus-visible:ring-ring
+                                  focus-visible:ring-offset-2
+                                  rounded-lg
+                                  px-2
+                                  py-1
                                 "
                               >
                                 {child.name}

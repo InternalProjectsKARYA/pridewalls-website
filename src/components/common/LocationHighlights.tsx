@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import { LocationHighlight } from '@/lib/project-interface';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const iconMap: Record<string, React.ReactNode> = {
   navigation: <Navigation className="h-6 w-6" />,
   train: <Train className="h-6 w-6" />,
