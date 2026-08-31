@@ -14,7 +14,7 @@ type EnquiryRecord = {
   mobile: string;
   enquiryType: string;
   status: string;
-  interestedIn: string;
+  propertyInterest: string;
   message: string;
   preferredContact?: string;
   projectName?: string;
@@ -108,7 +108,7 @@ function downloadCsv(enquiries: EnquiryRecord[]) {
       l.mobile,
       l.enquiryType,
       l.status,
-      l.interestedIn,
+      l.propertyInterest,
       l.preferredContact ?? "",
       l.projectName ?? "",
       l.preferredDate ?? "",
@@ -135,7 +135,7 @@ function calculateStats(enquiries: EnquiryRecord[]) {
   const contactMethods = new Map<string, number>();
 
   enquiries.forEach((enquiry) => {
-    categories.set(enquiry.interestedIn, (categories.get(enquiry.interestedIn) || 0) + 1);
+    categories.set(enquiry.propertyInterest, (categories.get(enquiry.propertyInterest) || 0) + 1);
     const method = enquiry.preferredContact || "Not specified";
     contactMethods.set(method, (contactMethods.get(method) || 0) + 1);
   });
@@ -350,7 +350,7 @@ export default function EnquiriesViewer() {
         enquiry.name.toLowerCase().includes(query) ||
         (enquiry.email?.toLowerCase().includes(query) ?? false) ||
         enquiry.mobile.includes(query) ||
-        enquiry.interestedIn.toLowerCase().includes(query)
+        enquiry.propertyInterest.toLowerCase().includes(query)
       );
     } else if (filterBy === "email") {
       return enquiry.email?.toLowerCase().includes(query) ?? false;
@@ -691,10 +691,10 @@ export default function EnquiriesViewer() {
                               {enquiry.enquiryType === 'property_enquiry' ? 'Enquiry' : 'Site Visit'}
                             </span>
                           </td>
-                          <td className="px-6 py-4 max-w-[220px]">
+                          <td className="px-6 py-4 max-w-55">
                             <div className="flex items-center gap-2 text-slate-900 font-medium truncate">
                               <Building2 className="h-4 w-4 text-slate-400 shrink-0" />
-                              {enquiry.interestedIn || "—"}
+                              {enquiry.propertyInterest || "—"}
                             </div>
                             {enquiry.projectName && (
                               <div className="text-xs text-slate-500 truncate mt-1">
@@ -776,7 +776,7 @@ export default function EnquiriesViewer() {
                       )}
                       <div className="flex items-center gap-2 text-slate-600 mt-3">
                         <Building2 className="h-4 w-4 text-slate-400" />
-                        <span className="font-medium text-blue-950 truncate text-xs">{enquiry.interestedIn}</span>
+                        <span className="font-medium text-blue-950 truncate text-xs">{enquiry.propertyInterest}</span>
                       </div>
                       {enquiry.preferredDate && (
                         <div className="flex items-center gap-2 text-slate-500 text-xs">
@@ -933,7 +933,7 @@ export default function EnquiriesViewer() {
                   <div className="space-y-3">
                     <div>
                       <p className="text-xs text-slate-400 font-medium">Interested In</p>
-                      <p className="text-sm font-medium text-slate-700">{selectedEnquiry.interestedIn || "Not specified"}</p>
+                      <p className="text-sm font-medium text-slate-700">{selectedEnquiry.propertyInterest || "Not specified"}</p>
                     </div>
 
                     <div>
@@ -978,7 +978,7 @@ export default function EnquiriesViewer() {
                     <p className="text-xs text-slate-400 font-medium mb-1">Customer Message</p>
                     {selectedEnquiry.message ? (
                       <div className="rounded-lg bg-slate-50 p-4 text-sm text-slate-700 ring-1 ring-inset ring-slate-100">
-                        <p className="whitespace-pre-wrap break-words">{selectedEnquiry.message}</p>
+                        <p className="whitespace-pre-wrap wrap-break-word">{selectedEnquiry.message}</p>
                       </div>
                     ) : (
                       <p className="text-sm text-slate-400 italic">Not provided</p>
@@ -989,7 +989,7 @@ export default function EnquiriesViewer() {
                     <p className="text-xs text-slate-400 font-medium mb-1">Internal Notes</p>
                     {selectedEnquiry.notes ? (
                       <div className="rounded-lg bg-amber-50 p-4 text-sm text-amber-900 ring-1 ring-inset ring-amber-100">
-                        <p className="whitespace-pre-wrap break-words">{selectedEnquiry.notes}</p>
+                        <p className="whitespace-pre-wrap wrap-break-word">{selectedEnquiry.notes}</p>
                       </div>
                     ) : (
                       <p className="text-sm text-slate-400 italic">Not provided</p>

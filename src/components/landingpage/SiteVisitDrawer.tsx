@@ -624,11 +624,10 @@ export default function SiteVisitDrawer({
                             type="button"
                             onClick={() => updateField('preferredSlot', slot)}
                             disabled={isSubmitting}
-                            className={`inline-flex min-h-12 items-center justify-center rounded-xl border px-3 py-2 text-sm font-medium transition ${
-                              isActive
+                            className={`inline-flex min-h-12 items-center justify-center rounded-xl border px-3 py-2 text-sm font-medium transition ${isActive
                                 ? 'border-brand-gold bg-brand-gold/10 text-primary'
                                 : 'border-border bg-white text-muted-foreground hover:bg-accent'
-                            }`}
+                              }`}
                           >
                             {slot}
                           </button>
@@ -670,8 +669,15 @@ export default function SiteVisitDrawer({
                     aria-describedby={fieldErrors.consent ? 'consent-error' : undefined}
                   />
                   <span>
-                    I agree to be contacted by PRIDEWALLS to confirm and
-                    coordinate this visit request.
+                    I agree to be contacted by PRIDEWALLS to confirm and coordinate this
+                    visit request. By submitting this form, I acknowledge that my information
+                    will be handled in accordance with the{' '}
+                    <a
+                      href="/privacy-policy"
+                      className="underline underline-offset-2 hover:text-brand-gold"
+                    >
+                      Privacy Policy
+                    </a>.
                   </span>
                 </label>
                 {fieldErrors.consent && (
@@ -717,6 +723,6 @@ export default function SiteVisitDrawer({
           )}
         </motion.div>
       </motion.div>
-      </AnimatePresence>
+    </AnimatePresence>
   );
 }

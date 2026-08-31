@@ -156,7 +156,7 @@ export default function ContactSection() {
 
               <div className="mt-4 space-y-1 text-sm text-muted-foreground">
                 <p>Phone: +91 70364 45500</p>
-                <p className="pt-1">info@pridewalls.com</p>
+                <p className="pt-1">sales@pridewalls.com</p>
               </div>
             </div>
 
@@ -165,17 +165,50 @@ export default function ContactSection() {
               className="flex flex-1 flex-col rounded-2xl border bg-white p-6 shadow-lg"
             >
               <div className="space-y-4">
-              <div className="grid md:grid-cols-2 gap-4">
+                <div className="grid md:grid-cols-2 gap-4">
+                  <label className="space-y-1">
+                    <span className="text-sm font-medium text-foreground">
+                      Name <span className="text-destructive">*</span>
+                    </span>
+                    <Input
+                      id="lead-name"
+                      placeholder="Enter your name"
+                      value={name}
+                      onChange={(event) => setName(event.target.value)}
+                      autoComplete="name"
+                      aria-required="true"
+                      disabled={isSubmitting}
+                    />
+                  </label>
+
+                  <label className="space-y-1">
+                    <span className="text-sm font-medium text-foreground">
+                      Email (Optional)
+                    </span>
+                    <Input
+                      id="lead-email"
+                      placeholder="Enter email address (optional)"
+                      type="email"
+                      value={email}
+                      onChange={(event) => setEmail(event.target.value)}
+                      autoComplete="email"
+                      aria-required="false"
+                      disabled={isSubmitting}
+                    />
+                  </label>
+                </div>
+
                 <label className="space-y-1">
                   <span className="text-sm font-medium text-foreground">
-                    Name <span className="text-destructive">*</span>
+                    Mobile Number <span className="text-destructive">*</span>
                   </span>
                   <Input
-                    id="lead-name"
-                    placeholder="Enter your name"
-                    value={name}
-                    onChange={(event) => setName(event.target.value)}
-                    autoComplete="name"
+                    id="lead-mobile"
+                    placeholder="Enter mobile number"
+                    type="tel"
+                    value={mobile}
+                    onChange={(event) => setMobile(event.target.value)}
+                    autoComplete="tel"
                     aria-required="true"
                     disabled={isSubmitting}
                   />
@@ -183,145 +216,121 @@ export default function ContactSection() {
 
                 <label className="space-y-1">
                   <span className="text-sm font-medium text-foreground">
-                    Email (Optional)
+                    Interested In <span className="text-destructive">*</span>
                   </span>
-                  <Input
-                    id="lead-email"
-                    placeholder="Enter email address (optional)"
-                    type="email"
-                    value={email}
-                    onChange={(event) => setEmail(event.target.value)}
-                    autoComplete="email"
-                    aria-required="false"
+                  <select
+                    id="lead-interest"
+                    value={interestType}
+                    onChange={(event) => {
+                      setInterestType(event.target.value as InterestType);
+                      setOtherInterest("");
+                    }}
+                    aria-required="true"
                     disabled={isSubmitting}
-                  />
+                    className="h-12 w-full px-4 rounded-xl border bg-white focus:outline-none focus:ring-2 focus:ring-brand-gold/40"
+                  >
+                    <option value="">Select</option>
+                    <option value="Villas">Villas</option>
+                    <option value="Open Plots">Open Plots</option>
+                    <option value="Apartments">Apartments</option>
+                    <option value="Commercial">Commercial</option>
+                    <option value="Other">Other</option>
+                  </select>
                 </label>
-              </div>
 
-              <label className="space-y-1">
-                <span className="text-sm font-medium text-foreground">
-                  Mobile Number <span className="text-destructive">*</span>
-                </span>
-                <Input
-                  id="lead-mobile"
-                  placeholder="Enter mobile number"
-                  type="tel"
-                  value={mobile}
-                  onChange={(event) => setMobile(event.target.value)}
-                  autoComplete="tel"
-                  aria-required="true"
-                  disabled={isSubmitting}
-                />
-              </label>
+                {interestType === "Other" ? (
+                  <label className="space-y-1">
+                    <span className="text-sm font-medium text-foreground">
+                      Other Interest <span className="text-destructive">*</span>
+                    </span>
+                    <Input
+                      id="lead-other-interest"
+                      placeholder="Tell us what you're interested in"
+                      value={otherInterest}
+                      onChange={(event) => setOtherInterest(event.target.value)}
+                      disabled={isSubmitting}
+                    />
+                  </label>
+                ) : null}
 
-              <label className="space-y-1">
-                <span className="text-sm font-medium text-foreground">
-                  Interested In <span className="text-destructive">*</span>
-                </span>
-                <select
-                  id="lead-interest"
-                  value={interestType}
-                  onChange={(event) => {
-                    setInterestType(event.target.value as InterestType);
-                    setOtherInterest("");
-                  }}
-                  aria-required="true"
-                  disabled={isSubmitting}
-                  className="h-12 w-full px-4 rounded-xl border bg-white focus:outline-none focus:ring-2 focus:ring-brand-gold/40"
-                >
-                  <option value="">Select</option>
-                  <option value="Villas">Villas</option>
-                  <option value="Open Plots">Open Plots</option>
-                  <option value="Apartments">Apartments</option>
-                  <option value="Commercial">Commercial</option>
-                  <option value="Other">Other</option>
-                </select>
-              </label>
+                <div className="space-y-1">
+                  <span className="text-sm font-medium text-foreground">
+                    Preferred Contact Method
+                  </span>
+                  <div className="flex flex-wrap gap-3 pt-1">
+                    {([
+                      { value: "phone" as const, label: "Phone Call" },
+                      { value: "email" as const, icon: Mail, label: "Email" },
+                      { value: "whatsapp" as const, icon: MessageSquare, label: "WhatsApp" },
+                    ] as const).map((method) => (
+                      <label
+                        key={method.value}
+                        className={`flex items-center gap-2 px-4 py-2 rounded-lg border cursor-pointer transition-all ${preferredContact === method.value
+                            ? "border-brand-gold bg-brand-gold/5"
+                            : "border-border hover:border-brand-gold/50"
+                          }`}
+                      >
+                        <input
+                          type="radio"
+                          name="preferredContact"
+                          value={method.value}
+                          checked={preferredContact === method.value}
+                          onChange={() => setPreferredContact(method.value)}
+                          disabled={isSubmitting}
+                          className="sr-only"
+                        />
+                        {"icon" in method ? <method.icon className="h-4 w-4" /> : null}
+                        <span className="text-sm">{method.label}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
 
-              {interestType === "Other" ? (
                 <label className="space-y-1">
                   <span className="text-sm font-medium text-foreground">
-                    Other Interest <span className="text-destructive">*</span>
+                    Message
                   </span>
-                  <Input
-                    id="lead-other-interest"
-                    placeholder="Tell us what you're interested in"
-                    value={otherInterest}
-                    onChange={(event) => setOtherInterest(event.target.value)}
+                  <Textarea
+                    id="lead-message"
+                    placeholder="Tell us about your requirements..."
+                    value={message}
+                    onChange={(event) => setMessage(event.target.value)}
                     disabled={isSubmitting}
                   />
                 </label>
-              ) : null}
 
-              <div className="space-y-1">
-                <span className="text-sm font-medium text-foreground">
-                  Preferred Contact Method
-                </span>
-                <div className="flex flex-wrap gap-3 pt-1">
-                  {([
-                    { value: "phone" as const, label: "Phone Call" },
-                    { value: "email" as const, icon: Mail, label: "Email" },
-                    { value: "whatsapp" as const, icon: MessageSquare, label: "WhatsApp" },
-                  ] as const).map((method) => (
-                    <label
-                      key={method.value}
-                      className={`flex items-center gap-2 px-4 py-2 rounded-lg border cursor-pointer transition-all ${
-                        preferredContact === method.value
-                          ? "border-brand-gold bg-brand-gold/5"
-                          : "border-border hover:border-brand-gold/50"
-                      }`}
+                <label className="flex items-start gap-3 rounded-xl border border-border bg-muted/40 px-4 py-3 text-sm text-foreground">
+                  <input
+                    type="checkbox"
+                    checked={consent}
+                    onChange={(event) => setConsent(event.target.checked)}
+                    disabled={isSubmitting}
+                    className="mt-1 h-4 w-4 accent-brand-gold"
+                  />
+                  <span>
+                    I agree to be contacted by PRIDEWALLS about this enquiry. By submitting
+                    this form, I acknowledge that my information will be handled in
+                    accordance with the{' '}
+                    <a
+                      href="/privacy-policy"
+                      className="underline underline-offset-2 hover:text-brand-gold"
                     >
-                      <input
-                        type="radio"
-                        name="preferredContact"
-                        value={method.value}
-                        checked={preferredContact === method.value}
-                        onChange={() => setPreferredContact(method.value)}
-                        disabled={isSubmitting}
-                        className="sr-only"
-                      />
-                      {"icon" in method ? <method.icon className="h-4 w-4" /> : null}
-                      <span className="text-sm">{method.label}</span>
-                    </label>
-                  ))}
-                </div>
-              </div>
+                      Privacy Policy
+                    </a>.
+                  </span>
+                </label>
 
-              <label className="space-y-1">
-                <span className="text-sm font-medium text-foreground">
-                  Message
-                </span>
-                <Textarea
-                  id="lead-message"
-                  placeholder="Tell us about your requirements..."
-                  value={message}
-                  onChange={(event) => setMessage(event.target.value)}
-                  disabled={isSubmitting}
-                />
-              </label>
+                {errorMessage ? (
+                  <p className="rounded-xl border border-destructive/20 bg-destructive/10 px-4 py-3 text-sm text-destructive">
+                    {errorMessage}
+                  </p>
+                ) : null}
 
-              <label className="flex items-start gap-3 rounded-xl border border-border bg-muted/40 px-4 py-3 text-sm text-foreground">
-                <input
-                  type="checkbox"
-                  checked={consent}
-                  onChange={(event) => setConsent(event.target.checked)}
-                  disabled={isSubmitting}
-                  className="mt-1 h-4 w-4 accent-brand-gold"
-                />
-                <span>I agree to be contacted by PRIDEWALLS about this enquiry.</span>
-              </label>
-
-              {errorMessage ? (
-                <p className="rounded-xl border border-destructive/20 bg-destructive/10 px-4 py-3 text-sm text-destructive">
-                  {errorMessage}
-                </p>
-              ) : null}
-
-              {successMessage ? (
-                <p className="rounded-xl border border-success/20 bg-success/10 px-4 py-3 text-sm text-success">
-                  {successMessage}
-                </p>
-              ) : null}
+                {successMessage ? (
+                  <p className="rounded-xl border border-success/20 bg-success/10 px-4 py-3 text-sm text-success">
+                    {successMessage}
+                  </p>
+                ) : null}
               </div>
 
               <button
@@ -337,7 +346,7 @@ export default function ContactSection() {
 
           <div className="relative h-full min-h-180 rounded-2xl overflow-hidden border shadow-xl">
             <iframe
-              src="https://www.google.com/maps?q=Progressive+Towers,+100+Feet+Road,+Ayyappa+Society,+Madhapur,+Hyderabad+500081&z=16&output=embed&hl=en"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3806.1423428367516!2d78.3878759!3d17.4528999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcb916ac614f7bd%3A0x347db45ecf3a2c2c!2sPRIDEWALLS%20INFRATECH!5e0!3m2!1sen!2sin!4v1788156978155!5m2!1sen!2sin%22"
               className="w-full h-full border-0"
               loading="lazy"
               allowFullScreen
@@ -345,7 +354,7 @@ export default function ContactSection() {
               title="Map showing PRIDEWALLS office location in Madhapur, Hyderabad"
             />
             <a
-              href="https://www.google.com/maps/dir/?api=1&destination=Progressive+Towers%2C+100+Feet+Road%2C+Ayyappa+Society%2C+Madhapur%2C+Hyderabad+500081"
+              href="https://www.google.com/maps/dir/?api=1&destination=PRIDEWALLS%20INFRATECH%2C%20Hyderabad%2C%20Telangana"
               target="_blank"
               rel="noopener noreferrer"
               className="absolute bottom-4 right-4 inline-flex items-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-white shadow-lg transition hover:bg-brand-primary-dark"

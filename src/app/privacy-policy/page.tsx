@@ -26,7 +26,7 @@ export default function PrivacyPolicyPage() {
         },
         {
           title: 'Your Choices',
-          body: 'You may request correction, deletion, or withdrawal from promotional communication by contacting us at info@pridewalls.com. Transactional or service-related communication may continue where required.',
+          body: 'You may request correction, deletion, or withdrawal from promotional communication by contacting us at sales@pridewalls.com. Transactional or service-related communication may continue where required.',
         },
       ]}
     />

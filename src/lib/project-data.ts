@@ -14,7 +14,7 @@ A key attraction of the community is Club Vivian, a thoughtfully planned four-le
 
 Developed by PRIDEWALLS, Espino comprises six residential blocks (A to F) with a balanced mix of 2BHK and 3BHK homes, efficient floor plans, and excellent connectivity to schools, IT hubs, healthcare facilities, shopping, and entertainment zones. Espino stands as an ideal choice for families seeking a modern, well-connected, and community-centric lifestyle in West Hyderabad.`,
     location: 'Ameenpur, Hyderabad',
-    mapEmbedUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1206.8958158794214!2d78.31674295666015!3d17.51407797395735!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcb8d00024530ed%3A0x265564fe9ac9ae3d!2sThe%20Espino%20C%20Block!5e1!3m2!1sen!2sin!4v1782734446585!5m2!1sen!2sin',
+    mapEmbedUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3804.8570841303817!2d78.3185828!3d17.5143344!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcb8d291347bfe7%3A0xfe75c72b7d2fb5e6!2sAvantika%20Pridewalls!5e0!3m2!1sen!2sin!4v1788157032380!5m2!1sen!2sin%22',
     type: 'apartments',
     status: 'completed',
     featured: false,
@@ -474,7 +474,7 @@ export const companyInfo: CompanyInfo = {
   contact: {
     address: 'Plot No: 19/B, 4th Floor, Progressive Towers, Jaihind Enclave, 100 Feet Road, Ayyappa Society, Madhapur, Hyderabad- 500081. ',
     phone: ['+91 70364 45500'],
-    email: ['info@pridewalls.com', 'sales@pridewalls.com'],
+    email: ['sales@pridewalls.com'],
     officeHours: 'Monday - Saturday: 9:00 AM - 7:00 PM',
     whatsapp: '+91 70364 45500',
   },
