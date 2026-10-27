@@ -197,7 +197,7 @@
 //           <div className="hidden lg:flex">
 //             <Button asChild className={ctaButtonClass}>
 //               <Link href="/#contact">
-//                 Get In Touch
+//                 Talk to a Property Advisor
 //                 <ArrowUpRight className="ml-2 h-4 w-4" />
 //               </Link>
 //             </Button>
@@ -272,6 +272,7 @@ import {
 } from '@/components/ui/sheet';
 import { companyInfo } from '@/lib/project-data';
 import Image from 'next/image';
+import { useNotFound } from '@/context/NotFoundContext';
 
 /* ------------------------------------------------------------------ */
 /* Navigation                                                         */
@@ -324,6 +325,7 @@ function NavbarContent() {
   const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { isNotFound } = useNotFound();
 
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] =
@@ -436,22 +438,24 @@ function NavbarContent() {
   /* Header state                                                     */
   /* ---------------------------------------------------------------- */
 
-  const isTopImagePage =
-    pathname === '/' ||
-    pathname.startsWith('/projects');
+  // Only pages with a hero image can safely use the transparent header.
+  // All other routes need the solid variant from their first paint so the
+  // navigation remains readable against their light page backgrounds.
+  const hasOverlayHero =
+    (pathname === '/' || pathname.startsWith('/projects')) &&
+    !isNotFound;
 
-  const showTopBar = !isScrolled;
-
-  const isOverlayHeader =
-    isTopImagePage && !isScrolled;
+  const isTransparentHeader = hasOverlayHero && !isScrolled;
+  const showTopBar = isTransparentHeader;
+  const isOverlayHeader = isTransparentHeader;
 
   /* ---------------------------------------------------------------- */
   /* Header classes                                                   */
   /* ---------------------------------------------------------------- */
 
-  const headerClassName = isScrolled
-    ? 'border-b border-border/80 bg-white/92 shadow-[0_10px_30px_rgba(13,38,89,0.08)] backdrop-blur-xl'
-    : 'border-b border-transparent bg-transparent shadow-none';
+  const headerClassName = isTransparentHeader
+    ? 'border-b border-transparent bg-transparent shadow-none'
+    : 'border-b border-border/80 bg-white/92 shadow-[0_10px_30px_rgba(13,38,89,0.08)] backdrop-blur-xl';
 
   const topBarClassName =
     'bg-primary text-white';
@@ -460,12 +464,12 @@ function NavbarContent() {
   /* Navigation text classes                                         */
   /* ---------------------------------------------------------------- */
 
-  const linkTextClass = isScrolled
+  const linkTextClass = isTransparentHeader
     ? `
         relative
-        text-primary
+        text-white
         font-semibold
-        hover:text-primary
+        hover:text-white
         after:absolute
         after:left-4
         after:right-4
@@ -483,9 +487,9 @@ function NavbarContent() {
       `
     : `
         relative
-        text-white
+        text-primary
         font-semibold
-        hover:text-white
+        hover:text-primary
         after:absolute
         after:left-4
         after:right-4
@@ -506,8 +510,14 @@ function NavbarContent() {
   /* Navigation container                                            */
   /* ---------------------------------------------------------------- */
 
-  const navContainerClass = isScrolled
+  const navContainerClass = isTransparentHeader
     ? `
+        hidden
+        items-center
+        gap-3
+        lg:flex
+      `
+    : `
         hidden
         items-center
         rounded-full
@@ -517,25 +527,19 @@ function NavbarContent() {
         p-1
         shadow-inner
         lg:flex
-      `
-    : `
-        hidden
-        items-center
-        gap-3
-        lg:flex
       `;
 
   /* ---------------------------------------------------------------- */
   /* Logo classes                                                     */
   /* ---------------------------------------------------------------- */
 
-  const logoTextClass = isScrolled
-    ? 'text-primary'
-    : 'text-white';
+  const logoTextClass = isTransparentHeader
+    ? 'text-white'
+    : 'text-primary';
 
-  const logoTaglineClass = isScrolled
-    ? 'text-primary/70'
-    : 'text-white/80';
+  const logoTaglineClass = isTransparentHeader
+    ? 'text-white/80'
+    : 'text-primary/70';
 
   /* ---------------------------------------------------------------- */
   /* CTA button                                                       */
@@ -881,7 +885,7 @@ function NavbarContent() {
               className={ctaButtonClass}
             >
               <Link href="/#contact">
-                Get In Touch
+                Talk to a Property Advisor
 
                 <ArrowUpRight
                   className="

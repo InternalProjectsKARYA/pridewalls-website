@@ -2,9 +2,52 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { MapPin, Phone, Mail, Clock, Facebook, Instagram, Linkedin, Youtube, ArrowUp } from 'lucide-react';
+import { MapPin, Phone, Mail, Clock, ArrowUp } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { companyInfo } from '@/lib/project-data';
 import { Button } from '@/components/ui/button';
+import {
+  FacebookIcon,
+  InstagramIcon,
+  LinkedInIcon,
+  YouTubeIcon,
+  WhatsAppIcon,
+} from '@/lib/social-media-svg-icons';
+
+
+/* ─────────────────────────────────────────────
+   Social config with brand colors
+─────────────────────────────────────────────── */
+
+const socialConfig: Record<string, {
+  icon: React.ReactNode;
+  color: string;
+}> = {
+  facebook: {
+    icon: <FacebookIcon className="h-5 w-5" />,
+    color: 'bg-gradient-to-br from-[#4fa3ff] to-[#0a52c4]',
+  },
+  instagram: {
+    icon: <InstagramIcon className="h-5 w-5" />,
+    color: 'bg-gradient-to-br from-[#ffd152] via-[#ff5c5c] to-[#b833ab]',
+  },
+  linkedin: {
+    icon: <LinkedInIcon className="h-5 w-5" />,
+    color: 'bg-gradient-to-br from-[#5cb5ff] to-[#0a66c2]',
+  },
+  youtube: {
+    icon: <YouTubeIcon className="h-5 w-5" />,
+    color: 'bg-gradient-to-br from-[#ff6b6b] to-[#c4302b]',
+  },
+  whatsapp: {
+    icon: <WhatsAppIcon className="h-5 w-5" />,
+    color: 'bg-gradient-to-br from-[#42ff7a] to-[#128C7E]',
+  },
+};
+
+/* ─────────────────────────────────────────────
+   Static Links
+─────────────────────────────────────────────── */
 
 const quickLinks = [
   { name: 'Home', href: '/' },
@@ -25,36 +68,48 @@ const legalLinks = [
   { name: 'Terms of Service', href: '/terms-of-service' },
   { name: 'Cookie Policy', href: '/cookie-policy' },
   { name: 'Disclaimer', href: '/disclaimer' },
+  { name: 'Admin Portal', href: '/enquiries' },
 ];
 
-const socialIcons: Record<string, React.ReactNode> = {
-  facebook: <Facebook className="h-5 w-5" />,
-  instagram: <Instagram className="h-5 w-5" />,
-  linkedin: <Linkedin className="h-5 w-5" />,
-  youtube: <Youtube className="h-5 w-5" />,
-};
+/* ─────────────────────────────────────────────
+   Footer Component
+─────────────────────────────────────────────── */
 
 export default function Footer() {
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
+  // Build the full social list (includes WhatsApp from contact data)
+  const whatsappNumber = companyInfo.contact.whatsapp || companyInfo.contact.phone[0];
+  const cleanNumber = whatsappNumber.replace(/[^0-9]/g, '');
+  const whatsappUrl = `https://wa.me/${cleanNumber}?text=${encodeURIComponent('Hi, I am interested in your properties. Please share more details.')}`;
+
+  const footerSocials = [
+    ...companyInfo.socialLinks.map((s) => ({
+      name: s.platform,
+      url: s.url,
+      iconKey: s.icon,
+    })),
+    {
+      name: 'WhatsApp',
+      url: whatsappUrl,
+      iconKey: 'whatsapp',
+    },
+  ];
+
   return (
     <footer className="relative text-white overflow-hidden">
 
-      {/* ⭐ Background */}
+      {/* Background */}
       <div className="absolute inset-0 bg-primary" />
-      {/* <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute left-1/4 top-0 w-[420px] h-[420px] bg-brand-gold/20 blur-[140px]" />
-        <div className="absolute right-1/4 bottom-0 w-[420px] h-[420px] bg-brand-gold/15 blur-[140px]" />
-      </div> */}
 
-      {/* ⭐ MAIN */}
+      {/* MAIN */}
       <div className="section-shell relative py-12 lg:py-16">
         <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-12 lg:gap-8">
 
-          {/* ⭐ COMPANY */}
+          {/* COMPANY */}
           <div className="space-y-6 md:col-span-2 lg:col-span-5">
             <div className="flex items-center gap-4">
-              <div className="flex h-[72px] w-[72px] shrink-0 items-center justify-center overflow-hidden rounded-xl bg-white shadow-card">
+              <div className="flex h-18 w-18 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-white shadow-card">
                 <Image
                   src="/pridewalls-logo-mark.png"
                   alt="PRIDEWALLS Logo"
@@ -65,7 +120,7 @@ export default function Footer() {
                 />
               </div>
               <div className="min-w-0">
-                <h3 className="break-words text-xl font-extrabold tracking-[0.14em] sm:text-2xl">{companyInfo.name}</h3>
+                <h3 className="wrap-break-word text-xl font-extrabold tracking-[0.14em] sm:text-2xl">{companyInfo.name}</h3>
                 <p className="text-white/50 text-sm">{companyInfo.tagline}</p>
               </div>
             </div>
@@ -74,30 +129,47 @@ export default function Footer() {
               {companyInfo.description}
             </p>
 
-            {/* ⭐ Social */}
-            <div className="flex gap-3">
-              {companyInfo.socialLinks.map((social) => (
-                <a
-                  key={social.platform}
-                  href={social.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={`${companyInfo.name} on ${social.platform}`}
-                  className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 backdrop-blur transition hover:bg-brand-gold hover:text-white"
-                >
-                  {socialIcons[social.icon]}
-                </a>
-              ))}
+            {/* Social - 3D Gradient Style (matching floating component) */}
+            <div className="flex flex-wrap gap-3">
+              {footerSocials.map((social, index) => {
+                const config = socialConfig[social.iconKey];
+                if (!config) return null;
+
+                return (
+                  <motion.a
+                    key={social.name}
+                    href={social.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title={social.name}
+                    aria-label={`${companyInfo.name} on ${social.name}`}
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.08, duration: 0.3 }}
+                    whileHover={{ y: -3, scale: 1.08 }}
+                    whileTap={{ scale: 0.92 }}
+                    className={`relative h-11 w-11 flex items-center justify-center text-white rounded-full ${config.color}
+                                border border-white/30 shadow-[0_4px_6px_rgba(0,0,0,0.3),0_2px_4px_rgba(0,0,0,0.2)]
+                                transition-all duration-200 ease-out
+                                before:absolute before:inset-x-1 before:top-1 before:h-1/3 before:rounded-full before:bg-white/40 before:blur-[2px] before:content-['']`}
+                  >
+                    <span className="relative z-10 drop-shadow-[0_1px_1px_rgba(0,0,0,0.4)]">
+                      {config.icon}
+                    </span>
+                  </motion.a>
+                );
+              })}
             </div>
           </div>
 
-          {/* ⭐ LINKS */}
+          {/* LINKS */}
           <FooterList title="Quick Links" items={quickLinks} />
           <FooterList title="Property Types" items={projectTypes} />
 
-          {/* ⭐ CONTACT */}
+          {/* CONTACT */}
           <div className="md:col-span-2 lg:col-span-3">
-            <h4 className="font-semibold text-lg mb-6">Contact Us</h4>
+            <h4 className="font-semibold text-lg mb-6">Request a Callback</h4>
 
             <ul className="space-y-4 text-white/60 text-sm">
 
@@ -131,7 +203,7 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* ⭐ Bottom */}
+      {/* Bottom */}
       <div className="relative border-t border-white/10">
         <div className="section-shell flex flex-col items-center justify-between gap-4 py-6 text-center text-sm text-white/50 md:flex-row md:text-left">
           <p>© {new Date().getFullYear()} {companyInfo.name}. All rights reserved.</p>
@@ -146,7 +218,7 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* ⭐ Scroll button */}
+      {/* Scroll button */}
       <Button
         onClick={scrollToTop}
         size="icon"
@@ -159,7 +231,7 @@ export default function Footer() {
   );
 }
 
-/* ⭐ reusable list */
+/* reusable list */
 function FooterList({ title, items }: any) {
   return (
     <div className="lg:col-span-2">
@@ -169,7 +241,7 @@ function FooterList({ title, items }: any) {
           <li key={i.name}>
             <Link href={i.href} className="hover:text-white transition relative group">
               {i.name}
-              <span className="absolute left-0 -bottom-1 h-[1px] w-0 bg-brand-gold transition group-hover:w-full" />
+              <span className="absolute left-0 -bottom-1 h-px w-0 bg-brand-gold transition group-hover:w-full" />
             </Link>
           </li>
         ))}

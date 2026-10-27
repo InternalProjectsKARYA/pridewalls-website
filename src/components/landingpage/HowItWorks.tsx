@@ -25,7 +25,7 @@ const steps = [
     step: '02',
     title: 'Visit the property',
     description:
-      'Tour the project and experience the location, layouts, and amenities firsthand with our guided site visits.',
+      'Tour the project and experience the location, layouts, and amenities firsthand with our guided visits.',
   },
   {
     icon: PenLine,
@@ -53,7 +53,7 @@ const steps = [
 const reassurances = [
   { icon: ShieldCheck, label: 'No-pressure consultation' },
   { icon: BadgeIndianRupee, label: 'Transparent pricing' },
-  { icon: MapPin, label: 'Site visits available' },
+  { icon: MapPin, label: 'Visits available' },
 ];
 
 export default function HowItWorks() {

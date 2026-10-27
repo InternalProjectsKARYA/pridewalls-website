@@ -84,7 +84,7 @@
 //               className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl border border-white/30 bg-white/10 px-7 font-semibold text-white backdrop-blur-sm transition hover:bg-white/20 sm:w-auto"
 //             >
 //               <Calendar className="h-4 w-4" />
-//               Book a Site Visit
+//               Book a Visit
 //             </button>
 //           </div>
 
@@ -106,7 +106,7 @@
 //         onOpenChange={setIsSiteVisitOpen}
 //         phoneHref={phoneHref}
 //         whatsappHref={whatsappHref}
-//         sourceLabel="Hero section site visit request."
+//         sourceLabel="Hero section schedule visit request."
 //       />
 //     </section>
 //   );

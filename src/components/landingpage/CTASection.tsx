@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { ArrowRight, Phone, Calendar, MessageCircle } from 'lucide-react';
-import SiteVisitDialog from '@/components/landingpage/SiteVisitDialog';
+import SiteVisitDrawer from '@/components/landingpage/SiteVisitDrawer';
 import { companyInfo } from '@/lib/project-data';
 
 export default function CTASection() {
@@ -20,7 +20,7 @@ export default function CTASection() {
   return (
     <section className="relative py-32 overflow-hidden">
 
-      {/* ⭐ Background */}
+      {/* Background */}
       <div className="absolute inset-0">
         <Image
           src="/pride-walls-hero.png"
@@ -33,7 +33,7 @@ export default function CTASection() {
       </div>
       
 
-      {/* ⭐ Light sources */}
+      {/* Light sources */}
       {/* <div className="absolute inset-0 pointer-events-none">
         <div className="absolute -left-20 top-0 w-[420px] h-[420px] bg-brand-gold/30 blur-[140px]" />
         <div className="absolute -right-20 bottom-0 w-[420px] h-[420px] bg-brand-gold/25 blur-[140px]" />
@@ -41,7 +41,7 @@ export default function CTASection() {
 
 
       <div className="section-shell relative">
-        {/* ⭐ Section Badge */}
+        {/* Section Badge */}
         <div className="text-center mb-16">
           <span className="eyebrow border-white/20 bg-white/10 text-white">
             Let's Connect
@@ -73,7 +73,7 @@ export default function CTASection() {
               investment growth, and a lifestyle your family deserves.
             </p>
 
-            {/* ⭐ trust */}
+            {/* trust */}
             <div className="flex gap-6 text-white/60 text-sm">
               <span>✔ 8+ Years Experience</span>
               <span>✔ 2500+ Families</span>
@@ -119,7 +119,7 @@ export default function CTASection() {
                 onClick={scrollToContact}
                 className="mb-4 flex w-full items-center justify-center gap-2 rounded-md bg-brand-gold py-4 font-semibold text-white transition hover:bg-brand-gold-hover"
               >
-                Get In Touch <ArrowRight size={18} />
+                Talk to a Property Advisor <ArrowRight size={18} />
               </button>
 
               {/* secondary */}
@@ -137,7 +137,7 @@ export default function CTASection() {
                   onClick={() => setIsSiteVisitOpen(true)}
                   className="py-3 rounded-xl bg-white/20 text-white flex items-center justify-center gap-2 hover:bg-white/30 transition"
                 >
-                  <Calendar size={18} /> Site Visit
+                  <Calendar size={18} /> Schedule a Visit
                 </button>
               </div>
             </div>
@@ -146,7 +146,7 @@ export default function CTASection() {
         </div>
       </div>
 
-      <SiteVisitDialog
+      <SiteVisitDrawer
         open={isSiteVisitOpen}
         onOpenChange={setIsSiteVisitOpen}
         phoneHref={phoneHref}

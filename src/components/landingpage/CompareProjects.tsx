@@ -196,7 +196,7 @@ export default function CompareProjects() {
                     href={`/projects/${project.slug}?siteVisit=true`}
                     className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-brand-gold px-4 text-sm font-semibold text-white transition hover:bg-brand-gold-hover"
                   >
-                    Book Site Visit
+                    Schedule a Visit
                     <ArrowRight className="h-4 w-4" />
                   </Link>
                 ))}

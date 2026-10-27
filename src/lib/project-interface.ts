@@ -9,7 +9,7 @@ export interface Project {
   startingPrice?: string;
   
   // Classification
-  type: 'plots' | 'villas' | 'apartments' | 'commercial';
+  type: 'apartments' | 'villas' | 'plots' | 'commercial';
   status: 'ongoing' | 'upcoming' | 'completed';
   featured: boolean;
   
@@ -146,7 +146,7 @@ export interface SocialLink {
 
 export interface EnquiryFormData {
   name: string;
-  email: string;
+  email?: string;
   phone: string;
   projectInterest?: string;
   interestedIn?: string;

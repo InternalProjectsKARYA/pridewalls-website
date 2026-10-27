@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { Phone, MessageCircle, Calendar } from 'lucide-react';
 import { companyInfo } from '@/lib/project-data';
-import SiteVisitDialog from '@/components/landingpage/SiteVisitDialog';
+import SiteVisitDrawer from '@/components/landingpage/SiteVisitDrawer';
 
 export default function StickyMobileCTA() {
   const [isSiteVisitOpen, setIsSiteVisitOpen] = useState(false);
@@ -39,24 +39,24 @@ export default function StickyMobileCTA() {
             <span className="text-[10px] font-semibold">WhatsApp</span>
           </a>
 
-          {/* Site Visit */}
+          {/* Schedule a Visit */}
           <button
             type="button"
             onClick={() => setIsSiteVisitOpen(true)}
             className="flex flex-col items-center justify-center gap-0.5 rounded-xl bg-brand-gold py-2 text-white transition hover:bg-brand-gold-hover"
           >
             <Calendar className="h-4 w-4" />
-            <span className="text-[10px] font-semibold">Site Visit</span>
+            <span className="text-[10px] font-semibold">Schedule a Visit</span>
           </button>
         </div>
       </div>
 
-      <SiteVisitDialog
+      <SiteVisitDrawer
         open={isSiteVisitOpen}
         onOpenChange={setIsSiteVisitOpen}
         phoneHref={phoneHref}
         whatsappHref={whatsappHref}
-        sourceLabel="Sticky mobile CTA site visit request."
+        sourceLabel="Sticky mobile CTA schedule visit request."
       />
     </>
   );

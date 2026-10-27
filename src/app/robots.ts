@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://pridewall.vercel.app";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.pridewalls.com";
 
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -8,7 +8,7 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/api/", "/leads", "/site-visits"],
+        disallow: ["/api/", "/enquiries"],
       },
     ],
     sitemap: `${siteUrl}/sitemap.xml`,

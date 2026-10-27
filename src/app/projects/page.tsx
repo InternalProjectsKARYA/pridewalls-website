@@ -2,7 +2,7 @@ import { Suspense } from 'react';
 import type { Metadata } from 'next';
 import ProjectsBrowser from '@/components/landingpage/ProjectsBrowser';
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://pridewall.vercel.app";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.pridewalls.com";
 
 export const metadata: Metadata = {
   title: "Projects – Villas, Plots, Apartments & Commercial Spaces in Hyderabad",
