@@ -136,6 +136,17 @@ npm run start
 
 You can deploy on any Node.js hosting platform that supports Next.js. Vercel is the simplest default option for App Router projects.
 
+### Site icon in Google Search
+
+The root layout links to the PrideWalls favicon in 48, 96 and 512 pixel sizes,
+plus an Apple touch icon. `src/app/favicon.ico` provides the browser fallback.
+Keep these public URLs stable and accessible to crawlers.
+
+After deploying, inspect the production home page in Google Search Console and
+request indexing. Google must recrawl the home page before its search icon can
+update; this can take several days to several weeks, and display is not guaranteed.
+See [Google's favicon guidance](https://developers.google.com/search/docs/appearance/favicon-in-search).
+
 ## Known Gaps
 
 - `ContactForm` posts to `/api/enquiry`, but no API route is currently present in `src/app/api/`.
