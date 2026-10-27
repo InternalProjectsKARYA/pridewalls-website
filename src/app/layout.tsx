@@ -16,6 +16,10 @@ export const metadata: Metadata = {
   },
   description:
     "PRIDEWALLS builds premium residential communities, open plots, villas and commercial spaces in Hyderabad. RERA-aligned process, HMDA-approved projects, transparent pricing and guided site visits.",
+  icons: {
+    icon: [{ url: "/favicon.png", type: "image/png", sizes: "512x512" }],
+    apple: [{ url: "/favicon.png", type: "image/png", sizes: "512x512" }],
+  },
   keywords: [
     "PRIDEWALLS",
     "villas in Hyderabad",
